@@ -22,12 +22,12 @@
           </div>
         </div>
         <div class="table-responsive">
-          <table id="dataTableExample" class="table table-striped">
+          <table id="dataTableExample" class="table table-striped table-hover">
             <thead>
               <tr>
                 <th class="text-bg-secondary">Periode</th>
-                <th class="text-bg-secondary">Kriteria</th>
                 <th class="text-bg-secondary">Elemen</th>
+                <th class="text-bg-secondary">Indikator</th>
                 <th class="text-bg-secondary">Nama Dokumen</th>
                 <th class="text-bg-secondary">Tipe Dokumen</th>
                 <th class="text-bg-secondary">Keterangan</th>
@@ -40,12 +40,26 @@
             <tbody>
               @foreach ($DokumenSpmiAmis as $DokumenSpmiAmi)
                 <tr>
-                  <td>{{ $DokumenSpmiAmi->kategori_dokumen }}</td>
-                  <td>{{ $DokumenSpmiAmi->nama_dokumen }}</td>
+                  <td>{{ $DokumenSpmiAmi->periode }}</td>
+                  <td>{{ $DokumenSpmiAmi->standarCapaiansS1->elemen_nama }}</td>
+                  <td>{!! nl2br(e($DokumenSpmiAmi->standarCapaiansS1->indikator_nama)) !!}</td>
+                  <td>{{ $DokumenSpmiAmi->dokumen_nama }}</td>
+                  <td>{{ $DokumenSpmiAmi->dokumen_tipe }}</td>
+                  <td>{{ $DokumenSpmiAmi->dokumen_keterangan }}</td>
+                  <td>{{ $DokumenSpmiAmi->informasi }}</td>
                   <td>
                     <a href="{{ url('/admin/program-studi/download') }}" target="_blank" class="btn btn-warning btn-icon" rel="noopener noreferrer">
                       <i data-feather="download"></i>
                     </a>
+                  </td>
+                  <td>{{ $DokumenSpmiAmi->dokumen_kadaluarsa }}</td>
+                  <td>
+                    <a href="{{ route('user.pemenuhan-dokumen.input-capaian.edit', $DokumenSpmiAmi->id) }}" class="btn btn-primary btn-icon" rel="noopener noreferrer">
+                      <i data-feather="edit"></i>
+                    </a>
+                    <a href="#" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal" rel="noopener noreferrer">
+                      <i data-feather="delete"></i>
+                    </a> 
                   </td>
                 </tr>
               @endforeach

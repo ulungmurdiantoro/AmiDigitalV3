@@ -34,8 +34,7 @@ class KriteriaDokumenController extends Controller
      */
     public function index()
     {
-        // Define the standar names and titles
-        $title_data_standar = [
+        $standar_names = [
             'Kondisi Eksternal',
             'Profil Unit Pengelola Program Studi',
             '1. Visi, Misi, Tujuan dan Strategi',
@@ -49,46 +48,20 @@ class KriteriaDokumenController extends Controller
             '9. Luaran dan Capaian Tridharma',
             'Analisis dan Penetapan Program Pengembangan'
         ];
-
-        // Define levels
-        $levels = ['d3', 's1', 's2', 's3', 's1terapan', 's2terapan', 's3terapan'];
-        $models = [
-            'd3' => StandarElemenBanptD3::class,
-            's1' => StandarElemenBanptS1::class,
-            's2' => StandarElemenBanptS2::class,
-            's3' => StandarElemenBanptS3::class,
-            's1terapan' => StandarElemenBanptS3::class, // Adjust if this differs
-            's2terapan' => StandarElemenBanptS3::class, // Adjust if this differs
-            's3terapan' => StandarElemenBanptS3::class, // Adjust if this differs
-        ];
-
+        
         $data_standar = [];
-        $data = [];
-
-        // Loop through each level and title to populate data
-        foreach ($levels as $level) {
-            foreach ($title_data_standar as $index => $title) {
-                $key = "data_standar_ban_pt{$level}_k" . ($index + 1);
-
-                // Build the query
-                $data_standar[$key] = $models[$level]::when(request()->q, function ($query) {
-                    $query->where('elemen_nama', 'like', '%' . request()->q . '%');
-                })->where('standar_nama', $title)
-                ->withCount('standarTargets')
-                ->orderBy('id', 'desc')
-                ->paginate(30)
-                ->appends(['q' => request()->q]);
-
-                // Define the title key
-                $data["nama_data_standar_ban_pt{$level}_k" . ($index + 1)] = $title;
-            }
+        foreach ($standar_names as $index => $name) {
+            $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with('standarTargetsS1', 'standarCapaiansS1')
+            ->when(request()->q, function ($query) {
+                $query->where('elemen_nama', 'like', '%' . request()->q . '%');
+            })->where('standar_nama', $name)->latest()->paginate(30)->appends(['q' => request()->q]);
         }
-
-        $tableId = 'standardsTable'; // Define a unique ID for the table
-
-        return view('pages.admin.kriteria-dokumen.index', array_merge($data_standar, $data, ['tableId' => $tableId]));
+        
+        return view('pages.admin.kriteria-dokumen.index', [
+            'nama_data_standar' => $standar_names,
+            'data_standar' => $data_standar
+        ]);    
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -185,7 +158,7 @@ class KriteriaDokumenController extends Controller
         $standarElemen = StandarElemenBanptS1::where('indikator_kode', $indikator_kode)->firstOrFail();
 
         // Fetch StandarTarget data
-        $standarTarget = StandarTarget::when($request->q, function ($query, $q) {
+        $standarTarget = StandarTarget::where('indikator_kode', $indikator_kode)->when($request->q, function ($query, $q) {
             $query->where('id', 'like', "%{$q}%"); // Update the field if needed
         })->latest()->paginate(10);
 

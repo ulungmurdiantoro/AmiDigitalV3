@@ -152,10 +152,6 @@
   });
 </script>
 
-
-
-
-
 @push('plugin-scripts')
   <script src="{{ asset('assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>

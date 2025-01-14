@@ -19,17 +19,22 @@ class DokumenAktifUserController extends Controller
      */
     public function index()
     {
-        $DokumenSpmiAmis = StandarCapaian::when(request()->q, function($DokumenSpmiAmis) {
-            $DokumenSpmiAmis = $DokumenSpmiAmis->where('nama_dokumen', 'like', '%'. request()->q . '%');
-        })->latest()->paginate(10);
+        $DokumenSpmiAmis = StandarCapaian::with('standarCapaiansS1')
+            ->when(request()->q, function($query) {
+                $query->where('nama_dokumen', 'like', '%' . request()->q . '%');
+            })
+            ->whereDate('dokumen_kadaluarsa', '>', now()) // Adjust this condition as needed
+            ->latest()
+            ->paginate(10);
 
-        //append query string to pagination links
+        // Append query string to pagination links
         $DokumenSpmiAmis->appends(['q' => request()->q]);
 
         return view('pages.user.dokumen-aktif.index', [
             'DokumenSpmiAmis' => $DokumenSpmiAmis,
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.

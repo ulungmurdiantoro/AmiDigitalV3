@@ -18,6 +18,7 @@ use App\Models\StandarElemenLamdikS3;
 use App\Models\StandarElemenLamdikTerapanS1;
 use App\Models\StandarElemenLamdikTerapanS2;
 use App\Models\StandarElemenLamdikTerapanS3;
+use App\Models\StandarTarget;
 use App\Imports\StandarBanptS1Import;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
@@ -134,11 +135,36 @@ class InputAmiAuditorController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // public function nilaiAmi($indikator_kode)
+    // {
+    //     // Your logic for handling the request goes here
+    //     // For example, you could retrieve some data based on the $indikator_kode
+    //     // and return a view or JSON response.
+
+    //     // Example:
+    //     // $data = YourModel::where('indikator_kode', $indikator_kode)->first();
+    //     // return view('your_view', compact('data'));
+
+    //     return view('pages.auditor.input-ami.nilai-ami.index');
+    // }
+    public function nilaiAmi(Request $request, $indikator_kode)
+    {
+        // Validate if indikator_kode exists
+        $standarElemen = StandarElemenBanptS1::where('indikator_kode', $indikator_kode)->firstOrFail();
+
+        // Fetch StandarTarget data
+        $standarTarget = StandarTarget::where('indikator_kode', $indikator_kode)->when($request->q, function ($query, $q) {
+            $query->where('id', 'like', "%{$q}%"); // Update the field if needed
+        })->latest()->paginate(10);
+
+        // Return the view
+        return view('pages.auditor.input-ami.nilai-ami.index', [
+            'indikator_kode' => $indikator_kode,
+            'standarTarget' => $standarTarget,
+            'standarElemen' => $standarElemen,
+        ]);
+    }
+
     public function create()
     {
         //

@@ -18,4 +18,6 @@ class StandarTarget extends Model
         'dokumen_tipe',
         'dokumen_keterangan',
     ];
+
+    
 }

@@ -18,186 +18,190 @@ use App\Models\StandarElemenLamdikS3;
 use App\Models\StandarElemenLamdikTerapanS1;
 use App\Models\StandarElemenLamdikTerapanS2;
 use App\Models\StandarElemenLamdikTerapanS3;
-use App\Imports\StandarBanptS1Import;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Models\StandarCapaian;
+use App\Models\DokumenTipe;
+use App\Models\StandarTarget;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class PemenuhanDokumenController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $nama_data_standar_k1 = 'Kondisi Eksternal';
-        $nama_data_standar_k2 = 'Profil Unit Pengelola Program Studi';
-        $nama_data_standar_k3 = 'Kriteria 1. Visi, Misi, Tujuan dan Strategi';
-        $nama_data_standar_k4 = 'Kriteria 2. Tata Pamong dan Kerjasama';
-        $nama_data_standar_k5 = 'Kriteria 3. Mahasiswa';
-        $nama_data_standar_k6 = 'Kriteria 4. Sumber Daya Manusia';
-        $nama_data_standar_k7 = 'Kriteria 5. Keuangan, Sarana dan Prasarana';
-        $nama_data_standar_k8 = 'Kriteria 6. Pendidikan';
-        $nama_data_standar_k9 = 'Kriteria 7. Penelitian';
-        $nama_data_standar_k10 = 'Kriteria 8. Pengabdian Kepada Masyarakat';
-        $nama_data_standar_k11 = 'Kriteria 9. Luaran dan Capaian Tridharma';
-        $nama_data_standar_k12 = 'Analisis dan Penetapan Program Pengembangan';
-        // dd($nama_data_standar_k1);
-        $data_standar_k1 = StandarElemenBanptS1::when(request()->q, function($query) {
-            $query->where('elemen_nama', 'like', '%' . request()->q . '%');
-        })->where('standar_nama', $nama_data_standar_k1)->latest()->paginate(30);
+        $standar_names = [
+            'Kondisi Eksternal',
+            'Profil Unit Pengelola Program Studi',
+            '1. Visi, Misi, Tujuan dan Strategi',
+            '2. Tata Pamong dan Kerjasama',
+            '3. Mahasiswa',
+            '4. Sumber Daya Manusia',
+            '5. Keuangan, Sarana dan Prasarana',
+            '6. Pendidikan',
+            '7. Penelitian',
+            '8. Pengabdian Kepada Masyarakat',
+            '9. Luaran dan Capaian Tridharma',
+            'Analisis dan Penetapan Program Pengembangan'
+        ];
         
-        $data_standar_k2 = StandarElemenBanptS1::when(request()->q, function($query) {
-            $query->where('elemen_nama', 'like', '%' . request()->q . '%');
-        })->where('standar_nama', 'Profil Unit Pengelola Program Studi')->latest()->paginate(30);
-        
-        $data_standar_k3 = StandarElemenBanptS1::when(request()->q, function($query) {
-            $query->where('elemen_nama', 'like', '%' . request()->q . '%');
-        })->where('standar_nama', '1. Visi, Misi, Tujuan dan Strategi')->latest()->paginate(30);
-        
-        $data_standar_k4 = StandarElemenBanptS1::when(request()->q, function($query) {
-            $query->where('elemen_nama', 'like', '%' . request()->q . '%');
-        })->where('standar_nama', '2. Tata Pamong dan Kerjasama')->latest()->paginate(30);
-        
-        $data_standar_k5 = StandarElemenBanptS1::when(request()->q, function($query) {
-            $query->where('elemen_nama', 'like', '%' . request()->q . '%');
-        })->where('standar_nama', '3. Mahasiswa')->latest()->paginate(30);
-        
-        $data_standar_k6 = StandarElemenBanptS1::when(request()->q, function($query) {
-            $query->where('elemen_nama', 'like', '%' . request()->q . '%');
-        })->where('standar_nama', '4. Sumber Daya Manusia')->latest()->paginate(30);
-        
-        $data_standar_k7 = StandarElemenBanptS1::when(request()->q, function($query) {
-            $query->where('elemen_nama', 'like', '%' . request()->q . '%');
-        })->where('standar_nama', '5. Keuangan, Sarana dan Prasarana')->latest()->paginate(30);
-        
-        $data_standar_k8 = StandarElemenBanptS1::when(request()->q, function($query) {
-            $query->where('elemen_nama', 'like', '%' . request()->q . '%');
-        })->where('standar_nama', '6. Pendidikan')->latest()->paginate(30);
-        
-        $data_standar_k9 = StandarElemenBanptS1::when(request()->q, function($query) {
-            $query->where('elemen_nama', 'like', '%' . request()->q . '%');
-        })->where('standar_nama', '7. Penelitian')->latest()->paginate(30);
-        
-        $data_standar_k10 = StandarElemenBanptS1::when(request()->q, function($query) {
-            $query->where('elemen_nama', 'like', '%' . request()->q . '%');
-        })->where('standar_nama', '8. Pengabdian Kepada Masyarakat')->latest()->paginate(30);
-        
-        $data_standar_k11 = StandarElemenBanptS1::when(request()->q, function($query) {
-            $query->where('elemen_nama', 'like', '%' . request()->q . '%');
-        })->where('standar_nama', '9. Luaran dan Capaian Tridharma')->latest()->paginate(30);
-        
-        $data_standar_k12 = StandarElemenBanptS1::when(request()->q, function($query) {
-            $query->where('elemen_nama', 'like', '%' . request()->q . '%');
-        })->where('standar_nama', 'Analisis dan Penetapan Program Pengembangan')->latest()->paginate(30);
-        
-        $data_standar_k1->appends(['q' => request()->q]);
-        $data_standar_k2->appends(['q' => request()->q]);
-        $data_standar_k3->appends(['q' => request()->q]);
-        $data_standar_k4->appends(['q' => request()->q]);
-        $data_standar_k5->appends(['q' => request()->q]);
-        $data_standar_k6->appends(['q' => request()->q]);
-        $data_standar_k7->appends(['q' => request()->q]);
-        $data_standar_k8->appends(['q' => request()->q]);
-        $data_standar_k9->appends(['q' => request()->q]);
-        $data_standar_k10->appends(['q' => request()->q]);
-        $data_standar_k11->appends(['q' => request()->q]);
-        $data_standar_k12->appends(['q' => request()->q]);
+        $data_standar = [];
+        foreach ($standar_names as $index => $name) {
+            $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with('standarTargetsS1', 'standarCapaiansS1')
+            ->when(request()->q, function ($query) {
+                $query->where('elemen_nama', 'like', '%' . request()->q . '%');
+            })->where('standar_nama', $name)->latest()->paginate(30)->appends(['q' => request()->q]);
+        }
         
         return view('pages.user.pemenuhan-dokumen.index', [
-            'nama_data_standar_k1' => $nama_data_standar_k1,
-            'nama_data_standar_k2' => $nama_data_standar_k2, 
-            'nama_data_standar_k3' => $nama_data_standar_k3,
-            'nama_data_standar_k4' => $nama_data_standar_k4,
-            'nama_data_standar_k5' => $nama_data_standar_k5,
-            'nama_data_standar_k6' => $nama_data_standar_k6,
-            'nama_data_standar_k7' => $nama_data_standar_k7,
-            'nama_data_standar_k8' => $nama_data_standar_k8,
-            'nama_data_standar_k9' => $nama_data_standar_k9,
-            'nama_data_standar_k10' => $nama_data_standar_k10,
-            'nama_data_standar_k11' => $nama_data_standar_k11,
-            'nama_data_standar_k12' => $nama_data_standar_k12,
-            'data_standar_k1' => $data_standar_k1,
-            'data_standar_k2' => $data_standar_k2,
-            'data_standar_k3' => $data_standar_k3,
-            'data_standar_k4' => $data_standar_k4,
-            'data_standar_k5' => $data_standar_k5,
-            'data_standar_k6' => $data_standar_k6,
-            'data_standar_k7' => $data_standar_k7,
-            'data_standar_k8' => $data_standar_k8,
-            'data_standar_k9' => $data_standar_k9,
-            'data_standar_k10' => $data_standar_k10,
-            'data_standar_k11' => $data_standar_k11,
-            'data_standar_k12' => $data_standar_k12,
+            'nama_data_standar' => $standar_names,
+            'data_standar' => $data_standar
         ]);
         
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function pemenuhanDokumen(Request $request, $indikator_kode)
     {
-        //
+        // Validate if indikator_kode exists
+        $standarElemen = StandarElemenBanptS1::where('indikator_kode', $indikator_kode)->firstOrFail();
+
+        // Fetch StandarTarget data
+        $standarCapaian = StandarCapaian::where('indikator_kode', $indikator_kode)
+        ->when($request->q, function ($query, $q) {
+            $query->where('id', 'like', "%{$q}%"); // Update the field if needed
+        })->latest()->paginate(10);
+
+        // Return the view
+        return view('pages.user.pemenuhan-dokumen.input-capaian.index', [
+            'indikator_kode' => $indikator_kode,
+            'standarCapaian' => $standarCapaian,
+            'standarElemen' => $standarElemen,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function pemenuhanDokumenCreate(Request $request, $indikator_kode)
     {
-        //
+        // Validate if indikator_kode exists
+        $standarElemen = StandarElemenBanptS1::where('indikator_kode', $indikator_kode)->firstOrFail();
+        $standarTargets = StandarTarget::where('indikator_kode', $indikator_kode)->get();
+
+
+        return view('pages.user.pemenuhan-dokumen.input-capaian.create', [
+            'indikator_kode' => $indikator_kode,
+            'standarElemen' => $standarElemen,
+            'standarTargets' => $standarTargets,
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function pemenuhanDokumenStore(Request $request)
     {
-        //
+        // Validate the request data
+        $request->validate([
+            'indikator_kode' => 'required|string',
+            'dokumen_nama' => 'required|string',
+            'pertanyaan_nama' => 'required|string',
+            'dokumen_tipe' => 'required|string',
+            'dokumen_keterangan' => 'nullable|string',
+            'dokumen_file' => 'required|file|mimes:pdf,doc,docx,xlsx,png,jpg,jpeg',
+            'periode' => 'required|string',
+            'dokumen_kadaluarsa' => 'required|date',
+            'informasi' => 'nullable|string',
+        ]);
+        
+        try {
+            $fileName = time() . '.' . $request->dokumen_file->extension();
+            $filePath = $request->file('dokumen_file')->storeAs('uploads/capaian/prodi', $fileName, 'public');
+        } catch (\Exception $e) {
+            Log::error('File upload failed: ' . $e->getMessage());
+            return back()->withErrors(['dokumen_file' => 'File upload failed. Please try again.']);
+        }
+
+        StandarCapaian::create([
+            'capaian_kode' => 'cpn-' . Str::uuid() . uniqid(),
+            'indikator_kode' => $request->input('indikator_kode'),
+            'dokumen_nama' => $request->input('dokumen_nama'),
+            'pertanyaan_nama' => $request->input('pertanyaan_nama'),
+            'dokumen_tipe' => $request->input('dokumen_tipe'),
+            'dokumen_keterangan' => $request->input('dokumen_keterangan'),
+            'dokumen_file' => '/storage/' . $filePath, // Save the file path
+            'periode' => $request->input('periode'),
+            'dokumen_kadaluarsa' => $request->input('dokumen_kadaluarsa'),
+            'informasi' => $request->input('informasi'),
+            'prodi' => session('user_penempatan'),
+        ]);
+
+        // Redirect back with a success message
+        return redirect()->route('user.pemenuhan-dokumen.input-capaian', ['indikator_kode' => $request->indikator_kode])
+        ->with([
+            'success' => 'Tipe Dokumen created successfully.',
+        ]);    
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function pemenuhanDokumenEdit($id)
     {
-        //
+        $standarCapaian = StandarCapaian::findOrFail($id);
+
+        $indikator_kode = $standarCapaian->indikator_kode;
+
+        // Pass the data to the view
+        return view('pages.user.pemenuhan-dokumen.input-capaian.edit', [
+            'standarCapaian' => $standarCapaian,
+            'indikator_kode' => $indikator_kode,
+        ]);    
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function pemenuhanDokumenUpdate(Request $request, $id)
     {
-        //
+        $request->validate([
+            'dokumen_file' => 'file|mimes:pdf,doc,docx,xlsx,xls|max:2048',
+            'periode' => 'required|string',
+            'dokumen_kadaluarsa' => 'required|date',
+            'informasi' => 'nullable|string',
+        ]);
+
+        $standarCapaian = StandarCapaian::findOrFail($id);
+        $standarCapaian->periode = $request->periode;
+        $standarCapaian->dokumen_kadaluarsa = $request->dokumen_kadaluarsa;
+        $standarCapaian->informasi = $request->informasi;
+
+        if ($request->hasFile('dokumen_file')) {
+            // Delete old file if it exists
+            if ($standarCapaian->dokumen_file) {
+                Storage::disk('public')->delete($standarCapaian->dokumen_file);
+            }
+
+            // Store the new file
+            $fileName = time() . '.' . $request->dokumen_file->extension();
+            $filePath = $request->file('dokumen_file')->storeAs('uploads/capaian/prodi', $fileName, 'public');
+            $standarCapaian->dokumen_file = '/storage/' . $filePath;
+        }
+
+        $standarCapaian->save();
+
+        return redirect()->route('user.pemenuhan-dokumen.input-capaian', ['indikator_kode' => $request->indikator_kode])
+        ->with([
+            'success' => 'Tipe Dokumen updated successfully.',
+        ]);    
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function pemenuhanDokumenDestroy($id)
     {
-        //
+        $standarCapaian = StandarCapaian::findOrFail($id);
+
+        // Delete the file from storage if it exists
+        if ($standarCapaian->dokumen_file) {
+            Storage::disk('public')->delete($standarCapaian->dokumen_file);
+        }
+
+        // Get indikator_kode before deleting the record
+        $indikator_kode = $standarCapaian->indikator_kode;
+
+        // Delete the document record
+        $standarCapaian->delete();
+
+        return redirect()->route('user.pemenuhan-dokumen.input-capaian', ['indikator_kode' => $indikator_kode])
+            ->with([
+                'success' => 'Tipe Dokumen deleted successfully.',
+            ]);
     }
+
 }

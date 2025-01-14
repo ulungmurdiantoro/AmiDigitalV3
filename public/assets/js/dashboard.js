@@ -5,14 +5,14 @@ $(function() {
 
   var colors = {
     primary        : "#104ea4",
-    secondary      : "#7987a1",
+    secondary      : "#9babc3",
     success        : "#05a34a",
     info           : "#66d1d1",
-    warning        : "#fbbc06",
-    danger         : "#ff3366",
+    warning        : "#f3d27f",
+    danger         : "#8c123d",
     light          : "#e9ecef",
-    dark           : "#060c17",
-    muted          : "#7987a1",
+    dark           : "#000000",
+    muted          : "#9babc3",
     gridBorder     : "rgba(77, 138, 240, .15)",
     bodyColor      : "#000",
     cardBg         : "#fff"

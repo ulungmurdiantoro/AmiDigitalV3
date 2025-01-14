@@ -229,6 +229,15 @@ Route::group(['prefix' => 'user'], function(){
             'update' => 'user.dokumen-spmi-ami.update',
             'destroy' => 'user.dokumen-spmi-ami.destroy',
         ]);
+        
+        Route::get('/pemenuhan-dokumen/{indikator_kode}/input-capaian', [PemenuhanDokumenController::class, 'pemenuhanDokumen'])->name('user.pemenuhan-dokumen.input-capaian');
+        Route::get('/pemenuhan-dokumen/input-capaian/{indikator_kode}/create', [PemenuhanDokumenController::class, 'pemenuhanDokumenCreate'])->name('user.pemenuhan-dokumen.input-capaian.create');
+        Route::post('/pemenuhan-dokumen/input-capaian/store', [PemenuhanDokumenController::class, 'pemenuhanDokumenStore'])->name('user.pemenuhan-dokumen.input-capaian.store');
+        Route::get('/pemenuhan-dokumen/input-capaian/{id}/edit', [PemenuhanDokumenController::class, 'pemenuhanDokumenEdit'])->name('user.pemenuhan-dokumen.input-capaian.edit');
+        Route::put('/pemenuhan-dokumen/input-capaian/{id}/update', [PemenuhanDokumenController::class, 'pemenuhanDokumenUpdate'])->name('user.pemenuhan-dokumen.input-capaian.update');
+        Route::delete('/pemenuhan-dokumen/input-capaian/{id}', [PemenuhanDokumenController::class, 'pemenuhanDokumenDestroy'])->name('user.pemenuhan-dokumen.input-capaian.destroy');
+
+        Route::get('/get-dokumen-details/{dokumen_nama}', [PemenuhanDokumenController::class, 'getDokumenDetails'])->name('getDokumenDetails');
 
         Route::resource('pemenuhan-dokumen', PemenuhanDokumenController::class)->names([
             'index' => 'user.pemenuhan-dokumen.index',
@@ -260,6 +269,9 @@ Route::group(['prefix' => 'user'], function(){
             'destroy' => 'user.dokumen-kadaluarsa.destroy',
         ]);
 
+        Route::get('/pengajuan-ami/{periode}/{prodi}/input-ami', [PengajuanAmiUserController::class, 'inputAmi'])->where('periode', '.*')->where('prodi', '.*')->name('user.pengajuan-ami.input-ami');
+        Route::post('/pengajuan-ami/input-ami/store', [PengajuanAmiUserController::class, 'inputAmiStore'])->where('periode', '.*')->where('prodi', '.*')->name('user.pengajuan-ami.input-ami-store');
+    
         Route::resource('pengajuan-ami', PengajuanAmiUserController::class)->names([
             'index' => 'user.pengajuan-ami.index',
             'create' => 'user.pengajuan-ami.create',
@@ -383,6 +395,8 @@ Route::group(['prefix' => 'auditor'], function(){
             'update' => 'auditor.evaluasi-ami.update',
             'destroy' => 'auditor.evaluasi-ami.destroy',
         ]);
+
+        Route::get('/input-ami/{indikator_kode}/nilai-ami', [InputAmiAuditorController::class, 'nilaiAmi'])->name('auditor.input-ami.nilai-ami');
 
         Route::resource('input-ami', InputAmiAuditorController::class)->names([
             'index' => 'auditor.input-ami.index',

@@ -16,6 +16,11 @@ class AuditorAmi extends Model
     ];
 
     public function user() { 
-        return $this->belongsTo(User::class, 'user_code', 'users_code'); 
+        return $this->belongsTo(User::class, 'users_kode', 'users_code'); 
+    }
+
+    public function auditorAmi() 
+    { 
+        return $this->hasMany(TransaksiAmi::class, 'auditor_kode', 'auditor_kode');
     }
 }

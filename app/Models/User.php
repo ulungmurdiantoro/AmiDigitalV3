@@ -47,4 +47,8 @@ class User extends Authenticatable
     public function penjadwalan() { 
         return $this->hasMany(PenjadwalanAmi::class); 
     }
+
+    public function auditorAmis() { 
+        return $this->hasMany(AuditorAmi::class, 'users_code', 'users_code');
+    }
 }

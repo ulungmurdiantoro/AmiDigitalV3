@@ -90,28 +90,28 @@
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="opening_ami" class="form-label">Opening meeting AMI</label>
-                  <div class="input-group flatpickr" id="flatpickr-date">
+                <div class="input-group flatpickr" id="flatpickr-date">
                   <input id="opening_ami" name="opening_ami" type="text" class="form-control @error('opening_ami') is-invalid @enderror" placeholder="Pilih Tanggal" data-input>
                   <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
-                  @error('opening_ami')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                  @enderror
                 </div>
+                @error('opening_ami')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
               </div>
             </div><!-- Col -->
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="pengisian_dokumen" class="form-label">Pengisian Dokumen :</label>
-                  <div class="input-group flatpickr" id="flatpickr-date-range">
+                <div class="input-group flatpickr" id="flatpickr-date-range">
                   <input id="pengisian_dokumen" name="pengisian_dokumen" type="text" class="form-control @error('pengisian_dokumen') is-invalid @enderror" placeholder="Pilih Tanggal" data-input>
                   <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
-                  @error('pengisian_dokumen')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                  @enderror
                 </div>
+                @error('pengisian_dokumen')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
               </div>
             </div><!-- Col -->
-          </div>
+          </div><!-- Row -->
           <div class="row">
             <div class="col-sm-6">
               <div class="mb-3">

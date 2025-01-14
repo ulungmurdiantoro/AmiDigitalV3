@@ -1,0 +1,36 @@
+{{-- resources/views/components/user/pemenuhan-dokumen/data-table.blade.php --}}
+<div class="table-responsive">
+  <table id="{{ $id }}" class="col-md-12 table-striped table-hover">
+    <thead class="text-bg-secondary">
+      <tr>
+        <th class="col-md-1 text-center">Kode</th>
+        <th class="col-md-2">Elemen</th>
+        <th class="col-md-6">Indikator</th>
+        <th class="col-md-1 text-center">Kebutuhan Dokumen</th>
+        <th class="col-md-1 text-center">Capaian Dokumen</th>
+        <th class="col-md-1 text-center">Kelola Kebutuhan</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach ($standards as $standard)
+        <tr>
+          <td class="text-center">{{ $standard->indikator_kode }}</td>
+          <td>{{ $standard->elemen_nama }}</td>                 
+          <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
+
+          <td class="text-center">
+              {{ $standard->standarTargetsS1->count() }}<br>
+          </td>
+          <td class="text-center">
+              {{ $standard->standarCapaiansS1->count() }}<br>
+          </td>
+          <td>
+            <a href="{{ route('user.pemenuhan-dokumen.input-capaian', $standard->indikator_kode) }}" class="btn btn-primary btn-icon" title="Manage Target">
+              <i data-feather="plus-square"></i>
+            </a>            
+          </td>
+        </tr>
+      @endforeach
+    </tbody>
+  </table>
+</div>

@@ -1,4 +1,4 @@
-@extends('layout.master-user')
+@extends('layout.master-auditor')
 
 @push('plugin-styles')
   <link href="{{ asset('assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
@@ -7,7 +7,7 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
   <div>
-    <h4 class="mb-3 mb-md-0">Pemenuhan Dokumen {{ session('user_akses') }} {{ session('user_penempatan') }}</h4>
+    <h4 class="mb-3 mb-md-0">Cek Pengajuan {{ session('user_akses') }} {{ session('user_penempatan') }}</h4>
   </div>
 </div>
 
@@ -21,16 +21,19 @@
               <p id="dataTitle{{ $index + 1 }}" class="mb-3"><b>{{ $nama }}</b></p>
             </div>
           </div>
-          {{-- @dd($data_standar['data_standar_k' . ($index + 1)]) --}}
-          <x-user.data-table.pemenuhan-dokumen 
-            id="dataTableExample{{ $index + 1 }}" 
-            :standards="$data_standar['data_standar_k' . ($index + 1)]" 
-            />
+            <x-auditor.data-table.konfirmasi-pengajuan
+              id="dataTableExample{{ $index + 1 }}" 
+              :standards="$data_standar['data_standar_k' . ($index + 1)]" 
+              :periodes="$periode" 
+              :prodis="$prodi"
+              :transkasis="$transaksi_ami"
+              />
         </div>
       </div>
     </div>
   </div>
 @endforeach
+
 
 <nav class="settings-sidebar">
   <div class="sidebar-body">

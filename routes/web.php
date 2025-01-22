@@ -270,7 +270,8 @@ Route::group(['prefix' => 'user'], function(){
         ]);
 
         Route::get('/pengajuan-ami/{periode}/{prodi}/input-ami', [PengajuanAmiUserController::class, 'inputAmi'])->where('periode', '.*')->where('prodi', '.*')->name('user.pengajuan-ami.input-ami');
-        Route::post('/pengajuan-ami/input-ami/store', [PengajuanAmiUserController::class, 'inputAmiStore'])->where('periode', '.*')->where('prodi', '.*')->name('user.pengajuan-ami.input-ami-store');
+        Route::post('/pengajuan-ami/input-ami/store', [PengajuanAmiUserController::class, 'inputAmiStore'])->where('periode', '.*')->where('prodi', '.*')->name('user.pengajuan-ami.input-ami.store');
+        Route::post('/pengajuan-ami/input-ami/update', [PengajuanAmiUserController::class, 'inputAmiUpdate'])->where('periode', '.*')->where('prodi', '.*')->name('user.pengajuan-ami.input-ami.update');
     
         Route::resource('pengajuan-ami', PengajuanAmiUserController::class)->names([
             'index' => 'user.pengajuan-ami.index',
@@ -376,6 +377,8 @@ Route::group(['prefix' => 'auditor'], function(){
             'destroy' => 'auditor.dokumen-spmi-ami.destroy',
         ]);
 
+        Route::get('/konfirmasi-pengajuan/{periode}/{prodi}/show-pengajuan', [KonfirmasiPengajuanController::class, 'showPengajuan'])->where('periode', '.*')->where('prodi', '.*')->name('auditor.konfirmasi-pengajuan.show-pengajuan');
+
         Route::resource('konfirmasi-pengajuan', KonfirmasiPengajuanController::class)->names([
             'index' => 'auditor.konfirmasi-pengajuan.index',
             'create' => 'auditor.konfirmasi-pengajuan.create',
@@ -385,6 +388,8 @@ Route::group(['prefix' => 'auditor'], function(){
             'update' => 'auditor.konfirmasi-pengajuan.update',
             'destroy' => 'auditor.konfirmasi-pengajuan.destroy',
         ]);
+
+        Route::get('/evaluasi-ami/{periode}/{prodi}/audit-ami', [EvaluasiAmiAuditorController::class, 'auditAmi'])->where('periode', '.*')->where('prodi', '.*')->name('auditor.evaluasi-ami.audit-ami');
 
         Route::resource('evaluasi-ami', EvaluasiAmiAuditorController::class)->names([
             'index' => 'auditor.evaluasi-ami.index',

@@ -32,16 +32,73 @@
               </tr>
             </thead>
             <tbody>
-              @foreach ($DokumenSpmiAmis as $DokumenSpmiAmi)
+              @foreach ($Pengajuan as $Pengajuan)
                 <tr>
-                  <td>{{ $DokumenSpmiAmi->kategori_dokumen }}</td>
-                  <td>{{ $DokumenSpmiAmi->nama_dokumen }}</td>
+                  <td>{{ $Pengajuan->created_at }}</td>
+                  <td>{{ $Pengajuan->periode }}</td>
+                  <td>{{ $Pengajuan->prodi }}</td>
+                  <td>{{ $Pengajuan->informasi_tambahan }}</td>
                   <td>
-                    <a href="{{ url('/admin/program-studi/download') }}" target="_blank" class="btn btn-warning btn-icon" rel="noopener noreferrer">
-                      <i data-feather="download"></i>
+                    <a href="{{ route('auditor.konfirmasi-pengajuan.show-pengajuan', ['periode' => urlencode($Pengajuan->periode), 'prodi' => $Pengajuan->prodi]) }}" class="btn btn-primary btn-icon" rel="noopener noreferrer">
+                      <i data-feather="plus-square"></i>
                     </a>
+                    <a href="#" class="btn btn-success btn-icon" data-bs-toggle="modal" data-bs-target="#acceptModal" rel="noopener noreferrer">
+                      <i data-feather="check-circle"></i>
+                    </a>
+                    <a href="#" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#rejectModal" rel="noopener noreferrer">
+                      <i data-feather="delete"></i>
+                    </a> 
                   </td>
                 </tr>
+                <div class="modal fade" id="acceptModal" tabindex="-1" aria-labelledby="acceptModal" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="acceptModal">Terima Pengajuan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
+                      </div>
+                      <div class="modal-body" style="align-items: center;">
+                        <h6><b>Are you sure?</b></h6>
+                        <p>You won't be able to revert this!</p>
+                      </div>
+                      <div class="modal-footer">
+                        <form action="{{ route('auditor.konfirmasi-pengajuan.update', $Pengajuan->id) }}" method="POST">
+                          @csrf
+                          @method('PUT')
+                          <input type="hidden" name="id" value="{{ $Pengajuan->id }}">
+                          <input type="hidden" name="status" value="Diterima">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-success">Terima</button>
+                        </form>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>                
+                <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModal" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="rejectModal">Tolak Pengajuan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
+                      </div>
+                      <div class="modal-body" style="align-items: center;">
+                        <h6><b>Are you sure?</b></h6>
+                        <p>You won't be able to revert this!</p>
+                      </div>
+                      <div class="modal-footer">
+                        <form action="{{ route('auditor.konfirmasi-pengajuan.update', $Pengajuan->id) }}" method="POST">
+                          @csrf
+                          @method('PUT')
+                          <input type="hidden" name="id" value="{{ $Pengajuan->id }}">
+                          <input type="hidden" name="status" value="Draft">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-danger">Tolak</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>                
               @endforeach
             </tbody>
           </table>

@@ -18,41 +18,41 @@
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
           <h4 class="card-title">Data Pengajuan AMI (Audit Mutu Internal)</h4>
         </div>
-        <form action="{{ route('admin.kriteria-dokumen.storeImport') }}" method="POST" enctype="multipart/form-data" id="PenggunaAuditorForm">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="mb-3">
+              <label for="periode" class="form-label">Periode</label>
+              <input name="periode" type="text" class="form-control @error('periode') is-invalid @enderror" value="{{ $transaksi_ami->periode }}" disabled/>
+            </div>
+          </div>
+            <!-- Col -->
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="mb-3">
+              <label for="status" class="form-label">Status</label>
+              <input name="status" type="text" class="form-control @error('status') is-invalid @enderror" value="{{ $transaksi_ami->status }}" disabled/>
+            </div>
+          </div>
+            <!-- Col -->
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="mb-3">
+              <label for="auditor" class="form-label">Daftar Auditor</label>
+              <input name="auditor" type="text" class="form-control @error('auditor') is-invalid @enderror" value="{{ $transaksi_ami->auditorAmi->user->user_nama }}" disabled/>
+            </div>
+          </div>
+            <!-- Col -->
+        </div>
+        <!-- Hidden input to update the status -->
+        <form action="{{ route('user.pengajuan-ami.input-ami.update') }}" method="POST" enctype="multipart/form-data" id="PenggunaAuditorForm">
           @csrf
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label for="periode" class="form-label">Periode</label>
-                <input name="periode" type="text" class="form-control @error('periode') is-invalid @enderror" value="{{ $transaksi_ami->periode }}" disabled/>
-                @error('periode')
-                  <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-              </div>
-            </div><!-- Col -->
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <input name="status" type="text" class="form-control @error('status') is-invalid @enderror" value="{{ $transaksi_ami->status }}" disabled/>
-                @error('status')
-                  <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-              </div>
-            </div><!-- Col -->
-          </div>
-          {{-- @dd($transaksi_ami->auditorAmi) --}}
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label for="nama_dokumen" class="form-label">Daftar Auditor</label>
-                <input name="periode" type="text" class="form-control @error('periode') is-invalid @enderror" value="{{ $transaksi_ami->auditorAmi->user->user_nama }}" disabled/>
-              </div>
-            </div><!-- Col -->
-          </div>
+          <input type="hidden" name="id" value="{{ $transaksi_ami->id }}">
+          <input type="hidden" name="status" value="Diajukan">
           <input class="btn btn-success" type="submit" value="Ajukan AMI">
-        </form>
+      </form>
+      
       </div>
     </div>
   </div>
@@ -68,18 +68,13 @@
               <p id="dataTitle{{ $index + 1 }}" class="mb-3"><b>{{ $nama }}</b></p>
             </div>
           </div>
-          {{-- @dd($data_standar['data_standar_k' . ($index + 1)]) --}}
-          @if(isset($data_standar['data_standar_k' . ($index + 1)]))
-            <x-user.input-ami-data-table 
+            <x-user.data-table.input-ami
               id="dataTableExample{{ $index + 1 }}" 
               :standards="$data_standar['data_standar_k' . ($index + 1)]" 
-              :periode="$periode" 
-              :prodi="$prodi" 
-              :transaksi_ami="$transaksi_ami"
+              :periodes="$periode" 
+              :prodis="$prodi"
+              :transkasis="$transaksi_ami"
               />
-          @else
-            <p>No data available for {{ $nama }}</p>
-          @endif
         </div>
       </div>
     </div>

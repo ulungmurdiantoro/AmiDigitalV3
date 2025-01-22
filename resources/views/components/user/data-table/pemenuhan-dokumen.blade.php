@@ -11,6 +11,7 @@
         <th class="col-md-1 text-center">Kelola Kebutuhan</th>
       </tr>
     </thead>
+    {{-- @dd($standards) --}}
     <tbody>
       @foreach ($standards as $standard)
         <tr>

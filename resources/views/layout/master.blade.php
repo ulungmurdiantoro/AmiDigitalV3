@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-Template Name: NobleUI - Laravel Admin Dashboard Template
+Template Name: AMI DIGITAL
 Author: NobleUI
 Website: https://www.nobleui.com
 Portfolio: https://themeforest.net/user/nobleui/portfolio

@@ -11,9 +11,7 @@
         <th class="col-md-1 text-center" style="padding: 0.5rem;">Nilai</th>
       </tr>
     </thead>
-    {{-- @dd($standards) --}}
     <tbody>
-      {{-- @if(isset($standards) && is_iterable($standards)) --}}
         @foreach ($standards as $standard)
           <tr>
             <td class="text-center">{{ $standard->indikator_kode }}</td>
@@ -35,7 +33,7 @@
               </a>
             </td>
             <td>
-              {{ $standard->standarCapaiansS1->count() }}<br>
+              {{ optional($standard->standarNilaiS1)->mandiri_nilai ?? 0 }}<br>
               <a href="#" data-bs-toggle="modal" data-bs-target="#editModal{{ $standard->id }}">
                 [Edit]
               </a>
@@ -119,30 +117,31 @@
           <!-- Edit Modal -->
           <div class="modal fade" id="editModal{{ $standard->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $standard->id }}" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
-              <form action="{{ route('user.pengajuan-ami.input-ami-store') }}" method="POST" enctype="multipart/form-data" id="KelolaTargetForm">
+              <form action="{{ route('user.pengajuan-ami.input-ami.store') }}" method="POST" enctype="multipart/form-data" id="InputAmiForm">
                 @csrf
                 <div class="modal-content">
                   <div class="modal-header">
-                      <h5 class="modal-title" id="editModalLabel{{ $standard->id }}">Edit Nilai Mandiri AMI (Audit Mutu Internal)</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="editModalLabel{{ $standard->id }}">Edit Nilai Mandiri AMI (Audit Mutu Internal)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                      <input type="hidden" name="ami_kode" value="{{ $transaksi_ami->ami_kode }}">
-                      <input type="hidden" name="indikator_kode" value="{{ $standard->indikator_kode }}">
-                      <input type="hidden" name="prodi" value="{{ $prodi }}">
-                      <input type="hidden" name="periode" value="{{ $periode }}">
-                      <span>Kriteria</span>:
-                      <input type="text" name="standar_nama" class="form-control mb-1" value="{{ $standard->standar_nama }}" readonly>
-                      <span>Elemen</span>:
-                      <input type="text" name="elemen_nama" class="form-control mb-1" value="{{ $standard->elemen_nama }}" readonly>
-                      <span>Indikator</span>:
-                      <textarea name="indikator_nama" class="form-control mb-1" readonly>{{ $standard->indikator_nama }}</textarea>
-                      <span>Nilai</span>:
-                      <input type="number" min="0" max="4" step="0.01" name="nilai_mandiri" class="form-control mb-1 w-50" value="{{ $standard->nilai_mandiri }}">
+                    <input type="hidden" name="ami_kodes" value="{{ $transkasis->ami_kode }}">
+                    <input type="hidden" name="indikator_kodes" value="{{ $standard->indikator_kode }}">
+                    <input type="hidden" name="indikator_bobots" value="{{ $standard->indikator_bobot }}">
+                    <input type="hidden" name="prodis" value="{{ $prodis }}">
+                    <input type="hidden" name="periodes" value="{{ $periodes }}">
+                    <span>Kriteria</span>:
+                    <input type="text" name="standar_namas" class="form-control mb-1" value="{{ $standard->standar_nama }}" readonly>
+                    <span>Elemen</span>:
+                    <input type="text" name="elemen_namas" class="form-control mb-1" value="{{ $standard->elemen_nama }}" readonly>
+                    <span>Indikator</span>:
+                    <textarea name="indikator_namas" class="form-control mb-1" readonly>{{ $standard->indikator_nama }}</textarea>
+                    <span>Nilai</span>:
+                    <input type="number" min="0" max="4" step="0.01" name="nilai_mandiris" class="form-control mb-1 w-50" value="{{ $standard->nilai_mandiri }}">
                   </div>
                   <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
                 </div>
               </form>

@@ -1,4 +1,4 @@
-@extends('layout.master-user')
+@extends('layout.master-auditor')
 
 @push('plugin-styles')
   <link href="{{ asset('assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
@@ -8,6 +8,43 @@
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
   <div>
     <h4 class="mb-3 mb-md-0">Pemenuhan Dokumen {{ session('user_akses') }} {{ session('user_penempatan') }}</h4>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+          <h4 class="card-title">Data Kesiapan Mutu {{ $transaksi_ami->prodi }} tahun {{ $transaksi_ami->periode }} </h4>
+        </div>
+        <div><b>Informasi tambahan :</b> </div>
+        <div><i>Diajukan oleh {{ $transaksi_ami->prodi }} pada {{ $transaksi_ami->updated_at }} </i></div><br>
+        <a href="#" data-bs-toggle="modal" data-bs-target="#selesaiModal" class="btn btn-success btn-icon-text mb-2 mb-md-0" rel="noopener noreferrer">
+          <i class="link-icon" data-feather="check-circle"></i> <b>Koreksi AMI</b>
+        </a>
+        <div class="modal fade" id=selesaiModal tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <form action="{{ route('admin.kriteria-dokumen.storeImport') }}" method="POST" enctype="multipart/form-data" id="PenggunaAuditorForm">
+              @csrf
+                <div class="modal-header">
+                  <h4 class="modal-title" id="exampleModalLabel"><b>Menyelesaikan dan menyudahi AMI</b></h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <input type="hidden" name="ami_kode" class="form-control" value="" hidden>
+                  <span>Apakah Anda yakin akan menyelesaikan dan menyudahi aktivitas AMI (Audit Mutu Internal) dari periode </span>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-success" data-bs-dismiss="modal">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -21,16 +58,19 @@
               <p id="dataTitle{{ $index + 1 }}" class="mb-3"><b>{{ $nama }}</b></p>
             </div>
           </div>
-          {{-- @dd($data_standar['data_standar_k' . ($index + 1)]) --}}
-          <x-user.data-table.pemenuhan-dokumen 
-            id="dataTableExample{{ $index + 1 }}" 
-            :standards="$data_standar['data_standar_k' . ($index + 1)]" 
-            />
+            <x-auditor.data-table.audit-ami
+              id="dataTableExample{{ $index + 1 }}" 
+              :standards="$data_standar['data_standar_k' . ($index + 1)]" 
+              :periodes="$periode" 
+              :prodis="$prodi"
+              :transkasis="$transaksi_ami"
+              />
         </div>
       </div>
     </div>
   </div>
 @endforeach
+
 
 <nav class="settings-sidebar">
   <div class="sidebar-body">

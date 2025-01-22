@@ -11,9 +11,9 @@
         <th class="col-md-1 text-center" style="padding: 0.5rem;">Nilai</th>
       </tr>
     </thead>
-    {{-- @dd($standards) --}}
+    @dd($standards)
     <tbody>
-      {{-- @if(isset($standards) && is_iterable($standards)) --}}
+      @if(isset($standards) && is_iterable($standards))
         @foreach ($standards as $standard)
           <tr>
             <td class="text-center">{{ $standard->indikator_kode }}</td>
@@ -149,11 +149,11 @@
             </div>
           </div>
         @endforeach
-      {{-- @else
+      @else
         <tr>
           <td colspan="7">No standards available.</td>
         </tr>
-      @endif --}}
+      @endif
     </tbody>
   </table>
 </div>

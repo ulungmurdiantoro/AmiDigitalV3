@@ -12,12 +12,11 @@ class InputAmiDataTable extends Component
     public $periode;
     public $prodi;
     
-    public function __construct($id, $standards,  $periode, $prodi, $transaksi_ami)
+    public function __construct(string $id , $standards,  $periode, $prodi, $transaksi_ami)
     {
-        // dd($periode);
-        $this->id = $id;
-        $this->transaksi_ami = $transaksi_ami;
+        $this->id = $id ;
         $this->standards = $standards;
+        $this->transaksi_ami = $transaksi_ami;
         $this->periode = $periode;
         $this->prodi = $prodi;
     }

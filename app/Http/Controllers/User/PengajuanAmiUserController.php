@@ -52,18 +52,19 @@ class PengajuanAmiUserController extends Controller
         
         $data_standar = [];
         foreach ($standar_names as $index => $name) {
-            $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with(['standarTargetsS1', 'standarCapaiansS1' => function ($query) use ($periode, $prodi) {
-                $query->where('periode', $periode);
-                $query->where('prodi', $prodi);
+            $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with(['standarTargetsS1', 'standarCapaiansS1', 'standarNilaiS1' => function ($query) use ($periode, $prodi) {
+                $query->where('periode', $periode)
+                        ->where('prodi', $prodi);
             }])
             ->when(request()->q, function ($query) {
                 $query->where('elemen_nama', 'like', '%' . request()->q . '%');
             })
+            ->where('standar_nama', $name)
             ->latest()
-            ->get(); // Changed from paginate() to get()
+            ->paginate(30)
+            ->appends(['q' => request()->q]);
         }
         
-        // Fetch all data from penjadwalan_ami table without pagination
         $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
             ->when($request->q, function($query) use ($request) {
                 $query->whereHas('auditor_ami.user', function($q) use ($request) {
@@ -106,43 +107,51 @@ class PengajuanAmiUserController extends Controller
 
     public function inputAmiStore(Request $request)
     {
+        // Log the incoming request data
+        Log::info('Incoming Request Data:', $request->all());
+
         // Validate the incoming request data
-        $validator = Validator::make($request->all(), [
-            'periode' => 'required|string',
-            'prodi' => 'required|string',
-            'indikator_kode' => 'required|string',
-            'nilai_mandiri' => 'required|numeric|min:0|max:4',
-            'ami_kode' => 'required|string' // Ensure ami_kode is required
+        $validated = $request->validate([
+            'periodes' => 'required|string',
+            'prodis' => 'required|string',
+            'indikator_kodes' => 'required|string',
+            'nilai_mandiris' => 'required|numeric|min:0|max:4',
+            'ami_kodes' => 'required|string' // Ensure ami_kode is required
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        // Log the validated data
+        Log::info('Validated Data:', $validated);
 
-        // Find the record based on periode, prodi, and indikator_kode
-        $record = StandarNilai::where('periode', $request->periode)
-            ->where('prodi', $request->prodi)
-            ->where('indikator_kode', $request->indikator_kode)
-            ->first();
+        // Use updateOrCreate to check for the indikator_kode and either update or create the record
+        $standarNilai = StandarNilai::updateOrCreate(
+            ['indikator_kode' => $request->indikator_kodes], // Conditions to check
+            [
+                'periode' => $request->periodes,
+                'prodi' => $request->prodis,
+                'mandiri_nilai' => $request->nilai_mandiris,
+                'ami_kode' => $request->ami_kodes, // Include ami_kode
+            ]
+        );
 
-        // If record exists, update it
-        if ($record) {
-            $record->nilai_mandiri = $request->nilai_mandiri;
-            $record->save();
-        } else {
-            // If record does not exist, create a new one
-            StandarNilai::create([
-                'periode' => $request->periode,
-                'prodi' => $request->prodi,
-                'indikator_kode' => $request->indikator_kode,
-                'nilai_mandiri' => $request->nilai_mandiri,
-                'ami_kode' => $request->ami_kode, // Include ami_kode
-            ]);
-        }
+        // Log the result of updateOrCreate
+        Log::info('StandarNilai:', $standarNilai->toArray());
 
         return redirect()->back()->with('success', 'Data saved successfully!');
     }
 
+    public function inputAmiUpdate(Request $request)
+    {
+        $transaksi_ami = TransaksiAmi::find($request->id); // Assuming the ID is passed in the request
+
+        // Update the status
+        $transaksi_ami->status = $request->status;
+
+        // Save the changes
+        $transaksi_ami->save();
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Status has been updated to "Diajukan".');
+    }
 
     public function store(Request $request)
     {

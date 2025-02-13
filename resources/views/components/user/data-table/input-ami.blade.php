@@ -32,12 +32,18 @@
                 {{ $standard->standarCapaiansS1->count() }}<br>
               </a>
             </td>
-            <td>
-              {{ optional($standard->standarNilaiS1)->mandiri_nilai ?? 0 }}<br>
-              <a href="#" data-bs-toggle="modal" data-bs-target="#editModal{{ $standard->id }}">
-                [Edit]
-              </a>
-            </td>
+            @if ($transkasis->status == 'Draft')
+              <td>
+                {{ optional($standard->standarNilaiS1)->mandiri_nilai ?? 0 }}<br>
+                  <a href="#" data-bs-toggle="modal" data-bs-target="#editModal{{ $standard->id }}">
+                    [Edit]
+                  </a>
+              </td>
+            @else
+              <td class="text-center">
+                {{ optional($standard->standarNilaiS1)->mandiri_nilai ?? 0 }}
+              </td>
+            @endif
           </tr>
 
           <!-- Info Modal -->
@@ -137,7 +143,7 @@
                     <span>Indikator</span>:
                     <textarea name="indikator_namas" class="form-control mb-1" readonly>{{ $standard->indikator_nama }}</textarea>
                     <span>Nilai</span>:
-                    <input type="number" min="0" max="4" step="0.01" name="nilai_mandiris" class="form-control mb-1 w-50" value="{{ $standard->nilai_mandiri }}">
+                    <input type="number" min="0" max="4" step="0.01" name="nilai_mandiris" class="form-control mb-1 w-50" value="{{ optional($standard->standarNilaiS1)->mandiri_nilai ?? 0 }}">
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -148,11 +154,6 @@
             </div>
           </div>
         @endforeach
-      {{-- @else
-        <tr>
-          <td colspan="7">No standards available.</td>
-        </tr>
-      @endif --}}
     </tbody>
   </table>
 </div>

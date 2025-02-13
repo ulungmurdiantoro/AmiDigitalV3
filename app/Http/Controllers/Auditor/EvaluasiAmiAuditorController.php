@@ -15,11 +15,6 @@ use Illuminate\Http\Request;
 
 class EvaluasiAmiAuditorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $data_kesiapan = StandarCapaian::with('standarCapaiansS1')
@@ -98,57 +93,62 @@ class EvaluasiAmiAuditorController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'ami_kodes' => 'required|string',
+            'indikator_kodes' => 'required|string',
+            'hasil_nilais' => 'required|numeric|min:0|max:4',
+            'hasil_kriterias' => 'nullable|string',
+            'hasil_deskripsis' => 'nullable|string',
+            'jenis_temuans' => 'required|string',
+            'hasil_akibats' => 'nullable|string',
+            'hasil_masalahs' => 'nullable|string',
+            'hasil_rekomendasis' => 'nullable|string',
+        ]);
+
+        $transkasi = StandarNilai::where('ami_kode', $request->ami_kodes)->first();
+        $standard = StandarNilai::where('indikator_kode', $request->indikator_kodes)->first();
+
+        if ($transkasi && $standard) {
+            $standard->standarNilaiS1()->where('id', $standard->id)->update([
+                'hasil_nilai' => $request->hasil_nilais,
+                'hasil_kriteria' => $request->hasil_kriterias,
+                'hasil_deskripsi' => $request->hasil_deskripsis,
+                'jenis_temuan' => $request->jenis_temuans,
+                'hasil_akibat' => $request->hasil_akibats,
+                'hasil_masalah' => $request->hasil_masalahs,
+                'hasil_rekomendasi' => $request->hasil_rekomendasis,
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Data berhasil diperbarui!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'id' => 'required',
+            'status' => 'required',
+        ]);
+
+        $pengajuan = TransaksiAmi::findOrFail($id);
+        $pengajuan->status = $request->status;
+        $pengajuan->save();
+
+        return redirect()->route('auditor.evaluasi-ami.index')->with('success', 'Pengajuan updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

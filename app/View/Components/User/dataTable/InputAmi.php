@@ -12,15 +12,16 @@ class InputAmi extends Component
     public $prodis;
     public $periodes;
 
-    public function __construct(string $id, $standards, $transkasis)
+    public function __construct(string $id, $standards, $transkasis, $prodis, $periodes)
     {
         // dd($id, $standards);
         $this->id = $id;
         $this->standards = $standards;
         $this->transkasis = $transkasis;
-        // $this->prodis = $prodis;
-        // $this->periodes = $periodes;
+        $this->prodis = $prodis;
+        $this->periodes = $periodes;
     }
+    
     public function render()
     {
         return view('components.user.data-table.input-ami');

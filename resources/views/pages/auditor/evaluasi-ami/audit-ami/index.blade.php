@@ -26,18 +26,23 @@
         <div class="modal fade" id=selesaiModal tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form action="{{ route('admin.kriteria-dokumen.storeImport') }}" method="POST" enctype="multipart/form-data" id="PenggunaAuditorForm">
-              @csrf
+              <form action="{{ route('auditor.evaluasi-ami.update', ['evaluasi_ami' => $transaksi_ami->id]) }}" method="POST" enctype="multipart/form-data" id="PenggunaAuditorForm">
+                @csrf
+                @method('PUT')
                 <div class="modal-header">
-                  <h4 class="modal-title" id="exampleModalLabel"><b>Menyelesaikan dan menyudahi AMI</b></h4>
+                  <h4 class="modal-title" id="exampleModalLabel"><b>Koreksi AMI</b></h4>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                   <input type="hidden" name="ami_kode" class="form-control" value="" hidden>
-                  <span>Apakah Anda yakin akan menyelesaikan dan menyudahi aktivitas AMI (Audit Mutu Internal) dari periode </span>
+                  <span>Jika Anda memutuskan untuk mengubah status menjadi "koreksi", maka semua indikator yang berstatus 
+                      KTS (Ketidaksesuaian) atau OB (Observasi) harus dikoreksi oleh prodi. <br><br>
+                      Harap pastikan bahwa semua indikator yang terkait sudah diperiksa dan disesuaikan sesuai dengan prosedur yang berlaku.</span>
+                  <input type="hidden" name="id" value="{{ $transaksi_ami->id }}">
+                  <input type="hidden" name="status" value="Koreksi">
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-success" data-bs-dismiss="modal">Submit</button>
+                  <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Submit</button>
                 </div>
               </form>
             </div>
@@ -51,13 +56,11 @@
 @foreach ($nama_data_standar as $index => $nama)
   <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
-      <div class="card">
+      <div class="card" style="border-radius: 5px; overflow: hidden;">
+        <div class="card-header bg-primary text-white">
+          <h6 class="mb-0">{{ $nama }}</h6>
+        </div>
         <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center flex-wrap">
-            <div>
-              <p id="dataTitle{{ $index + 1 }}" class="mb-3"><b>{{ $nama }}</b></p>
-            </div>
-          </div>
             <x-auditor.data-table.audit-ami
               id="dataTableExample{{ $index + 1 }}" 
               :standards="$data_standar['data_standar_k' . ($index + 1)]" 
@@ -70,7 +73,6 @@
     </div>
   </div>
 @endforeach
-
 
 <nav class="settings-sidebar">
   <div class="sidebar-body">

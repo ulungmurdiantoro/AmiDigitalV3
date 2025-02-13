@@ -10,36 +10,37 @@
         <th class="col-md-1 text-center">Kelola Kebutuhan</th>
       </tr>
     </thead>
+    {{-- @dd($importTitle) --}}
     <tbody>
       @foreach ($standards as $standard)
         <tr>
           <td class="text-center">{{ $standard->indikator_kode }}</td>
-          <td>{{ $standard->elemen_nama }}</td>                 
+          <td>{{ $standard->elemen_nama }}</td>
           <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
-          <td>
+          <td class="text-center">
             <a href="#" data-bs-toggle="modal" data-bs-target="#infoModal{{ $standard->id }}" class="btn btn-warning btn-icon">
               <i data-feather="info"></i>
             </a>
           </td>
           <td class="text-center">
-              {{ $standard->standarTargetsS1->count() }}<br>
+            {{ $standard->standarTargetsS1->count() }}<br>
           </td>
-          <td>
-            <a href="{{ route('admin.kriteria-dokumen.kelola-target', $standard->indikator_kode) }}" class="btn btn-primary btn-icon" title="Manage Target">
+          <td class="text-center">
+            <a href="{{ route('admin.kriteria-dokumen.kelola-target', ['importTitle' => urlencode($importTitle), 'indikator_kode' => $standard->indikator_kode]) }}" class="btn btn-primary btn-icon" title="Manage Target">
               <i data-feather="plus-square"></i>
-            </a>            
+            </a>
           </td>
         </tr>
-        <!-- Modal -->
-        <div class="modal fade" id="infoModal{{ $standard->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog  modal-lg modal-dialog-centered">
+        <!-- Modal for Indikator Info -->
+        <div class="modal fade" id="infoModal{{ $standard->id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $standard->id }}" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Informasi Indikator</h5>
+                <h5 class="modal-title" id="exampleModalLabel{{ $standard->id }}">Informasi Indikator</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <p><b>Indikator</b> : {!! nl2br(e($standard->indikator_nama)) !!}</p>
+                <p><b>Indikator:</b> {!! nl2br(e($standard->indikator_nama)) !!}</p>
                 <br>
                 <p>{!! nl2br(e($standard->indikator_info)) !!}</p>
               </div>

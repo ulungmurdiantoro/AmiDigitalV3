@@ -32,6 +32,7 @@
         </div>
         <form action="{{ route('admin.kriteria-dokumen.storeImport') }}" method="POST" enctype="multipart/form-data" id="PenggunaAuditorForm">
           @csrf
+          <input type="hidden" name="degree" value="{{ $degree }}">
           <div class="row">
             <div class="col-sm-6">
               <div class="mb-3">

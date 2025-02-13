@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User;
 
 class TransaksiAmi extends Model
 {
@@ -23,6 +24,13 @@ class TransaksiAmi extends Model
 
     public function auditorAmi() 
     { 
-        return $this->belongsTo(AuditorAmi::class, 'auditor_kode', 'auditor_kode');
+        return $this->hasMany(AuditorAmi::class, 'auditor_kode', 'auditor_kode');
     }
+
+    public function penempatanUser() 
+    { 
+        return $this->belongsTo(User::class, 'prodi', 'user_penempatan');
+    }
+
+
 }

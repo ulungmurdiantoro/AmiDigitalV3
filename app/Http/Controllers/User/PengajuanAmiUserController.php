@@ -107,36 +107,61 @@ class PengajuanAmiUserController extends Controller
 
     public function inputAmiStore(Request $request)
     {
-        // Log the incoming request data
-        Log::info('Incoming Request Data:', $request->all());
+        // Log incoming request data
+        Log::info('Incoming Data:', $request->all());
 
-        // Validate the incoming request data
-        $validated = $request->validate([
-            'periodes' => 'required|string',
-            'prodis' => 'required|string',
-            'indikator_kodes' => 'required|string',
-            'nilai_mandiris' => 'required|numeric|min:0|max:4',
-            'ami_kodes' => 'required|string' // Ensure ami_kode is required
+        // Validate the input data
+        $validatedData = $request->validate([
+            'ami_kodes' => 'required|string|max:255',
+            'indikator_kodes' => 'required|string|max:255',
+            'indikator_bobots' => 'required',
+            'prodis' => 'required|string|max:255',
+            'periodes' => 'required|string|max:255',
+            'nilai_mandiris' => 'required|numeric|between:0,4',
         ]);
 
-        // Log the validated data
-        Log::info('Validated Data:', $validated);
+        try {
+            // Check if the record exists based on the unique combination of indikator_kode, periode, and prodi
+            $amiInput = StandarNilai::where('indikator_kode', $validatedData['indikator_kodes'])
+                ->where('periode', $validatedData['periodes'])
+                ->where('prodi', $validatedData['prodis'])
+                ->first();
 
-        // Use updateOrCreate to check for the indikator_kode and either update or create the record
-        $standarNilai = StandarNilai::updateOrCreate(
-            ['indikator_kode' => $request->indikator_kodes], // Conditions to check
-            [
-                'periode' => $request->periodes,
-                'prodi' => $request->prodis,
-                'mandiri_nilai' => $request->nilai_mandiris,
-                'ami_kode' => $request->ami_kodes, // Include ami_kode
-            ]
-        );
+            if ($amiInput) {
+                // Update existing record
+                $amiInput->bobot = $validatedData['indikator_bobots'];
+                $amiInput->mandiri_nilai = $validatedData['nilai_mandiris'];
 
-        // Log the result of updateOrCreate
-        Log::info('StandarNilai:', $standarNilai->toArray());
+                if ($amiInput->save()) {
+                    Log::info('Data updated successfully:', $amiInput->toArray());
+                    return redirect()->back()->with('success', 'Data successfully updated!');
+                } else {
+                    Log::error('Failed to update data.');
+                    return redirect()->back()->with('error', 'Failed to update data.');
+                }
+            } else {
+                // Create a new record
+                $amiInput = new StandarNilai();
+                $amiInput->ami_kode = $validatedData['ami_kodes'];
+                $amiInput->indikator_kode = $validatedData['indikator_kodes'];
+                $amiInput->bobot = $validatedData['indikator_bobots'];
+                $amiInput->prodi = $validatedData['prodis'];
+                $amiInput->periode = $validatedData['periodes'];
+                $amiInput->mandiri_nilai = $validatedData['nilai_mandiris'];
 
-        return redirect()->back()->with('success', 'Data saved successfully!');
+                if ($amiInput->save()) {
+                    Log::info('Data saved successfully:', $amiInput->toArray());
+                    return redirect()->back()->with('success', 'Data successfully saved!');
+                } else {
+                    Log::error('Failed to save data.');
+                    return redirect()->back()->with('error', 'Failed to save data.');
+                }
+            }
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            Log::error('Error saving or updating data:', ['message' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
+        }
     }
 
     public function inputAmiUpdate(Request $request)

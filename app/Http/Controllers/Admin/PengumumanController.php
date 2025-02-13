@@ -3,83 +3,76 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\PengumumanData;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PengumumanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return view('pages.admin.pengumuman.index');
+        $pengumuman = PengumumanData::latest()->get();
+
+        return view('pages.admin.pengumuman.index', [
+            'pengumuman' => $pengumuman,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('pages.admin.pengumuman.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+         // Validate the form data
+        $request->validate([
+            'pengumuman_judul' => 'required|string|max:255',
+            'pengumuman_informasi' => 'required|string',
+        ]);
+
+        // Create a new Pengumuman instance
+        $pengumuman = new PengumumanData();
+        $pengumuman->pengumuman_kode = 'pngg-' . Str::uuid();
+        $pengumuman->pengumuman_judul = $request->input('pengumuman_judul');
+        $pengumuman->pengumuman_informasi = $request->input('pengumuman_informasi');
+        $pengumuman->save();
+
+        // Redirect or return a response
+        return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil dibuat!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $pengumuman = PengumumanData::findOrFail($id);
+        return view('pages.admin.pengumuman.edit', compact('pengumuman'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'pengumuman_judul' => 'required|string|max:255',
+            'pengumuman_informasi' => 'required|string',
+        ]);
+
+        // Find the Pengumuman instance by ID
+        $pengumuman = PengumumanData::findOrFail($id);
+        $pengumuman->pengumuman_judul = $request->input('pengumuman_judul');
+        $pengumuman->pengumuman_informasi = $request->input('pengumuman_informasi');
+        $pengumuman->save();
+
+        // Redirect or return a response
+        return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil diperbarui!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        // Find the Pengumuman instance by ID
+        $pengumuman = PengumumanData::findOrFail($id);
+        $pengumuman->delete();
+
+        // Redirect or return a response
+        return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil dihapus!');
     }
+
 }

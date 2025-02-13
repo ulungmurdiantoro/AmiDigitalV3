@@ -20,7 +20,7 @@
     </button>
   </div>
 </div>
-
+{{-- @dd($amiS1Selesai) --}}
 <div class="row">
   <div class="col-12 col-xl-12 stretch-card">
     <div class="row flex-grow-1">
@@ -29,28 +29,16 @@
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-baseline">
               <h6 class="card-title mb-0">Jumlah Pengguna Sistem</h6>
-              <div class="dropdown mb-2">
-                <button class="btn btn-link p-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="edit-2" class="icon-sm me-2"></i> <span class="">Edit</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="trash" class="icon-sm me-2"></i> <span class="">Delete</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="printer" class="icon-sm me-2"></i> <span class="">Print</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="download" class="icon-sm me-2"></i> <span class="">Download</span></a>
-                </div>
-              </div>
             </div>
             <div class="row">
               <div class="col-6 col-md-12 col-xl-6">
-                <div id="storageChart1" class="mt-md-3 mt-xl-0"></div>
+                <div id="penggunaAdmin" data-value="{{ $penggunaAdmin }} class="mt-md-3 mt-xl-0"></div>
               </div>
               <div class="col-6 col-md-12 col-xl-6">
-                <div id="storageChart2" class="mt-md-3 mt-xl-0"></div>
+                <div id="penggunaProdi" data-value="{{ $penggunaProdi }} class="mt-md-3 mt-xl-0"></div>
               </div>
               <div class="col-6 col-md-12 col-xl-12">
-                <div id="storageChart3" class="mt-md-3 mt-xl-0"></div>
+                <div id="penggunaAuditor" data-value="{{ $penggunaAuditor }} class="mt-md-3 mt-xl-0"></div>
               </div>
             </div>
           </div>
@@ -61,22 +49,10 @@
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-baseline">
               <h6 class="card-title mb-0">Jumlah Prodi Terdaftar</h6>
-              <div class="dropdown mb-2">
-                <button class="btn btn-link p-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="edit-2" class="icon-sm me-2"></i> <span class="">Edit</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="trash" class="icon-sm me-2"></i> <span class="">Delete</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="printer" class="icon-sm me-2"></i> <span class="">Print</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="download" class="icon-sm me-2"></i> <span class="">Download</span></a>
-                </div>
-              </div>
             </div>
             <div class="row">
               <div class="col-6 col-md-12 col-xl-12">
-                <div id="monthlySalesChart" class="mt-md-3 mt-xl-0"></div>
+                <div id="jumlahProdi" class="mt-md-3 mt-xl-0"></div>
               </div>
             </div>
           </div>
@@ -93,23 +69,11 @@
         <div class="card">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-baseline">
-              <h6 class="card-title mb-0">Persentase Pengajuan AMI Tahun 2024</h6>
-              <div class="dropdown mb-2">
-                <button class="btn btn-link p-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="edit-2" class="icon-sm me-2"></i> <span class="">Edit</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="trash" class="icon-sm me-2"></i> <span class="">Delete</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="printer" class="icon-sm me-2"></i> <span class="">Print</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="download" class="icon-sm me-2"></i> <span class="">Download</span></a>
-                </div>
-              </div>
+              <h6 class="card-title mb-0">Persentase Pengajuan AMI Tahun {{ $periode }}</h6>
             </div>
             <div class="row">
               <div class="col-6 col-md-12 col-xl-12">
-                <div id="apexPie" class="mt-md-3 mt-xl-0"></div>
+                <div id="persenAmi" class="mt-md-3 mt-xl-0"></div>
               </div>
             </div>
           </div>
@@ -119,23 +83,11 @@
         <div class="card">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-baseline">
-              <h6 class="card-title mb-0">Jumlah Pengajuan AMI Tahun 2024</h6>
-              <div class="dropdown mb-2">
-                <button class="btn btn-link p-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="edit-2" class="icon-sm me-2"></i> <span class="">Edit</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="trash" class="icon-sm me-2"></i> <span class="">Delete</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="printer" class="icon-sm me-2"></i> <span class="">Print</span></a>
-                  <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="download" class="icon-sm me-2"></i> <span class="">Download</span></a>
-                </div>
-              </div>
+              <h6 class="card-title mb-0">Jumlah Pengajuan AMI Tahun {{ $periode }}</h6>
             </div>
             <div class="row">
               <div class="col-6 col-md-12 col-xl-12">
-                <div id="BarStacked" class="mt-md-3 mt-xl-0"></div>
+                <div id="jumlahAmi" class="mt-md-3 mt-xl-0"></div>
               </div>
             </div>
           </div>
@@ -152,6 +104,57 @@
   <script src="{{ asset('assets/plugins/apexcharts/apexcharts.min.js') }}"></script>
 @endpush
 
+<script>
+  var prodiS1 = @json($prodiS1);
+  var prodiS2 = @json($prodiS2);
+  var prodiS3 = @json($prodiS3);
+  var prodiD3 = @json($prodiD3);
+  var prodiS1T = @json($prodiS1T);
+  var prodiS2T = @json($prodiS2T);
+  var prodiS3T = @json($prodiS3T);
+  var prodiPPG = @json($prodiPPG);
+
+  var amiDiajukan = @json($amiDiajukan);
+  var amiDiterima = @json($amiDiterima);
+  var amiKoreksi = @json($amiKoreksi);
+  var amiSelesai = @json($amiSelesai);
+
+  var amiSelesai = {
+    'amiD3Diajukan': @json($amiD3Diajukan),
+    'amiS1Diajukan': @json($amiS1Diajukan),
+    'amiS2Diajukan': @json($amiS2Diajukan),
+    'amiS3Diajukan': @json($amiS3Diajukan),
+    'amiS1TDiajukan': @json($amiS1TDiajukan), 
+    'amiS2TDiajukan': @json($amiS2TDiajukan),
+    'amiS3TDiajukan': @json($amiS3TDiajukan),
+    'amiPPGDiajukan': @json($amiPPGDiajukan),
+    'amiD3Diterima': @json($amiD3Diterima),
+    'amiS1Diterima': @json($amiS1Diterima),
+    'amiS2Diterima': @json($amiS2Diterima),
+    'amiS3Diterima': @json($amiS3Diterima),
+    'amiS1TDiterima': @json($amiS1TDiterima), 
+    'amiS2TDiterima': @json($amiS2TDiterima),
+    'amiS3TDiterima': @json($amiS3TDiterima),
+    'amiPPGDiterima': @json($amiPPGDiterima),
+    'amiD3Koreksi': @json($amiD3Koreksi),
+    'amiS1Koreksi': @json($amiS1Koreksi),
+    'amiS2Koreksi': @json($amiS2Koreksi),
+    'amiS3Koreksi': @json($amiS3Koreksi),
+    'amiS1TKoreksi': @json($amiS1TKoreksi), 
+    'amiS2TKoreksi': @json($amiS2TKoreksi),
+    'amiS3TKoreksi': @json($amiS3TKoreksi),
+    'amiPPGKoreksi': @json($amiPPGKoreksi),
+    'amiD3Selesai': @json($amiD3Selesai),
+    'amiS1Selesai': @json($amiS1Selesai),
+    'amiS2Selesai': @json($amiS2Selesai),
+    'amiS3Selesai': @json($amiS3Selesai),
+    'amiS1TSelesai': @json($amiS1TSelesai), 
+    'amiS2TSelesai': @json($amiS2TSelesai),
+    'amiS3TSelesai': @json($amiS3TSelesai),
+    'amiPPGSelesai': @json($amiPPGSelesai)
+  };
+</script>
+
 @push('custom-scripts')
-  <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+  <script src="{{ asset('assets/js/admin-dashboard.js') }}"></script>
 @endpush

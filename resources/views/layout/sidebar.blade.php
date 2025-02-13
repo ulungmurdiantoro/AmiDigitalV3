@@ -82,10 +82,10 @@
         <div class="collapse {{ show_class(['admin.statistik-elemen.*', 'admin.statistik-total.*']) }}" id="error">
           <ul class="nav sub-menu">
             <li class="nav-item">
-              <a href="{{ route('admin.statistik-elemen.index') }}" class="nav-link {{ active_class(['admin.statistik-elemen']) }}">Statistik Elemen</a>
+              <a href="{{ route('admin.statistik-elemen.index') }}" class="nav-link {{ active_class(['admin.statistik-elemen.*']) }}">Statistik Elemen</a>
             </li>
             <li class="nav-item">
-              <a href="{{ route('admin.statistik-total.index') }}" class="nav-link {{ active_class(['admin.statistik-total']) }}">Statistik Total</a>
+              <a href="{{ route('admin.statistik-total.index') }}" class="nav-link {{ active_class(['admin.statistik-total.*']) }}">Statistik Total</a>
             </li>
           </ul>
         </div>

@@ -9,6 +9,7 @@
         <th class="col-md-1 text-center" style="padding: 0.5rem;">Terget</th>
         <th class="col-md-1 text-center" style="padding: 0.5rem;">Capaian</th>
         <th class="col-md-1 text-center" style="padding: 0.5rem;">Nilai</th>
+        <th class="col-md-1 text-center" style="padding: 0.5rem;">evaluasi</th>
       </tr>
     </thead>
     <tbody>
@@ -33,9 +34,11 @@
               </a>
             </td>
             <td>
-              {{ optional($standard->standarNilaiS1)->mandiri_nilai ?? 0 }}<br>
-              <a href="#" data-bs-toggle="modal" data-bs-target="#editModal{{ $standard->id }}">
-                [Edit]
+              {{ optional($standard->standarNilaiS1)->hasil_nilai ?? 0 }}
+            </td>
+            <td>
+              <a href="#" data-bs-toggle="modal" data-bs-target="#editModal{{ $standard->id }}" class="btn btn-info btn-icon">
+                <i data-feather="edit"></i>
               </a>
             </td>
           </tr>
@@ -117,7 +120,7 @@
           <!-- Edit Modal -->
           <div class="modal fade" id="editModal{{ $standard->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $standard->id }}" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
-              <form action="{{ route('user.pengajuan-ami.input-ami.store') }}" method="POST" enctype="multipart/form-data" id="InputAmiForm">
+              <form action="{{ route('auditor.evaluasi-ami.store') }}" method="POST" enctype="multipart/form-data" id="InputAmiForm">
                 @csrf
                 <div class="modal-content">
                   <div class="modal-header">
@@ -136,8 +139,27 @@
                     <input type="text" name="elemen_namas" class="form-control mb-1" value="{{ $standard->elemen_nama }}" readonly>
                     <span>Indikator</span>:
                     <textarea name="indikator_namas" class="form-control mb-1" readonly>{{ $standard->indikator_nama }}</textarea>
-                    <span>Nilai</span>:
-                    <input type="number" min="0" max="4" step="0.01" name="nilai_mandiris" class="form-control mb-1 w-50" value="{{ $standard->nilai_mandiri }}">
+                    <span>Nilai Mandiri</span>:
+                    <input type="number" name="nilai_mandiris" class="form-control mb-1 w-50" value="{{ optional($standard->standarNilaiS1)->mandiri_nilai ?? 0 }}" readonly>
+                    <span>Verifikasi Nilai Auditor</span>:
+                    <input type="number" min="0" max="4" step="0.01" name="hasil_nilais" class="form-control mb-1 w-50" value="{{ optional($standard->standarNilaiS1)->hasil_nilai ?? 0 }}">
+                    <span>Kriteria</span> :
+                    <textarea name="hasil_kriterias" class="form-control mb-1" placeholder="Deskripsikan kriteria pada indikator ini, kosongkan jika tidak ada.">{{ optional($standard->standarNilaiS1)->hasil_kriteria }}</textarea>
+                    <span>Deskripsi Temuan</span> :
+                    <textarea name="hasil_deskripsis" class="form-control mb-1" placeholder="Deskripsikan temuan pada indikator ini, kosongkan jika tidak ada.">{{ optional($standard->standarNilaiS1)->hasil_deskripsi }}</textarea>
+                    <span>Jenis Temuan</span> : 
+                    <select name="jenis_temuans" class="form-control mb-1" required>
+                      <option {{ optional($standard->standarNilaiS1)->jenis_temuan }}>{{ optional($standard->standarNilaiS1)->jenis_temuan }}</option>
+                      <option value="Sesuai">Sesuai</option>
+                      <option value="OB">OB</option>
+                      <option value="KTS">KTS</option>
+                    </select>
+                    <span>Akibat</span> :
+                    <textarea name="hasil_akibats" class="form-control mb-1" placeholder=" Deskripsikan akar masalah pada indikator ini yang menyebabkan adanya temuan, kosongkan jika tidak ada.">{{ optional($standard->standarNilaiS1)->hasil_akibat }}</textarea>
+                    <span>Akar Masalah</span> :
+                    <textarea name="hasil_masalahs" class="form-control mb-1" placeholder=" Deskripsikan akar masalah pada indikator ini yang menyebabkan adanya temuan, kosongkan jika tidak ada.">{{ optional($standard->standarNilaiS1)->hasil_masalah }}</textarea>
+                    <span>Rekomendasi</span> :
+                    <textarea name="hasil_rekomendasis" class="form-control mb-1" placeholder=" Deskripsikan rekomendasi pada indikator ini yang dapat menghilangkan adanya temuan atau peluang untuk peningkatan, kosongkan jika tidak ada.">{{ optional($standard->standarNilaiS1)->hasil_rekomendasi }}</textarea>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -61,20 +61,19 @@
 @foreach ($nama_data_standar as $index => $nama)
   <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
-      <div class="card">
+      <div class="card" style="border-radius: 5px; overflow: hidden;">
+        <div class="card-header bg-primary text-white">
+          <h6 class="mb-0">{{ $nama }}</h6>
+        </div>
         <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center flex-wrap">
-            <div>
-              <p id="dataTitle{{ $index + 1 }}" class="mb-3"><b>{{ $nama }}</b></p>
-            </div>
-          </div>
-            <x-user.data-table.input-ami
-              id="dataTableExample{{ $index + 1 }}" 
-              :standards="$data_standar['data_standar_k' . ($index + 1)]" 
-              :periodes="$periode" 
-              :prodis="$prodi"
-              :transkasis="$transaksi_ami"
-              />
+          {{-- @dd($prodi) --}}
+          <x-user.data-table.input-ami
+            id="dataTableExample{{ $index + 1 }}" 
+            :standards="$data_standar['data_standar_k' . ($index + 1)]" 
+            :periodes="$periode" 
+            :prodis="$prodi"
+            :transkasis="$transaksi_ami"
+            />
         </div>
       </div>
     </div>

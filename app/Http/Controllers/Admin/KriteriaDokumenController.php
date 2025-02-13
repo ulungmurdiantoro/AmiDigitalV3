@@ -20,20 +20,19 @@ use App\Models\StandarElemenLamdikTerapanS2;
 use App\Models\StandarElemenLamdikTerapanS3;
 use App\Models\StandarTarget;
 use App\Models\DokumenTipe;
+use App\Imports\StandarBanptD3Import;
 use App\Imports\StandarBanptS1Import;
+use App\Imports\StandarBanptS2Import;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class KriteriaDokumenController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
+        $degree = $request->get('degree', 'BAN-PT S1'); // Default to 'S1' if not specified
+
         $standar_names = [
             'Kondisi Eksternal',
             'Profil Unit Pengelola Program Studi',
@@ -48,85 +47,49 @@ class KriteriaDokumenController extends Controller
             '9. Luaran dan Capaian Tridharma',
             'Analisis dan Penetapan Program Pengembangan'
         ];
-        
+
+        switch ($degree) {
+            case 'D3':
+                $modelClass = \App\Models\StandarElemenBanptD3::class;
+                $standarTargetsRelation = 'standarTargetsD3';
+                $standarCapaiansRelation = 'standarCapaiansD3';
+                break;
+            case 'S1':
+                $modelClass = \App\Models\StandarElemenBanptS1::class;
+                $standarTargetsRelation = 'standarTargetsS1';
+                $standarCapaiansRelation = 'standarCapaiansS1';
+                break;
+            default:
+                $modelClass = \App\Models\StandarElemenBanptS1::class;
+                $standarTargetsRelation = 'standarTargetsS1';
+                $standarCapaiansRelation = 'standarCapaiansS1';
+        }
+
         $data_standar = [];
         foreach ($standar_names as $index => $name) {
-            $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with('standarTargetsS1', 'standarCapaiansS1')
-            ->when(request()->q, function ($query) {
-                $query->where('elemen_nama', 'like', '%' . request()->q . '%');
-            })->where('standar_nama', $name)->latest()->paginate(30)->appends(['q' => request()->q]);
+            $data_standar['data_standar_k' . ($index + 1)] = $modelClass::with($standarTargetsRelation, $standarCapaiansRelation)
+                ->when($request->q, function ($query) use ($request) {
+                    $query->where('elemen_nama', 'like', '%' . $request->q . '%');
+                })
+                ->where('standar_nama', $name)
+                ->latest()
+                ->paginate(30)
+                ->appends(['q' => $request->q]);
         }
-        
+
         return view('pages.admin.kriteria-dokumen.index', [
             'nama_data_standar' => $standar_names,
-            'data_standar' => $data_standar
-        ]);    
+            'data_standar' => $data_standar,
+            'degree' => $degree
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(Request $request)
     {
-        return view('pages.admin.kriteria-dokumen.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $degree = $request->degree; // Get the degree from the request
+        return view('pages.admin.kriteria-dokumen.create', [
+            'degree' => $degree
+        ]);
     }
 
     public function import()
@@ -141,9 +104,28 @@ class KriteriaDokumenController extends Controller
             'nama_dokumen' => 'required|mimes:csv,xls,xlsx'
         ]);
 
+        // Get the degree from the request
+        $degree = $request->input('degree');
+
+        // Select the appropriate import class based on the degree
+        switch ($degree) {
+            case 'D3':
+                $importClass = new StandarBanptD3Import();
+                break;
+            case 'S1':
+                $importClass = new StandarBanptS1Import();
+                break;
+            case 'S2':
+                $importClass = new StandarBanptS2Import();
+                break;
+            // Add other cases as needed
+            default:
+                return redirect()->route('admin.kriteria-dokumen.index')->with('error', 'Invalid degree selected.');
+        }
+
         try {
-            // Import data
-            Excel::import(new StandarBanptS1Import(), $request->file('nama_dokumen'));
+            // Import data using the selected import class
+            Excel::import($importClass, $request->file('nama_dokumen'));
 
             return redirect()->route('admin.kriteria-dokumen.index')->with('success', 'File imported successfully.');
         } catch (\Exception $e) {
@@ -152,47 +134,48 @@ class KriteriaDokumenController extends Controller
         }
     }
 
-    public function kelolaTarget(Request $request, $indikator_kode)
+    public function kelolaTarget(Request $request, $importTitle, $indikator_kode)
     {
-        // Validate if indikator_kode exists
+        $importTitle = urldecode($importTitle); // Decode the importTitle
+    
         $standarElemen = StandarElemenBanptS1::where('indikator_kode', $indikator_kode)->firstOrFail();
-
-        // Fetch StandarTarget data
+    
         $standarTarget = StandarTarget::where('indikator_kode', $indikator_kode)->when($request->q, function ($query, $q) {
-            $query->where('id', 'like', "%{$q}%"); // Update the field if needed
+            $query->where('id', 'like', "%{$q}%");
         })->latest()->paginate(10);
-
-        // Return the view
+    
         return view('pages.admin.kriteria-dokumen.kelola-target.index', [
             'indikator_kode' => $indikator_kode,
             'standarTarget' => $standarTarget,
             'standarElemen' => $standarElemen,
+            'importTitle' => $importTitle,
         ]);
     }
+    
 
-    public function kelolaTargetCreate($indikator_kode)
+    public function kelolaTargetCreate($importTitle, $indikator_kode)
     {
+        $importTitle = urldecode($importTitle); // Decode the importTitle
 
         $dokumenTipes = DokumenTipe::all();
-        
-        // Validate if indikator_kode exists
         $standarElemen = StandarElemenBanptS1::where('indikator_kode', $indikator_kode)->firstOrFail();
 
-        // Pass the data to the view
         return view('pages.admin.kriteria-dokumen.kelola-target.create', [
             'indikator_kode' => $indikator_kode,
             'standarElemen' => $standarElemen,
             'dokumenTipes' => $dokumenTipes,
+            'importTitle' => $importTitle,
         ]);
     }
 
     public function kelolaTargetStore(Request $request)
     {
-        // Validate request
         $request->validate([ 
             'dokumen_nama' => 'required|string|max:255',
             'pertanyaan_nama' => 'required|string|max:255',
             'dokumen_tipe' => 'required|string|max:255',
+            'indikator_kode' => 'required|string|max:255',
+            'importTitle' => 'required|string|max:255',
             'dokumen_keterangan' => 'nullable|string',
         ]); 
 
@@ -200,6 +183,7 @@ class KriteriaDokumenController extends Controller
             StandarTarget::create([
                 'target_kode' => 'tgr-' . Str::uuid() . uniqid(),
                 'indikator_kode' => $request->indikator_kode,
+                'jenjang' => $request->importTitle,
                 'dokumen_nama' => $request->dokumen_nama,
                 'pertanyaan_nama' => $request->pertanyaan_nama,
                 'dokumen_tipe' => $request->dokumen_tipe,
@@ -210,8 +194,7 @@ class KriteriaDokumenController extends Controller
             return back()->withErrors(['database' => 'Failed to save data. Please try again.']);
         }
 
-        // Redirect
-        return redirect()->route('admin.kriteria-dokumen.kelola-target', ['indikator_kode' => $request->indikator_kode])
+        return redirect()->route('admin.kriteria-dokumen.kelola-target', ['importTitle' => $request->importTitle, 'indikator_kode' => $request->indikator_kode])
         ->with([
             'success' => 'Tipe Dokumen created successfully.',
         ]);    
@@ -221,24 +204,20 @@ class KriteriaDokumenController extends Controller
     {
         $dokumenTipes = DokumenTipe::all();
         
-        // Validate if indikator_kode exists
         $standarElemen = StandarElemenBanptS1::where('indikator_kode', $indikator_kode)->firstOrFail();
 
-        // Fetch StandarTarget data
         $standarTarget = StandarTarget::where('indikator_kode', $indikator_kode)->firstOrFail();
 
-        // Pass the data to the view
         return view('pages.admin.kriteria-dokumen.kelola-target.edit', [
             'indikator_kode' => $indikator_kode,
             'standarTarget' => $standarTarget,
             'standarElemen' => $standarElemen,
             'dokumenTipes' => $dokumenTipes,
-        ]);    }
+        ]);    
+    }
 
-    // Update method
     public function kelolaTargetUpdate(Request $request, $id)
     {
-        // Validate the request data
         $validated = $request->validate([
             'dokumen_nama' => 'required|string|max:255',
             'pertanyaan_nama' => 'required|string|max:255',
@@ -246,19 +225,16 @@ class KriteriaDokumenController extends Controller
             'dokumen_keterangan' => 'nullable|string',
         ]);
 
-        // Find the target by its ID
         $standarTarget = StandarTarget::findOrFail($id);
 
-        // Update the target with the validated data
         $standarTarget->update($validated);
 
-        // Redirect back with a success message
         return redirect()->route('admin.kriteria-dokumen.kelola-target', ['indikator_kode' => $request->indikator_kode])
         ->with([
             'success' => 'Tipe Dokumen created successfully.',
         ]);    
     }
-    // Destroy method
+
     public function kelolaTargetDestroy(Request $request, $id)
     {
         try {
@@ -278,13 +254,11 @@ class KriteriaDokumenController extends Controller
         $request->validate([
             'tipe_nama' => 'required|string|max:255',
             'indikator_kode' => 'required|string',
-            // Add other validations as necessary
         ]);
 
-        // Store logic
         $tipeDokumen = new DokumenTipe();
         $tipeDokumen->tipe_nama = $request->tipe_nama;
-        // Add other fields as necessary and save
+
         $tipeDokumen->save();
 
         return redirect()->route('admin.kriteria-dokumen.kelola-target.create', ['indikator_kode' => $request->indikator_kode])
@@ -295,20 +269,17 @@ class KriteriaDokumenController extends Controller
 
     public function tipeDokumenDestroy(Request $request)
     {
-        // Validate the request using 'id' as the field name for the document type ID
         $request->validate([
             'id' => 'required|integer|exists:dokumen_tipes,id',
         ]);
 
         try {
-            // Use the correct field name from the validated request to delete the record
             DokumenTipe::destroy($request->id);
         } catch (\Exception $e) {
             Log::error('Database deletion failed: ' . $e->getMessage());
             return back()->withErrors(['database' => 'Failed to delete data. Please try again.']);
         }
 
-        // Redirect back with a success message
         return back()->with('success', 'Document type successfully deleted!');
     }
 

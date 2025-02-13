@@ -31,39 +31,22 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Dai Rios</td>
-                <td>Personnel Lead</td>
-                <td>Edinburgh</td>
-                <td>
-                  <button type="button" class="btn btn-primary btn-icon-text">
-                    <i class="btn-icon-prepend" data-feather="trending-up"></i>
-                      Rekap Nilai
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>Jenette Caldwell</td>
-                <td>Development Lead</td>
-                <td>New York</td>
-                <td>
-                  <button type="button" class="btn btn-primary btn-icon-text">
-                    <i class="btn-icon-prepend" data-feather="trending-up"></i>
-                      Rekap Nilai
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>Yuri Berry</td>
-                <td>Chief Marketing Officer (CMO)</td>
-                <td>New York</td>
-                <td>
-                  <button type="button" class="btn btn-primary btn-icon-text">
-                    <i class="btn-icon-prepend" data-feather="trending-up"></i>
-                      Rekap Nilai
-                  </button>
-                </td>
-              </tr>
+              @foreach ($transaksi_ami as $transaksi_ami)
+                <tr>
+                  <td>{{ $transaksi_ami->formatted_created_at }}</td>
+                  <td>{{ $transaksi_ami->periode }}</td>
+                  <td>{{ $transaksi_ami->prodi }}</td>
+                  <td>
+                    <a href="{{ route('admin.forcasting.hasil-forcasting', [
+                      'periode' => urlencode($transaksi_ami->periode),
+                      'prodi' => $transaksi_ami->prodi
+                      ]) }}" class="btn btn-primary btn-icon-text">
+                      <i class="btn-icon-prepend" data-feather="trending-up"></i>
+                      Prediksi
+                    </a>
+                  </td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div>

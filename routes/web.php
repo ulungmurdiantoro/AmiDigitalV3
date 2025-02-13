@@ -50,23 +50,15 @@ Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::group(['prefix' => 'admin'], function(){
     Route::group(['middleware' => ['auth', 'admin']], function () {
+
         Route::resource('dashboard', DashboardAdminController::class)->names([
             'index' => 'admin.dashboard.index',
-            'create' => 'admin.dashboard.create',
-            'store' => 'admin.dashboard.store',
-            'show' => 'admin.dashboard.show',
-            'edit' => 'admin.dashboard.edit',
-            'update' => 'admin.dashboard.update',
-            'destroy' => 'admin.dashboard.destroy',
         ]);
+
+        Route::get('/aktivitas-prodi/{periode}/{prodi}/show-pengajuan', [AktivitasProdiController::class, 'showPengajuan'])->where('periode', '.*')->where('prodi', '.*')->name('auditor.aktivitas-prodi.show-pengajuan');
+
         Route::resource('aktivitas-prodi', AktivitasProdiController::class)->names([
             'index' => 'admin.aktivitas-prodi.index',
-            'create' => 'admin.aktivitas-prodi.create',
-            'store' => 'admin.aktivitas-prodi.store',
-            'show' => 'admin.aktivitas-prodi.show',
-            'edit' => 'admin.aktivitas-prodi.edit',
-            'update' => 'admin.aktivitas-prodi.update',
-            'destroy' => 'admin.aktivitas-prodi.destroy',
         ]);
         
         Route::resource('bantuan', BantuanController::class)->names([
@@ -88,10 +80,11 @@ Route::group(['prefix' => 'admin'], function(){
             'update' => 'admin.dokumen-spmi-ami.update',
             'destroy' => 'admin.dokumen-spmi-ami.destroy',
         ]);
-        
+
         Route::get('/kriteria-dokumen/import', [KriteriaDokumenController::class, 'import'])->name('admin.kriteria-dokumen.import');
-        Route::get('/kriteria-dokumen/{indikator_kode}/kelola-target', [KriteriaDokumenController::class, 'kelolaTarget'])->name('admin.kriteria-dokumen.kelola-target');
-        Route::get('/kriteria-dokumen/kelola-target/{indikator_kode}/create', [KriteriaDokumenController::class, 'kelolaTargetCreate'])->name('admin.kriteria-dokumen.kelola-target.create');
+        Route::get('/kriteria-dokumen/{importTitle}/{indikator_kode}/kelola-target', [KriteriaDokumenController::class, 'kelolaTarget'])->name('admin.kriteria-dokumen.kelola-target');
+        Route::get('/kriteria-dokumen/{importTitle}/{indikator_kode}/kelola-target/create', [KriteriaDokumenController::class, 'kelolaTargetCreate'])->name('admin.kriteria-dokumen.kelola-target.create');
+
         Route::post('/kriteria-dokumen/kelola-target/store', [KriteriaDokumenController::class, 'kelolaTargetStore'])->name('admin.kriteria-dokumen.kelola-target.store');
         Route::get('/kriteria-dokumen/kelola-target/{indikator_kode}/edit', [KriteriaDokumenController::class, 'kelolaTargetEdit'])->name('admin.kriteria-dokumen.kelola-target.edit');
         Route::put('/kriteria-dokumen/kelola-target/{id}/update', [KriteriaDokumenController::class, 'kelolaTargetUpdate'])->name('admin.kriteria-dokumen.kelola-target.update');
@@ -99,9 +92,11 @@ Route::group(['prefix' => 'admin'], function(){
         Route::post('/kriteria-dokumen/kelola-target/TipeDokumenStore', [KriteriaDokumenController::class, 'tipeDokumenStore'])->name('admin.kriteria-dokumen.kelola-target.tipedokumenstore');
         Route::delete('/kriteria-dokumen/kelola-target/TipeDokumenDestroy', [KriteriaDokumenController::class, 'tipeDokumenDestroy'])->name('admin.kriteria-dokumen.kelola-target.tipedokumendestroy');
 
+        Route::post('/kriteria-dokumen/storeImport', [KriteriaDokumenController::class, 'storeImport'])->name('admin.kriteria-dokumen.storeImport');
+        Route::get('/kriteria-dokumen/{degree}/create', [KriteriaDokumenController::class, 'create'])->name('kriteria-dokumen.create');
+
         Route::resource('kriteria-dokumen', KriteriaDokumenController::class)->names([
             'index' => 'admin.kriteria-dokumen.index',
-            'create' => 'admin.kriteria-dokumen.create',
             'store' => 'admin.kriteria-dokumen.store',
             'show' => 'admin.kriteria-dokumen.show',
             'edit' => 'admin.kriteria-dokumen.edit',
@@ -109,7 +104,9 @@ Route::group(['prefix' => 'admin'], function(){
             'destroy' => 'admin.kriteria-dokumen.destroy',
         ]);
 
-        Route::post('kriteria-dokumen/import', [KriteriaDokumenController::class, 'storeImport'])->name('admin.kriteria-dokumen.storeImport');
+        Route::get('/nilai-evaluasi-diri/{periode}/{prodi}/rekap-nilai', [NilaiEvaluasiDiriController::class, 'rekapNilai'])->where('periode', '.*')->where('prodi', '.*')->name('admin.nilai-evaluasi-diri.rekap-nilai');
+        Route::get('/nilai-evaluasi-diri/{periode}/{prodi}/rekap-nilai/report-lha', [NilaiEvaluasiDiriController::class, 'reportLha'])->where('periode', '.*')->where('prodi', '.*')->name('admin.nilai-evaluasi-diri.rekap-nilai.report-lha');
+        Route::get('/nilai-evaluasi-diri/{periode}/{prodi}/rekap-nilai/report-rtm', [NilaiEvaluasiDiriController::class, 'reportRtm'])->where('periode', '.*')->where('prodi', '.*')->name('admin.nilai-evaluasi-diri.rekap-nilai.report-rtm');
 
         Route::resource('nilai-evaluasi-diri', NilaiEvaluasiDiriController::class)->names([
             'index' => 'admin.nilai-evaluasi-diri.index',
@@ -177,37 +174,26 @@ Route::group(['prefix' => 'admin'], function(){
         Route::post('/program-studi/storejurusan', [ProgramStudiController::class, 'storejurusan'])->name('admin.program-studi.storejurusan');
         Route::post('/program-studi/storefakultas', [ProgramStudiController::class, 'storefakultas'])->name('admin.program-studi.storefakultas');
         
+        Route::get('/statistik-elemen/{periode}/{prodi}/chart-elemen', [StatistikElemenController::class, 'chartElemen'])->where('periode', '.*')->where('prodi', '.*')->name('admin.statistik-elemen.chart-elemen');
+
         Route::resource('statistik-elemen', StatistikElemenController::class)->names([
             'index' => 'admin.statistik-elemen.index',
-            'create' => 'admin.statistik-elemen.create',
-            'store' => 'admin.statistik-elemen.store',
-            'show' => 'admin.statistik-elemen.show',
-            'edit' => 'admin.statistik-elemen.edit',
-            'update' => 'admin.statistik-elemen.update',
-            'destroy' => 'admin.statistik-elemen.destroy',
         ]);
         
+        Route::get('/statistik-total/{periode}/{prodi}/chart-total', [StatistikTotalController::class, 'chartTotal'])->where('periode', '.*')->where('prodi', '.*')->name('admin.statistik-total.chart-total');
+
         Route::resource('statistik-total', StatistikTotalController::class)->names([
             'index' => 'admin.statistik-total.index',
-            'create' => 'admin.statistik-total.create',
-            'store' => 'admin.statistik-total.store',
-            'show' => 'admin.statistik-total.show',
-            'edit' => 'admin.statistik-total.edit',
-            'update' => 'admin.statistik-total.update',
-            'destroy' => 'admin.statistik-total.destroy',
         ]);
+
+        Route::get('/forcasting/{periode}/{prodi}/hasil-forcasting', [ForcastingController::class, 'hasilForcasting'])->where('periode', '.*')->where('prodi', '.*')->name('admin.forcasting.hasil-forcasting');
 
         Route::resource('forcasting', ForcastingController::class)->names([
             'index' => 'admin.forcasting.index',
-            'create' => 'admin.forcasting.create',
-            'store' => 'admin.forcasting.store',
-            'show' => 'admin.forcasting.show',
-            'edit' => 'admin.forcasting.edit',
-            'update' => 'admin.forcasting.update',
-            'destroy' => 'admin.forcasting.destroy',
         ]);
     });
 });
+
 Route::group(['prefix' => 'user'], function(){
     Route::group(['middleware' => ['auth', 'user']], function () {
         Route::resource('dashboard', DashboardUserController::class)->names([
@@ -293,6 +279,10 @@ Route::group(['prefix' => 'user'], function(){
             'destroy' => 'user.input-ami.destroy',
         ]);
 
+        Route::get('/koreksi-ami/{periode}/{prodi}/revisi-prodi', [KoreksiAmiUserController::class, 'revisiProdi'])->where('periode', '.*')->where('prodi', '.*')->name('user.koreksi-ami.revisi-prodi');
+        Route::post('/pengajuan-ami/input-ami/store', [KoreksiAmiUserController::class, 'inputAmiStore'])->where('periode', '.*')->where('prodi', '.*')->name('user.pengajuan-ami.input-ami.store');
+        Route::post('/pengajuan-ami/input-ami/update', [KoreksiAmiUserController::class, 'inputAmiUpdate'])->where('periode', '.*')->where('prodi', '.*')->name('user.pengajuan-ami.input-ami.update');
+    
         Route::resource('koreksi-ami', KoreksiAmiUserController::class)->names([
             'index' => 'user.koreksi-ami.index',
             'create' => 'user.koreksi-ami.create',
@@ -355,6 +345,7 @@ Route::group(['prefix' => 'user'], function(){
         
     });
 });
+
 Route::group(['prefix' => 'auditor'], function(){
     Route::group(['middleware' => ['auth', 'auditor']], function () {
         Route::resource('dashboard', DashboardAuditorController::class)->names([
@@ -401,17 +392,7 @@ Route::group(['prefix' => 'auditor'], function(){
             'destroy' => 'auditor.evaluasi-ami.destroy',
         ]);
 
-        Route::get('/input-ami/{indikator_kode}/nilai-ami', [InputAmiAuditorController::class, 'nilaiAmi'])->name('auditor.input-ami.nilai-ami');
-
-        Route::resource('input-ami', InputAmiAuditorController::class)->names([
-            'index' => 'auditor.input-ami.index',
-            'create' => 'auditor.input-ami.create',
-            'store' => 'auditor.input-ami.store',
-            'show' => 'auditor.input-ami.show',
-            'edit' => 'auditor.input-ami.edit',
-            'update' => 'auditor.input-ami.update',
-            'destroy' => 'auditor.input-ami.destroy',
-        ]);
+        Route::get('/koreksi-ami/{periode}/{prodi}/revisi-ami', [KoreksiAmiAuditorController::class, 'revisiAmi'])->where('periode', '.*')->where('prodi', '.*')->name('auditor.koreksi-ami.revisi-ami');
 
         Route::resource('koreksi-ami', KoreksiAmiAuditorController::class)->names([
             'index' => 'auditor.koreksi-ami.index',
@@ -485,4 +466,6 @@ Route::group(['prefix' => 'auditor'], function(){
     });
 });
 
+Route::get('preview', 'PDFController@preview');
+Route::get('download', 'PDFController@download')->name('download');
 

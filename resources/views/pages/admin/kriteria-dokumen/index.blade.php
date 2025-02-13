@@ -12,21 +12,36 @@
 </nav>
 
 <div class="row">
-  <div class="col-12 col-xl-12 stretch-card">
-    <div class="row flex-grow-1">
-      <!-- Your existing buttons for different categories -->
+  <div class="col-md-4 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">BAN-PT</h4>
+      </div>
+      <div class="card-body">
+        <div class="d-flex flex-wrap justify-content-around">
+          <a href="{{ route('admin.kriteria-dokumen.index', ['degree' => 'BAN-PT D3']) }}" class="btn btn-outline-primary my-3">D3</a>
+          <a href="{{ route('admin.kriteria-dokumen.index', ['degree' => 'BAN-PT S1']) }}" class="btn btn-outline-primary my-3">S1</a>
+          <a href="{{ route('admin.kriteria-dokumen.index', ['degree' => 'BAN-PT S2']) }}" class="btn btn-outline-primary my-3">S2</a>
+          <!-- Repeat for other degrees -->
+          
+          <button class="btn btn-outline-primary my-3" onclick="updateImportSection('BAN-PT S3')">S3</button>
+          <button class="btn btn-outline-primary my-3" onclick="updateImportSection('BAN-PT S1 Terapan')">S1 Terapan</button>
+          <button class="btn btn-outline-primary my-3" onclick="updateImportSection('BAN-PT S2 Terapan')">S2 Terapan</button>
+          <button class="btn btn-outline-primary my-3" onclick="updateImportSection('BAN-PT S3 Terapan')">S3 Terapan</button>
+        </div>
+      </div>
     </div>
   </div>
-</div> <!-- row -->
+</div>
 
-<div class="row">
+<div class="row mt-4">
   <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Import Data BAN-PT S1</h4>
+        <h4 class="card-title mb-0 import-title">{{ $degree }}</h4>
       </div>
       <div class="card-body d-flex justify-content-center align-items-center">
-        <a href="{{ url('/admin/kriteria-dokumen/create') }}" class="btn btn-success btn-lg btn-icon-text">
+        <a href="{{ url('/admin/kriteria-dokumen/'. $degree . '/create/') }}" class="btn btn-success btn-lg btn-icon-text">
           <i class="fas fa-file-import mr-2"></i> Import
         </a>
       </div>
@@ -35,20 +50,22 @@
 </div>
 
 @foreach ($nama_data_standar as $index => $nama)
-<div class="row">
-  <div class="col-md-12 grid-margin stretch-card">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center flex-wrap">
-          <div>
-            <p id="dataTitle{{ $index + 1 }}" class="mb-3"><b>{{ $nama }}</b></p>
-          </div>
+  <div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+      <div class="card" style="border-radius: 5px; overflow: hidden;">
+        <div class="card-header bg-primary text-white">
+          <h6 id="dataTitle{{ $index + 1 }}">{{ $nama }} - {{ $degree }}</h6>
         </div>
-        <x-admin.kriteria-dokumen-data-table id="dataTableExample{{ $index + 1 }}" :standards="$data_standar['data_standar_k' . ($index + 1)]" />
+        <div class="card-body">
+          <x-admin.kriteria-dokumen-data-table 
+            id="dataTableExample{{ $index + 1 }}" 
+            :standards="$data_standar['data_standar_k' . ($index + 1)]"
+            :showImportData="$index == 0"
+            importTitle="{{ $degree }}" />
+        </div>
       </div>
     </div>
   </div>
-</div>
 @endforeach
 
 <nav class="settings-sidebar">
@@ -59,18 +76,9 @@
     <h6 class="text-muted mb-2">Daftar Kriteria:</h6>
     <div class="mb-3 pb-3 border-bottom">
       <ul class="breadcrumb breadcrumb-dot">
-        <li class="breadcrumb-item"><a href="#dataTitle1">Kondisi Eksternal</a></li>
-        <li class="breadcrumb-item"><a href="#dataTitle2">Profil UPPS</a></li>
-        <li class="breadcrumb-item"><a href="#dataTitle3">Kriteria 1</a></li>
-        <li class="breadcrumb-item"><a href="#dataTitle4">Kriteria 2</a></li>
-        <li class="breadcrumb-item"><a href="#dataTitle5">Kriteria 3</a></li>
-        <li class="breadcrumb-item"><a href="#dataTitle6">Kriteria 4</a></li>
-        <li class="breadcrumb-item"><a href="#dataTitle7">Kriteria 5</a></li>
-        <li class="breadcrumb-item"><a href="#dataTitle8">Kriteria 6</a></li>
-        <li class="breadcrumb-item"><a href="#dataTitle9">Kriteria 7</a></li>
-        <li class="breadcrumb-item"><a href="#dataTitle10">Kriteria 8</a></li>
-        <li class="breadcrumb-item"><a href="#dataTitle11">Kriteria 9</a></li>
-        <li class="breadcrumb-item"><a href="#dataTitle12">Analisis dan Penetapan Program Pengembangan</a></li>
+        @foreach ($nama_data_standar as $index => $nama)
+          <li class="breadcrumb-item"><a href="#dataTitle{{ $index + 1 }}">{{ $nama }}</a></li>
+        @endforeach
       </ul>
     </div>
   </div>
@@ -85,10 +93,17 @@
 
 @push('custom-scripts')
 <script>
-  $(document).ready(function() {
-    $('#dataTableExample1, #dataTableExample2, #dataTableExample3, #dataTableExample4, #dataTableExample5, #dataTableExample6, #dataTableExample7, #dataTableExample8, #dataTableExample9, #dataTableExample10, #dataTableExample11, #dataTableExample12, #dataTableExample13, #dataTableExample14, #dataTableExample15, #dataTableExample16, #dataTableExample17, #dataTableExample18, #dataTableExample19, #dataTableExample20, #dataTableExample21, #dataTableExample22, #dataTableExample23, #dataTableExample24, #dataTableExample25, #dataTableExample26, #dataTableExample27, #dataTableExample28, #dataTableExample29, #dataTableExample30, #dataTableExample31, #dataTableExample32, #dataTableExample33, #dataTableExample34, #dataTableExample35, #dataTableExample36').DataTable();
-  });
+  function updateImportSection(degree) {
+    var importTitleElements = document.querySelectorAll('.import-title');
+    importTitleElements.forEach(function(element) {
+        element.textContent = 'Import Data ' + degree;
+    });
+  }
 
-  // Additional custom scripts for button functionality
+  $(document).ready(function() {
+    @foreach ($nama_data_standar as $index => $nama)
+      $('#dataTableExample{{ $index + 1 }}').DataTable();
+    @endforeach
+  });
 </script>
 @endpush

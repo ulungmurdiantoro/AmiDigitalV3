@@ -23,6 +23,7 @@ class UserController extends Controller
                 'user_nama' => Auth::user()->user_nama,
                 'user_jabatan' => Auth::user()->user_jabatan,
                 'user_penempatan' => Auth::user()->user_penempatan,
+                'user_akses' => Auth::user()->user_akses,
                 'user_fakultas' => Auth::user()->user_fakultas,
                 'user_akses' => Auth::user()->user_akses,
                 'user_level' => Auth::user()->user_level,

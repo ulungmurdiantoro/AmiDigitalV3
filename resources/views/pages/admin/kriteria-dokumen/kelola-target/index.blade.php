@@ -18,11 +18,11 @@
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
           <div>
-            <h4 class="mb-3 mb-md-0">Daftar Referensi Kebutuhan Dokumen {{ session('user_akses') }} {{ $indikator_kode }}</h4>
+            <h4 class="mb-3 mb-md-0">Daftar Referensi Kebutuhan Dokumen {{ session('user_akses') }} {{ $importTitle }} {{ $indikator_kode }}</h4>
             <p>{{ $standarElemen->elemen_nama . ' - ' . $standarElemen->indikator_nama }}</p>
           </div>
           <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <a href="{{ route('admin.kriteria-dokumen.kelola-target.create', $indikator_kode) }}" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
+            <a href="{{ route('admin.kriteria-dokumen.kelola-target.create', ['importTitle' => urlencode($importTitle), 'indikator_kode' => $indikator_kode]) }}" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
               <i class="btn-icon-prepend" data-feather="plus-circle"></i>
               Tambah Data
             </a>

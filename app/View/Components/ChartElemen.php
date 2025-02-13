@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class DataTable extends Component
+class ChartElemen extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class DataTable extends Component
      */
     public function render()
     {
-        return view('components.data-table');
+        return view('components.chart-elemen');
     }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auditor;
 
 use App\Http\Controllers\Controller;
 use App\Models\KategoriDokumen;
-use App\Models\transaksi_ami;
 use App\Models\StandarCapaian;
 use App\Models\StandarElemenBanptS1;
 use App\Models\StandarNilai;
@@ -21,7 +20,7 @@ class KonfirmasiPengajuanController extends Controller
 {
     public function index()
     {
-        $Pengajuan = transaksi_ami::when(request()->q, function($Pengajuan) {
+        $Pengajuan = TransaksiAmi::when(request()->q, function($Pengajuan) {
             $Pengajuan = $Pengajuan->where('status', 'like', '%'. request()->q . '%');
         })->latest()->paginate(10);
 
@@ -93,25 +92,10 @@ class KonfirmasiPengajuanController extends Controller
             ]);
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        
-    }
-
     public function show($id)
     {
-        $pengajuan = transaksi_ami::findOrFail($id);
+        $pengajuan = TransaksiAmi::findOrFail($id);
         return view('pages.auditor.konfirmasi-pengajuan.show', compact('pengajuan'));
-    }
-
-    public function edit($id)
-    {
-        //
     }
 
     public function update(Request $request, $id)
@@ -128,8 +112,4 @@ class KonfirmasiPengajuanController extends Controller
         return redirect()->back()->with('success', 'Pengajuan updated successfully.');
     }
 
-    public function destroy($id)
-    {
-        //
-    }
 }

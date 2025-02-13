@@ -48,8 +48,9 @@
             </div><!-- Col -->
             <div class="col-sm-6">
               <div class="mb-3">
-                <label for="indikator_kode" class="form-label">Jenjang</label>
-                <input id="indikator_kode" class="form-control" name="indikator_kode" type="text" value="{{ $indikator_kode }}" disabled>
+                <label for="importTitle" class="form-label">Jenjang</label>
+                <input id="importTitle" class="form-control" name="importTitle" type="text" value="{{ $importTitle }}" disabled>
+                <input type="hidden" name="importTitle" value="{{ $importTitle }}">
                 <input type="hidden" name="indikator_kode" value="{{ $indikator_kode }}">
               </div>
             </div><!-- Col -->

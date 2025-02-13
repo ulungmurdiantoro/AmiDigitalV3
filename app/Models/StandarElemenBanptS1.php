@@ -31,7 +31,7 @@ class StandarElemenBanptS1 extends Model
 
     public function standarNilaiS1()
     {
-        return $this->hasMany(StandarNilai::class, 'indikator_kode', 'indikator_kode');
+        return $this->hasOne(StandarNilai::class, 'indikator_kode', 'indikator_kode');
     }
 
 }

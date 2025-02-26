@@ -20,7 +20,7 @@ class KoreksiAmiUserController extends Controller
     {
         $prodi = Session::get('user_penempatan');
 
-        $data_kesiapan = StandarCapaian::with('standarCapaiansS1')
+        $data_kesiapan = StandarCapaian::with('standarCapaiansBanptS1')
             ->select('periode', 'prodi')
             ->where('prodi', $prodi)
             ->groupBy('periode', 'prodi')
@@ -52,9 +52,9 @@ class KoreksiAmiUserController extends Controller
         $data_standar = [];
         foreach ($standar_names as $index => $name) {
             $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with([
-                'standarTargetsS1', 
-                'standarCapaiansS1', 
-                'standarNilaiS1' => function ($query) use ($periode, $prodi) {
+                'standarTargetsBanptS1', 
+                'standarCapaiansBanptS1', 
+                'standarNilaisBanptS1' => function ($query) use ($periode, $prodi) {
                     $query->where('periode', $periode)
                             ->where('prodi', $prodi);
                             // ->where('jenis_temuan', '!=', 'Sesuai');
@@ -64,7 +64,7 @@ class KoreksiAmiUserController extends Controller
                 $query->where('elemen_nama', 'like', '%' . request()->q . '%');
             })
             ->where('standar_nama', $name)
-            ->whereDoesntHave('standarNilaiS1', function ($query) use ($periode, $prodi) {
+            ->whereDoesntHave('standarNilaisBanptS1', function ($query) use ($periode, $prodi) {
                 $query->where('periode', $periode)
                         ->where('prodi', $prodi)
                         ->where('jenis_temuan', 'Sesuai');

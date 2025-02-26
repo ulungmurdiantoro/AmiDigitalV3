@@ -24,24 +24,24 @@
             </td>
             <td>
               <a href="#" data-bs-toggle="modal" data-bs-target="#targetModal{{ $standard->id }}" class="btn btn-primary btn-icon">
-                {{ $standard->standarTargetsS1->count() }}<br>
+                {{ $standard->standarTargetsBanptS1->count() }}<br>
               </a>
             </td>
             <td>
               <a href="#" data-bs-toggle="modal" data-bs-target="#capaianModal{{ $standard->id }}" class="btn btn-warning btn-icon">
-                {{ $standard->standarCapaiansS1->count() }}<br>
+                {{ $standard->standarCapaiansBanptS1->count() }}<br>
               </a>
             </td>
             @if ($transkasis->status == 'Draft')
               <td>
-                {{ optional($standard->standarNilaiS1)->mandiri_nilai ?? 0 }}<br>
+                {{ optional($standard->standarNilaisBanptS1)->mandiri_nilai ?? 0 }}<br>
                   <a href="#" data-bs-toggle="modal" data-bs-target="#editModal{{ $standard->id }}">
                     [Edit]
                   </a>
               </td>
             @else
               <td class="text-center">
-                {{ optional($standard->standarNilaiS1)->mandiri_nilai ?? 0 }}
+                {{ optional($standard->standarNilaisBanptS1)->mandiri_nilai ?? 0 }}
               </td>
             @endif
           </tr>
@@ -78,7 +78,7 @@
                   <div class="mb-2">
                     <b>Indikator</b> : {{ $standard->indikator_nama }}
                   </div>
-                  @foreach ($standard->standarTargetsS1 as $target)
+                  @foreach ($standard->standarTargetsBanptS1 as $target)
                     <div>
                       {{ $loop->iteration }}. {{ $target->dokumen_nama }} - {{ $target->dokumen_tipe }} ({{ $target->dokumen_keterangan }})
                     </div>
@@ -103,7 +103,7 @@
                   <div class="mb-3">
                     <b>Indikator</b> : {{ $standard->indikator_nama }}
                   </div>
-                  @foreach ($standard->standarCapaiansS1 as $capaian)
+                  @foreach ($standard->standarCapaiansBanptS1 as $capaian)
                     <div>
                       {{ $loop->iteration }}. {{ $capaian->dokumen_nama }} - {{ $capaian->dokumen_tipe }} ({{ $capaian->dokumen_keterangan }})<br>
                       <a href="{{ $capaian->dokumen_file }}" target="_blank" class="btn btn-warning btn-icon" rel="noopener noreferrer">
@@ -143,7 +143,7 @@
                     <span>Indikator</span>:
                     <textarea name="indikator_namas" class="form-control mb-1" readonly>{{ $standard->indikator_nama }}</textarea>
                     <span>Nilai</span>:
-                    <input type="number" min="0" max="4" step="0.01" name="nilai_mandiris" class="form-control mb-1 w-50" value="{{ optional($standard->standarNilaiS1)->mandiri_nilai ?? 0 }}">
+                    <input type="number" min="0" max="4" step="0.01" name="nilai_mandiris" class="form-control mb-1 w-50" value="{{ optional($standard->standarNilaisBanptS1)->mandiri_nilai ?? 0 }}">
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

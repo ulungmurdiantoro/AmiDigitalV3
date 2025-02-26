@@ -10,6 +10,7 @@ use App\View\Components\User\DataTable\RevisiProdi;
 use App\View\Components\User\InputAmiDataTable;
 use App\View\Components\UserInputAmiDataTable;
 use App\View\Components\Admin\KriteriaDokumenDataTable;
+use App\View\Components\Admin\KriteriaDokumenLamdikDataTable;
 use App\View\Components\Admin\KriteriaDokumenModal;
 use App\View\Components\Auditor\DataTable\KonfirmasiPengajuan;
 use App\View\Components\Auditor\DataTable\AuditAmi;
@@ -61,7 +62,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(KriteriaDokumenDataTable::class, function ($app) {
-            return new KriteriaDokumenDataTable(request()->get('id'), request()->get('standards'), request()->get('showImportData'), request()->get('importTitle'));
+            return new KriteriaDokumenDataTable(request()->get('id'), request()->get('standards'), request()->get('showImportData'), request()->get('importTitle'), request()->get('standarTargetsRelations'));
+        });
+
+        $this->app->bind(KriteriaDokumenLamdikDataTable::class, function ($app) {
+            return new KriteriaDokumenLamdikDataTable(request()->get('id'), request()->get('standards'), request()->get('showImportData'), request()->get('importTitle'), request()->get('standarTargetsRelations'));
         });
         
         $this->app->bind(KriteriaDokumenModal::class, function ($app) {
@@ -90,6 +95,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Blade::component('admin.kriteria-dokumen-data-table', KriteriaDokumenDataTable::class);
+        Blade::component('admin.kriteria-dokumen-lamdik-data-table', KriteriaDokumenLamdikDataTable::class);
         Blade::component('admin.kriteria-dokumen-modal', KriteriaDokumenModal::class);
         Blade::component('user.data-table.input-ami', InputAmi::class);
         Blade::component('user.data-table.pemenuhan-dokumen', PemenuhanDokumen::class);

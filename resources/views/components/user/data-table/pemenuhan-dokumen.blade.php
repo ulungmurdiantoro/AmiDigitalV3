@@ -20,10 +20,10 @@
           <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
 
           <td class="text-center">
-              {{ $standard->standarTargetsS1->count() }}<br>
+              {{ $standard->standarTargetsBanptS1->count() }}<br>
           </td>
           <td class="text-center">
-              {{ $standard->standarCapaiansS1->count() }}<br>
+              {{ $standard->standarCapaiansBanptS1->count() }}<br>
           </td>
           <td>
             <a href="{{ route('user.pemenuhan-dokumen.input-capaian', $standard->indikator_kode) }}" class="btn btn-primary btn-icon" title="Manage Target">

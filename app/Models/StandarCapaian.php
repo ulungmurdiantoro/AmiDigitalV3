@@ -23,7 +23,7 @@ class StandarCapaian extends Model
         'prodi',
     ];
 
-    public function standarCapaiansS1()
+    public function standarCapaiansBanptS1()
     {
         return $this->belongsTo(StandarElemenBanptS1::class, 'indikator_kode', 'indikator_kode');
     }

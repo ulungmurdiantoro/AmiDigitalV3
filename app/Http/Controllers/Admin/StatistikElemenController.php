@@ -55,9 +55,9 @@ class StatistikElemenController extends Controller
 
         foreach ($standar_names as $index => $name) {
             $data = StandarElemenBanptS1::with([
-                'standarTargetsS1',
-                'standarCapaiansS1',
-                'standarNilaiS1' => function ($query) use ($periode, $prodi) {
+                'standarTargetsBanptS1',
+                'standarCapaiansBanptS1',
+                'standarNilaisBanptS1' => function ($query) use ($periode, $prodi) {
                     $query->where('periode', $periode)
                         ->where('prodi', $prodi);
                 }
@@ -75,7 +75,7 @@ class StatistikElemenController extends Controller
             $count = 0;
 
             foreach ($data as $item) {
-                $nilai = $item->standarNilaiS1; 
+                $nilai = $item->standarNilaisBanptS1; 
                 
                 if ($nilai && $nilai->hasil_nilai !== null) {
                     $totalScore += $nilai->hasil_nilai;
@@ -89,7 +89,7 @@ class StatistikElemenController extends Controller
             $nilai_data = [];
 
             foreach ($data as $item) {
-                $nilai = $item->standarNilaiS1;
+                $nilai = $item->standarNilaisBanptS1;
                 $nilai_data[] = $nilai && $nilai->hasil_nilai !== null ? $nilai->hasil_nilai : 0;
             }
 

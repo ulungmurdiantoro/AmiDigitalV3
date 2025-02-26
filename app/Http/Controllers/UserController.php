@@ -29,7 +29,6 @@ class UserController extends Controller
                 'user_level' => Auth::user()->user_level,
             ]);
 
-            // Redirect based on user role
             $role = Auth::user()->user_level;
             if ($role == 'admin') {
                 return redirect()->route('admin.dashboard.index');

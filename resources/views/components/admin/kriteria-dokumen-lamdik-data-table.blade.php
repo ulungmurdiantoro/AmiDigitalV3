@@ -4,7 +4,8 @@
       <tr>
         <th class="col-md-1 text-center">Kode</th>
         <th class="col-md-2">Elemen</th>
-        <th class="col-md-6">Indikator</th>
+        <th class="col-md-5">Indikator</th>
+        <th class="col-md-1">Kategori</th>
         <th class="col-md-1 text-center">Informasi</th>
         <th class="col-md-1 text-center">Kebutuhan Dokumen</th>
         <th class="col-md-1 text-center">Kelola Kebutuhan</th>
@@ -17,6 +18,7 @@
           <td class="text-center">{{ $standard->indikator_kode }}</td>
           <td>{{ $standard->elemen_nama }}</td>
           <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
+          <td>{{ $standard->kategori }}</td>
           <td class="text-center">
             <a href="#" data-bs-toggle="modal" data-bs-target="#infoModal{{ $standard->id }}" class="btn btn-warning btn-icon">
               <i data-feather="info"></i>

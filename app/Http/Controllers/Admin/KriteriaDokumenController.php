@@ -28,12 +28,12 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class KriteriaDokumenController extends Controller
-{
+{  
     public function index(Request $request)
     {
-        $degree = $request->get('degree', 'BAN-PT S1'); // Default to 'S1' if not specified
+        $degree = $request->get('degree', 'BAN-PT S1');
 
-        $standar_names = [
+        $standar_names_banpt = [
             'Kondisi Eksternal',
             'Profil Unit Pengelola Program Studi',
             '1. Visi, Misi, Tujuan dan Strategi',
@@ -48,37 +48,67 @@ class KriteriaDokumenController extends Controller
             'Analisis dan Penetapan Program Pengembangan'
         ];
 
-        switch ($degree) {
-            case 'D3':
-                $modelClass = \App\Models\StandarElemenBanptD3::class;
-                $standarTargetsRelation = 'standarTargetsD3';
-                $standarCapaiansRelation = 'standarCapaiansD3';
-                break;
-            case 'S1':
-                $modelClass = \App\Models\StandarElemenBanptS1::class;
-                $standarTargetsRelation = 'standarTargetsS1';
-                $standarCapaiansRelation = 'standarCapaiansS1';
-                break;
-            default:
-                $modelClass = \App\Models\StandarElemenBanptS1::class;
-                $standarTargetsRelation = 'standarTargetsS1';
-                $standarCapaiansRelation = 'standarCapaiansS1';
-        }
+        $standar_names_lamdik = [
+            'Visi Keilmuan',
+            'Tata Kelola',
+            'Mahasiswa',
+            'Dosen dan Tenaga Kependidikan',
+            'Keuangan, Sarana dan Prasarana Pendidikan',
+            'Pendidikan',
+            'Pengabdian Kepada Masyarakat',
+            'Penjaminan Mutu',
+        ];
+
+        $degreeMappings = [
+            'BAN-PT D3' => [
+                'modelClass' => StandarElemenBanptD3::class,
+                'standarTargetsRelation' => 'standarTargetsD3',
+                'standarCapaiansRelation' => 'standarCapaiansD3',
+                'standarNames' => $standar_names_banpt,
+            ],
+            'BAN-PT S1' => [
+                'modelClass' => StandarElemenBanptS1::class,
+                'standarTargetsRelation' => 'standarTargetsBanptS1',
+                'standarCapaiansRelation' => 'standarCapaiansBanptS1',
+                'standarNames' => $standar_names_banpt,
+            ],
+            'LAMDIK S1' => [
+                'modelClass' => StandarElemenLamdikS1::class,
+                'standarTargetsRelation' => 'standarTargetsLamdikS1',
+                'standarCapaiansRelation' => 'standarCapaiansLamdikS1',
+                'standarNames' => $standar_names_lamdik,
+            ],
+        ];
+
+        $degreeInfo = $degreeMappings[$degree] ?? $degreeMappings['BAN-PT S1'];
+
+        $modelClass = $degreeInfo['modelClass'];
+        $standarTargetsRelation = $degreeInfo['standarTargetsRelation'];
+        $standarCapaiansRelation = $degreeInfo['standarCapaiansRelation'];
+        $standarNames = $degreeInfo['standarNames'];
 
         $data_standar = [];
-        foreach ($standar_names as $index => $name) {
-            $data_standar['data_standar_k' . ($index + 1)] = $modelClass::with($standarTargetsRelation, $standarCapaiansRelation)
-                ->when($request->q, function ($query) use ($request) {
-                    $query->where('elemen_nama', 'like', '%' . $request->q . '%');
-                })
-                ->where('standar_nama', $name)
-                ->latest()
-                ->paginate(30)
-                ->appends(['q' => $request->q]);
-        }
+        foreach ($standarNames as $index => $name) {
+            $degree = trim($degree);
+            // dd($degree);
+            $data_standar['data_standar_k' . ($index + 1)] = $modelClass::with([
+                $standarTargetsRelation => function ($query) use ($degree) {
+                    $query->where('jenjang', $degree);
+                },
+                $standarCapaiansRelation,
+            ])
+            ->when($request->q, function ($query) use ($request) {
+                $query->where('elemen_nama', 'like', '%' . $request->q . '%');
+            })
+            ->where('standar_nama', $name)
+            ->latest()
+            ->paginate(30)
+            ->appends(['q' => $request->q]);
+        }        
 
         return view('pages.admin.kriteria-dokumen.index', [
-            'nama_data_standar' => $standar_names,
+            'nama_data_standar' => $standarNames,
+            'standarTargetsRelation' => $standarTargetsRelation,
             'data_standar' => $data_standar,
             'degree' => $degree
         ]);
@@ -86,7 +116,7 @@ class KriteriaDokumenController extends Controller
 
     public function create(Request $request)
     {
-        $degree = $request->degree; // Get the degree from the request
+        $degree = $request->degree; 
         return view('pages.admin.kriteria-dokumen.create', [
             'degree' => $degree
         ]);
@@ -104,10 +134,8 @@ class KriteriaDokumenController extends Controller
             'nama_dokumen' => 'required|mimes:csv,xls,xlsx'
         ]);
 
-        // Get the degree from the request
         $degree = $request->input('degree');
 
-        // Select the appropriate import class based on the degree
         switch ($degree) {
             case 'D3':
                 $importClass = new StandarBanptD3Import();
@@ -118,13 +146,11 @@ class KriteriaDokumenController extends Controller
             case 'S2':
                 $importClass = new StandarBanptS2Import();
                 break;
-            // Add other cases as needed
             default:
                 return redirect()->route('admin.kriteria-dokumen.index')->with('error', 'Invalid degree selected.');
         }
 
         try {
-            // Import data using the selected import class
             Excel::import($importClass, $request->file('nama_dokumen'));
 
             return redirect()->route('admin.kriteria-dokumen.index')->with('success', 'File imported successfully.');
@@ -136,14 +162,33 @@ class KriteriaDokumenController extends Controller
 
     public function kelolaTarget(Request $request, $importTitle, $indikator_kode)
     {
-        $importTitle = urldecode($importTitle); // Decode the importTitle
-    
-        $standarElemen = StandarElemenBanptS1::where('indikator_kode', $indikator_kode)->firstOrFail();
-    
-        $standarTarget = StandarTarget::where('indikator_kode', $indikator_kode)->when($request->q, function ($query, $q) {
-            $query->where('id', 'like', "%{$q}%");
-        })->latest()->paginate(10);
-    
+        $importTitle = urldecode($importTitle);
+
+        $degreeMappings = [
+            'BAN-PT D3' => [
+                'modelClass' => StandarElemenBanptD3::class,
+            ],
+            'BAN-PT S1' => [
+                'modelClass' => StandarElemenBanptS1::class,
+            ],
+            'LAMDIK S1' => [
+                'modelClass' => StandarElemenLamdikS1::class,
+            ],
+        ];
+
+        $degreeInfo = $degreeMappings[$importTitle] ?? $degreeMappings['BAN-PT S1'];
+        $modelClass = $degreeInfo['modelClass'];
+
+        $standarElemen = $modelClass::where('indikator_kode', $indikator_kode)->firstOrFail();
+
+        $standarTarget = StandarTarget::where('indikator_kode', $indikator_kode)
+            ->when($request->q, function ($query, $q) {
+                $query->where('id', 'like', "%{$q}%");
+            })
+            ->where('jenjang', $importTitle)
+            ->latest()
+            ->paginate(10);
+
         return view('pages.admin.kriteria-dokumen.kelola-target.index', [
             'indikator_kode' => $indikator_kode,
             'standarTarget' => $standarTarget,
@@ -151,7 +196,7 @@ class KriteriaDokumenController extends Controller
             'importTitle' => $importTitle,
         ]);
     }
-    
+
 
     public function kelolaTargetCreate($importTitle, $indikator_kode)
     {

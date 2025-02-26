@@ -24,16 +24,16 @@
             </td>
             <td>
               <a href="#" data-bs-toggle="modal" data-bs-target="#targetModal{{ $standard->id }}" class="btn btn-primary btn-icon">
-                {{ $standard->standarTargetsS1->count() }}<br>
+                {{ $standard->standarTargetsBanptS1->count() }}<br>
               </a>
             </td>
             <td>
               <a href="#" data-bs-toggle="modal" data-bs-target="#capaianModal{{ $standard->id }}" class="btn btn-warning btn-icon">
-                {{ $standard->standarCapaiansS1->count() }}<br>
+                {{ $standard->standarCapaiansBanptS1->count() }}<br>
               </a>
             </td>
             <td class="text-center">
-              {{ optional($standard->standarNilaiS1)->mandiri_nilai ?? 0 }}
+              {{ optional($standard->standarNilaisBanptS1)->mandiri_nilai ?? 0 }}
             </td>            
           </tr>
 
@@ -69,7 +69,7 @@
                   <div class="mb-2">
                     <b>Indikator</b> : {{ $standard->indikator_nama }}
                   </div>
-                  @foreach ($standard->standarTargetsS1 as $target)
+                  @foreach ($standard->standarTargetsBanptS1 as $target)
                     <div>
                       {{ $loop->iteration }}. {{ $target->dokumen_nama }} - {{ $target->dokumen_tipe }} ({{ $target->dokumen_keterangan }})
                     </div>
@@ -94,7 +94,7 @@
                   <div class="mb-3">
                     <b>Indikator</b> : {{ $standard->indikator_nama }}
                   </div>
-                  @foreach ($standard->standarCapaiansS1 as $capaian)
+                  @foreach ($standard->standarCapaiansBanptS1 as $capaian)
                     <div>
                       {{ $loop->iteration }}. {{ $capaian->dokumen_nama }} - {{ $capaian->dokumen_tipe }} ({{ $capaian->dokumen_keterangan }})<br>
                       <a href="{{ $capaian->dokumen_file }}" target="_blank" class="btn btn-warning btn-icon" rel="noopener noreferrer">

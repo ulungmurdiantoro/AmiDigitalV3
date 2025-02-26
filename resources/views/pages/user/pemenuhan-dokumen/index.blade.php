@@ -7,10 +7,10 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
   <div>
-    <h4 class="mb-3 mb-md-0">Pemenuhan Dokumen {{ session('user_akses') }} {{ session('user_penempatan') }}</h4>
+    <h4 class="mb-3 mb-md-0">Pemenuhan Dokumen {{ session('user_akses') }} {{ $degree }}</h4>
   </div>
 </div>
-
+{{-- @dd($degree) --}}
 @foreach ($nama_data_standar as $index => $nama)
   <div class="row">
     <div class="col-md-12 grid-margin stretch-card">

@@ -19,17 +19,17 @@ class StandarElemenBanptS1 extends Model
         'indikator_bobot',
     ];
 
-    public function standarTargetsS1()
+    public function standarTargetsBanptS1()
     {
         return $this->hasMany(StandarTarget::class, 'indikator_kode', 'indikator_kode');
     }
 
-    public function standarCapaiansS1()
+    public function standarCapaiansBanptS1()
     {
         return $this->hasMany(StandarCapaian::class, 'indikator_kode', 'indikator_kode');
     }
 
-    public function standarNilaiS1()
+    public function standarNilaisBanptS1()
     {
         return $this->hasOne(StandarNilai::class, 'indikator_kode', 'indikator_kode');
     }

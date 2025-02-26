@@ -207,7 +207,7 @@ $(function() {
 					dataLabels: {
 							enabled: false
 					},
-					series: [amiDiajukan, amiDiterima, amiKoreksi, amiSelesai],
+					series: [Diajukanami, Diterimaami, Koreksiami, Selesaiami],
 					labels: ['Diajukan', 'Diterima', 'Koreksi', 'Selesai']
 			};
 

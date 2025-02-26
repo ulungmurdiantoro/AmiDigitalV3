@@ -12,26 +12,36 @@
 </nav>
 
 <div class="row">
-  <div class="col-md-4 grid-margin stretch-card">
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title mb-0">BAN-PT</h4>
-      </div>
-      <div class="card-body">
-        <div class="d-flex flex-wrap justify-content-around">
-          <a href="{{ route('admin.kriteria-dokumen.index', ['degree' => 'BAN-PT D3']) }}" class="btn btn-outline-primary my-3">D3</a>
-          <a href="{{ route('admin.kriteria-dokumen.index', ['degree' => 'BAN-PT S1']) }}" class="btn btn-outline-primary my-3">S1</a>
-          <a href="{{ route('admin.kriteria-dokumen.index', ['degree' => 'BAN-PT S2']) }}" class="btn btn-outline-primary my-3">S2</a>
-          <!-- Repeat for other degrees -->
-          
-          <button class="btn btn-outline-primary my-3" onclick="updateImportSection('BAN-PT S3')">S3</button>
-          <button class="btn btn-outline-primary my-3" onclick="updateImportSection('BAN-PT S1 Terapan')">S1 Terapan</button>
-          <button class="btn btn-outline-primary my-3" onclick="updateImportSection('BAN-PT S2 Terapan')">S2 Terapan</button>
-          <button class="btn btn-outline-primary my-3" onclick="updateImportSection('BAN-PT S3 Terapan')">S3 Terapan</button>
+  @php
+    $degrees = [
+      'D3',
+      'S1',
+      'S2',
+      'S3',
+      'S1 Terapan',
+      'S2 Terapan',
+      'S3 Terapan'
+    ];
+
+    $institutions = ['BAN-PT', 'LAMDIK'];
+  @endphp
+
+  @foreach($institutions as $institution)
+    <div class="col-md-4 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title mb-0">{{ $institution }}</h4>
+        </div>
+        <div class="card-body">
+          <div class="d-flex flex-wrap justify-content-around">
+            @foreach($degrees as $deg)
+              <a href="{{ route('admin.kriteria-dokumen.index', ['degree' => $institution . ' ' . $deg]) }}" class="btn btn-outline-primary my-3">{{ $deg }}</a>
+            @endforeach
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  @endforeach
 </div>
 
 <div class="row mt-4">
@@ -57,11 +67,23 @@
           <h6 id="dataTitle{{ $index + 1 }}">{{ $nama }} - {{ $degree }}</h6>
         </div>
         <div class="card-body">
-          <x-admin.kriteria-dokumen-data-table 
-            id="dataTableExample{{ $index + 1 }}" 
-            :standards="$data_standar['data_standar_k' . ($index + 1)]"
-            :showImportData="$index == 0"
-            importTitle="{{ $degree }}" />
+          @if (strpos($degree, 'LAMDIK') !== false)
+            <x-admin.kriteria-dokumen-lamdik-data-table 
+              id="dataTableExample{{ $index + 1 }}" 
+              :standards="$data_standar['data_standar_k' . ($index + 1)]"
+              :showImportData="$index == 0"
+              importTitle="{{ $degree }}"
+              :standarTargetsRelations="$standarTargetsRelation"
+            />
+          @else
+            <x-admin.kriteria-dokumen-data-table 
+              id="dataTableExample{{ $index + 1 }}" 
+              :standards="$data_standar['data_standar_k' . ($index + 1)]"
+              :showImportData="$index == 0"
+              importTitle="{{ $degree }}"
+              :standarTargetsRelations="$standarTargetsRelation"
+            />
+          @endif
         </div>
       </div>
     </div>
@@ -93,13 +115,6 @@
 
 @push('custom-scripts')
 <script>
-  function updateImportSection(degree) {
-    var importTitleElements = document.querySelectorAll('.import-title');
-    importTitleElements.forEach(function(element) {
-        element.textContent = 'Import Data ' + degree;
-    });
-  }
-
   $(document).ready(function() {
     @foreach ($nama_data_standar as $index => $nama)
       $('#dataTableExample{{ $index + 1 }}').DataTable();

@@ -14,7 +14,7 @@
     </thead>
     <tbody>
         @foreach ($standards as $standard)
-        {{-- @dd($standard->standarNilaiS1) --}}
+        {{-- @dd($standard->standarNilaisBanptS1) --}}
           <tr>
             <td class="text-center">{{ $standard->indikator_kode }}</td>
             <td>{{ $standard->elemen_nama }}</td>
@@ -26,16 +26,16 @@
             </td>
             <td>
               <a href="#" data-bs-toggle="modal" data-bs-target="#targetModal{{ $standard->id }}" class="btn btn-primary btn-icon">
-                {{ $standard->standarTargetsS1->count() }}<br>
+                {{ $standard->standarTargetsBanptS1->count() }}<br>
               </a>
             </td>
             <td>
               <a href="#" data-bs-toggle="modal" data-bs-target="#capaianModal{{ $standard->id }}" class="btn btn-warning btn-icon">
-                {{ $standard->standarCapaiansS1->count() }}<br>
+                {{ $standard->standarCapaiansBanptS1->count() }}<br>
               </a>
             </td>
             <td>
-              {{ optional($standard->standarNilaiS1)->hasil_nilai ?? 0 }}
+              {{ optional($standard->standarNilaisBanptS1)->hasil_nilai ?? 0 }}
             </td>
             <td>
               <a href="#" data-bs-toggle="modal" data-bs-target="#nilaiModal{{ $standard->id }}" class="btn btn-info btn-icon">
@@ -74,7 +74,7 @@
                   <div class="mb-2">
                     <b>Indikator</b> : {{ $standard->indikator_nama }}
                   </div>
-                  @foreach ($standard->standarTargetsS1 as $target)
+                  @foreach ($standard->standarTargetsBanptS1 as $target)
                     <div>
                       {{ $loop->iteration }}. {{ $target->dokumen_nama }} - {{ $target->dokumen_tipe }} ({{ $target->dokumen_keterangan }})
                     </div>
@@ -98,7 +98,7 @@
                   <div class="mb-3">
                     <b>Indikator</b> : {{ $standard->indikator_nama }}
                   </div>
-                  @foreach ($standard->standarCapaiansS1 as $capaian)
+                  @foreach ($standard->standarCapaiansBanptS1 as $capaian)
                     <div>
                       {{ $loop->iteration }}. {{ $capaian->dokumen_nama }} - {{ $capaian->dokumen_tipe }} ({{ $capaian->dokumen_keterangan }})<br>
                       <a href="{{ $capaian->dokumen_file }}" target="_blank" class="btn btn-warning btn-icon" rel="noopener noreferrer">
@@ -135,12 +135,12 @@
                     <input type="hidden" name="periodes" value="{{ $periodes }}">
                     <div class="mb-3">
                       <label for="hasil_nilais" class="form-label">Verifikasi Nilai Auditor</label>
-                      <input type="number" min="0" max="4" step="0.01" name="hasil_nilais" class="form-control w-50" value="{{ optional($standard->standarNilaiS1)->hasil_nilai ?? 0 }}">
+                      <input type="number" min="0" max="4" step="0.01" name="hasil_nilais" class="form-control w-50" value="{{ optional($standard->standarNilaisBanptS1)->hasil_nilai ?? 0 }}">
                     </div>
                     <div class="mb-3">
                       <label for="status_akhirs" class="form-label">Status Akhir</label>
                       <select name="status_akhirs" class="form-control w-50" required>
-                        <option value="{{ optional($standard->standarNilaiS1)->status_akhir }}">{{ optional($standard->standarNilaiS1)->status_akhir }}</option>
+                        <option value="{{ optional($standard->standarNilaisBanptS1)->status_akhir }}">{{ optional($standard->standarNilaisBanptS1)->status_akhir }}</option>
                         <option value="Belum ditindaklanjuti">Belum ditindaklanjuti</option>
                         <option value="Proses ditindaklanjuti">Proses ditindaklanjuti</option>
                         <option value="Sudah ditindaklanjuti">Sudah ditindaklanjuti</option>
@@ -164,51 +164,51 @@
                     </div>
                     <div class="row mb-2">
                       <div class="col-3 fw-bold">Nilai Mandiri:</div>
-                      <div class="col-9">{{ optional($standard->standarNilaiS1)->mandiri_nilai }}</div>
+                      <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->mandiri_nilai }}</div>
                     </div>
                     <div class="row mb-2">
                       <div class="col-3 fw-bold">Jenis Temuan:</div>
-                      <div class="col-9">{{ optional($standard->standarNilaiS1)->jenis_temuan }}</div>
+                      <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->jenis_temuan }}</div>
                     </div>
                     <div class="row mb-2">
                       <div class="col-3 fw-bold">Deskripsi Temuan:</div>
-                      <div class="col-9">{{ optional($standard->standarNilaiS1)->hasil_deskripsi }}</div>
+                      <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->hasil_deskripsi }}</div>
                     </div>
                     <div class="row mb-2">
                       <div class="col-3 fw-bold">Kriteria:</div>
-                      <div class="col-9">{{ optional($standard->standarNilaiS1)->hasil_kriteria }}</div>
+                      <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->hasil_kriteria }}</div>
                     </div>
                     <div class="row mb-2">
                       <div class="col-3 fw-bold">Akibat:</div>
-                      <div class="col-9">{{ optional($standard->standarNilaiS1)->hasil_akibat }}</div>
+                      <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->hasil_akibat }}</div>
                     </div>
                     <div class="row mb-2">
                       <div class="col-3 fw-bold">Akar Masalah:</div>
-                      <div class="col-9">{{ optional($standard->standarNilaiS1)->hasil_masalah }}</div>
+                      <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->hasil_masalah }}</div>
                     </div>
                     <div class="row mb-2">
                       <div class="col-3 fw-bold">Rekomendasi:</div>
-                      <div class="col-9">{{ optional($standard->standarNilaiS1)->hasil_rekomendasi }}</div>
+                      <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->hasil_rekomendasi }}</div>
                     </div>
                     <div class="row mb-2">
                       <div class="col-3 fw-bold">Rencana Perbaikan:</div>
-                      <div class="col-9">{{ optional($standard->standarNilaiS1)->hasil_rencana_perbaikan }}</div>
+                      <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->hasil_rencana_perbaikan }}</div>
                     </div>
                     <div class="row mb-2">
                       <div class="col-3 fw-bold">Jadwal Perbaikan:</div>
-                      <div class="col-3">{{ optional($standard->standarNilaiS1)->hasil_jadwal_perbaikan }}</div>
+                      <div class="col-3">{{ optional($standard->standarNilaisBanptS1)->hasil_jadwal_perbaikan }}</div>
                       <div class="col-3 fw-bold">Penanggung Jawab:</div>
-                      <div class="col-3">{{ optional($standard->standarNilaiS1)->hasil_perbaikan_penanggung }}</div>
+                      <div class="col-3">{{ optional($standard->standarNilaisBanptS1)->hasil_perbaikan_penanggung }}</div>
                     </div>
                     <div class="row mb-2">
                       <div class="col-3 fw-bold">Rencana Pencegahan:</div>
-                      <div class="col-9">{{ optional($standard->standarNilaiS1)->hasil_rencana_pencegahan }}</div>
+                      <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->hasil_rencana_pencegahan }}</div>
                     </div>
                     <div class="row mb-2">
                       <div class="col-3 fw-bold">Jadwal Pencegahan:</div>
-                      <div class="col-3">{{ optional($standard->standarNilaiS1)->hasil_jadwal_pencegahan }}</div>
+                      <div class="col-3">{{ optional($standard->standarNilaisBanptS1)->hasil_jadwal_pencegahan }}</div>
                       <div class="col-3 fw-bold">Penanggung Jawab:</div>
-                      <div class="col-3">{{ optional($standard->standarNilaiS1)->hasil_rencana_penanggung }}</div>
+                      <div class="col-3">{{ optional($standard->standarNilaisBanptS1)->hasil_rencana_penanggung }}</div>
                     </div>
                   </div>
                 </div>

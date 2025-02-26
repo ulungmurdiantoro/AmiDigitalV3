@@ -52,7 +52,7 @@ class NilaiEvaluasiDiriController extends Controller
         
         $data_standar = [];
         foreach ($standar_names as $index => $name) {
-            $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with(['standarTargetsS1', 'standarCapaiansS1', 'standarNilaiS1' => function ($query) use ($periode, $prodi) {
+            $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with(['standarTargetsBanptS1', 'standarCapaiansBanptS1', 'standarNilaisBanptS1' => function ($query) use ($periode, $prodi) {
                 $query->where('periode', $periode)
                         ->where('prodi', $prodi);
             }])
@@ -108,9 +108,9 @@ class NilaiEvaluasiDiriController extends Controller
 
         foreach ($standar_names as $index => $name) {
             $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with([
-                'standarTargetsS1',
-                'standarCapaiansS1',
-                'standarNilaiS1' => function ($query) use ($periode, $prodi) {
+                'standarTargetsBanptS1',
+                'standarCapaiansBanptS1',
+                'standarNilaisBanptS1' => function ($query) use ($periode, $prodi) {
                     $query->where('periode', $periode)
                         ->where('prodi', $prodi);
                 }
@@ -194,9 +194,9 @@ class NilaiEvaluasiDiriController extends Controller
         foreach ($standar_names as $index => $name) {
             // Current period data
             $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with([
-                'standarTargetsS1',
-                'standarCapaiansS1',
-                'standarNilaiS1' => function ($query) use ($periode, $prodi) {
+                'standarTargetsBanptS1',
+                'standarCapaiansBanptS1',
+                'standarNilaisBanptS1' => function ($query) use ($periode, $prodi) {
                     $query->where('periode', $periode)
                         ->where('prodi', $prodi);
                 }
@@ -207,9 +207,9 @@ class NilaiEvaluasiDiriController extends Controller
             
             // Previous period data
             $previous_data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with([
-                'standarTargetsS1',
-                'standarCapaiansS1',
-                'standarNilaiS1' => function ($query) use ($previousPeriode, $prodi) {
+                'standarTargetsBanptS1',
+                'standarCapaiansBanptS1',
+                'standarNilaisBanptS1' => function ($query) use ($previousPeriode, $prodi) {
                     $query->where('periode', $previousPeriode)
                         ->where('prodi', $prodi);
                 }

@@ -19,7 +19,7 @@ class DokumenAktifUserController extends Controller
      */
     public function index()
     {
-        $DokumenSpmiAmis = StandarCapaian::with('standarCapaiansS1')
+        $DokumenSpmiAmis = StandarCapaian::with('standarCapaiansBanptS1')
             ->when(request()->q, function($query) {
                 $query->where('nama_dokumen', 'like', '%' . request()->q . '%');
             })

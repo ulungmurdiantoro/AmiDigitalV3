@@ -17,7 +17,7 @@ class EvaluasiAmiAuditorController extends Controller
 {
     public function index()
     {
-        $data_kesiapan = StandarCapaian::with('standarCapaiansS1')
+        $data_kesiapan = StandarCapaian::with('standarCapaiansBanptS1')
             ->select('periode', 'prodi')
             ->groupBy('periode', 'prodi')
             ->latest()
@@ -47,7 +47,7 @@ class EvaluasiAmiAuditorController extends Controller
         
         $data_standar = [];
         foreach ($standar_names as $index => $name) {
-            $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with(['standarTargetsS1', 'standarCapaiansS1', 'standarNilaiS1' => function ($query) use ($periode, $prodi) {
+            $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with(['standarTargetsBanptS1', 'standarCapaiansBanptS1', 'standarNilaisBanptS1' => function ($query) use ($periode, $prodi) {
                 $query->where('periode', $periode)
                         ->where('prodi', $prodi);
             }])
@@ -111,7 +111,7 @@ class EvaluasiAmiAuditorController extends Controller
         $standard = StandarNilai::where('indikator_kode', $request->indikator_kodes)->first();
 
         if ($transkasi && $standard) {
-            $standard->standarNilaiS1()->where('id', $standard->id)->update([
+            $standard->standarNilaisBanptS1()->where('id', $standard->id)->update([
                 'hasil_nilai' => $request->hasil_nilais,
                 'hasil_kriteria' => $request->hasil_kriterias,
                 'hasil_deskripsi' => $request->hasil_deskripsis,

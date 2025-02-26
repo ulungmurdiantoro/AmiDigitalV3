@@ -41,8 +41,8 @@
               @foreach ($DokumenSpmiAmis as $DokumenSpmiAmi)
                 <tr>
                   <td>{{ $DokumenSpmiAmi->periode }}</td>
-                  <td>{{ $DokumenSpmiAmi->standarCapaiansS1->elemen_nama }}</td>
-                  <td>{!! nl2br(e($DokumenSpmiAmi->standarCapaiansS1->indikator_nama)) !!}</td>
+                  <td>{{ $DokumenSpmiAmi->standarCapaiansBanptS1->elemen_nama }}</td>
+                  <td>{!! nl2br(e($DokumenSpmiAmi->standarCapaiansBanptS1->indikator_nama)) !!}</td>
                   <td>{{ $DokumenSpmiAmi->dokumen_nama }}</td>
                   <td>{{ $DokumenSpmiAmi->dokumen_tipe }}</td>
                   <td>{{ $DokumenSpmiAmi->dokumen_keterangan }}</td>

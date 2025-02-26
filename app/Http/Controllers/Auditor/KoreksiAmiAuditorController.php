@@ -17,7 +17,7 @@ class KoreksiAmiAuditorController extends Controller
 {
     public function index()
     {
-        $data_kesiapan = StandarCapaian::with('standarCapaiansS1')
+        $data_kesiapan = StandarCapaian::with('standarCapaiansBanptS1')
             ->select('periode', 'prodi')
             ->groupBy('periode', 'prodi')
             ->latest()
@@ -49,9 +49,9 @@ class KoreksiAmiAuditorController extends Controller
         $data_standar = [];
         foreach ($standar_names as $index => $name) {
             $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with([
-                'standarTargetsS1', 
-                'standarCapaiansS1', 
-                'standarNilaiS1' => function ($query) use ($periode, $prodi) {
+                'standarTargetsBanptS1', 
+                'standarCapaiansBanptS1', 
+                'standarNilaisBanptS1' => function ($query) use ($periode, $prodi) {
                     $query->where('periode', $periode)
                             ->where('prodi', $prodi);
                             // ->where('jenis_temuan', '!=', 'Sesuai');
@@ -61,7 +61,7 @@ class KoreksiAmiAuditorController extends Controller
                 $query->where('elemen_nama', 'like', '%' . request()->q . '%');
             })
             ->where('standar_nama', $name)
-            ->whereDoesntHave('standarNilaiS1', function ($query) use ($periode, $prodi) {
+            ->whereDoesntHave('standarNilaisBanptS1', function ($query) use ($periode, $prodi) {
                 $query->where('periode', $periode)
                         ->where('prodi', $prodi)
                         ->where('jenis_temuan', 'Sesuai');

@@ -35,7 +35,7 @@ class StatistikTotalController extends Controller
     public function chartTotal(Request $request, $periode, $prodi)
     {
         $data_standar = StandarElemenBanptS1::with([
-            'standarNilaiS1' => function ($query) use ($periode, $prodi) {
+            'standarNilaisBanptS1' => function ($query) use ($periode, $prodi) {
                 $query->select('id', 'indikator_kode', 'hasil_nilai')
                     ->where('periode', $periode)
                     ->where('prodi', $prodi);
@@ -58,9 +58,9 @@ class StatistikTotalController extends Controller
         foreach ($data_standar as $standar) {
             $categories[] = $standar->indikator_kode;
 
-            if ($standar->standarNilaiS1 && $standar->standarNilaiS1->count() > 0) {
-                // Find the first matching standarNilaiS1 for the same indikator_kode
-                $matchingNilai = $standar->standarNilaiS1->firstWhere('indikator_kode', $standar->indikator_kode);
+            if ($standar->standarNilaisBanptS1 && $standar->standarNilaisBanptS1->count() > 0) {
+                // Find the first matching standarNilaisBanptS1 for the same indikator_kode
+                $matchingNilai = $standar->standarNilaisBanptS1->firstWhere('indikator_kode', $standar->indikator_kode);
                 if ($matchingNilai) {
                     $averages[] = $matchingNilai->hasil_nilai;
                 } else {

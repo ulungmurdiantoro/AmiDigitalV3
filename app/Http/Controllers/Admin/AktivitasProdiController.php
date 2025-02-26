@@ -64,7 +64,7 @@ class AktivitasProdiController extends Controller
         
         $data_standar = [];
         foreach ($standar_names as $index => $name) {
-            $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with(['standarTargetsS1', 'standarCapaiansS1', 'standarNilaiS1' => function ($query) use ($periode, $prodi) {
+            $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with(['standarTargetsBanptS1', 'standarCapaiansBanptS1', 'standarNilaisBanptS1' => function ($query) use ($periode, $prodi) {
                 $query->where('periode', $periode)
                         ->where('prodi', $prodi);
             }])

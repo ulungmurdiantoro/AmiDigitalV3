@@ -114,10 +114,10 @@
   var prodiS3T = @json($prodiS3T);
   var prodiPPG = @json($prodiPPG);
 
-  var amiDiajukan = @json($amiDiajukan);
-  var amiDiterima = @json($amiDiterima);
-  var amiKoreksi = @json($amiKoreksi);
-  var amiSelesai = @json($amiSelesai);
+  var Diajukanami = @json($Diajukanami);
+  var Diterimaami = @json($Diterimaami);
+  var Koreksiami = @json($Koreksiami);
+  var Selesaiami = @json($Selesaiami);
 
   var amiSelesai = {
     'amiD3Diajukan': @json($amiD3Diajukan),

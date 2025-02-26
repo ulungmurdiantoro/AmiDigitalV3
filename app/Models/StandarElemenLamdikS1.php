@@ -19,8 +19,18 @@ class StandarElemenLamdikS1 extends Model
         'indikator_bobot',
     ];
 
-    public function standarTargets()
+    public function standarTargetsLamdikS1()
     {
         return $this->hasMany(StandarTarget::class, 'indikator_kode', 'indikator_kode');
+    }
+
+    public function standarCapaiansLamdikS1()
+    {
+        return $this->hasMany(StandarCapaian::class, 'indikator_kode', 'indikator_kode');
+    }
+
+    public function standarNilaisLamdikS1()
+    {
+        return $this->hasOne(StandarNilai::class, 'indikator_kode', 'indikator_kode');
     }
 }

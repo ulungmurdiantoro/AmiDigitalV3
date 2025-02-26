@@ -40,10 +40,10 @@ class DashboardAdminController extends Controller
         $prodiS3T = ProgramStudi::where('prodi_jenjang', 'S3 Terapan')->latest()->count();
         $prodiPPG = ProgramStudi::where('prodi_jenjang', 'PPG')->latest()->count();
 
-        $amiDiajukan = TransaksiAmi::where('status', 'Diajukan')->where('periode', $periode)->latest()->count();
-        $amiDiterima = TransaksiAmi::where('status', 'Diterima')->where('periode', $periode)->latest()->count();
-        $amiKoreksi = TransaksiAmi::where('status', 'Koreksi')->where('periode', $periode)->latest()->count();
-        $amiSelesai = TransaksiAmi::where('status', 'Selesai')->where('periode', $periode)->latest()->count();
+        $Diajukanami = TransaksiAmi::where('status', 'Diajukan')->where('periode', $periode)->latest()->count();
+        $Diterimaami = TransaksiAmi::where('status', 'Diterima')->where('periode', $periode)->latest()->count();
+        $Koreksiami = TransaksiAmi::where('status', 'Koreksi')->where('periode', $periode)->latest()->count();
+        $Selesaiami = TransaksiAmi::where('status', 'Selesai')->where('periode', $periode)->latest()->count();
         
         $amiD3Diajukan = TransaksiAmi::where('status', 'Diajukan')->where('periode', $periode)->where('prodi', 'like', 'D3 -%')->latest()->count();
         $amiS1Diajukan = TransaksiAmi::where('status', 'Diajukan')->where('periode', $periode)->where('prodi', 'like', 'S1 -%')->latest()->count();
@@ -95,10 +95,10 @@ class DashboardAdminController extends Controller
             'prodiS2T' => $prodiS2T,
             'prodiS3T' => $prodiS3T,
             'prodiPPG' => $prodiPPG,
-            'amiDiajukan' => $amiDiajukan,
-            'amiDiterima' => $amiDiterima,
-            'amiKoreksi' => $amiKoreksi,
-            'amiSelesai' => $amiSelesai,
+            'Diajukanami' => $Diajukanami,
+            'Diterimaami' => $Diterimaami,
+            'Koreksiami' => $Koreksiami,
+            'Selesaiami' => $Selesaiami,
             'amiD3Diajukan' => $amiD3Diajukan,
             'amiS1Diajukan' =>$amiS1Diajukan,
             'amiS2Diajukan' =>$amiS2Diajukan,

@@ -34,4 +34,10 @@ class StandarElemenBanptS1 extends Model
         return $this->hasOne(StandarNilai::class, 'indikator_kode', 'indikator_kode');
     }
 
+    public function standarNilaisNotSesuaiBanptS1()
+    {
+        return $this->hasOne(StandarNilai::class, 'indikator_kode', 'indikator_kode')
+                    ->where('jenis_temuan', '!=', 'Sesuai');
+    }
+
 }

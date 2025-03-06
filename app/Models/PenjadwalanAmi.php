@@ -30,6 +30,10 @@ class PenjadwalanAmi extends Model
     public function user() { 
         return $this->hasOneThrough(User::class, AuditorAmi::class, 'auditor_kode', 'users_code', 'auditor_kode', 'users_kode'); 
     }
+    
+    public function users() { 
+        return $this->hasMany(User::class, 'users_code', 'users_code'); 
+    }
 
     public function auditor_ami() { 
         return $this->hasMany(AuditorAmi::class, 'auditor_kode', 'auditor_kode'); 

@@ -11,8 +11,11 @@ class InputAmi extends Component
     public $transkasis;
     public $prodis;
     public $periodes;
+    public $standarTargetsRelations;
+    public $standarCapaiansRelations;
+    public $standarNilaisRelations;
 
-    public function __construct(string $id, $standards, $transkasis, $prodis, $periodes)
+    public function __construct(string $id, $standards, $transkasis, $prodis, $periodes, $standarTargetsRelations, $standarCapaiansRelations, $standarNilaisRelations)
     {
         // dd($id, $standards);
         $this->id = $id;
@@ -20,6 +23,9 @@ class InputAmi extends Component
         $this->transkasis = $transkasis;
         $this->prodis = $prodis;
         $this->periodes = $periodes;
+        $this->standarTargetsRelations = $standarTargetsRelations;
+        $this->standarCapaiansRelations = $standarCapaiansRelations;
+        $this->standarNilaisRelations = $standarNilaisRelations;
     }
     
     public function render()

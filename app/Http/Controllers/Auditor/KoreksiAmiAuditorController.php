@@ -7,6 +7,8 @@ use App\Models\StandarCapaian;
 use App\Models\StandarElemenBanptS1;
 use App\Models\StandarNilai;
 use App\Models\PenjadwalanAmi;
+use App\Models\StandarElemenBanptD3;
+use App\Models\StandarElemenLamdikS1;
 use App\Models\TransaksiAmi;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -17,11 +19,12 @@ class KoreksiAmiAuditorController extends Controller
 {
     public function index()
     {
-        $data_kesiapan = StandarCapaian::with('standarCapaiansBanptS1')
-            ->select('periode', 'prodi')
-            ->groupBy('periode', 'prodi')
-            ->latest()
-            ->paginate(10);
+        $data_kesiapan = TransaksiAmi::whereHas('auditorAmi', function($query) {
+            $query->where('users_kode', session('user_kode'));
+        })
+        ->where('status', 'Koreksi')
+        ->latest()
+        ->get();
 
         return view('pages.auditor.koreksi-ami.index', [
             'data_kesiapan' => $data_kesiapan,
@@ -31,7 +34,19 @@ class KoreksiAmiAuditorController extends Controller
     
     public function revisiAmi(Request $request, $periode, $prodi)
     {
-        $standar_names = [
+        $transaksi_ami = TransaksiAmi::where('periode', $periode)
+        ->where('prodi', $prodi)
+        ->with('auditorAmi.user') 
+        ->first();
+
+        $akses = $transaksi_ami->standar_akreditasi;
+
+        preg_match('/\b(S[0-9]+|D[0-9]+)\b/', $prodi, $matches);
+        $degree = $matches[0] ?? 'S1'; 
+
+        $key = trim($akses . ' ' . $degree);
+
+        $standar_names_banpt = [
             'Kondisi Eksternal',
             'Profil Unit Pengelola Program Studi',
             '1. Visi, Misi, Tujuan dan Strategi',
@@ -45,31 +60,82 @@ class KoreksiAmiAuditorController extends Controller
             '9. Luaran dan Capaian Tridharma',
             'Analisis dan Penetapan Program Pengembangan'
         ];
-        
+
+        $standar_names_lamdik = [
+            'Visi Keilmuan',
+            'Tata Kelola',
+            'Mahasiswa',
+            'Dosen dan Tenaga Kependidikan',
+            'Keuangan, Sarana dan Prasarana Pendidikan',
+            'Pendidikan',
+            'Pengabdian Kepada Masyarakat',
+            'Penjaminan Mutu',
+        ];
+
+        $degreeMappings = [
+            'BAN-PT D3' => [
+                'modelClass' => StandarElemenBanptD3::class,
+                'standarTargetsRelation' => 'standarTargetsD3',
+                'standarCapaiansRelation' => 'standarCapaiansD3',
+                'standarNilaisRelation' => 'standarNilaisD3',
+                'standarNames' => $standar_names_banpt,
+            ],
+            'BAN-PT S1' => [
+                'modelClass' => StandarElemenBanptS1::class,
+                'standarTargetsRelation' => 'standarTargetsBanptS1',
+                'standarCapaiansRelation' => 'standarCapaiansBanptS1',
+                'standarNilaisRelation' => 'standarNilaisBanptS1',
+                'standarNames' => $standar_names_banpt,
+            ],
+            'LAMDIK S1' => [
+                'modelClass' => StandarElemenLamdikS1::class,
+                'standarTargetsRelation' => 'standarTargetsLamdikS1',
+                'standarCapaiansRelation' => 'standarCapaiansLamdikS1',
+                'standarNilaisRelation' => 'standarNilaisLamdikS1',
+                'standarNames' => $standar_names_lamdik,
+            ],
+        ];
+
+        if (!isset($degreeMappings[$key])) {
+            Log::warning("Unknown degree key: {$key}, falling back to BAN-PT S1");
+        }
+        $degreeInfo = $degreeMappings[$key] ?? $degreeMappings['BAN-PT S1'];
+
+        $modelClass = $degreeInfo['modelClass'];
+        $standarTargetsRelation = $degreeInfo['standarTargetsRelation'];
+        $standarCapaiansRelation = $degreeInfo['standarCapaiansRelation'];
+        $standarNilaisRelation = $degreeInfo['standarNilaisRelation'];
+        $standarNames = $degreeInfo['standarNames'];
+
         $data_standar = [];
-        foreach ($standar_names as $index => $name) {
-            $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with([
-                'standarTargetsBanptS1', 
-                'standarCapaiansBanptS1', 
-                'standarNilaisBanptS1' => function ($query) use ($periode, $prodi) {
+        $degree = trim($degree);
+
+        foreach ($standarNames as $index => $name) {
+            $data_standar['data_standar_k' . ($index + 1)] = $modelClass::with([
+                $standarTargetsRelation => function ($query) use ($key) {
+                    $query->where('jenjang', $key);
+                },
+                $standarCapaiansRelation => function ($query) use ($prodi) {
+                    $query->where('prodi', $prodi);
+                },
+                $standarNilaisRelation => function ($query) use ($periode, $prodi) {
                     $query->where('periode', $periode)
                             ->where('prodi', $prodi);
-                            // ->where('jenis_temuan', '!=', 'Sesuai');
-                }
+                },
             ])
-            ->when(request()->q, function ($query) {
-                $query->where('elemen_nama', 'like', '%' . request()->q . '%');
+            ->when($request->q, function ($query) use ($request) {
+                $query->where('elemen_nama', 'like', '%' . $request->q . '%');
             })
             ->where('standar_nama', $name)
-            ->whereDoesntHave('standarNilaisBanptS1', function ($query) use ($periode, $prodi) {
+            ->whereDoesntHave($standarNilaisRelation, function ($query) use ($periode, $prodi) {
                 $query->where('periode', $periode)
                         ->where('prodi', $prodi)
                         ->where('jenis_temuan', 'Sesuai');
             })
             ->latest()
             ->paginate(30)
-            ->appends(['q' => request()->q]);
-        }        
+            ->appends(['q' => $request->q]);
+        }
         
         $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
             ->when($request->q, function($query) use ($request) {
@@ -89,27 +155,25 @@ class KoreksiAmiAuditorController extends Controller
             ->first();
 
         return view('pages.auditor.koreksi-ami.revisi-ami.index', [
-            'nama_data_standar' => $standar_names,
+            'nama_data_standar' => $standarNames,
             'data_standar' => $data_standar,
+            'standarTargetsRelation' => $standarTargetsRelation,
+            'standarCapaiansRelation' => $standarCapaiansRelation,
+            'standarNilaisRelation' => $standarNilaisRelation,
             'periode' => $request->periode,
             'prodi' => $prodi,
             'penjadwalan_ami' => $penjadwalan_ami,
             'transaksi_ami' => $transaksi_ami,
             'auditors' => $auditors,
-        ]);
-    }
+            'key' => $key,
 
-    public function create()
-    {
-        //
+        ]);
     }
 
     public function store(Request $request)
     {
-        // Log incoming request data
         Log::info('Incoming Data:', $request->all());
 
-        // Validate the input data
         $validatedData = $request->validate([
             'ami_kodes' => 'required|string|max:255',
             'indikator_kodes' => 'required|string|max:255',
@@ -121,14 +185,12 @@ class KoreksiAmiAuditorController extends Controller
         ]);
 
         try {
-            // Check if the record exists based on the unique combination of indikator_kode, periode, and prodi
             $amiInput = StandarNilai::where('indikator_kode', $validatedData['indikator_kodes'])
                 ->where('periode', $validatedData['periodes'])
                 ->where('prodi', $validatedData['prodis'])
                 ->first();
 
             if ($amiInput) {
-                // Update existing record
                 $amiInput->hasil_nilai = $validatedData['hasil_nilais'];
                 $amiInput->status_akhir = $validatedData['status_akhirs'];
 
@@ -140,7 +202,6 @@ class KoreksiAmiAuditorController extends Controller
                     return redirect()->back()->with('error', 'Failed to update data.');
                 }
             } else {
-                // Create a new record
                 $amiInput = new StandarNilai();
                 $amiInput->ami_kode = $validatedData['ami_kodes'];
                 $amiInput->indikator_kode = $validatedData['indikator_kodes'];
@@ -159,20 +220,9 @@ class KoreksiAmiAuditorController extends Controller
                 }
             }
         } catch (\Exception $e) {
-            // Log the error for debugging
             Log::error('Error saving or updating data:', ['message' => $e->getMessage()]);
             return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
     }
 
     public function update(Request $request, $id)
@@ -182,23 +232,11 @@ class KoreksiAmiAuditorController extends Controller
             'status' => 'required|string',
         ]);
 
-        // Find the TransaksiAmi record
         $pengajuan = TransaksiAmi::findOrFail($id);
         $pengajuan->status = $request->status;
         $pengajuan->save();
 
-        // Redirect back with a success message
         return redirect()->route('auditor.koreksi-ami.index')->with('success', 'Siklus AMI sudah selesai dan hasilnya dapat dilihat.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

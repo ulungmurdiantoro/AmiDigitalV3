@@ -192,7 +192,7 @@
 		.subbab {
 			margin-left: 5mm;
 		}
-</style>
+	</style>
 </head>
 <body>
 	<header>
@@ -333,14 +333,14 @@
 					<tbody>
 						@foreach ($data as $standar)
 							@php
-								$nilai = optional($standar->standarNilaisBanptS1)->hasil_nilai ?? 0;
+								$nilai = optional($standar->$standarNilaisRelation)->hasil_nilai ?? 0;
 								$total_nilai += $nilai;
 
-								$predikat = match ($nilai) {
-									4 => 'Sangat Baik',
-									3 => 'Baik',
-									2 => 'Cukup',
-									1 => 'Kurang',
+								$predikat = match (true) {
+									$nilai >= 3.5 => 'Sangat Baik',
+									$nilai >= 2.5 => 'Baik',
+									$nilai >= 1.5 => 'Cukup',
+									$nilai >= 0.5 => 'Kurang',
 									default => 'Sangat Kurang'
 								};
 							@endphp
@@ -388,48 +388,48 @@
 							</tr>
 							<tr>
 								<th style="width:15%" class="tbpeserta subth">Jenis Temuan</th>
-								<td colspan="3" class="tbpeserta">{{ optional($standar->standarNilaisBanptS1)->jenis_temuan }}</td>
+								<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->jenis_temuan }}</td>
 							</tr>
 							<tr>
 								<th style="width:15%" class="tbpeserta subth">Deskripsi Temuan</th>
-								<td colspan="3" class="tbpeserta">{{ optional($standar->standarNilaisBanptS1)->hasil_deskripsi }}</td> 
+								<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_deskripsi }}</td> 
 							</tr>
 							<tr>
 								<th style="width:15%" class="tbpeserta subth">Kriteria</th>
-								<td colspan="3" class="tbpeserta">{{ optional($standar->standarNilaisBanptS1)->hasil_kriteria }}</td>
+								<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_kriteria }}</td>
 							</tr>
 							<tr>
 								<th style="width:15%" class="tbpeserta subth">Akibat</th>
-								<td colspan="3" class="tbpeserta">{{ optional($standar->standarNilaisBanptS1)->hasil_akibat }}</td>
+								<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_akibat }}</td>
 							</tr>
 							<tr>
 								<th style="width:15%" class="tbpeserta subth">Akar Masalah</th>
-								<td colspan="3" class="tbpeserta">{{ optional($standar->standarNilaisBanptS1)->hasil_masalah }}</td>
+								<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_masalah }}</td>
 							</tr>
 							<tr>
 								<th style="width:15%" class="tbpeserta subth">Rekomendasi</th>
-								<td colspan="3" class="tbpeserta">{{ optional($standar->standarNilaisBanptS1)->hasil_rekomendasi }}</td>
+								<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_rekomendasi }}</td>
 							</tr>
-							@if (optional($standar->standarNilaisBanptS1)->jenis_temuan !== 'Sesuai')
+							@if (optional($standar->$standarNilaisRelation)->jenis_temuan !== 'Sesuai')
 								<tr>
 									<th style="width:15%" class="tbpeserta subth">Rencana Perbaikan</th>
-									<td colspan="3" class="tbpeserta">{{ optional($standar->standarNilaisBanptS1)->hasil_rencana_perbaikan }}</td>
+									<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_rencana_perbaikan }}</td>
 								</tr>
 								<tr>
 									<th style="width:15%" class="tbpeserta subth">Jadwal Perbaikan</th>
-									<td class="tbpeserta">{{ optional($standar->standarNilaisBanptS1)->hasil_jadwal_perbaikan }}</td>
+									<td class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_jadwal_perbaikan }}</td>
 									<th style="width:14%" class="tbpeserta subth">Penanggung Jawab</th>
-									<td class="tbpeserta">{{ optional($standar->standarNilaisBanptS1)->hasil_perbaikan_penanggung }}</td>
+									<td class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_perbaikan_penanggung }}</td>
 								</tr>
 								<tr>
 									<th style="width:15%" class="tbpeserta subth">Rencana Pencegahan</th>
-									<td colspan="3" class="tbpeserta">{{ optional($standar->standarNilaisBanptS1)->hasil_rencana_pencegahan }}</td>
+									<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_rencana_pencegahan }}</td>
 								</tr>
 								<tr>
 									<th style="width:15%" class="tbpeserta subth">Jadwal Pencegahan</th>
-									<td class="tbpeserta">{{ optional($standar->standarNilaisBanptS1)->hasil_jadwal_pencegahan }}</td>
+									<td class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_jadwal_pencegahan }}</td>
 									<th style="width:14%" class="tbpeserta subth">Penanggung Jawab</th>
-									<td class="tbpeserta">{{ optional($standar->standarNilaisBanptS1)->hasil_rencana_penanggung }}</td>
+									<td class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_rencana_penanggung }}</td>
 								</tr>
 							@endif
 						</table>

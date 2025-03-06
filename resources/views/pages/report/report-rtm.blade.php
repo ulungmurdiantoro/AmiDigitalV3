@@ -393,7 +393,7 @@
 						<td>{{ $standar_nama }}</td>
 						@php
 							foreach ($data as $standar) {
-								$nilai = optional($standar->standarNilaisBanptS1)->hasil_nilai ?? 0;
+								$nilai = optional($standar->$standarNilaisRelation)->hasil_nilai ?? 0;
 								$total_nilai += $nilai;
 							}
 							
@@ -444,15 +444,15 @@
 					@endphp
 					@foreach ($data as $standar)
 						@php
-							$nilai = optional($standar->standarNilaisBanptS1)->hasil_nilai ?? null;
+							$nilai = optional($standar->$standarNilaisRelation)->hasil_nilai ?? null;
 							$total_nilai += $nilai ?? 0;  
 						@endphp
-						@if (optional($standar->standarNilaisBanptS1)->jenis_temuan != 'Sesuai')
+						@if (optional($standar->$standarNilaisRelation)->jenis_temuan != 'Sesuai')
 							<tr>
 								<td>{{ $standar->indikator_kode }}</td>
-								<td>{{ optional($standar->standarNilaisBanptS1)->jenis_temuan ?? null }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->jenis_temuan ?? null }}</td>
 								<td>{{ $standar->elemen_nama }}</td>
-								<td>{{ optional($standar->standarNilaisBanptS1)->hasil_deskripsi ?? null }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->hasil_deskripsi ?? null }}</td>
 								<td>{{ $nilai !== null ? $nilai . '/4' : '0/4' }}</td>
 							</tr>
 						@endif
@@ -494,18 +494,18 @@
 
 					@foreach ($data as $standar)
 						@php
-							$nilai = optional($standar->standarNilaisBanptS1)->hasil_nilai ?? null;
+							$nilai = optional($standar->$standarNilaisRelation)->hasil_nilai ?? null;
 							$total_nilai += $nilai ?? 0;  
 						@endphp
-						@if (optional($standar->standarNilaisBanptS1)->jenis_temuan != 'Sesuai')
+						@if (optional($standar->$standarNilaisRelation)->jenis_temuan != 'Sesuai')
 							<tr>
 								<td>{{ $standar->indikator_kode }}</td>
-								<td>{{ optional($standar->standarNilaisBanptS1)->jenis_temuan }}</td>
-								<td>{{ optional($standar->standarNilaisBanptS1)->hasil_deskripsi }}</td>
-								<td>{{ optional($standar->standarNilaisBanptS1)->hasil_rencana_perbaikan }}</td>
-								<td>{{ optional($standar->standarNilaisBanptS1)->hasil_jadwal_perbaikan }}</td>
-								<td>{{ optional($standar->standarNilaisBanptS1)->hasil_perbaikan_penanggung }}</td>
-								<td>{{ optional($standar->standarNilaisBanptS1)->status_akhir }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->jenis_temuan }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->hasil_deskripsi }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->hasil_rencana_perbaikan }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->hasil_jadwal_perbaikan }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->hasil_perbaikan_penanggung }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->status_akhir }}</td>
 							</tr>
 						@endif
 					@endforeach
@@ -564,7 +564,7 @@
 
 					@foreach ($data as $standar)
 						@php
-							$nilai = optional($standar->standarNilaisBanptS1)->hasil_nilai ?? null;
+							$nilai = optional($standar->$standarNilaisRelation)->hasil_nilai ?? null;
 							$pedikat = match (true) {
 								$nilai >= 3.5 => 'A (Unggul)',
 								$nilai >= 2.5 => 'B (Baik)',
@@ -643,13 +643,13 @@
 								$previous_standar = $previous_data->firstWhere('indikator_kode', $standar->indikator_kode);
 							@endphp
 							@if ($previous_standar)
-								<td>{{ optional($previous_standar->standarNilaisBanptS1)->hasil_rekomendasi }}</td>
+								<td>{{ optional($previous_standar->$standarNilaisRelation)->hasil_rekomendasi }}</td>
 							@else
 								<td>-</td>
 							@endif
-							<td>{{ optional($standar->standarNilaisBanptS1)->hasil_rencana_perbaikan }}</td>
-							<td>{{ optional($standar->standarNilaisBanptS1)->hasil_masalah }}</td>
-							<td>{{ optional($standar->standarNilaisBanptS1)->hasil_rencana_pencegahan }}</td>
+							<td>{{ optional($standar->$standarNilaisRelation)->hasil_rencana_perbaikan }}</td>
+							<td>{{ optional($standar->$standarNilaisRelation)->hasil_masalah }}</td>
+							<td>{{ optional($standar->$standarNilaisRelation)->hasil_rencana_pencegahan }}</td>
 						</tr>
 					@endforeach
 				@endforeach
@@ -677,7 +677,7 @@
 					@endphp
 					@foreach ($data as $standar)
 						<tr>
-							<td style="border: 1px solid #f2f2f2;">{{ $standar->indikator_kode }} - {{ optional($standar->standarNilaisBanptS1)->hasil_rencana_perbaikan ?? null; }}</td>
+							<td style="border: 1px solid #f2f2f2;">{{ $standar->indikator_kode }} - {{ optional($standar->$standarNilaisRelation)->hasil_rencana_perbaikan ?? null; }}</td>
 						</tr>
 					@endforeach
 				@endforeach
@@ -720,7 +720,7 @@
 						<br>
 						Ketua Prodi  
 					</td>
-					<td style="width:30%; background-color: #ffffff;"></td>
+					<td style="width:40%; background-color: #ffffff;"></td>
 					<td style="width:30%; background-color: #ffffff;">
 						Surabaya, <br>
 						Ketua Auditor 
@@ -729,17 +729,15 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td style="width:30%; background-color: #ffffff;"></td>
-					<td style="width:30%; background-color: #ffffff;"></td>
-					<td style="width:30%; background-color: #ffffff;"></td>
+					<td class="tdttd">{{ $transaksi_ami->penempatanUser->user_nama ?? 'N/A' }}</td>
+					<td class="tdttd"></td>
+					<td class="tdttd">{{ $auditor->user->user_nama ?? 'N/A' }}</td>
 				</tr>
 			</tbody>
 		</table>
-		<div style="width: 35%; text-align: left; float: right;">
-			
-		</div>
+		<div style="width: 35%; text-align: left; float: right;"></div>
 		<br><br><br><br>
 		<div style="width: 35%; text-align: left; float: right;">
 		</div>
-  </section>
+	</section>
 </body>

@@ -20,9 +20,11 @@
         </div>
         <div><b>Informasi tambahan :</b> </div>
         <div><i>Diajukan oleh {{ $transaksi_ami->prodi }} pada {{ $transaksi_ami->updated_at }} </i></div><br>
-        <a href="#" data-bs-toggle="modal" data-bs-target="#selesaiModal" class="btn btn-success btn-icon-text mb-2 mb-md-0" rel="noopener noreferrer">
-          <i class="link-icon" data-feather="check-circle"></i> <b>Selesaikan AMI</b>
-        </a>
+        @if ($transaksi_ami->status == 'Koreksi')
+          <a href="#" data-bs-toggle="modal" data-bs-target="#selesaiModal" class="btn btn-success btn-icon-text mb-2 mb-md-0" rel="noopener noreferrer">
+            <i class="link-icon" data-feather="check-circle"></i> <b>Selesaikan AMI</b>
+          </a>
+        @endif
         <div class="modal fade" id=selesaiModal tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -61,13 +63,29 @@
           <h6 class="mb-0">{{ $nama }}</h6>
         </div>
         <div class="card-body">
+          @if (strpos($key, 'LAMDIK') !== false)
+            <x-user.data-table.revisi-prodi-lamdik
+              id="dataTableExample{{ $index + 1 }}" 
+              :standards="$data_standar['data_standar_k' . ($index + 1)]" 
+              :periodes="$periode" 
+              :prodis="$prodi"
+              :transkasis="$transaksi_ami"
+              :standarTargetsRelations="$standarTargetsRelation"
+              :standarCapaiansRelations="$standarCapaiansRelation"
+              :standarNilaisRelations="$standarNilaisRelation"
+            />
+          @else
             <x-user.data-table.revisi-prodi
               id="dataTableExample{{ $index + 1 }}" 
               :standards="$data_standar['data_standar_k' . ($index + 1)]" 
               :periodes="$periode" 
               :prodis="$prodi"
               :transkasis="$transaksi_ami"
-              />
+              :standarTargetsRelations="$standarTargetsRelation"
+              :standarCapaiansRelations="$standarCapaiansRelation"
+              :standarNilaisRelations="$standarNilaisRelation"
+            />
+          @endif
         </div>
       </div>
     </div>

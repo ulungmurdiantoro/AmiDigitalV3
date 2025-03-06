@@ -25,7 +25,6 @@
               <input name="periode" type="text" class="form-control @error('periode') is-invalid @enderror" value="{{ $transaksi_ami->periode }}" disabled/>
             </div>
           </div>
-            <!-- Col -->
         </div>
         <div class="row">
           <div class="col-sm-6">
@@ -34,30 +33,30 @@
               <input name="status" type="text" class="form-control @error('status') is-invalid @enderror" value="{{ $transaksi_ami->status }}" disabled/>
             </div>
           </div>
-            <!-- Col -->
         </div>
         <div class="row">
           <div class="col-sm-6">
             <div class="mb-3">
               <label for="auditor" class="form-label">Daftar Auditor</label>
-              <input name="auditor" type="text" class="form-control @error('auditor') is-invalid @enderror" value="{{ $transaksi_ami->auditorAmi->user->user_nama }}" disabled/>
+              @foreach($transaksi_ami->auditorAmi as $auditor)
+                <input name="auditor" type="text" class="form-control @error('auditor') is-invalid @enderror" value="{{ $auditor->user->user_nama }}" disabled/>
+              @endforeach
             </div>
           </div>
-            <!-- Col -->
         </div>
-        <!-- Hidden input to update the status -->
-        <form action="{{ route('user.pengajuan-ami.input-ami.update') }}" method="POST" enctype="multipart/form-data" id="PenggunaAuditorForm">
-          @csrf
-          <input type="hidden" name="id" value="{{ $transaksi_ami->id }}">
-          <input type="hidden" name="status" value="Diajukan">
-          <input class="btn btn-success" type="submit" value="Ajukan AMI">
-      </form>
-      
+        @if ($transaksi_ami->status == 'Draft')
+          <form action="{{ route('user.pengajuan-ami.input-ami.update') }}" method="POST" enctype="multipart/form-data" id="PenggunaAuditorForm">
+            @csrf
+            <input type="hidden" name="id" value="{{ $transaksi_ami->id }}">
+            <input type="hidden" name="status" value="Diajukan">
+            <input class="btn btn-success" type="submit" value="Ajukan AMI">
+          </form>
+        @endif
       </div>
     </div>
   </div>
 </div>
-
+{{-- @dd($transaksi_ami); --}}
 @foreach ($nama_data_standar as $index => $nama)
   <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
@@ -66,14 +65,29 @@
           <h6 class="mb-0">{{ $nama }}</h6>
         </div>
         <div class="card-body">
-          {{-- @dd($prodi) --}}
-          <x-user.data-table.input-ami
-            id="dataTableExample{{ $index + 1 }}" 
-            :standards="$data_standar['data_standar_k' . ($index + 1)]" 
-            :periodes="$periode" 
-            :prodis="$prodi"
-            :transkasis="$transaksi_ami"
+          @if (strpos($key, 'LAMDIK') !== false)
+            <x-user.data-table.input-ami-lamdik
+              id="dataTableExample{{ $index + 1 }}" 
+              :standards="$data_standar['data_standar_k' . ($index + 1)]" 
+              :periodes="$periode" 
+              :prodis="$prodi"
+              :transkasis="$transaksi_ami"
+              :standarTargetsRelations="$standarTargetsRelation"
+              :standarCapaiansRelations="$standarCapaiansRelation"
+              :standarNilaisRelations="$standarNilaisRelation"
             />
+          @else
+            <x-user.data-table.input-ami
+              id="dataTableExample{{ $index + 1 }}" 
+              :standards="$data_standar['data_standar_k' . ($index + 1)]" 
+              :periodes="$periode" 
+              :prodis="$prodi"
+              :transkasis="$transaksi_ami"
+              :standarTargetsRelations="$standarTargetsRelation"
+              :standarCapaiansRelations="$standarCapaiansRelation"
+              :standarNilaisRelations="$standarNilaisRelation"
+            />
+          @endif
         </div>
       </div>
     </div>

@@ -7,6 +7,8 @@ use App\Models\StandarCapaian;
 use App\Models\StandarElemenBanptS1;
 use App\Models\StandarNilai;
 use App\Models\PenjadwalanAmi;
+use App\Models\StandarElemenBanptD3;
+use App\Models\StandarElemenLamdikS1;
 use App\Models\TransaksiAmi;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -34,7 +36,15 @@ class KoreksiAmiUserController extends Controller
 
     public function revisiProdi(Request $request, $periode, $prodi)
     {
-        $standar_names = [
+        $penempatan = session('user_penempatan'); 
+        $akses = session('user_akses'); 
+
+        preg_match('/\b(S[0-9]+|D[0-9]+)\b/', $penempatan, $matches);
+        $degree = $matches[0] ?? 'S1'; 
+
+        $key = trim($akses . ' ' . $degree);
+
+        $standar_names_banpt = [
             'Kondisi Eksternal',
             'Profil Unit Pengelola Program Studi',
             '1. Visi, Misi, Tujuan dan Strategi',
@@ -48,32 +58,83 @@ class KoreksiAmiUserController extends Controller
             '9. Luaran dan Capaian Tridharma',
             'Analisis dan Penetapan Program Pengembangan'
         ];
-        
+
+        $standar_names_lamdik = [
+            'Visi Keilmuan',
+            'Tata Kelola',
+            'Mahasiswa',
+            'Dosen dan Tenaga Kependidikan',
+            'Keuangan, Sarana dan Prasarana Pendidikan',
+            'Pendidikan',
+            'Pengabdian Kepada Masyarakat',
+            'Penjaminan Mutu',
+        ];
+
+        $degreeMappings = [
+            'BAN-PT D3' => [
+                'modelClass' => StandarElemenBanptD3::class,
+                'standarTargetsRelation' => 'standarTargetsD3',
+                'standarCapaiansRelation' => 'standarCapaiansD3',
+                'standarNilaisRelation' => 'standarNilaisD3',
+                'standarNames' => $standar_names_banpt,
+            ],
+            'BAN-PT S1' => [
+                'modelClass' => StandarElemenBanptS1::class,
+                'standarTargetsRelation' => 'standarTargetsBanptS1',
+                'standarCapaiansRelation' => 'standarCapaiansBanptS1',
+                'standarNilaisRelation' => 'standarNilaisBanptS1',
+                'standarNames' => $standar_names_banpt,
+            ],
+            'LAMDIK S1' => [
+                'modelClass' => StandarElemenLamdikS1::class,
+                'standarTargetsRelation' => 'standarTargetsLamdikS1',
+                'standarCapaiansRelation' => 'standarCapaiansLamdikS1',
+                'standarNilaisRelation' => 'standarNilaisLamdikS1',
+                'standarNames' => $standar_names_lamdik,
+            ],
+        ];
+
+        if (!isset($degreeMappings[$key])) {
+            Log::warning("Unknown degree key: {$key}, falling back to BAN-PT S1");
+        }
+        $degreeInfo = $degreeMappings[$key] ?? $degreeMappings['BAN-PT S1'];
+
+        $modelClass = $degreeInfo['modelClass'];
+        $standarTargetsRelation = $degreeInfo['standarTargetsRelation'];
+        $standarCapaiansRelation = $degreeInfo['standarCapaiansRelation'];
+        $standarNilaisRelation = $degreeInfo['standarNilaisRelation'];
+        $standarNames = $degreeInfo['standarNames'];
+
         $data_standar = [];
-        foreach ($standar_names as $index => $name) {
-            $data_standar['data_standar_k' . ($index + 1)] = StandarElemenBanptS1::with([
-                'standarTargetsBanptS1', 
-                'standarCapaiansBanptS1', 
-                'standarNilaisBanptS1' => function ($query) use ($periode, $prodi) {
+        $degree = trim($degree);
+        
+        foreach ($standarNames as $index => $name) {
+            $data_standar['data_standar_k' . ($index + 1)] = $modelClass::with([
+                $standarTargetsRelation => function ($query) use ($key) {
+                    $query->where('jenjang', $key);
+                },
+                $standarCapaiansRelation => function ($query) use ($prodi) {
+                    $query->where('prodi', $prodi);
+                },
+                $standarNilaisRelation => function ($query) use ($periode, $prodi) {
                     $query->where('periode', $periode)
                             ->where('prodi', $prodi);
-                            // ->where('jenis_temuan', '!=', 'Sesuai');
-                }
+                },
             ])
-            ->when(request()->q, function ($query) {
-                $query->where('elemen_nama', 'like', '%' . request()->q . '%');
+            ->when($request->q, function ($query) use ($request) {
+                $query->where('elemen_nama', 'like', '%' . $request->q . '%');
             })
             ->where('standar_nama', $name)
-            ->whereDoesntHave('standarNilaisBanptS1', function ($query) use ($periode, $prodi) {
+            ->whereDoesntHave($standarNilaisRelation, function ($query) use ($periode, $prodi) {
                 $query->where('periode', $periode)
                         ->where('prodi', $prodi)
                         ->where('jenis_temuan', 'Sesuai');
             })
             ->latest()
             ->paginate(30)
-            ->appends(['q' => request()->q]);
-        }        
-        
+            ->appends(['q' => $request->q]);
+        }
+
         $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
             ->when($request->q, function($query) use ($request) {
                 $query->whereHas('auditor_ami.user', function($q) use ($request) {
@@ -88,23 +149,22 @@ class KoreksiAmiUserController extends Controller
 
         $transaksi_ami = TransaksiAmi::where('periode', $periode)
             ->where('prodi', $prodi)
-            ->with('auditorAmi.user')  // Eager load the auditorAmi relationship
+            ->with('auditorAmi.user') 
             ->first();
 
         return view('pages.user.koreksi-ami.revisi-prodi.index', [
-            'nama_data_standar' => $standar_names,
+            'nama_data_standar' => $standarNames,
             'data_standar' => $data_standar,
+            'standarTargetsRelation' => $standarTargetsRelation,
+            'standarCapaiansRelation' => $standarCapaiansRelation,
+            'standarNilaisRelation' => $standarNilaisRelation,
             'periode' => $request->periode,
             'prodi' => $prodi,
             'penjadwalan_ami' => $penjadwalan_ami,
             'transaksi_ami' => $transaksi_ami,
             'auditors' => $auditors,
+            'key' => $key,
         ]);
-    }
-
-    public function create()
-    {
-        //
     }
 
     public function store(Request $request)
@@ -128,14 +188,12 @@ class KoreksiAmiUserController extends Controller
         ]);
 
         try {
-            // Check if the record exists based on the unique combination of indikator_kode, periode, and prodi
             $amiInput = StandarNilai::where('indikator_kode', $validatedData['indikator_kodes'])
                 ->where('periode', $validatedData['periodes'])
                 ->where('prodi', $validatedData['prodis'])
                 ->first();
 
             if ($amiInput) {
-                // Update existing record
                 $amiInput->hasil_rencana_perbaikan = $validatedData['hasil_rencana_perbaikan'];
                 $amiInput->hasil_jadwal_perbaikan = $validatedData['hasil_jadwal_perbaikan'];
                 $amiInput->hasil_perbaikan_penanggung = $validatedData['hasil_perbaikan_penanggung'];
@@ -151,7 +209,6 @@ class KoreksiAmiUserController extends Controller
                     return redirect()->back()->with('error', 'Failed to update data.');
                 }
             } else {
-                // Create a new record
                 $amiInput = new StandarNilai();
                 $amiInput->ami_kode = $validatedData['ami_kodes'];
                 $amiInput->indikator_kode = $validatedData['indikator_kodes'];
@@ -174,54 +231,8 @@ class KoreksiAmiUserController extends Controller
                 }
             }
         } catch (\Exception $e) {
-            // Log the error for debugging
             Log::error('Error saving or updating data:', ['message' => $e->getMessage()]);
             return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

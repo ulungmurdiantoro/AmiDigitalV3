@@ -27,9 +27,9 @@
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-baseline">
-                      <input type="hidden" name="periode" value="{{ $kesiapan->periode }}">
-                      <input type="hidden" name="prodi_ami" value="{{ $kesiapan->prodi }}">
-                      <h2 class="card-title">AMI {{ $kesiapan->periode }}</h2>
+                    <input type="hidden" name="periode" value="{{ $kesiapan->periode }}">
+                    <input type="hidden" name="prodi_ami" value="{{ $kesiapan->prodi }}">
+                    <h2 class="card-title">AMI {{ $kesiapan->periode }} {{ $kesiapan->prodi }}</h2>
                   </div>
                   <div class="row">
                     <p class="text-muted mb-3">Kesiapan AMI (Audit Mutu Internal) Program Studi {{ $kesiapan->prodi }} tahun {{ $kesiapan->periode }}</p>

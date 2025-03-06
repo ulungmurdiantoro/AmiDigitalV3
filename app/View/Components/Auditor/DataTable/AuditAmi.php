@@ -11,16 +11,23 @@ class AuditAmi extends Component
     public $transkasis;
     public $prodis;
     public $periodes;
+    public $standarTargetsRelations;
+    public $standarCapaiansRelations;
+    public $standarNilaisRelations;
 
-    public function __construct(string $id, $standards, $transkasis)
+    public function __construct(string $id, $standards, $transkasis, $prodis, $periodes, $standarTargetsRelations, $standarCapaiansRelations, $standarNilaisRelations)
     {
-        // dd($id, $standards);
+        // dd($periodes, $prodis);
         $this->id = $id;
         $this->standards = $standards;
         $this->transkasis = $transkasis;
-        // $this->prodis = $prodis;
-        // $this->periodes = $periodes;
+        $this->prodis = $prodis;
+        $this->periodes = $periodes;
+        $this->standarTargetsRelations = $standarTargetsRelations;
+        $this->standarCapaiansRelations = $standarCapaiansRelations;
+        $this->standarNilaisRelations = $standarNilaisRelations;
     }
+    
     public function render()
     {
         return view('components.auditor.data-table.audit-ami');

@@ -63,7 +63,7 @@
   <!-- Include Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endpush
-
+{{-- @dd($averages) --}}
 @push('custom-scripts')
 <script>
   var averages = @json(array_values($averages)); 

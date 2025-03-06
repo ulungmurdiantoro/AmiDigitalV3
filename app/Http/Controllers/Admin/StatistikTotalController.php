@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\StandarCapaian;
 use App\Models\StandarElemenBanptS1;
-use App\Models\StandarNilai;
-use App\Models\PenjadwalanAmi;
+use App\Models\StandarElemenBanptD3;
+use App\Models\StandarElemenLamdikS1;
 use App\Models\TransaksiAmi;
-use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -34,8 +32,46 @@ class StatistikTotalController extends Controller
 
     public function chartTotal(Request $request, $periode, $prodi)
     {
-        $data_standar = StandarElemenBanptS1::with([
-            'standarNilaisBanptS1' => function ($query) use ($periode, $prodi) {
+        $transaksi_ami = TransaksiAmi::where('periode', $periode)
+        ->where('prodi', $prodi)
+        ->with('auditorAmi.user') 
+        ->first();
+
+        $akses = $transaksi_ami->standar_akreditasi;
+
+        preg_match('/\b(S[0-9]+|D[0-9]+)\b/', $prodi, $matches);
+        $degree = $matches[0] ?? 'S1'; 
+
+        $key = trim($akses . ' ' . $degree);
+
+        $degreeMappings = [
+            'BAN-PT D3' => [
+                'modelClass' => StandarElemenBanptD3::class,
+                'standarNilaisRelation' => 'standarNilaisD3',
+            ],
+            'BAN-PT S1' => [
+                'modelClass' => StandarElemenBanptS1::class,
+                'standarNilaisRelation' => 'standarNilaisBanptS1',
+            ],
+            'LAMDIK S1' => [
+                'modelClass' => StandarElemenLamdikS1::class,
+                'standarNilaisRelation' => 'standarNilaisLamdikS1',
+            ],
+        ];
+
+        if (!isset($degreeMappings[$key])) {
+            Log::warning("Unknown degree key: {$key}, falling back to BAN-PT S1");
+        }
+        $degreeInfo = $degreeMappings[$key] ?? $degreeMappings['BAN-PT S1'];
+
+        $modelClass = $degreeInfo['modelClass'];
+        $standarNilaisRelation = $degreeInfo['standarNilaisRelation'];
+
+        $data_standar = [];
+        $degree = trim($degree);
+
+        $data_standar = $modelClass::with([
+            $standarNilaisRelation => function ($query) use ($periode, $prodi) {
                 $query->select('id', 'indikator_kode', 'hasil_nilai')
                     ->where('periode', $periode)
                     ->where('prodi', $prodi);
@@ -48,19 +84,16 @@ class StatistikTotalController extends Controller
         ->latest()
         ->get();
 
-        // Debugging: Log the raw data_standar
         Log::info($data_standar);
 
-        // Prepare data for the charts
         $categories = [];
         $averages = [];
 
         foreach ($data_standar as $standar) {
             $categories[] = $standar->indikator_kode;
 
-            if ($standar->standarNilaisBanptS1 && $standar->standarNilaisBanptS1->count() > 0) {
-                // Find the first matching standarNilaisBanptS1 for the same indikator_kode
-                $matchingNilai = $standar->standarNilaisBanptS1->firstWhere('indikator_kode', $standar->indikator_kode);
+            if ($standar->$standarNilaisRelation && $standar->$standarNilaisRelation->count() > 0) {
+                $matchingNilai = $standar->$standarNilaisRelation->firstWhere('indikator_kode', $standar->indikator_kode);
                 if ($matchingNilai) {
                     $averages[] = $matchingNilai->hasil_nilai;
                 } else {
@@ -71,7 +104,6 @@ class StatistikTotalController extends Controller
             }
         }
 
-        // Debugging: Log the processed categories and averages
         Log::info($categories);
         Log::info($averages);
 
@@ -80,6 +112,7 @@ class StatistikTotalController extends Controller
             'prodi' => $prodi,
             'categories' => $categories,
             'averages' => $averages,
+            'key' => $key,
         ]);
     }
 

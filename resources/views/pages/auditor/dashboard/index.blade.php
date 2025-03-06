@@ -10,11 +10,11 @@
     <h4 class="mb-3 mb-md-0">Welcome to Dashboard</h4>
   </div>
   <div class="d-flex align-items-center flex-wrap text-nowrap">
-    <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
+    <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0" onclick="window.location.href='{{ route('auditor.konfirmasi-pengajuan.index') }}'">
       <i class="btn-icon-prepend" data-feather="layers"></i>
-        Konfirmasi Pengajuan
+      Konfirmasi Pengajuan
     </button>
-    <button type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
+    <button type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0" onclick="window.location.href='{{ route('auditor.evaluasi-ami.index') }}'">
       <i class="btn-icon-prepend" data-feather="file-text"></i>
         Evaluasi Mutu
     </button>
@@ -33,7 +33,7 @@
             <br>
             <div class="row">
               <div class="col-6 col-md-12 col-xl-5">
-                <h3 class="mb-2">4</h3>
+                <h3 class="mb-2">{{ $count_diajukan }}</h3>
               </div>
             </div>
           </div>
@@ -48,7 +48,7 @@
             <br>
             <div class="row">
               <div class="col-6 col-md-12 col-xl-5">
-                <h3 class="mb-2">1</h3>
+                <h3 class="mb-2">{{ $count_proses }}</h3>
               </div>
             </div>
           </div>
@@ -63,7 +63,7 @@
             <br>
             <div class="row">
               <div class="col-6 col-md-12 col-xl-5">
-                <h3 class="mb-2">1</h3>
+                <h3 class="mb-2">{{ $count_selesai }}</h3>
               </div>
             </div>
           </div>
@@ -80,70 +80,73 @@
         <div class="d-flex justify-content-between align-items-baseline mb-2">
           <h6 class="card-title mb-0">Jadwal AMI</h6>
         </div>
-        <p class="text-muted">
-          Prodi : S1-Psikologi <br>
-          Fakultas : Ekonomi <br>
-          Standar Akreditasi : BAN-PT
-        </p>
-        <br>
-        <div class="d-flex flex-column">
-          <a href="javascript:;" class="d-flex align-items-center border-bottom pb-3">
-            <div class="w-100">
-              <div class="d-flex justify-content-between">
-                <h6 class="fw-normal text-body mb-1">Opening Meeting AMI:</h6>
+        @foreach ($jadwalAmi as $item)
+          <p class="text-muted">
+            Prodi : {{ $item->prodi }} <br>
+            Fakultas : {{ $item->fakultas }} <br>
+            Standar Akreditasi : {{ $item->standar_akreditasi }}
+          </p>
+          <br>
+          <div class="d-flex flex-column">
+            <a href="javascript:;" class="d-flex align-items-center border-bottom pb-3">
+              <div class="w-100">
+                <div class="d-flex justify-content-between">
+                  <h6 class="fw-normal text-body mb-1">Opening Meeting AMI:</h6>
+                </div>
+                <p class="text-muted tx-13">{{ $item->formatted_opening_ami }}</p>
               </div>
-              <p class="text-muted tx-13">2024-10-17</p>
-            </div>
-          </a>
-          <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
-            <div class="w-100">
-              <div class="d-flex justify-content-between">
-                <h6 class="fw-normal text-body mb-1">Pengisian Dokumen:</h6>
+            </a>
+            <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
+              <div class="w-100">
+                <div class="d-flex justify-content-between">
+                  <h6 class="fw-normal text-body mb-1">Pengisian Dokumen:</h6>
+                </div>
+                <p class="text-muted tx-13">{{ $item->formatted_pengisian_dokumen }}</p>
               </div>
-              <p class="text-muted tx-13">2024-10-18 to 2024-10-19</p>
-            </div>
-          </a>
-          <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
-            <div class="w-100">
-              <div class="d-flex justify-content-between">
-                <h6 class="fw-normal text-body mb-1">Deskevaluasi:</h6>
+            </a>
+            <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
+              <div class="w-100">
+                <div class="d-flex justify-content-between">
+                  <h6 class="fw-normal text-body mb-1">Deskevaluasi:</h6>
+                </div>
+                <p class="text-muted tx-13">{{ $item->formatted_deskevaluasion }}</p>
               </div>
-              <p class="text-muted tx-13">2024-10-20 to 2024-10-21</p>
-            </div>
-          </a>
-          <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
-            <div class="w-100">
-              <div class="d-flex justify-content-between">
-                <h6 class="fw-normal text-body mb-1">Audit Lapang:</h6>
+            </a>
+            <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
+              <div class="w-100">
+                <div class="d-flex justify-content-between">
+                  <h6 class="fw-normal text-body mb-1">Audit Lapang:</h6>
+                </div>
+                <p class="text-muted tx-13">{{ $item->formatted_assessment }}</p>
               </div>
-              <p class="text-muted tx-13">2024-10-22 to 2024-10-23</p>
-            </div>
-          </a>
-          <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
-            <div class="w-100">
-              <div class="d-flex justify-content-between">
-                <h6 class="fw-normal text-body mb-1">Penyusunan Tindakan Perbaikan dan Pencegahan:</h6>
+            </a>
+            <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
+              <div class="w-100">
+                <div class="d-flex justify-content-between">
+                  <h6 class="fw-normal text-body mb-1">Penyusunan Tindakan Perbaikan dan Pencegahan:</h6>
+                </div>
+                <p class="text-muted tx-13">{{ $item->formatted_tindakan_koreksi }}</p>
               </div>
-              <p class="text-muted tx-13">2024-10-22 to 2024-10-23</p>
-            </div>
-          </a>
-          <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
-            <div class="w-100">
-              <div class="d-flex justify-content-between">
-                <h6 class="fw-normal text-body mb-1">Penyusunan Laporan AMI:</h6>
+            </a>
+            <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
+              <div class="w-100">
+                <div class="d-flex justify-content-between">
+                  <h6 class="fw-normal text-body mb-1">Penyusunan Laporan AMI:</h6>
+                </div>
+                <p class="text-muted tx-13">{{ $item->formatted_laporan_ami }}</p>
               </div>
-              <p class="text-muted tx-13">2024-10-24 to 2024-10-25</p>
-            </div>
-          </a>
-          <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
-            <div class="w-100">
-              <div class="d-flex justify-content-between">
-                <h6 class="fw-normal text-body mb-1">RTM:</h6>
+            </a>
+            <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
+              <div class="w-100">
+                <div class="d-flex justify-content-between">
+                  <h6 class="fw-normal text-body mb-1">RTM:</h6>
+                </div>
+                <p class="text-muted tx-13">{{ $item->formatted_rtm }}</p>
               </div>
-              <p class="text-muted tx-13">2024-10-31</p>
-            </div>
-          </a>
-        </div>
+            </a>
+          </div>
+          <br>
+        @endforeach
       </div>
     </div>
   </div>
@@ -158,45 +161,23 @@
         </p>
         <br>
         <div class="accordion" id="accordionExample">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                Pengumuman 1
-              </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-              <div class="accordion-body">
-                <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-              </div>
-              <div class="accordion-body">
-                <p class="text-muted mb-3">Dikirim oleh : Titin Purnaningsih, S.Si., M.Si, pukul : 08:57:43 am, pada tanggal 2022-11-23.</p>
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                Pengumuman 2
-              </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-              <div class="accordion-body">
-                <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+          @foreach($pengumuman as $index => $item)
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="heading{{ $index }}">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}" aria-expanded="{{ $index == 0 ? 'true' : 'false' }}" aria-controls="collapse{{ $index }}">
+                  {{ $item->pengumuman_judul }}
+                </button>
+              </h2>
+              <div id="collapse{{ $index }}" class="accordion-collapse collapse {{ $index == 0 ? 'show' : '' }}" aria-labelledby="heading{{ $index }}" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  {{ $item->pengumuman_informasi }}
+                </div>
+                <div class="accordion-body">
+                  <p class="text-muted mb-3">Dikirim oleh: {{ $item->sender_name }}, pukul: {{ $item->created_at->format('H:i:s a') }}, pada tanggal {{ $item->created_at->format('Y-m-d') }}.</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingThree">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                Pengumuman 3
-              </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-              <div class="accordion-body">
-                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-              </div>
-            </div>
-          </div>
+          @endforeach
         </div>
       </div> 
     </div>

@@ -29,15 +29,13 @@ class PemenuhanDokumenController extends Controller
 {
     public function index(Request $request)
     {
-        $penempatan = session('user_penempatan', 'BAN-PT'); 
-        $akses = session('user_akses', 'S1'); 
+        $penempatan = session('user_penempatan'); 
+        $akses = session('user_akses'); 
 
         preg_match('/\b(S[0-9]+|D[0-9]+)\b/', $penempatan, $matches);
         $degree = $matches[0] ?? 'S1'; 
 
         $key = trim($akses . ' ' . $degree);
-
-        // dd($akses, $penempatan, $matches, $degree, $key);
 
         $standar_names_banpt = [
             'Kondisi Eksternal',
@@ -101,10 +99,12 @@ class PemenuhanDokumenController extends Controller
 
         foreach ($standarNames as $index => $name) {
             $data_standar['data_standar_k' . ($index + 1)] = $modelClass::with([
-                $standarTargetsRelation => function ($query) use ($degree) {
-                    $query->where('jenjang', $degree);
+                $standarTargetsRelation => function ($query) use ($key) {
+                    $query->where('jenjang', $key);
                 },
-                $standarCapaiansRelation,
+                $standarCapaiansRelation => function ($query) use ($penempatan) {
+                    $query->where('prodi', $penempatan);
+                },
             ])
             ->when($request->q, function ($query) use ($request) {
                 $query->where('elemen_nama', 'like', '%' . $request->q . '%');
@@ -113,21 +113,24 @@ class PemenuhanDokumenController extends Controller
             ->latest()
             ->paginate(30)
             ->appends(['q' => $request->q]);
-        }
+        }        
 
         return view('pages.user.pemenuhan-dokumen.index', [
             'nama_data_standar' => $standarNames,
             'standarTargetsRelation' => $standarTargetsRelation,
+            'standarCapaiansRelation' => $standarCapaiansRelation,
             'data_standar' => $data_standar,
-            'degree' => $degree
+            'key' => $key
         ]);
     }
 
     public function pemenuhanDokumen(Request $request, $indikator_kode)
     {
+        $penempatan = session('user_penempatan', 'BAN-PT'); 
+
         $standarElemen = StandarElemenBanptS1::where('indikator_kode', $indikator_kode)->firstOrFail();
 
-        $standarCapaian = StandarCapaian::where('indikator_kode', $indikator_kode)
+        $standarCapaian = StandarCapaian::where('indikator_kode', $indikator_kode)->where('prodi', $penempatan)
         ->when($request->q, function ($query, $q) {
             $query->where('id', 'like', "%{$q}%"); 
         })->latest()->paginate(10);
@@ -141,8 +144,15 @@ class PemenuhanDokumenController extends Controller
 
     public function pemenuhanDokumenCreate(Request $request, $indikator_kode)
     {
+        $penempatan = session('user_penempatan', 'BAN-PT'); 
+        $akses = session('user_akses', 'S1'); 
+
+        preg_match('/\b(S[0-9]+|D[0-9]+)\b/', $penempatan, $matches);
+        $degree = $matches[0] ?? 'S1'; 
+
+        $key = trim($akses . ' ' . $degree);
         $standarElemen = StandarElemenBanptS1::where('indikator_kode', $indikator_kode)->firstOrFail();
-        $standarTargets = StandarTarget::where('indikator_kode', $indikator_kode)->get();
+        $standarTargets = StandarTarget::where('indikator_kode', $indikator_kode)->where('jenjang', $key)->get();
 
 
         return view('pages.user.pemenuhan-dokumen.input-capaian.create', [

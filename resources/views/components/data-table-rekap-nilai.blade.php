@@ -18,13 +18,13 @@
           <td>{{ $standard->elemen_nama }}</td>
           <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
           <td class="text-center">
-            {{ optional($standard->standarNilaisBanptS1)->hasil_nilai ?? 0 }}
+            {{ optional($standard->$standarNilaisRelations)->hasil_nilai ?? 0 }}
           </td>
           <td class="text-center">
-            {{ optional($standard->standarNilaisBanptS1)->bobot ?? 0 }}
+            {{ optional($standard->$standarNilaisRelations)->bobot ?? 0 }}
           </td>
           <td class="text-center">
-            {{ (optional($standard->standarNilaisBanptS1)->hasil_nilai ?? 0) * (optional($standard->standarNilaisBanptS1)->bobot ?? 0) }}
+            {{ (optional($standard->$standarNilaisRelations)->hasil_nilai ?? 0) * (optional($standard->$standarNilaisRelations)->bobot ?? 0) }}
           </td>            
           <td class="text-center">
             <a href="#" data-bs-toggle="modal" data-bs-target="#infoModal{{ $standard->id }}" class="btn btn-warning btn-icon">
@@ -49,49 +49,57 @@
                     <div class="col-7">{{ $standard->elemen_nama }}</div>
                   </div>
                   <div class="row mb-2">
+                    <div class="col-3 fw-bold">Nilai Mandiri:</div>
+                    <div class="col-9">{{ optional($standard->$standarNilaisRelations)->mandiri_nilai ?? 0}}</div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-3 fw-bold">Nilai Auditor:</div>
+                    <div class="col-9">{{ optional($standard->$standarNilaisRelations)->hasil_nilai ?? 0}}</div>
+                  </div>
+                  <div class="row mb-2">
                     <div class="col-3 fw-bold">Jenis Temuan:</div>
-                    <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->jenis_temuan }}</div>
+                    <div class="col-9">{{ optional($standard->$standarNilaisRelations)->jenis_temuan }}</div>
                   </div>
                   <div class="row mb-2">
                     <div class="col-3 fw-bold">Deskripsi Temuan:</div>
-                    <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->hasil_deskripsi }}</div>
+                    <div class="col-9">{{ optional($standard->$standarNilaisRelations)->hasil_deskripsi }}</div>
                   </div>
                   <div class="row mb-2">
                     <div class="col-3 fw-bold">Kriteria:</div>
-                    <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->hasil_kriteria }}</div>
+                    <div class="col-9">{{ optional($standard->$standarNilaisRelations)->hasil_kriteria }}</div>
                   </div>
                   <div class="row mb-2">
                     <div class="col-3 fw-bold">Akibat:</div>
-                    <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->hasil_akibat }}</div>
+                    <div class="col-9">{{ optional($standard->$standarNilaisRelations)->hasil_akibat }}</div>
                   </div>
                   <div class="row mb-2">
                     <div class="col-3 fw-bold">Akar Masalah:</div>
-                    <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->hasil_masalah }}</div>
+                    <div class="col-9">{{ optional($standard->$standarNilaisRelations)->hasil_masalah }}</div>
                   </div>
                   <div class="row mb-2">
                     <div class="col-3 fw-bold">Rekomendasi:</div>
-                    <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->hasil_rekomendasi }}</div>
+                    <div class="col-9">{{ optional($standard->$standarNilaisRelations)->hasil_rekomendasi }}</div>
                   </div>
-                  @if (optional($standard->standarNilaisBanptS1)->jenis_temuan !== 'Sesuai')
+                  @if (optional($standard->$standarNilaisRelations)->jenis_temuan !== 'Sesuai')
                     <div class="row mb-2">
                       <div class="col-3 fw-bold">Rencana Perbaikan:</div>
-                      <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->hasil_rencana_perbaikan }}</div>
+                      <div class="col-9">{{ optional($standard->$standarNilaisRelations)->hasil_rencana_perbaikan }}</div>
                     </div>
                     <div class="row mb-2">
                       <div class="col-3 fw-bold">Jadwal Perbaikan:</div>
-                      <div class="col-3">{{ optional($standard->standarNilaisBanptS1)->hasil_jadwal_perbaikan }}</div>
+                      <div class="col-3">{{ optional($standard->$standarNilaisRelations)->hasil_jadwal_perbaikan }}</div>
                       <div class="col-3 fw-bold">Penanggung Jawab:</div>
-                      <div class="col-3">{{ optional($standard->standarNilaisBanptS1)->hasil_perbaikan_penanggung }}</div>
+                      <div class="col-3">{{ optional($standard->$standarNilaisRelations)->hasil_perbaikan_penanggung }}</div>
                     </div>
                     <div class="row mb-2">
                       <div class="col-3 fw-bold">Rencana Pencegahan:</div>
-                      <div class="col-9">{{ optional($standard->standarNilaisBanptS1)->hasil_rencana_pencegahan }}</div>
+                      <div class="col-9">{{ optional($standard->$standarNilaisRelations)->hasil_rencana_pencegahan }}</div>
                     </div>
                     <div class="row mb-2">
                       <div class="col-3 fw-bold">Jadwal Pencegahan:</div>
-                      <div class="col-3">{{ optional($standard->standarNilaisBanptS1)->hasil_jadwal_pencegahan }}</div>
+                      <div class="col-3">{{ optional($standard->$standarNilaisRelations)->hasil_jadwal_pencegahan }}</div>
                       <div class="col-3 fw-bold">Penanggung Jawab:</div>
-                      <div class="col-3">{{ optional($standard->standarNilaisBanptS1)->hasil_rencana_penanggung }}</div>
+                      <div class="col-3">{{ optional($standard->$standarNilaisRelations)->hasil_rencana_penanggung }}</div>
                     </div>
                   @endif
                 </div>
@@ -102,7 +110,6 @@
             </div>
           </div>
         </div>
-
       @endforeach
     </tbody>
   </table>

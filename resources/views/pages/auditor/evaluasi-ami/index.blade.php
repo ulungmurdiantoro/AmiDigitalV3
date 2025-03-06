@@ -21,28 +21,28 @@
             <p class="text-muted mb-3">Tindaklanjuti aktivitas AMI (Audit Mutu Internal) dengan memberikan feedback atau tanggapan dari setiap pengajuan.</p>
           </div>
         </div>
-        @foreach ($data_kesiapan as $kesiapan)
           <div class="row flex-grow-1">
-            <div class="col-md-5 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-baseline">
+            @foreach ($data_kesiapan as $kesiapan)
+              <div class="col-md-5 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-baseline">
                       <input type="hidden" name="periode" value="{{ $kesiapan->periode }}">
                       <input type="hidden" name="prodi_ami" value="{{ $kesiapan->prodi }}">
-                      <h2 class="card-title">AMI {{ $kesiapan->periode }}</h2>
-                  </div>
-                  <div class="row">
-                    <p class="text-muted mb-3">Kesiapan AMI (Audit Mutu Internal) Program Studi {{ $kesiapan->prodi }} tahun {{ $kesiapan->periode }}</p>
-                    
-                    <a href="{{ route('auditor.evaluasi-ami.audit-ami', ['periode' => urlencode($kesiapan->periode), 'prodi' => $kesiapan->prodi]) }}" class="btn btn-secondary btn-icon-text mb-2 mb-md-0" title="Perbarui Data">
-                      <i class="link-icon" data-feather="edit-3"></i> Lihat Status dan Perbarui Data
-                    </a>
+                      <h2 class="card-title">AMI {{ $kesiapan->periode }} {{ $kesiapan->prodi }}</h2>
+                    </div>
+                    <div class="row">
+                      <p class="text-muted mb-3">Kesiapan AMI (Audit Mutu Internal) Program Studi {{ $kesiapan->prodi }} tahun {{ $kesiapan->periode }}</p>
+                      
+                      <a href="{{ route('auditor.evaluasi-ami.audit-ami', ['periode' => urlencode($kesiapan->periode), 'prodi' => $kesiapan->prodi]) }}" class="btn btn-secondary btn-icon-text mb-2 mb-md-0" title="Perbarui Data">
+                        <i class="link-icon" data-feather="edit-3"></i> Lihat Status dan Perbarui Data
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            @endforeach
           </div>
-        @endforeach
       </div>
     </div>
   </div>

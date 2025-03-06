@@ -8,12 +8,15 @@ class PemenuhanDokumen extends Component
 {
     public $id;
     public $standards;
+    public $standarTargetsRelations;
+    public $standarCapaiansRelations;
 
-    public function __construct(string $id, $standards)
+    public function __construct(string $id, $standards, $standarTargetsRelations, $standarCapaiansRelations)
     {
-        // dd($id, $standards);
         $this->id = $id;
         $this->standards = $standards;
+        $this->standarTargetsRelations = $standarTargetsRelations;
+        $this->standarCapaiansRelations = $standarCapaiansRelations;
     }
 
     public function render()

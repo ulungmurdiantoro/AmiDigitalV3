@@ -4,7 +4,7 @@
       <tr>
         <th class="col-md-1 text-center" style="padding: 0.5rem;">Kode</th>
         <th class="col-md-2" style="padding: 0.5rem;">Elemen</th>
-        <th class="col-md-5" style="padding: 0.5rem;">Indikator</th>
+        <th class="col-md-4" style="padding: 0.5rem;">Indikator</th>
         <th class="col-md-1 text-center" style="padding: 0.5rem;">Informasi</th>
         <th class="col-md-1 text-center" style="padding: 0.5rem;">Terget</th>
         <th class="col-md-1 text-center" style="padding: 0.5rem;">Capaian</th>
@@ -18,25 +18,25 @@
             <td class="text-center">{{ $standard->indikator_kode }}</td>
             <td>{{ $standard->elemen_nama }}</td>
             <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
-            <td>
+            <td class="text-center">
               <a href="#" data-bs-toggle="modal" data-bs-target="#infoModal{{ $standard->id }}" class="btn btn-warning btn-icon">
                 <i data-feather="info"></i>
               </a>
             </td>
-            <td>
+            <td class="text-center">
               <a href="#" data-bs-toggle="modal" data-bs-target="#targetModal{{ $standard->id }}" class="btn btn-primary btn-icon">
-                {{ $standard->standarTargetsBanptS1->count() }}<br>
+                {{ $standard->$standarTargetsRelations->count() }}<br>
               </a>
             </td>
-            <td>
+            <td class="text-center">
               <a href="#" data-bs-toggle="modal" data-bs-target="#capaianModal{{ $standard->id }}" class="btn btn-warning btn-icon">
-                {{ $standard->standarCapaiansBanptS1->count() }}<br>
+                {{ $standard->$standarCapaiansRelations->count() }}<br>
               </a>
             </td>
-            <td>
-              {{ optional($standard->standarNilaisBanptS1)->hasil_nilai ?? 0 }}
+            <td class="text-center">
+              {{ optional($standard->$standarNilaisRelations)->hasil_nilai ?? 0 }}
             </td>
-            <td>
+            <td class="text-center">
               <a href="#" data-bs-toggle="modal" data-bs-target="#editModal{{ $standard->id }}" class="btn btn-info btn-icon">
                 <i data-feather="edit"></i>
               </a>
@@ -75,7 +75,7 @@
                   <div class="mb-2">
                     <b>Indikator</b> : {{ $standard->indikator_nama }}
                   </div>
-                  @foreach ($standard->standarTargetsBanptS1 as $target)
+                  @foreach ($standard->$standarTargetsRelations as $target)
                     <div>
                       {{ $loop->iteration }}. {{ $target->dokumen_nama }} - {{ $target->dokumen_tipe }} ({{ $target->dokumen_keterangan }})
                     </div>
@@ -100,7 +100,7 @@
                   <div class="mb-3">
                     <b>Indikator</b> : {{ $standard->indikator_nama }}
                   </div>
-                  @foreach ($standard->standarCapaiansBanptS1 as $capaian)
+                  @foreach ($standard->$standarCapaiansRelations as $capaian)
                     <div>
                       {{ $loop->iteration }}. {{ $capaian->dokumen_nama }} - {{ $capaian->dokumen_tipe }} ({{ $capaian->dokumen_keterangan }})<br>
                       <a href="{{ $capaian->dokumen_file }}" target="_blank" class="btn btn-warning btn-icon" rel="noopener noreferrer">
@@ -140,26 +140,26 @@
                     <span>Indikator</span>:
                     <textarea name="indikator_namas" class="form-control mb-1" readonly>{{ $standard->indikator_nama }}</textarea>
                     <span>Nilai Mandiri</span>:
-                    <input type="number" name="nilai_mandiris" class="form-control mb-1 w-50" value="{{ optional($standard->standarNilaisBanptS1)->mandiri_nilai ?? 0 }}" readonly>
+                    <input type="number" name="nilai_mandiris" class="form-control mb-1 w-50" value="{{ optional($standard->$standarNilaisRelations)->mandiri_nilai ?? 0 }}" readonly>
                     <span>Verifikasi Nilai Auditor</span>:
-                    <input type="number" min="0" max="4" step="0.01" name="hasil_nilais" class="form-control mb-1 w-50" value="{{ optional($standard->standarNilaisBanptS1)->hasil_nilai ?? 0 }}">
+                    <input type="number" min="0" max="4" step="0.01" name="hasil_nilais" class="form-control mb-1 w-50" value="{{ optional($standard->$standarNilaisRelations)->hasil_nilai ?? 0 }}">
                     <span>Kriteria</span> :
-                    <textarea name="hasil_kriterias" class="form-control mb-1" placeholder="Deskripsikan kriteria pada indikator ini, kosongkan jika tidak ada.">{{ optional($standard->standarNilaisBanptS1)->hasil_kriteria }}</textarea>
+                    <textarea name="hasil_kriterias" class="form-control mb-1" placeholder="Deskripsikan kriteria pada indikator ini, kosongkan jika tidak ada.">{{ optional($standard->$standarNilaisRelations)->hasil_kriteria }}</textarea>
                     <span>Deskripsi Temuan</span> :
-                    <textarea name="hasil_deskripsis" class="form-control mb-1" placeholder="Deskripsikan temuan pada indikator ini, kosongkan jika tidak ada.">{{ optional($standard->standarNilaisBanptS1)->hasil_deskripsi }}</textarea>
+                    <textarea name="hasil_deskripsis" class="form-control mb-1" placeholder="Deskripsikan temuan pada indikator ini, kosongkan jika tidak ada.">{{ optional($standard->$standarNilaisRelations)->hasil_deskripsi }}</textarea>
                     <span>Jenis Temuan</span> : 
                     <select name="jenis_temuans" class="form-control mb-1" required>
-                      <option {{ optional($standard->standarNilaisBanptS1)->jenis_temuan }}>{{ optional($standard->standarNilaisBanptS1)->jenis_temuan }}</option>
+                      <option {{ optional($standard->$standarNilaisRelations)->jenis_temuan }}>{{ optional($standard->$standarNilaisRelations)->jenis_temuan }}</option>
                       <option value="Sesuai">Sesuai</option>
                       <option value="OB">OB</option>
                       <option value="KTS">KTS</option>
                     </select>
                     <span>Akibat</span> :
-                    <textarea name="hasil_akibats" class="form-control mb-1" placeholder=" Deskripsikan akar masalah pada indikator ini yang menyebabkan adanya temuan, kosongkan jika tidak ada.">{{ optional($standard->standarNilaisBanptS1)->hasil_akibat }}</textarea>
+                    <textarea name="hasil_akibats" class="form-control mb-1" placeholder=" Deskripsikan akar masalah pada indikator ini yang menyebabkan adanya temuan, kosongkan jika tidak ada.">{{ optional($standard->$standarNilaisRelations)->hasil_akibat }}</textarea>
                     <span>Akar Masalah</span> :
-                    <textarea name="hasil_masalahs" class="form-control mb-1" placeholder=" Deskripsikan akar masalah pada indikator ini yang menyebabkan adanya temuan, kosongkan jika tidak ada.">{{ optional($standard->standarNilaisBanptS1)->hasil_masalah }}</textarea>
+                    <textarea name="hasil_masalahs" class="form-control mb-1" placeholder=" Deskripsikan akar masalah pada indikator ini yang menyebabkan adanya temuan, kosongkan jika tidak ada.">{{ optional($standard->$standarNilaisRelations)->hasil_masalah }}</textarea>
                     <span>Rekomendasi</span> :
-                    <textarea name="hasil_rekomendasis" class="form-control mb-1" placeholder=" Deskripsikan rekomendasi pada indikator ini yang dapat menghilangkan adanya temuan atau peluang untuk peningkatan, kosongkan jika tidak ada.">{{ optional($standard->standarNilaisBanptS1)->hasil_rekomendasi }}</textarea>
+                    <textarea name="hasil_rekomendasis" class="form-control mb-1" placeholder=" Deskripsikan rekomendasi pada indikator ini yang dapat menghilangkan adanya temuan atau peluang untuk peningkatan, kosongkan jika tidak ada.">{{ optional($standard->$standarNilaisRelations)->hasil_rekomendasi }}</textarea>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -37,11 +37,15 @@ class StandarNilai extends Model
         return $this->belongsTo(StandarElemenBanptS1::class, 'indikator_kode', 'indikator_kode');
     }
 
+    public function standarElemenLamdikS1()
+    {
+        return $this->belongsTo(StandarElemenLamdikS1::class, 'indikator_kode', 'indikator_kode');
+    }
+
     protected $compositeIndicatorsConfig = [
         'D3' => [
-
         ],
-        'S1' => [
+        'BAN-PT S1' => [
             'S1-6' => [
                 'components' => [
                     ['kode' => 'S1-6A', 'weight' => 1],
@@ -136,6 +140,8 @@ class StandarNilai extends Model
                 'multiplier' => 3.35,
             ],
         ],
+        'LAMDIK S1' => [
+        ]
     ];
 
     public static function calculateTotal($periode, $prodi)
@@ -170,7 +176,7 @@ class StandarNilai extends Model
         return ($numerator / $divisor) * $multiplier;
     }
 
-    public function calculateTotalWithS1($periode, $prodi)
+    public function calculateTotalWithBANPTS1($periode, $prodi)
     {
         $nilaiCollection = self::where('periode', $periode)
             ->where('prodi', $prodi)
@@ -184,22 +190,58 @@ class StandarNilai extends Model
 
         if ($prodiPrefix === 'D3') {
             $indicatorPrefix = 'D3';
-            $indicatorRange = 69;
-        } elseif ($prodiPrefix === 'S3') {
-            $indicatorPrefix = 'S3';
-            $indicatorRange = 69; 
-        } elseif ($prodiPrefix === 'S2 Terapan') {
-            $indicatorPrefix = 'S2 Terapan';
-            $indicatorRange = 69; 
-        } elseif ($prodiPrefix === 'S2') {
-            $indicatorPrefix = 'S2';
-            $indicatorRange = 69; 
-        } elseif ($prodiPrefix === 'S1 Terapan') {
-            $indicatorPrefix = 'S1 Terapan';
-            $indicatorRange = 69; 
+            $indicatorRange = 67;
         } elseif ($prodiPrefix === 'S1') {
             $indicatorPrefix = 'S1';
             $indicatorRange = 69; 
+        } else {
+            $indicatorPrefix = 'Unknown';
+            $indicatorRange = 0;
+        }
+
+        $compositeIndicators = isset($this->compositeIndicatorsConfig[$indicatorPrefix])
+            ? array_keys($this->compositeIndicatorsConfig[$indicatorPrefix])
+            : [];
+
+        $allIndicators = [];
+        for ($i = 1; $i <= $indicatorRange; $i++) {
+            $indicator = $indicatorPrefix . '-' . $i;
+            $allIndicators[] = $indicator;
+        }
+
+        foreach ($compositeIndicators as $indicator) {
+            $total += $this->calculateCompositeIndicator($indicator, $nilaiCollection, $indicatorPrefix);
+        }
+
+        foreach ($allIndicators as $indicator) {
+            if (!in_array($indicator, $compositeIndicators) && $nilaiCollection->has($indicator)) {
+                $nilai = $nilaiCollection[$indicator];
+                $bobot = $nilai->bobot ?? 1;
+                $total += $nilai->hasil_nilai * $bobot;
+            }
+        }
+
+        return [
+            'total' => $total,
+            'prodiPrefix' => $prodiPrefix
+        ];
+    }
+
+    public function calculateTotalWithLAMDIKS1($periode, $prodi)
+    {
+        $nilaiCollection = self::where('periode', $periode)
+            ->where('prodi', $prodi)
+            ->get()
+            ->keyBy('indikator_kode'); 
+
+        $total = 0;
+
+        $prodiParts = explode(' - ', $prodi);
+        $prodiPrefix = trim($prodiParts[0] ?? $prodi);
+
+        if ($prodiPrefix === 'S1') {
+            $indicatorPrefix = 'S1';
+            $indicatorRange = 64; 
         } else {
             $indicatorPrefix = 'Unknown';
             $indicatorRange = 0;
@@ -237,17 +279,24 @@ class StandarNilai extends Model
     {
         $data = [];
 
-        $data['a1'] = $this->getHasilNilai('S1-12', $periode, $prodi) >= 2 ? 'Terpenuhi' : 'Tidak Terpenuhi';
-        $data['a2'] = $this->getHasilNilai('S1-17', $periode, $prodi) >= 2 ? 'Terpenuhi' : 'Tidak Terpenuhi';
-        $data['a3'] = ($this->getHasilNilai('S1-38A', $periode, $prodi) + (2 * $this->getHasilNilai('S1-38B', $periode, $prodi)) + (2 * $this->getHasilNilai('S1-38C', $periode, $prodi))) / 5 >= 2 ? 'Terpenuhi' : 'Tidak Terpenuhi';
-        $data['b1'] = $this->getHasilNilai('S1-18', $periode, $prodi) >= 3.5 ? 'Terpenuhi' : 'Tidak Terpenuhi';
-        $data['b2'] = $this->getHasilNilai('S1-19', $periode, $prodi) >= 3.5 ? 'Terpenuhi' : 'Tidak Terpenuhi';
-        $data['b3'] = $this->getHasilNilai('S1-60', $periode, $prodi) >= 3.5 ? 'Terpenuhi' : 'Tidak Terpenuhi';
-        $data['b4'] = $this->getHasilNilai('S1-61', $periode, $prodi) >= 3.5 ? 'Terpenuhi' : 'Tidak Terpenuhi';
-        $data['c1'] = $this->getHasilNilai('S1-18', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
-        $data['c2'] = $this->getHasilNilai('S1-19', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
-        $data['c3'] = $this->getHasilNilai('S1-60', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
-        $data['c4'] = $this->getHasilNilai('S1-61', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['banpt_a1'] = $this->getHasilNilai('S1-12', $periode, $prodi) >= 2 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['banpt_a2'] = $this->getHasilNilai('S1-17', $periode, $prodi) >= 2 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['banpt_a3'] = ($this->getHasilNilai('S1-38A', $periode, $prodi) + (2 * $this->getHasilNilai('S1-38B', $periode, $prodi)) + (2 * $this->getHasilNilai('S1-38C', $periode, $prodi))) / 5 >= 2 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['banpt_b1'] = $this->getHasilNilai('S1-18', $periode, $prodi) >= 3.5 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['banpt_b2'] = $this->getHasilNilai('S1-19', $periode, $prodi) >= 3.5 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['banpt_b3'] = $this->getHasilNilai('S1-60', $periode, $prodi) >= 3.5 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['banpt_b4'] = $this->getHasilNilai('S1-61', $periode, $prodi) >= 3.5 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['banpt_c1'] = $this->getHasilNilai('S1-18', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['banpt_c2'] = $this->getHasilNilai('S1-19', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['banpt_c3'] = $this->getHasilNilai('S1-60', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['banpt_c4'] = $this->getHasilNilai('S1-61', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        
+        $data['lamdik_a1'] = $this->getHasilNilai('S1-19', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_a2'] = $this->getHasilNilai('S1-49', $periode, $prodi) > 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_a3'] = $this->getHasilNilai('S1-35', $periode, $prodi) >= 3.25 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_a4'] = $this->getHasilNilai('S1-63', $periode, $prodi) >= 3.5 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_a5'] = $this->getHasilNilai('S1-15', $periode, $prodi) >= 4 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_a6'] = $this->getHasilNilai('S1-55', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
 
         return $data;
     }
@@ -258,6 +307,63 @@ class StandarNilai extends Model
             ->where('periode', $periode)
             ->where('prodi', $prodi)
             ->value('hasil_nilai');
+    }
+
+    private function calculateHStatus(array $criteriaStatus, $total, $accreditationType)
+    {
+        if ($accreditationType === 'BAN-PT S1') {
+            // BAN-PT S1 logic
+            $h2 = ($criteriaStatus['a1'] === 'Terpenuhi' &&
+                $criteriaStatus['a2'] === 'Terpenuhi' &&
+                $criteriaStatus['a3'] === 'Terpenuhi')
+                ? 'Terpenuhi' : 'Tidak Terpenuhi';
+
+            $h3 = ($criteriaStatus['b1'] === 'Terpenuhi' &&
+                $criteriaStatus['b2'] === 'Terpenuhi' &&
+                $criteriaStatus['b3'] === 'Terpenuhi' &&
+                $criteriaStatus['b4'] === 'Terpenuhi')
+                ? 'Terpenuhi' : 'Tidak Terpenuhi';
+
+            $h4 = ($criteriaStatus['c1'] === 'Terpenuhi' &&
+                $criteriaStatus['c2'] === 'Terpenuhi' &&
+                $criteriaStatus['c3'] === 'Terpenuhi' &&
+                $criteriaStatus['c4'] === 'Terpenuhi')
+                ? 'Terpenuhi' : 'Tidak Terpenuhi';
+
+            $h5 = ($h2 === 'Terpenuhi') ? 'Terakreditasi' : 'Tidak Terakreditasi';
+
+            if ($total >= 361 && $h2 === 'Terpenuhi' && $h3 === 'Terpenuhi' && $h5 === 'Terakreditasi') {
+                $h6 = 'Unggul';
+            } elseif ($total >= 361 && $h2 === 'Terpenuhi' && $h3 === 'Tidak Terpenuhi') {
+                $h6 = 'Baik Sekali';
+            } elseif ($total >= 301 && $total < 361 && $h2 === 'Terpenuhi' && $h4 === 'Terpenuhi' && $h5 === 'Terakreditasi') {
+                $h6 = 'Baik Sekali';
+            } elseif ($total >= 301 && $total < 361 && $h2 === 'Terpenuhi' && $h4 === 'Tidak Terpenuhi' && $h5 === 'Terakreditasi') {
+                $h6 = 'Baik';
+            } elseif ($total >= 200 && $total < 301 && $h2 === 'Terpenuhi') {
+                $h6 = 'Baik';
+            } else {
+                $h6 = '-';
+            }
+        } elseif ($accreditationType === 'LAMDIK S1') {
+            // LAMDIK S1 logic (adjust thresholds and criteria as needed)
+            // Here we use a different set of criteria keys and/or thresholds.
+            $h2 = ($criteriaStatus['lamdik_a1'] ?? 'Tidak Terpenuhi') === 'Terpenuhi'
+                ? 'Terpenuhi' : 'Tidak Terpenuhi';
+
+            $h3 = ($criteriaStatus['lamdik_a2'] ?? 'Tidak Terpenuhi') === 'Terpenuhi'
+                ? 'Terpenuhi' : 'Tidak Terpenuhi';
+
+            // You can define h4, h5, and h6 using your specific LAMDIK rules:
+            $h4 = ($total >= 350) ? 'Terpenuhi' : 'Tidak Terpenuhi';
+            $h5 = ($total >= 350) ? 'Tercapai' : 'Belum Tercapai';
+            $h6 = ($total > 360) ? 'Unggul' : (($total > 310) ? 'Baik Sekali' : 'Baik');
+        } else {
+            // Fallback in case the accreditation type is unrecognized.
+            $h2 = $h3 = $h4 = $h5 = $h6 = '-';
+        }
+
+        return compact('h2', 'h3', 'h4', 'h5', 'h6');
     }
 
 }

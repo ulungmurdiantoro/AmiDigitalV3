@@ -21,6 +21,7 @@ class UserController extends Controller
             session([
                 'user_id' => Auth::user()->user_id,
                 'user_nama' => Auth::user()->user_nama,
+                'user_kode' => Auth::user()->users_code,
                 'user_jabatan' => Auth::user()->user_jabatan,
                 'user_penempatan' => Auth::user()->user_penempatan,
                 'user_akses' => Auth::user()->user_akses,

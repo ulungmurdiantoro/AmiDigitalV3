@@ -11,19 +11,17 @@
         <th class="col-md-1 text-center">Kelola Kebutuhan</th>
       </tr>
     </thead>
-    {{-- @dd($standards) --}}
     <tbody>
       @foreach ($standards as $standard)
         <tr>
           <td class="text-center">{{ $standard->indikator_kode }}</td>
           <td>{{ $standard->elemen_nama }}</td>                 
           <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
-
           <td class="text-center">
-              {{ $standard->standarTargetsBanptS1->count() }}<br>
+            {{ $standard->$standarTargetsRelations->count() }}<br>
           </td>
           <td class="text-center">
-              {{ $standard->standarCapaiansBanptS1->count() }}<br>
+            {{ $standard->$standarCapaiansRelations->count() }}<br>
           </td>
           <td>
             <a href="{{ route('user.pemenuhan-dokumen.input-capaian', $standard->indikator_kode) }}" class="btn btn-primary btn-icon" title="Manage Target">

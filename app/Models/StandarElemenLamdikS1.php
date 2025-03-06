@@ -33,4 +33,10 @@ class StandarElemenLamdikS1 extends Model
     {
         return $this->hasOne(StandarNilai::class, 'indikator_kode', 'indikator_kode');
     }
+
+    public function standarNilaisNotSesuaiLamdikS1()
+    {
+        return $this->hasOne(StandarNilai::class, 'indikator_kode', 'indikator_kode')
+                    ->where('jenis_temuan', '!=', 'Sesuai');
+    }
 }

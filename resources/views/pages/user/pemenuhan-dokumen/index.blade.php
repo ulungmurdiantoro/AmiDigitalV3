@@ -7,10 +7,10 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
   <div>
-    <h4 class="mb-3 mb-md-0">Pemenuhan Dokumen {{ session('user_akses') }} {{ $degree }}</h4>
+    <h4 class="mb-3 mb-md-0">Pemenuhan Dokumen {{ $key }}</h4>
   </div>
 </div>
-{{-- @dd($degree) --}}
+{{-- @dd($key) --}}
 @foreach ($nama_data_standar as $index => $nama)
   <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
@@ -19,11 +19,21 @@
           <h6 class="mb-0">{{ $nama }}</h6>
         </div>
         <div class="card-body">
-          {{-- @dd($data_standar['data_standar_k' . ($index + 1)]) --}}
-          <x-user.data-table.pemenuhan-dokumen 
-            id="dataTableExample{{ $index + 1 }}" 
-            :standards="$data_standar['data_standar_k' . ($index + 1)]" 
+            @if (strpos($key, 'LAMDIK') !== false)
+            <x-user.data-table.pemenuhan-dokumen-lamdik
+              id="dataTableExample{{ $index + 1 }}" 
+              :standards="$data_standar['data_standar_k' . ($index + 1)]" 
+              :standarTargetsRelations="$standarTargetsRelation"
+              :standarCapaiansRelations="$standarCapaiansRelation"
             />
+          @else
+            <x-user.data-table.pemenuhan-dokumen 
+              id="dataTableExample{{ $index + 1 }}" 
+              :standards="$data_standar['data_standar_k' . ($index + 1)]" 
+              :standarTargetsRelations="$standarTargetsRelation"
+              :standarCapaiansRelations="$standarCapaiansRelation"
+            />
+          @endif
         </div>
       </div>
     </div>

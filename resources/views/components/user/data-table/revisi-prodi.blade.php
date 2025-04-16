@@ -16,7 +16,12 @@
     </thead>
     <tbody>
       @foreach ($standards as $standard)
-        <tr>
+        <tr style="{{ 
+          (empty(optional($standard->$standarNilaisRelations)->hasil_rencana_perbaikan) 
+            && empty(optional($standard->$standarNilaisRelations)->hasil_rencana_pencegahan))
+            ? 'background-color: rgba(140, 18, 61, .85); color: white;'
+            : '' 
+          }}">
           <td class="text-center">{{ $standard->indikator_kode }}</td>
           <td>{{ $standard->elemen_nama }}</td>
           <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>

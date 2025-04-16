@@ -13,22 +13,22 @@
     {{-- @dd($standarTargetsRelations) --}}
     <tbody>
       @foreach ($standards as $standard)
-        <tr>
+        <tr style="{{ $standard->{$standarTargetsRelations}->count() === 0 ? 'background-color: rgba(140, 18, 61, .85); color: white;' : '' }}">
           <td class="text-center">{{ $standard->indikator_kode }}</td>
           <td>{{ $standard->elemen_nama }}</td>
           <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
           <td class="text-center">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#infoModal{{ $standard->id }}" class="btn btn-warning btn-icon">
-              <i data-feather="info"></i>
-            </a>
+              <a href="#" data-bs-toggle="modal" data-bs-target="#infoModal{{ $standard->id }}" class="btn btn-warning btn-icon">
+                  <i data-feather="info"></i>
+              </a>
           </td>
           <td class="text-center">
-            {{ $standard->{$standarTargetsRelations}->count() }}<br>
+              {{ $standard->{$standarTargetsRelations}->count() }}
           </td>
           <td class="text-center">
-            <a href="{{ route('admin.kriteria-dokumen.kelola-target', ['importTitle' => urlencode($importTitle), 'indikator_kode' => $standard->indikator_kode]) }}" class="btn btn-primary btn-icon" title="Manage Target">
-              <i data-feather="plus-square"></i>
-            </a>
+              <a href="{{ route('admin.kriteria-dokumen.kelola-target', ['importTitle' => urlencode($importTitle), 'indikator_kode' => $standard->indikator_kode]) }}" class="btn btn-primary btn-icon" title="Manage Target">
+                  <i data-feather="plus-square"></i>
+              </a>
           </td>
         </tr>
         <!-- Modal for Indikator Info -->
@@ -52,6 +52,5 @@
         </div>
       @endforeach
     </tbody>
-    
   </table>
 </div>

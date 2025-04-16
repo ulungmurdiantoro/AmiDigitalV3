@@ -101,6 +101,7 @@ Route::group(['prefix' => 'admin'], function(){
         Route::delete('/kriteria-dokumen/kelola-target/TipeDokumenDestroy', [KriteriaDokumenController::class, 'tipeDokumenDestroy'])->name('admin.kriteria-dokumen.kelola-target.tipedokumendestroy');
 
         Route::post('/kriteria-dokumen/storeImport', [KriteriaDokumenController::class, 'storeImport'])->name('admin.kriteria-dokumen.storeImport');
+        Route::get('/kriteria-dokumen/{degree}/import', [KriteriaDokumenController::class, 'import'])->name('kriteria-dokumen.import');
         Route::get('/kriteria-dokumen/{degree}/create', [KriteriaDokumenController::class, 'create'])->name('kriteria-dokumen.create');
 
         Route::resource('kriteria-dokumen', KriteriaDokumenController::class)->names([

@@ -16,12 +16,12 @@
   <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
-          <div>
+        <div class="row align-items-center g-3">
+          <div class="col-lg-8 col-md-7 col-sm-12">
             <h4 class="mb-3 mb-md-0">Daftar Referensi Kebutuhan Dokumen {{ session('user_akses') }} {{ $importTitle }} {{ $indikator_kode }}</h4>
-            <p>{{ $standarElemen->elemen_nama }} - {!! nl2br(e($standarElemen->indikator_nama)) !!}</p>          
+            <p>{{ $standarElemen->elemen_nama }} - {!! nl2br(e($standarElemen->indikator_nama)) !!}</p>
           </div>
-          <div class="d-flex align-items-center flex-wrap text-nowrap">
+          <div class="col-lg-4 col-md-5 col-sm-12 text-md-end text-center">
             <a href="{{ route('admin.kriteria-dokumen.kelola-target.create', ['importTitle' => urlencode($importTitle), 'indikator_kode' => $indikator_kode]) }}" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
               <i class="btn-icon-prepend" data-feather="plus-circle"></i>
               Tambah Data

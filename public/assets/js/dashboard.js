@@ -69,7 +69,7 @@ $(function() {
       },
       yaxis: {
         title: {
-          text: 'Number of Sales',
+          text: '',
           style:{
             size: 9,
             color: colors.muted
@@ -369,7 +369,7 @@ $(function() {
         },
         yaxis: {
             title: {
-                text: 'Number of Sales',
+                text: '',
                 style: {
                     size: 9,
                     color: colors.muted

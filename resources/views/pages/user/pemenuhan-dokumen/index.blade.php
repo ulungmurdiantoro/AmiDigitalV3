@@ -19,21 +19,21 @@
           <h6 class="mb-0">{{ $nama }}</h6>
         </div>
         <div class="card-body">
-            @if (strpos($key, 'LAMDIK') !== false)
+            {{-- @if (strpos($key, 'LAMDIK') !== false)
             <x-user.data-table.pemenuhan-dokumen-lamdik
               id="dataTableExample{{ $index + 1 }}" 
               :standards="$data_standar['data_standar_k' . ($index + 1)]" 
               :standarTargetsRelations="$standarTargetsRelation"
               :standarCapaiansRelations="$standarCapaiansRelation"
             />
-          @else
+          @else --}}
             <x-user.data-table.pemenuhan-dokumen 
               id="dataTableExample{{ $index + 1 }}" 
               :standards="$data_standar['data_standar_k' . ($index + 1)]" 
               :standarTargetsRelations="$standarTargetsRelation"
               :standarCapaiansRelations="$standarCapaiansRelation"
             />
-          @endif
+          {{-- @endif --}}
         </div>
       </div>
     </div>

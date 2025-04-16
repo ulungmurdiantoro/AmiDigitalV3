@@ -14,7 +14,7 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="#">Pengguna Sistem</a></li>
     <li class="breadcrumb-item"><a href="#">Program Studi</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Tambah Program Studi</li>
+    <li class="breadcrumb-item active" aria-current="page">Edit Program Studi</li>
   </ol>
 </nav>
 

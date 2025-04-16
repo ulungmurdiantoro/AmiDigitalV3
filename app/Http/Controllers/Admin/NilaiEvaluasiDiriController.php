@@ -3,11 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\StandarElemenBanptS1;
 use App\Models\StandarNilai;
 use App\Models\PenjadwalanAmi;
 use App\Models\StandarElemenBanptD3;
+use App\Models\StandarElemenBanptS1;
+use App\Models\StandarElemenBanptS2;
+use App\Models\StandarElemenBanptS3;
+use App\Models\StandarElemenBanptTerapanS1;
+use App\Models\StandarElemenBanptTerapanS2;
+use App\Models\StandarElemenBanptTerapanS3;
+use App\Models\StandarElemenLamdikD3;
 use App\Models\StandarElemenLamdikS1;
+use App\Models\StandarElemenLamdikS2;
+use App\Models\StandarElemenLamdikS3;
+use App\Models\StandarElemenLamdikTerapanS1;
+use App\Models\StandarElemenLamdikTerapanS2;
+use App\Models\StandarElemenLamdikTerapanS3;
 use App\Models\TransaksiAmi;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -43,8 +54,8 @@ class NilaiEvaluasiDiriController extends Controller
 
         $akses = $transaksi_ami->standar_akreditasi;
 
-        preg_match('/\b(S[0-9]+|D[0-9]+)\b/', $prodi, $matches);
-        $degree = $matches[0] ?? 'S1'; 
+        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $prodi, $matches);
+        $degree = $matches[0] ?? 'PPG';
 
         $key = trim($akses . ' ' . $degree);
 
@@ -65,7 +76,7 @@ class NilaiEvaluasiDiriController extends Controller
 
         $standar_names_lamdik = [
             'Visi Keilmuan',
-            'Tata Kelola',
+            'Tata Pamong dan Tata Kelola',
             'Mahasiswa',
             'Dosen dan Tenaga Kependidikan',
             'Keuangan, Sarana dan Prasarana Pendidikan',
@@ -94,6 +105,20 @@ class NilaiEvaluasiDiriController extends Controller
                 'standarTargetsRelation' => 'standarTargetsLamdikS1',
                 'standarCapaiansRelation' => 'standarCapaiansLamdikS1',
                 'standarNilaisRelation' => 'standarNilaisLamdikS1',
+                'standarNames' => $standar_names_lamdik,
+            ],
+            'LAMDIK PPG' => [
+                'modelClass' => StandarElemenLamdikD3::class,
+                'standarTargetsRelation' => 'standarTargetsLamdikD3',
+                'standarCapaiansRelation' => 'standarCapaiansLamdikD3',
+                'standarNilaisRelation' => 'standarNilaisLamdikD3',
+                'standarNames' => $standar_names_lamdik,
+            ],
+            'LAMDIK S2' => [
+                'modelClass' => StandarElemenLamdikS2::class,
+                'standarTargetsRelation' => 'standarTargetsLamdikS2',
+                'standarCapaiansRelation' => 'standarCapaiansLamdikS2',
+                'standarNilaisRelation' => 'standarNilaisLamdikS2',
                 'standarNames' => $standar_names_lamdik,
             ],
         ];
@@ -144,7 +169,7 @@ class NilaiEvaluasiDiriController extends Controller
             ->with('auditorAmi.user') 
             ->first();
 
-        return view('pages.admin.nilai-evaluasi-diri.rekap-nilai.index', [
+            return view('pages.admin.nilai-evaluasi-diri.rekap-nilai.index', [
             'nama_data_standar' => $standarNames,
             'data_standar' => $data_standar,
             'standarTargetsRelation' => $standarTargetsRelation,
@@ -168,8 +193,8 @@ class NilaiEvaluasiDiriController extends Controller
 
         $akses = $transaksi_ami->standar_akreditasi;
 
-        preg_match('/\b(S[0-9]+|D[0-9]+)\b/', $prodi, $matches);
-        $degree = $matches[0] ?? 'S1'; 
+        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $prodi, $matches);
+        $degree = $matches[0] ?? 'PPG';
 
         $accreditationKey = trim("{$akses} {$degree}"); 
         $key = trim($akses . ' ' . $degree);
@@ -191,7 +216,7 @@ class NilaiEvaluasiDiriController extends Controller
 
         $standar_names_lamdik = [
             'Visi Keilmuan',
-            'Tata Kelola',
+            'Tata Pamong dan Tata Kelola',
             'Mahasiswa',
             'Dosen dan Tenaga Kependidikan',
             'Keuangan, Sarana dan Prasarana Pendidikan',
@@ -215,11 +240,25 @@ class NilaiEvaluasiDiriController extends Controller
                 'standarNilaisRelation' => 'standarNilaisBanptS1',
                 'standarNames' => $standar_names_banpt,
             ],
+            'LAMDIK PPG' => [
+                'modelClass' => StandarElemenLamdikD3::class,
+                'standarTargetsRelation' => 'standarTargetsLamdikD3',
+                'standarCapaiansRelation' => 'standarCapaiansLamdikD3',
+                'standarNilaisRelation' => 'standarNilaisLamdikD3',
+                'standarNames' => $standar_names_lamdik,
+            ],
             'LAMDIK S1' => [
                 'modelClass' => StandarElemenLamdikS1::class,
                 'standarTargetsRelation' => 'standarTargetsLamdikS1',
                 'standarCapaiansRelation' => 'standarCapaiansLamdikS1',
                 'standarNilaisRelation' => 'standarNilaisLamdikS1',
+                'standarNames' => $standar_names_lamdik,
+            ],
+            'LAMDIK S2' => [
+                'modelClass' => StandarElemenLamdikS2::class,
+                'standarTargetsRelation' => 'standarTargetsLamdikS2',
+                'standarCapaiansRelation' => 'standarCapaiansLamdikS2',
+                'standarNilaisRelation' => 'standarNilaisLamdikS2',
                 'standarNames' => $standar_names_lamdik,
             ],
         ];
@@ -306,6 +345,9 @@ class NilaiEvaluasiDiriController extends Controller
     public function calculateTotal($periode, $prodi, $accreditationKey)
     {
         $compositeIndicatorsConfig = [
+            'BAN-PT D3' => [
+                
+            ],
             'BAN-PT S1' => [
                 'S1-6' => [
                     'components' => [
@@ -404,6 +446,12 @@ class NilaiEvaluasiDiriController extends Controller
             'LAMDIK S1' => [
                 
             ],
+            'LAMDIK PPG' => [
+
+            ],
+            'LAMDIK S2' => [
+                
+            ],
         ];
 
         $nilaiCollection = StandarNilai::where('periode', $periode)
@@ -423,9 +471,15 @@ class NilaiEvaluasiDiriController extends Controller
         } elseif ($accreditationKey === 'BAN-PT D3') {
             $indicatorPrefix = 'D3';
             $indicatorRange  = 67;
+        } elseif ($accreditationKey === 'LAMDIK PPG') {
+            $indicatorPrefix = 'PPG';
+            $indicatorRange  = 60;
         } elseif ($accreditationKey === 'LAMDIK S1') {
             $indicatorPrefix = 'S1';
             $indicatorRange  = 64;
+        } elseif ($accreditationKey === 'LAMDIK S2') {
+            $indicatorPrefix = 'S2';
+            $indicatorRange  = 60;
         } else {
             $indicatorPrefix = 'Unknown';
             $indicatorRange  = 0;
@@ -491,8 +545,8 @@ class NilaiEvaluasiDiriController extends Controller
 
         $akses = $transaksi_ami->standar_akreditasi;
 
-        preg_match('/\b(S[0-9]+|D[0-9]+)\b/', $prodi, $matches);
-        $degree = $matches[0] ?? 'S1'; 
+        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $prodi, $matches);
+        $degree = $matches[0] ?? 'PPG';
 
         $key = trim($akses . ' ' . $degree);
 
@@ -513,7 +567,7 @@ class NilaiEvaluasiDiriController extends Controller
 
         $standar_names_lamdik = [
             'Visi Keilmuan',
-            'Tata Kelola',
+            'Tata Pamong dan Tata Kelola',
             'Mahasiswa',
             'Dosen dan Tenaga Kependidikan',
             'Keuangan, Sarana dan Prasarana Pendidikan',
@@ -537,11 +591,25 @@ class NilaiEvaluasiDiriController extends Controller
                 'standarNilaisRelation' => 'standarNilaisBanptS1',
                 'standarNames' => $standar_names_banpt,
             ],
+            'LAMDIK PPG' => [
+                'modelClass' => StandarElemenLamdikD3::class,
+                'standarTargetsRelation' => 'standarTargetsLamdikD3',
+                'standarCapaiansRelation' => 'standarCapaiansLamdikD3',
+                'standarNilaisRelation' => 'standarNilaisLamdikD3',
+                'standarNames' => $standar_names_lamdik,
+            ],
             'LAMDIK S1' => [
                 'modelClass' => StandarElemenLamdikS1::class,
                 'standarTargetsRelation' => 'standarTargetsLamdikS1',
                 'standarCapaiansRelation' => 'standarCapaiansLamdikS1',
                 'standarNilaisRelation' => 'standarNilaisLamdikS1',
+                'standarNames' => $standar_names_lamdik,
+            ],
+            'LAMDIK S2' => [
+                'modelClass' => StandarElemenLamdikS2::class,
+                'standarTargetsRelation' => 'standarTargetsLamdikS2',
+                'standarCapaiansRelation' => 'standarCapaiansLamdikS2',
+                'standarNilaisRelation' => 'standarNilaisLamdikS2',
                 'standarNames' => $standar_names_lamdik,
             ],
         ];

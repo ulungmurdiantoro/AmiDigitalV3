@@ -32,8 +32,9 @@ class PemenuhanDokumenController extends Controller
         $penempatan = session('user_penempatan'); 
         $akses = session('user_akses'); 
 
-        preg_match('/\b(S[0-9]+|D[0-9]+)\b/', $penempatan, $matches);
-        $degree = $matches[0] ?? 'S1'; 
+        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $penempatan, $matches);
+        $degree = $matches[0] ?? 'PPG';
+        // dd($matches);
 
         $key = trim($akses . ' ' . $degree);
 
@@ -54,7 +55,7 @@ class PemenuhanDokumenController extends Controller
 
         $standar_names_lamdik = [
             'Visi Keilmuan',
-            'Tata Kelola',
+            'Tata Pamong dan Tata Kelola',
             'Mahasiswa',
             'Dosen dan Tenaga Kependidikan',
             'Keuangan, Sarana dan Prasarana Pendidikan',
@@ -68,18 +69,35 @@ class PemenuhanDokumenController extends Controller
                 'modelClass' => StandarElemenBanptD3::class,
                 'standarTargetsRelation' => 'standarTargetsD3',
                 'standarCapaiansRelation' => 'standarCapaiansD3',
+                'standarNilaisRelation' => 'standarNilaisD3',
                 'standarNames' => $standar_names_banpt,
             ],
             'BAN-PT S1' => [
                 'modelClass' => StandarElemenBanptS1::class,
                 'standarTargetsRelation' => 'standarTargetsBanptS1',
                 'standarCapaiansRelation' => 'standarCapaiansBanptS1',
+                'standarNilaisRelation' => 'standarNilaisBanptS1',
                 'standarNames' => $standar_names_banpt,
+            ],
+            'LAMDIK PPG' => [
+                'modelClass' => StandarElemenLamdikD3::class,
+                'standarTargetsRelation' => 'standarTargetsLamdikD3',
+                'standarCapaiansRelation' => 'standarCapaiansLamdikD3',
+                'standarNilaisRelation' => 'standarNilaisLamdikD3',
+                'standarNames' => $standar_names_lamdik,
             ],
             'LAMDIK S1' => [
                 'modelClass' => StandarElemenLamdikS1::class,
                 'standarTargetsRelation' => 'standarTargetsLamdikS1',
                 'standarCapaiansRelation' => 'standarCapaiansLamdikS1',
+                'standarNilaisRelation' => 'standarNilaisLamdikS1',
+                'standarNames' => $standar_names_lamdik,
+            ],
+            'LAMDIK S2' => [
+                'modelClass' => StandarElemenLamdikS2::class,
+                'standarTargetsRelation' => 'standarTargetsLamdikS2',
+                'standarCapaiansRelation' => 'standarCapaiansLamdikS2',
+                'standarNilaisRelation' => 'standarNilaisLamdikS2',
                 'standarNames' => $standar_names_lamdik,
             ],
         ];
@@ -126,14 +144,46 @@ class PemenuhanDokumenController extends Controller
 
     public function pemenuhanDokumen(Request $request, $indikator_kode)
     {
-        $penempatan = session('user_penempatan', 'BAN-PT'); 
+        $penempatan = session('user_penempatan'); 
+        $akses = session('user_akses'); 
 
-        $standarElemen = StandarElemenBanptS1::where('indikator_kode', $indikator_kode)->firstOrFail();
+        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $penempatan, $matches);
+        $degree = $matches[0] ?? 'PPG';
 
-        $standarCapaian = StandarCapaian::where('indikator_kode', $indikator_kode)->where('prodi', $penempatan)
-        ->when($request->q, function ($query, $q) {
-            $query->where('id', 'like', "%{$q}%"); 
-        })->latest()->paginate(10);
+        $key = trim($akses . ' ' . $degree);
+
+        $degreeMappings = [
+            'BAN-PT D3' => [
+                'modelClass' => StandarElemenBanptD3::class,
+            ],
+            'BAN-PT S1' => [
+                'modelClass' => StandarElemenBanptS1::class,
+            ],
+            'LAMDIK PPG' => [
+                'modelClass' => StandarElemenLamdikD3::class,
+            ],
+            'LAMDIK S1' => [
+                'modelClass' => StandarElemenLamdikS1::class,
+            ],
+            'LAMDIK S2' => [
+                'modelClass' => StandarElemenLamdikS2::class,
+            ],
+        ];
+
+        if (!isset($degreeMappings[$key])) {
+            Log::warning("Unknown degree key: {$key}, falling back to BAN-PT S1");
+        }
+
+        $degreeInfo = $degreeMappings[$key] ?? $degreeMappings['BAN-PT S1'];
+
+        $modelClass = $degreeInfo['modelClass'];
+        $standarElemen = $modelClass::where('indikator_kode', $indikator_kode)->firstOrFail();
+
+        $standarCapaian = StandarCapaian::where('indikator_kode', $indikator_kode)
+            ->where('prodi', $penempatan)
+            ->when($request->q, function ($query, $q) {
+                $query->where('id', 'like', "%{$q}%");
+            })->latest()->paginate(10);
 
         return view('pages.user.pemenuhan-dokumen.input-capaian.index', [
             'indikator_kode' => $indikator_kode,
@@ -147,13 +197,38 @@ class PemenuhanDokumenController extends Controller
         $penempatan = session('user_penempatan', 'BAN-PT'); 
         $akses = session('user_akses', 'S1'); 
 
-        preg_match('/\b(S[0-9]+|D[0-9]+)\b/', $penempatan, $matches);
-        $degree = $matches[0] ?? 'S1'; 
+        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $penempatan, $matches);
+        $degree = $matches[0] ?? 'PPG';
 
         $key = trim($akses . ' ' . $degree);
-        $standarElemen = StandarElemenBanptS1::where('indikator_kode', $indikator_kode)->firstOrFail();
-        $standarTargets = StandarTarget::where('indikator_kode', $indikator_kode)->where('jenjang', $key)->get();
 
+        $degreeMappings = [
+            'BAN-PT D3' => [
+                'modelClass' => StandarElemenBanptD3::class,
+            ],
+            'BAN-PT S1' => [
+                'modelClass' => StandarElemenBanptS1::class,
+            ],
+            'LAMDIK PPG' => [
+                'modelClass' => StandarElemenLamdikD3::class,
+            ],
+            'LAMDIK S1' => [
+                'modelClass' => StandarElemenLamdikS1::class,
+            ],
+            'LAMDIK S2' => [
+                'modelClass' => StandarElemenLamdikS2::class,
+            ],
+        ];
+
+        if (!isset($degreeMappings[$key])) {
+            Log::warning("Unknown degree key: {$key}, falling back to BAN-PT S1");
+        }
+
+        $degreeInfo = $degreeMappings[$key] ?? $degreeMappings['BAN-PT S1'];
+
+        $modelClass = $degreeInfo['modelClass'];
+        $standarElemen = $modelClass::where('indikator_kode', $indikator_kode)->firstOrFail();
+        $standarTargets = StandarTarget::where('indikator_kode', $indikator_kode)->where('jenjang', $key)->get();
 
         return view('pages.user.pemenuhan-dokumen.input-capaian.create', [
             'indikator_kode' => $indikator_kode,

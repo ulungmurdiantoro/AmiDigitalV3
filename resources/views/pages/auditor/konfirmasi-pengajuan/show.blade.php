@@ -19,7 +19,7 @@
           <h6 class="mb-0">{{ $nama }}</h6>
         </div>
         <div class="card-body">
-          @if (strpos($key, 'LAMDIK') !== false)
+          {{-- @if (strpos($key, 'LAMDIK') !== false)
             <x-auditor.data-table.konfirmasi-pengajuan-lamdik
               id="dataTableExample{{ $index + 1 }}" 
               :standards="$data_standar['data_standar_k' . ($index + 1)]" 
@@ -30,7 +30,7 @@
               :standarCapaiansRelations="$standarCapaiansRelation"
               :standarNilaisRelations="$standarNilaisRelation"
             />
-          @else
+          @else --}}
             <x-auditor.data-table.konfirmasi-pengajuan
               id="dataTableExample{{ $index + 1 }}" 
               :standards="$data_standar['data_standar_k' . ($index + 1)]" 
@@ -41,7 +41,7 @@
               :standarCapaiansRelations="$standarCapaiansRelation"
               :standarNilaisRelations="$standarNilaisRelation"
             />
-          @endif
+          {{-- @endif --}}
         </div>
       </div>
     </div>

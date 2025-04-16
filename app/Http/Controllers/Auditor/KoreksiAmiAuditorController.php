@@ -4,11 +4,22 @@ namespace App\Http\Controllers\Auditor;
 
 use App\Http\Controllers\Controller;
 use App\Models\StandarCapaian;
-use App\Models\StandarElemenBanptS1;
 use App\Models\StandarNilai;
 use App\Models\PenjadwalanAmi;
 use App\Models\StandarElemenBanptD3;
+use App\Models\StandarElemenBanptS1;
+use App\Models\StandarElemenBanptS2;
+use App\Models\StandarElemenBanptS3;
+use App\Models\StandarElemenBanptTerapanS1;
+use App\Models\StandarElemenBanptTerapanS2;
+use App\Models\StandarElemenBanptTerapanS3;
+use App\Models\StandarElemenLamdikD3;
 use App\Models\StandarElemenLamdikS1;
+use App\Models\StandarElemenLamdikS2;
+use App\Models\StandarElemenLamdikS3;
+use App\Models\StandarElemenLamdikTerapanS1;
+use App\Models\StandarElemenLamdikTerapanS2;
+use App\Models\StandarElemenLamdikTerapanS3;
 use App\Models\TransaksiAmi;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -41,8 +52,8 @@ class KoreksiAmiAuditorController extends Controller
 
         $akses = $transaksi_ami->standar_akreditasi;
 
-        preg_match('/\b(S[0-9]+|D[0-9]+)\b/', $prodi, $matches);
-        $degree = $matches[0] ?? 'S1'; 
+        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $prodi, $matches);
+        $degree = $matches[0] ?? 'PPG';
 
         $key = trim($akses . ' ' . $degree);
 
@@ -63,7 +74,7 @@ class KoreksiAmiAuditorController extends Controller
 
         $standar_names_lamdik = [
             'Visi Keilmuan',
-            'Tata Kelola',
+            'Tata Pamong dan Tata Kelola',
             'Mahasiswa',
             'Dosen dan Tenaga Kependidikan',
             'Keuangan, Sarana dan Prasarana Pendidikan',
@@ -92,6 +103,20 @@ class KoreksiAmiAuditorController extends Controller
                 'standarTargetsRelation' => 'standarTargetsLamdikS1',
                 'standarCapaiansRelation' => 'standarCapaiansLamdikS1',
                 'standarNilaisRelation' => 'standarNilaisLamdikS1',
+                'standarNames' => $standar_names_lamdik,
+            ],
+            'LAMDIK PPG' => [
+                'modelClass' => StandarElemenLamdikD3::class,
+                'standarTargetsRelation' => 'standarTargetsLamdikD3',
+                'standarCapaiansRelation' => 'standarCapaiansLamdikD3',
+                'standarNilaisRelation' => 'standarNilaisLamdikD3',
+                'standarNames' => $standar_names_lamdik,
+            ],
+            'LAMDIK S2' => [
+                'modelClass' => StandarElemenLamdikS2::class,
+                'standarTargetsRelation' => 'standarTargetsLamdikS2',
+                'standarCapaiansRelation' => 'standarCapaiansLamdikS2',
+                'standarNilaisRelation' => 'standarNilaisLamdikS2',
                 'standarNames' => $standar_names_lamdik,
             ],
         ];

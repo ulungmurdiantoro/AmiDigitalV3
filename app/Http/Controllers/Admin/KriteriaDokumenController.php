@@ -23,6 +23,9 @@ use App\Models\DokumenTipe;
 use App\Imports\StandarBanptD3Import;
 use App\Imports\StandarBanptS1Import;
 use App\Imports\StandarBanptS2Import;
+use App\Imports\StandarLamdikPPGImport;
+use App\Imports\StandarLamdikS1Import;
+use App\Imports\StandarLamdikS2Import;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -50,7 +53,7 @@ class KriteriaDokumenController extends Controller
 
         $standar_names_lamdik = [
             'Visi Keilmuan',
-            'Tata Kelola',
+            'Tata Pamong dan Tata Kelola',
             'Mahasiswa',
             'Dosen dan Tenaga Kependidikan',
             'Keuangan, Sarana dan Prasarana Pendidikan',
@@ -72,10 +75,28 @@ class KriteriaDokumenController extends Controller
                 'standarCapaiansRelation' => 'standarCapaiansBanptS1',
                 'standarNames' => $standar_names_banpt,
             ],
+            'BAN-PT S2' => [
+                'modelClass' => StandarElemenBanptS2::class,
+                'standarTargetsRelation' => 'standarTargetsBanptS2',
+                'standarCapaiansRelation' => 'standarCapaiansBanptS2',
+                'standarNames' => $standar_names_banpt,
+            ],
             'LAMDIK S1' => [
                 'modelClass' => StandarElemenLamdikS1::class,
                 'standarTargetsRelation' => 'standarTargetsLamdikS1',
                 'standarCapaiansRelation' => 'standarCapaiansLamdikS1',
+                'standarNames' => $standar_names_lamdik,
+            ],
+            'LAMDIK PPG' => [
+                'modelClass' => StandarElemenLamdikD3::class,
+                'standarTargetsRelation' => 'standarTargetsLamdikD3',
+                'standarCapaiansRelation' => 'standarCapaiansLamdikD3',
+                'standarNames' => $standar_names_lamdik,
+            ],
+            'LAMDIK S2' => [
+                'modelClass' => StandarElemenLamdikS2::class,
+                'standarTargetsRelation' => 'standarTargetsLamdikS2',
+                'standarCapaiansRelation' => 'standarCapaiansLamdikS2',
                 'standarNames' => $standar_names_lamdik,
             ],
         ];
@@ -122,10 +143,12 @@ class KriteriaDokumenController extends Controller
         ]);
     }
 
-    public function import()
+    public function import(Request $request)
     {
-        
-        return view('pages.admin.kriteria-dokumen.import');
+        $degree = $request->degree; 
+        return view('pages.admin.kriteria-dokumen.import', [
+            'degree' => $degree
+        ]);
     }
 
     public function storeImport(Request $request)
@@ -137,14 +160,23 @@ class KriteriaDokumenController extends Controller
         $degree = $request->input('degree');
 
         switch ($degree) {
-            case 'D3':
+            case 'BAN-PT D3':
                 $importClass = new StandarBanptD3Import();
                 break;
-            case 'S1':
+            case 'BAN-PT S1':
                 $importClass = new StandarBanptS1Import();
                 break;
-            case 'S2':
+            case 'BAN-PT S2':
                 $importClass = new StandarBanptS2Import();
+                break;
+            case 'LAMDIK PPG':
+                $importClass = new StandarLamdikPPGImport();
+                break;
+            case 'LAMDIK S1':
+                $importClass = new StandarLamdikS1Import();
+                break;
+            case 'LAMDIK S2':
+                $importClass = new StandarLamdikS2Import();
                 break;
             default:
                 return redirect()->route('admin.kriteria-dokumen.index')->with('error', 'Invalid degree selected.');
@@ -171,8 +203,17 @@ class KriteriaDokumenController extends Controller
             'BAN-PT S1' => [
                 'modelClass' => StandarElemenBanptS1::class,
             ],
+            'BAN-PT S2' => [
+                'modelClass' => StandarElemenBanptS2::class,
+            ],
+            'LAMDIK PPG' => [
+                'modelClass' => StandarElemenLamdikD3::class,
+            ],
             'LAMDIK S1' => [
                 'modelClass' => StandarElemenLamdikS1::class,
+            ],
+            'LAMDIK S2' => [
+                'modelClass' => StandarElemenLamdikS2::class,
             ],
         ];
 
@@ -202,8 +243,32 @@ class KriteriaDokumenController extends Controller
     {
         $importTitle = urldecode($importTitle); // Decode the importTitle
 
+        $degreeMappings = [
+            'BAN-PT D3' => [
+                'modelClass' => StandarElemenBanptD3::class,
+            ],
+            'BAN-PT S1' => [
+                'modelClass' => StandarElemenBanptS1::class,
+            ],
+            'BAN-PT S2' => [
+                'modelClass' => StandarElemenBanptS2::class,
+            ],
+            'LAMDIK PPG' => [
+                'modelClass' => StandarElemenLamdikD3::class,
+            ],
+            'LAMDIK S1' => [
+                'modelClass' => StandarElemenLamdikS1::class,
+            ],
+            'LAMDIK S2' => [
+                'modelClass' => StandarElemenLamdikS2::class,
+            ],
+        ];
+
+        $degreeInfo = $degreeMappings[$importTitle] ?? $degreeMappings['BAN-PT S1'];
+        $modelClass = $degreeInfo['modelClass'];
+
+        $standarElemen = $modelClass::where('indikator_kode', $indikator_kode)->firstOrFail();
         $dokumenTipes = DokumenTipe::all();
-        $standarElemen = StandarElemenBanptS1::where('indikator_kode', $indikator_kode)->firstOrFail();
 
         return view('pages.admin.kriteria-dokumen.kelola-target.create', [
             'indikator_kode' => $indikator_kode,

@@ -42,6 +42,11 @@ class StandarNilai extends Model
         return $this->belongsTo(StandarElemenLamdikS1::class, 'indikator_kode', 'indikator_kode');
     }
 
+    public function standarNilaisLamdikS2()
+    {
+        return $this->belongsTo(StandarElemenLamdikS2::class, 'indikator_kode', 'indikator_kode');
+    }
+
     protected $compositeIndicatorsConfig = [
         'D3' => [
         ],

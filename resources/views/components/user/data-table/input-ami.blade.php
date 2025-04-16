@@ -13,7 +13,12 @@
     </thead>
     <tbody>
         @foreach ($standards as $standard)
-          <tr>
+          <tr style="{{ 
+            $transkasis->status == 'Draft' 
+              && optional($standard->$standarNilaisRelations)->mandiri_nilai == 0 
+              ? 'background-color: rgba(140, 18, 61, .85); color: white;' 
+              : '' 
+          }}">
             <td class="text-center">{{ $standard->indikator_kode }}</td>
             <td>{{ $standard->elemen_nama }}</td>
             <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
@@ -41,7 +46,7 @@
               </td>
             @else
               <td class="text-center">
-                {{ optional($standard->standarNilaisBanptS1)->mandiri_nilai ?? 0 }}
+                {{ optional($standard->standarNilaisRelations)->mandiri_nilai ?? 0 }}
               </td>
             @endif
           </tr>

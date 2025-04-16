@@ -3,9 +3,20 @@
 namespace App\Http\Controllers\Auditor;
 
 use App\Http\Controllers\Controller;
-use App\Models\StandarElemenBanptS1;
 use App\Models\StandarElemenBanptD3;
+use App\Models\StandarElemenBanptS1;
+use App\Models\StandarElemenBanptS2;
+use App\Models\StandarElemenBanptS3;
+use App\Models\StandarElemenBanptTerapanS1;
+use App\Models\StandarElemenBanptTerapanS2;
+use App\Models\StandarElemenBanptTerapanS3;
+use App\Models\StandarElemenLamdikD3;
 use App\Models\StandarElemenLamdikS1;
+use App\Models\StandarElemenLamdikS2;
+use App\Models\StandarElemenLamdikS3;
+use App\Models\StandarElemenLamdikTerapanS1;
+use App\Models\StandarElemenLamdikTerapanS2;
+use App\Models\StandarElemenLamdikTerapanS3;
 use App\Models\TransaksiAmi;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -42,8 +53,8 @@ class AuditorStatistikTotalController extends Controller
 
         $akses = $transaksi_ami->standar_akreditasi;
 
-        preg_match('/\b(S[0-9]+|D[0-9]+)\b/', $prodi, $matches);
-        $degree = $matches[0] ?? 'S1'; 
+        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $prodi, $matches);
+        $degree = $matches[0] ?? 'PPG';
 
         $key = trim($akses . ' ' . $degree);
 
@@ -56,9 +67,17 @@ class AuditorStatistikTotalController extends Controller
                 'modelClass' => StandarElemenBanptS1::class,
                 'standarNilaisRelation' => 'standarNilaisBanptS1',
             ],
+            'LAMDIK PPG' => [
+                'modelClass' => StandarElemenLamdikD3::class,
+                'standarNilaisRelation' => 'standarNilaisLamdikD3',
+            ],
             'LAMDIK S1' => [
                 'modelClass' => StandarElemenLamdikS1::class,
                 'standarNilaisRelation' => 'standarNilaisLamdikS1',
+            ],
+            'LAMDIK S2' => [
+                'modelClass' => StandarElemenLamdikS2::class,
+                'standarNilaisRelation' => 'standarNilaisLamdikS2',
             ],
         ];
 

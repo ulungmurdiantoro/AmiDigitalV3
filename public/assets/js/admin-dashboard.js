@@ -114,7 +114,7 @@ $(function() {
 							}
 					},
 					series: [{
-							name: 'Number of Students',
+							name: '',
 							data: [prodiS1, prodiS2, prodiS3, prodiD3, prodiS1T, prodiS2T, prodiS3T, prodiPPG]
 					}],
 					xaxis: {
@@ -129,7 +129,7 @@ $(function() {
 					},
 					yaxis: {
 							title: {
-									text: 'Number of Students',
+									text: '',
 									style: {
 											size: 9,
 											color: colors.muted
@@ -273,7 +273,7 @@ $(function() {
         },
         yaxis: {
             title: {
-                text: 'Number of Sales',
+                text: '',
                 style: {
                     size: 9,
                     color: colors.muted

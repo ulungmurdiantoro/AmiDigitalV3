@@ -13,17 +13,37 @@
 
 <div class="row">
   @php
-    $degrees = [
-      'D3',
-      'S1',
-      'S2',
-      'S3',
-      'S1 Terapan',
-      'S2 Terapan',
-      'S3 Terapan'
-    ];
+    $institutions = ['BAN-PT', 'LAMDIK', 'INFOKOM'];
 
-    $institutions = ['BAN-PT', 'LAMDIK'];
+    $degreesByInstitution = [
+        'BAN-PT' => [
+          'D3',
+          'S1',
+          'S2',
+          'S3',
+          'S1 Terapan',
+          'S2 Terapan',
+          'S3 Terapan'
+        ],
+        'LAMDIK' => [
+          'PPG',
+          'S1',
+          'S2',
+          'S3',
+          'S1 Terapan',
+          'S2 Terapan',
+          'S3 Terapan'
+        ],
+        'INFOKOM' => [
+          'D3',
+          'S1',
+          'S2',
+          'S3',
+          'S1 Terapan',
+          'S2 Terapan',
+          'S3 Terapan'
+        ]
+    ];
   @endphp
 
   @foreach($institutions as $institution)
@@ -34,8 +54,10 @@
         </div>
         <div class="card-body">
           <div class="d-flex flex-wrap justify-content-around">
-            @foreach($degrees as $deg)
-              <a href="{{ route('admin.kriteria-dokumen.index', ['degree' => $institution . ' ' . $deg]) }}" class="btn btn-outline-primary my-3">{{ $deg }}</a>
+            @foreach($degreesByInstitution[$institution] as $deg)
+              <a href="{{ route('admin.kriteria-dokumen.index', ['degree' => $institution . ' ' . $deg]) }}" class="btn btn-outline-primary my-3">
+                {{ $deg }}
+              </a>
             @endforeach
           </div>
         </div>
@@ -44,16 +66,23 @@
   @endforeach
 </div>
 
+@php
+  $selectedDegree = request('degree', 'BAN-PT S1');
+@endphp
+
 <div class="row mt-4">
   <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title mb-0 import-title">{{ $degree }}</h4>
+        <h4 class="card-title mb-0 import-title">{{ $selectedDegree }}</h4>
       </div>
       <div class="card-body d-flex justify-content-center align-items-center">
-        <a href="{{ url('/admin/kriteria-dokumen/'. $degree . '/create/') }}" class="btn btn-success btn-lg btn-icon-text">
+        <a href="{{ url('/admin/kriteria-dokumen/'. $selectedDegree . '/import/') }}" class="btn btn-success btn-lg btn-icon-text me-3">
           <i class="fas fa-file-import mr-2"></i> Import
         </a>
+        {{-- <a href="{{ url('/admin/kriteria-dokumen/'. $selectedDegree . '/create/') }}" class="btn btn-primary btn-lg btn-icon-text me-3">
+          <i class="fas fa-plus-circle mr-2"></i> Tambah Indikator
+        </a> --}}
       </div>
     </div>
   </div>
@@ -64,26 +93,26 @@
     <div class="col-md-12 grid-margin stretch-card">
       <div class="card" style="border-radius: 5px; overflow: hidden;">
         <div class="card-header bg-primary text-white">
-          <h6 id="dataTitle{{ $index + 1 }}">{{ $nama }} - {{ $degree }}</h6>
+          <h6 id="dataTitle{{ $index + 1 }}">{{ $nama }} - {{ $selectedDegree }}</h6>
         </div>
         <div class="card-body">
-          @if (strpos($degree, 'LAMDIK') !== false)
+          {{-- @if (strpos($selectedDegree, 'LAMDIK') !== false)
             <x-admin.kriteria-dokumen-lamdik-data-table 
               id="dataTableExample{{ $index + 1 }}" 
               :standards="$data_standar['data_standar_k' . ($index + 1)]"
               :showImportData="$index == 0"
-              importTitle="{{ $degree }}"
+              importTitle="{{ $selectedDegree }}"
               :standarTargetsRelations="$standarTargetsRelation"
             />
-          @else
+          @else --}}
             <x-admin.kriteria-dokumen-data-table 
               id="dataTableExample{{ $index + 1 }}" 
               :standards="$data_standar['data_standar_k' . ($index + 1)]"
               :showImportData="$index == 0"
-              importTitle="{{ $degree }}"
+              importTitle="{{ $selectedDegree }}"
               :standarTargetsRelations="$standarTargetsRelation"
             />
-          @endif
+          {{-- @endif --}}
         </div>
       </div>
     </div>

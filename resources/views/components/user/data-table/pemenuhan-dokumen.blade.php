@@ -13,7 +13,7 @@
     </thead>
     <tbody>
       @foreach ($standards as $standard)
-        <tr>
+        <tr style="{{ ($standard->{$standarCapaiansRelations}->count() === 0) ? 'background-color: rgba(140, 18, 61, .85); color: white;' : '' }}">
           <td class="text-center">{{ $standard->indikator_kode }}</td>
           <td>{{ $standard->elemen_nama }}</td>                 
           <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>

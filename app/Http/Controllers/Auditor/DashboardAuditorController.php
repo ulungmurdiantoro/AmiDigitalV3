@@ -15,7 +15,7 @@ class DashboardAuditorController extends Controller
     {
         $user_kode = session('user_kode');
 
-        $prodi = session('user_penempatan');
+        $prodi = session('user_prodi');
         $user_akses = session('user_akses');
 
         $currentDate = Carbon::now();

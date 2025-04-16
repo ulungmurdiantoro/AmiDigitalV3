@@ -2,11 +2,10 @@
 
 namespace App\Imports;
 
-use App\Models\StandarElemenBanptS1;
+use App\Models\StandarElemenLamdikD3;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class StandarBanptS1Import implements ToModel, WithHeadingRow
+class StandarLamdikPPGImport implements ToModel
 {
     // A flag to ensure truncate() is called only once
     private $truncateFlag = false;
@@ -15,11 +14,11 @@ class StandarBanptS1Import implements ToModel, WithHeadingRow
     {
         // Only truncate the table once, when processing the first row
         if (!$this->truncateFlag) {
-            StandarElemenBanptS1::truncate();
+            StandarElemenLamdikD3::truncate();
             $this->truncateFlag = true;
         }
 
-        return new StandarElemenBanptS1([
+        return new StandarElemenLamdikD3([
             'indikator_kode'  => $row['indikator_kode'],
             'standar_nama'    => $row['standar_nama'],
             'elemen_nama'     => $row['elemen_nama'],

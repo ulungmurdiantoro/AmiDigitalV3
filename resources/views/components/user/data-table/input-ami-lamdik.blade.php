@@ -43,7 +43,7 @@
               </td>
             @else
               <td class="text-center">
-                {{ optional($standard->standarNilaisBanptS1)->mandiri_nilai ?? 0 }}
+                {{ optional($standard->standarNilaisRelations)->mandiri_nilai ?? 0 }}
               </td>
             @endif
           </tr>

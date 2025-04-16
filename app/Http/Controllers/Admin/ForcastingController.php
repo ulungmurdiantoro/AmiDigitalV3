@@ -13,6 +13,7 @@ class ForcastingController extends Controller
     public function index()
     {
         $transaksi_ami = TransaksiAmi::with('auditorAmi')
+            ->where('status', 'Selesai')
             ->latest()
             ->paginate(10);
 
@@ -34,14 +35,17 @@ class ForcastingController extends Controller
             ->firstOrFail();
 
         $akses = $transaksiAmi->standar_akreditasi;
-        preg_match('/\b(S[0-9]+|D[0-9]+)\b/', $prodi, $matches);
-        $degree = $matches[0] ?? 'S1';
+        preg_match('/\b(S[0-9]+|D[0-9]+|PPG|S1 Terapan)\b/', $prodi, $matches);
+        $degree = isset($matches[0]) && in_array($matches[0], ['S1', 'S2', 'S3', 'PPG', 'S1 Terapan']) 
+            ? $matches[0] 
+            : 'S1';
+
         $accreditationKey = trim("{$akses} {$degree}"); 
 
         $criteriaStatus = $this->evaluateCriteria($periode, $prodi);
 
-        
         $totalData = $this->calculateTotal($periode, $prodi, $accreditationKey);
+
         $total = $totalData['total'];
 
         $hStatus = $this->calculateHStatus($criteriaStatus, $total, $accreditationKey);
@@ -104,6 +108,94 @@ class ForcastingController extends Controller
                 'h5' => $hStatus['h5'],
                 'h6' => $hStatus['h6'],
             ],
+            'LAMDIK PPG' => [
+                'tablePeringkatUnggul' => [
+                    [
+                        'elemen'    => 'Kualitas Dosen<br>(INPUT)',
+                        'indikator' => 'Pada saat TS, Dosen Tetap Program Studi<br>
+                                        (DTPS) memiliki kualifikasi akademik doktor<br>
+                                        (S3) dan jabatan akademik/fungsional.',
+                        'kriteria'  => 'a. ≥ 50% DTPS memiliki kualifikasi akademik doktor.<br> 
+                                        b. ≥ 3 DTPS memiliki jabatan akademik/fungsional minimal lektor kepala.',
+                        'status'    => $criteriaStatus['lamdik_ppg_1'],
+                    ],
+                    [
+                        'elemen'    => 'Kurikulum<br>(INPUT)',
+                        'indikator' => 'Program Studi (PS) melakukan asesmen<br>pencapaian Capaian Pembelajaran Lulusan<br>
+                                        (CPL) berdasarkan capaian hasil belajar<br>mahasiswa pada mata kuliah sebagai bagian<br>
+                                        dari Outcome Based Education (OBE),<br>mengevaluasi hasilnya, dan menindaklanjuti<br>
+                                        hasil evaluasi tersebut.',
+                        'kriteria'  => 'a. Program Studi (PS) melakukan asesmen pencapaian Capaian<br>
+                                        Pembelajaran Lulusan (CPL) berdasarkan capaian hasil belajar<br>
+                                        mahasiswa pada minimal 25% mata kuliah penciri keilmuan PS,<br>
+                                        didukung bukti yang sahih.  <br>
+                                        b. Program Studi (PS) melakukan evaluasi terhadap asesmen pencapaian<br>
+                                        Capaian Pembelajaran Lulusan (CPL) berdasarkan capaian hasil belajar<br>
+                                        mahasiswa, didukung bukti yang sahih. <br>
+                                        c. Program Studi (PS) melakukan tindak lanjut hasil evaluasi terhadap<br>
+                                        asesmen pencapaian Capaian Pembelajaran Lulusan  (CPL) berdasarkan<br>
+                                        capaian hasil belajar mahasiswa, didukung bukti yang sahih ',
+                        'status'    => $criteriaStatus['lamdik_ppg_2'],
+                    ],
+                    [
+                        'elemen'    => 'Pembelajaran Mikro<br>
+                                        (micro teaching) (PROSES)',
+                        'indikator' => 'PS merancang dan melaksanakan perkuliahan<br>
+                                        micro-teaching atau nama setara untuk PS<br>
+                                        kependidikan nonmengajar; kontribusi perkuliahan<br>
+                                        microteaching terhadap pengembangan kompetensi<br>
+                                        pedagogik dan kompetensi profesional mahasiswa<br>
+                                        sebagai calon guru atau profil setara untuk PS<br>
+                                        Kependidikan nonmengajar; kualitas pelaksanaan<br>
+                                        perkuliahan micro-teaching untuk mempersiapkan<br>
+                                        mahasiswa dalam menghadapi tantangan di dunia<br>
+                                        pendidikan nyata dengan memberikan umpan balik<br>
+                                        konstruktif dan kesempatan untuk refleksi diri.',
+                        'kriteria'  => 'Pembelajaran mikro (microteaching) atau nama setara dilaksanakan:<br>
+                                        a. di laboratorium microteaching atau yang sejenis untuk PS Kependidikan<br>
+                                        nonmengajar yang memiliki peralatan yang lengkap dan terawat. <br>
+                                        b. dengan frekuensi praktek untuk masing-masing mahasiswa ≥ 4 kali<br>
+                                        selama periode semester praktek. <br>
+                                        c. melatihkan 8 keterampilan mengajar atau keterampilan sejenis untuk<br>
+                                        PS kependidikan nonmengajar <br>
+                                        d. mahasiswa melakukan refleksi diri atas kompetensi yang sudah dikuasai<br>
+                                        pada perkuliahan microteaching atau nama sejenis.',
+                        'status'    => $criteriaStatus['lamdik_ppg_3'],
+                    ],
+                    [
+                        'elemen'    => 'Pelaksanaan SPMI dengan<br>Siklus PPEPP (PROSES)',
+                        'indikator' => 'PS memiliki dan melaksanakan Sistem<br>
+                                        Penjaminan Mutu Internal (SPMI) dengan<br>
+                                        mengikuti siklus Penetapan, Pelaksanaan,<br>
+                                        Evaluasi, Pengendalian, dan Peningkatan (PPEPP). ',
+                        'kriteria'  => 'SPMI secara efektif dilaksanakan, yang meliputi:<br>
+                                        a. Memiliki kebijakan penjaminan mutu. <br>
+                                        b. Memiliki perangkat SPMI lengkap. <br>
+                                        c. Melaksanakan standar SPMI. <br>
+                                        d. Mengevaluasi pemenuhan standar SPMI secara berkala. <br>
+                                        e. Mengendalikan pelaksanaan standar SPMI. <br>
+                                        f. Meningkatkan pencapaian standar SPMI.',
+                        'status'    => $criteriaStatus['lamdik_ppg_4'],
+                    ],
+                    [
+                        'elemen'    => 'Produktivitas Publikasi<br>Dosen (LUARAN)',
+                        'indikator' => 'Dalam tiga tahun terakhir, DTPS memiliki<br>
+                                        publikasi di jurnal nasional terakreditasi<br>
+                                        dan/atau jurnal internasional bereputasi<br>
+                                        sebagai penulis pertama atau corresponding<br>
+                                        authors.',
+                        'kriteria'  => '≥40% DTPS memiliki publikasi pada jurnal nasional terakreditasi minimal<br>
+                                        Sinta 2 dan/atau internasional bereputasi (terindeks scopus atau WoS)<br>
+                                        sebagai penulis pertama atau corresponding authors.',
+                        'status'    => $criteriaStatus['lamdik_ppg_5'],
+                    ],
+                ],
+                'h2' => $hStatus['h2'],
+                'h3' => $hStatus['h3'],
+                'h4' => $hStatus['h4'],
+                'h5' => $hStatus['h5'],
+                'h6' => $hStatus['h6'],
+            ],
             'LAMDIK S1' => [
                 'tablePeringkatUnggul' => [
                     [
@@ -113,7 +205,7 @@ class ForcastingController extends Controller
                                         (S3) dan jabatan akademik/fungsional.',
                         'kriteria'  => 'a. ≥ 20% DTPS memiliki kualifikasi akademik doktor.<br> 
                                         b. ≥ 2 DTPS memiliki jabatan akademik/fungsional minimal lektor kepala.',
-                        'status'    => $criteriaStatus['lamdik_a1'],
+                        'status'    => $criteriaStatus['lamdik_s1_1'],
                     ],
                     [
                         'elemen'    => 'Kurikulum<br>(INPUT)',
@@ -121,39 +213,57 @@ class ForcastingController extends Controller
                                         (CPL) berdasarkan capaian hasil belajar<br>mahasiswa pada mata kuliah sebagai bagian<br>
                                         dari Outcome Based Education (OBE),<br>mengevaluasi hasilnya, dan menindaklanjuti<br>
                                         hasil evaluasi tersebut.',
-                        'kriteria'  => 'a. PS melakukan asesmen CPL pada minimal 25% mata kuliah penciri<br>
-                                            keilmuan, didukung bukti sahih.<br>
-                                        b. PS melakukan evaluasi terhadap CPL dengan bukti yang sahih.<br>
-                                        c. PS melakukan tindak lanjut hasil evaluasi CPL dengan bukti yang sahih.',
-                        'status'    => $criteriaStatus['lamdik_a2'],
+                        'kriteria'  => 'a. Program Studi (PS) melakukan asesmen pencapaian Capaian<br>
+                                        Pembelajaran Lulusan (CPL) berdasarkan capaian hasil belajar<br>
+                                        mahasiswa pada minimal 25% mata kuliah penciri keilmuan PS,<br>
+                                        didukung bukti yang sahih.  <br>
+                                        b. Program Studi (PS) melakukan evaluasi terhadap asesmen pencapaian<br>
+                                        Capaian Pembelajaran Lulusan (CPL) berdasarkan capaian hasil belajar<br>
+                                        mahasiswa, didukung bukti yang sahih. <br>
+                                        c. Program Studi (PS) melakukan tindak lanjut hasil evaluasi terhadap<br>
+                                        asesmen pencapaian Capaian Pembelajaran Lulusan  (CPL) berdasarkan<br>
+                                        capaian hasil belajar mahasiswa, didukung bukti yang sahih ',
+                        'status'    => $criteriaStatus['lamdik_s1_2'],
                     ],
                     [
                         'elemen'    => 'Pembelajaran Mikro<br>
                                         (micro teaching) (PROSES)',
                         'indikator' => 'PS merancang dan melaksanakan perkuliahan<br>
-                                        micro-teaching (atau setara) untuk PS<br>
-                                        kependidikan nonmengajar, guna<br>
-                                        mengembangkan kompetensi pedagogik<br>
-                                        dan profesional mahasiswa.',
-                        'kriteria'  => 'a. Dilaksanakan di laboratorium microteaching dengan peralatan lengkap.<br>
-                                        b. Frekuensi praktek minimal 4 kali per semester.<br>
-                                        c. Melatih 8 keterampilan mengajar atau setara.<br>
-                                        d. Mahasiswa melakukan refleksi diri.',
-                        'status'    => $criteriaStatus['lamdik_a3'],
+                                        micro-teaching atau nama setara untuk PS<br>
+                                        kependidikan nonmengajar; kontribusi perkuliahan<br>
+                                        microteaching terhadap pengembangan kompetensi<br>
+                                        pedagogik dan kompetensi profesional mahasiswa<br>
+                                        sebagai calon guru atau profil setara untuk PS<br>
+                                        Kependidikan nonmengajar; kualitas pelaksanaan<br>
+                                        perkuliahan micro-teaching untuk mempersiapkan<br>
+                                        mahasiswa dalam menghadapi tantangan di dunia<br>
+                                        pendidikan nyata dengan memberikan umpan balik<br>
+                                        konstruktif dan kesempatan untuk refleksi diri.',
+                        'kriteria'  => 'Pembelajaran mikro (microteaching) atau nama setara dilaksanakan:<br>
+                                        a. di laboratorium microteaching atau yang sejenis untuk PS Kependidikan<br>
+                                        nonmengajar yang memiliki peralatan yang lengkap dan terawat. <br>
+                                        b. dengan frekuensi praktek untuk masing-masing mahasiswa ≥ 4 kali<br>
+                                        selama periode semester praktek. <br>
+                                        c. melatihkan 8 keterampilan mengajar atau keterampilan sejenis untuk<br>
+                                        PS kependidikan nonmengajar <br>
+                                        d. mahasiswa melakukan refleksi diri atas kompetensi yang sudah dikuasai<br>
+                                        pada perkuliahan microteaching atau nama sejenis.',
+                        'status'    => $criteriaStatus['lamdik_s1_3'],
                     ],
                     [
                         'elemen'    => 'Pelaksanaan SPMI dengan<br>Siklus PPEPP (PROSES)',
                         'indikator' => 'PS memiliki dan melaksanakan Sistem<br>
-                                        Penjaminan Mutu Internal (SPMI) melalui<br>
-                                        siklus Penetapan, Pelaksanaan, Evaluasi,<br>
-                                        Pengendalian, dan Peningkatan (PPEPP).',
-                        'kriteria'  => 'a. Memiliki kebijakan penjaminan mutu. <br>
-                                        b. Perangkat SPMI lengkap. <br>
-                                        c. Pelaksanaan standar SPMI. <br>
-                                        d. Evaluasi berkala. <br>
-                                        e. Pengendalian pelaksanaan. <br>
-                                        f. Peningkatan standar SPMI.',
-                        'status'    => $criteriaStatus['lamdik_a4'],
+                                        Penjaminan Mutu Internal (SPMI) dengan<br>
+                                        mengikuti siklus Penetapan, Pelaksanaan,<br>
+                                        Evaluasi, Pengendalian, dan Peningkatan (PPEPP). ',
+                        'kriteria'  => 'SPMI secara efektif dilaksanakan, yang meliputi:<br>
+                                        a. Memiliki kebijakan penjaminan mutu. <br>
+                                        b. Memiliki perangkat SPMI lengkap. <br>
+                                        c. Melaksanakan standar SPMI. <br>
+                                        d. Mengevaluasi pemenuhan standar SPMI secara berkala. <br>
+                                        e. Mengendalikan pelaksanaan standar SPMI. <br>
+                                        f. Meningkatkan pencapaian standar SPMI.',
+                        'status'    => $criteriaStatus['lamdik_s1_4'],
                     ],
                     [
                         'elemen'    => 'Produktivitas karya inovatif<br>
@@ -167,7 +277,7 @@ class ForcastingController extends Controller
                                         pembelajaran interaktif, aplikasi pembelajaran, karya seni, atau karya<br>
                                         lain yang sejenis, dan/atau publikasi ilmiah yang dipublikasi pada<br>
                                         jurnal nasional terakreditasi minimal Sinta 4 sesuai bidang keilmuannya.',
-                        'status'    => $criteriaStatus['lamdik_a5'],
+                        'status'    => $criteriaStatus['lamdik_s1_5'],
                     ],
                     [
                         'elemen'    => 'Produktivitas Publikasi<br>Dosen (LUARAN)',
@@ -179,7 +289,7 @@ class ForcastingController extends Controller
                         'kriteria'  => '≥20% DTPS memiliki publikasi pada jurnal nasional terakreditasi minimal<br>
                                         Sinta 2 dan/atau internasional bereputasi (terindeks scopus atau WoS)<br>
                                         sebagai penulis pertama atau corresponding authors.',
-                        'status'    => $criteriaStatus['lamdik_a6'],
+                        'status'    => $criteriaStatus['lamdik_s1_6'],
                     ],
                 ],
                 'h2' => $hStatus['h2'],
@@ -187,7 +297,82 @@ class ForcastingController extends Controller
                 'h4' => $hStatus['h4'],
                 'h5' => $hStatus['h5'],
                 'h6' => $hStatus['h6'],
-            ]
+            ],
+            'LAMDIK S2' => [
+                'tablePeringkatUnggul' => [
+                    [
+                        'elemen'    => 'Kualitas Dosen<br>(INPUT)',
+                        'indikator' => 'Pada saat TS, Dosen Tetap Program Studi<br>
+                                        (DTPS) memiliki kualifikasi akademik doktor<br>
+                                        (S3) dan jabatan akademik/fungsional.',
+                        'kriteria'  => 'a. ≥ 100% DTPS memiliki kualifikasi akademik doktor.<br> 
+                                        b. ≥ 1 DTPS memiliki jabatan akademik/fungsional guru besar.',
+                        'status'    => $criteriaStatus['lamdik_s2_1'],
+                    ],
+                    [
+                        'elemen'    => 'Kurikulum<br>(INPUT)',
+                        'indikator' => 'Program Studi (PS) melakukan asesmen<br>pencapaian Capaian Pembelajaran Lulusan<br>
+                                        (CPL) berdasarkan capaian hasil belajar<br>mahasiswa pada mata kuliah sebagai bagian<br>
+                                        dari Outcome Based Education (OBE),<br>mengevaluasi hasilnya, dan menindaklanjuti<br>
+                                        hasil evaluasi tersebut.',
+                        'kriteria'  => 'a. Program Studi (PS) melakukan asesmen pencapaian Capaian<br>
+                                        Pembelajaran Lulusan (CPL) berdasarkan capaian hasil belajar<br>
+                                        mahasiswa pada minimal 25% mata kuliah penciri keilmuan PS,<br>
+                                        didukung bukti yang sahih.  <br>
+                                        b. Program Studi (PS) melakukan evaluasi terhadap asesmen pencapaian<br>
+                                        Capaian Pembelajaran Lulusan (CPL) berdasarkan capaian hasil belajar<br>
+                                        mahasiswa, didukung bukti yang sahih. <br>
+                                        c. Program Studi (PS) melakukan tindak lanjut hasil evaluasi terhadap<br>
+                                        asesmen pencapaian Capaian Pembelajaran Lulusan  (CPL) berdasarkan<br>
+                                        capaian hasil belajar mahasiswa, didukung bukti yang sahih ',
+                        'status'    => $criteriaStatus['lamdik_s2_2'],
+                    ],
+                    [
+                        'elemen'    => 'Pelaksanaan SPMI dengan<br>Siklus PPEPP (PROSES)',
+                        'indikator' => 'PS memiliki dan melaksanakan Sistem<br>
+                                        Penjaminan Mutu Internal (SPMI) dengan<br>
+                                        mengikuti siklus Penetapan, Pelaksanaan,<br>
+                                        Evaluasi, Pengendalian, dan Peningkatan<br>(PPEPP). ',
+                        'kriteria'  => 'SPMI secara efektif dilaksanakan, yang meliputi:<br>
+                                        a. Memiliki kebijakan penjaminan mutu. <br>
+                                        b. Memiliki perangkat SPMI lengkap. <br>
+                                        c. Melaksanakan standar SPMI. <br>
+                                        d. Mengevaluasi pemenuhan standar SPMI secara berkala. <br>
+                                        e. Mengendalikan pelaksanaan standar SPMI. <br>
+                                        f. Meningkatkan pencapaian standar SPMI.',
+                        'status'    => $criteriaStatus['lamdik_s2_3'],
+                    ],
+                    [
+                        'elemen'    => 'Produktivitas karya inovatif<br>
+                                        mahasiswa dan/atau<br>publikasi ilmiah (LUARAN)',
+                        'indikator' => 'Persentase jumlah mahasiswa menghasilkan<br>
+                                        inovatif dan/atau publikasi ilmiah yang sesuai<br>
+                                        dengan bidang keilmuan PS.',
+                        'kriteria'  => '≥ 25% mahasiswa dalam 3 tahun terakhir memiliki publikasi pada jurnal<br>
+                                        nasional terakreditasi minimal Sinta 3 dan/atau jurnal internasional<br>
+                                        sebagai penulis pertama, dan/atau menghasilkan karya inovatif berbentuk<br>
+                                        Paten atau karya monumental yang dipertunjukkan.',
+                        'status'    => $criteriaStatus['lamdik_s2_4'],
+                    ],
+                    [
+                        'elemen'    => 'Produktivitas Publikasi<br>Dosen (LUARAN)',
+                        'indikator' => 'Dalam tiga tahun terakhir, DTPS memiliki<br>
+                                        publikasi di jurnal nasional terakreditasi<br>
+                                        dan/atau jurnal internasional bereputasi<br>
+                                        sebagai penulis pertama atau corresponding<br>
+                                        authors.',
+                        'kriteria'  => '≥60% DTPS memiliki publikasi pada jurnal nasional terakreditasi minimal<br>
+                                        Sinta 2 dan/atau internasional bereputasi (terindeks scopus atau WoS)<br>
+                                        sebagai penulis pertama atau corresponding authors.',
+                        'status'    => $criteriaStatus['lamdik_s2_5'],
+                    ],
+                ],
+                'h2' => $hStatus['h2'],
+                'h3' => $hStatus['h3'],
+                'h4' => $hStatus['h4'],
+                'h5' => $hStatus['h5'],
+                'h6' => $hStatus['h6'],
+            ],
         ];
 
         $mapping = $mappings[$accreditationKey] ?? [];
@@ -211,6 +396,9 @@ class ForcastingController extends Controller
     public function calculateTotal($periode, $prodi, $accreditationKey)
     {
         $compositeIndicatorsConfig = [
+            'BAN-PT D3' => [
+                
+            ],
             'BAN-PT S1' => [
                 'S1-6' => [
                     'components' => [
@@ -309,6 +497,12 @@ class ForcastingController extends Controller
             'LAMDIK S1' => [
                 
             ],
+            'LAMDIK PPG' => [
+
+            ],
+            'LAMDIK S2' => [
+                
+            ],
         ];
 
         $nilaiCollection = StandarNilai::where('periode', $periode)
@@ -328,9 +522,15 @@ class ForcastingController extends Controller
         } elseif ($accreditationKey === 'BAN-PT D3') {
             $indicatorPrefix = 'D3';
             $indicatorRange  = 67;
+        } elseif ($accreditationKey === 'LAMDIK PPG') {
+            $indicatorPrefix = 'PPG';
+            $indicatorRange  = 60;
         } elseif ($accreditationKey === 'LAMDIK S1') {
             $indicatorPrefix = 'S1';
             $indicatorRange  = 64;
+        } elseif ($accreditationKey === 'LAMDIK S2') {
+            $indicatorPrefix = 'S2';
+            $indicatorRange  = 60;
         } else {
             $indicatorPrefix = 'Unknown';
             $indicatorRange  = 0;
@@ -398,18 +598,31 @@ class ForcastingController extends Controller
         $data['banpt_c3'] = $this->getHasilNilai('S1-60', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
         $data['banpt_c4'] = $this->getHasilNilai('S1-61', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
 
-        $data['lamdik_a1'] = $this->getHasilNilai('S1-19', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
-        $data['lamdik_a2'] = $this->getHasilNilai('S1-49', $periode, $prodi) > 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
-        $data['lamdik_a3'] = $this->getHasilNilai('S1-35', $periode, $prodi) >= 3.25 ? 'Terpenuhi' : 'Tidak Terpenuhi';
-        $data['lamdik_a4'] = $this->getHasilNilai('S1-63', $periode, $prodi) >= 3.5 ? 'Terpenuhi' : 'Tidak Terpenuhi';
-        $data['lamdik_a5'] = $this->getHasilNilai('S1-15', $periode, $prodi) >= 4 ? 'Terpenuhi' : 'Tidak Terpenuhi';
-        $data['lamdik_a6'] = $this->getHasilNilai('S1-55', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_s1_1'] = $this->getHasilNilai('S1-19', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_s1_2'] = $this->getHasilNilai('S1-49', $periode, $prodi) > 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_s1_3'] = $this->getHasilNilai('S1-35', $periode, $prodi) >= 3.25 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_s1_4'] = $this->getHasilNilai('S1-63', $periode, $prodi) >= 3.5 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_s1_5'] = $this->getHasilNilai('S1-15', $periode, $prodi) >= 4 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_s1_6'] = $this->getHasilNilai('S1-55', $periode, $prodi) >= 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+
+        $data['lamdik_ppg_1'] = $this->getHasilNilai('PPG-17', $periode, $prodi) >= 4 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_ppg_2'] = $this->getHasilNilai('PPG-46', $periode, $prodi) > 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_ppg_3'] = $this->getHasilNilai('PPG-35', $periode, $prodi) >= 3.25 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_ppg_4'] = $this->getHasilNilai('PPG-59', $periode, $prodi) >= 3.5 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_ppg_5'] = $this->getHasilNilai('PPG-52', $periode, $prodi) >= 4 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+
+        $data['lamdik_s2_1'] = $this->getHasilNilai('S2-18', $periode, $prodi) >= 4 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_s2_2'] = $this->getHasilNilai('S2-44', $periode, $prodi) > 3 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_s2_3'] = $this->getHasilNilai('S2-59', $periode, $prodi) >= 3.5 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_s2_4'] = $this->getHasilNilai('S2-14', $periode, $prodi) >= 4 ? 'Terpenuhi' : 'Tidak Terpenuhi';
+        $data['lamdik_s2_5'] = $this->getHasilNilai('S2-51', $periode, $prodi) >= 4 ? 'Terpenuhi' : 'Tidak Terpenuhi';
 
         return $data;
     }
 
     private function calculateHStatus(array $criteriaStatus, $total, $accreditationType)
     {
+        // dd($accreditationType);
         if ($accreditationType === 'BAN-PT S1') {
             $h2 = ($criteriaStatus['banpt_a1'] === 'Terpenuhi' &&
                 $criteriaStatus['banpt_a2'] === 'Terpenuhi' &&
@@ -445,8 +658,74 @@ class ForcastingController extends Controller
             }
 
             return compact('h2', 'h3', 'h4', 'h5', 'h6');
+        } elseif ($accreditationType === 'LAMDIK PPG') {
+            $lamdikKeys = ['lamdik_c1', 'lamdik_c2', 'lamdik_c3', 'lamdik_c4', 'lamdik_c5', 'lamdik_c6'];
+            $allFulfilled = true;
+            foreach ($lamdikKeys as $key) {
+                if (($criteriaStatus[$key] ?? 'Tidak Terpenuhi') !== 'Terpenuhi') {
+                    $allFulfilled = false;
+                    break;
+                }
+            }
+
+            if ($allFulfilled) {
+                if ($total >= 361 && $total <= 400) {
+                    $status = 'Unggul';
+                    $year   = '5 tahun';
+                } elseif ($total >= 321 && $total <= 360) {
+                    $status = 'Unggul';
+                    $year   = '3 tahun';
+                } else {
+                    $status = 'Tidak Terpenuhi';
+                    $year   = '-';
+                }
+            } else {
+                $status = 'Tidak Terpenuhi';
+                $year   = '-';
+            }
+
+            $h2 = $status;
+            $h3 = $year;
+            $h4 = $status;
+            $h5 = $status;
+            $h6 = $status;
+
+            return compact('h2', 'h3', 'h4', 'h5', 'h6');
         } elseif ($accreditationType === 'LAMDIK S1') {
             $lamdikKeys = ['lamdik_a1', 'lamdik_a2', 'lamdik_a3', 'lamdik_a4', 'lamdik_a5', 'lamdik_a6'];
+            $allFulfilled = true;
+            foreach ($lamdikKeys as $key) {
+                if (($criteriaStatus[$key] ?? 'Tidak Terpenuhi') !== 'Terpenuhi') {
+                    $allFulfilled = false;
+                    break;
+                }
+            }
+
+            if ($allFulfilled) {
+                if ($total >= 361 && $total <= 400) {
+                    $status = 'Unggul';
+                    $year   = '5 tahun';
+                } elseif ($total >= 321 && $total <= 360) {
+                    $status = 'Unggul';
+                    $year   = '3 tahun';
+                } else {
+                    $status = 'Tidak Terpenuhi';
+                    $year   = '-';
+                }
+            } else {
+                $status = 'Tidak Terpenuhi';
+                $year   = '-';
+            }
+
+            $h2 = $status;
+            $h3 = $year;
+            $h4 = $status;
+            $h5 = $status;
+            $h6 = $status;
+
+            return compact('h2', 'h3', 'h4', 'h5', 'h6');
+        } elseif ($accreditationType === 'LAMDIK S2') {
+            $lamdikKeys = ['lamdik_b1', 'lamdik_b2', 'lamdik_b3', 'lamdik_b4', 'lamdik_b5'];
             $allFulfilled = true;
             foreach ($lamdikKeys as $key) {
                 if (($criteriaStatus[$key] ?? 'Tidak Terpenuhi') !== 'Terpenuhi') {

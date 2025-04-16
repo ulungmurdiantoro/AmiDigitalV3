@@ -59,7 +59,7 @@ class ProgramStudiController extends Controller
     {
         // Validate request
         $request->validate([
-            'prodi_nama' => 'required|string|unique:program_studis',
+            'prodi_nama' => 'required|string',
             'prodi_jenjang' => 'required|string',
             'prodi_jurusan' => 'required|string',
             'prodi_fakultas' => 'required|string',

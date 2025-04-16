@@ -65,7 +65,7 @@
           <h6 class="mb-0">{{ $nama }}</h6>
         </div>
         <div class="card-body">
-          @if (strpos($key, 'LAMDIK') !== false)
+          {{-- @if (strpos($key, 'LAMDIK') !== false)
             <x-user.data-table.input-ami-lamdik
               id="dataTableExample{{ $index + 1 }}" 
               :standards="$data_standar['data_standar_k' . ($index + 1)]" 
@@ -76,7 +76,7 @@
               :standarCapaiansRelations="$standarCapaiansRelation"
               :standarNilaisRelations="$standarNilaisRelation"
             />
-          @else
+          @else --}}
             <x-user.data-table.input-ami
               id="dataTableExample{{ $index + 1 }}" 
               :standards="$data_standar['data_standar_k' . ($index + 1)]" 
@@ -87,7 +87,7 @@
               :standarCapaiansRelations="$standarCapaiansRelation"
               :standarNilaisRelations="$standarNilaisRelation"
             />
-          @endif
+          {{-- @endif --}}
         </div>
       </div>
     </div>

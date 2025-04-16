@@ -13,7 +13,9 @@
     </thead>
     <tbody>
       @foreach ($standards as $standard)
-        <tr>
+      {{-- @dd($standard) --}}
+
+        <tr style="{{ optional($standard->$standarNilaisRelations)->jenis_temuan !== 'Sesuai' ? 'background-color: rgba(140, 18, 61, .85); color: white;' : '' }}">
           <td class="text-center">{{ $standard->indikator_kode }}</td>
           <td>{{ $standard->elemen_nama }}</td>
           <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>

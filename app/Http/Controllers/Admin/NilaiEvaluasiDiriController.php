@@ -341,7 +341,9 @@ class NilaiEvaluasiDiriController extends Controller
         ]);
         
         $mpdf->WriteHTML($html);
-
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: inline; filename="rekap_nilai.pdf"');
+        
         $mpdf->Output('rekap_nilai.pdf', 'I');
     }
 

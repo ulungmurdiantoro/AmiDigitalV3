@@ -68,7 +68,7 @@ class AktivitasProdiController extends Controller
 
         $akses = $transaksi_ami->standar_akreditasi;
 
-        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $penempatan, $matches);
+        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $prodi, $matches);
         $degree = $matches[0] ?? 'PPG';
 
         $key = trim($akses . ' ' . $degree);

@@ -336,7 +336,10 @@ class NilaiEvaluasiDiriController extends Controller
         ])->render();
 
         $mpdf = new Mpdf();
-
+        $mpdf = new Mpdf([
+            'default_font' => 'Arial', // Set default font if required
+        ]);
+        
         $mpdf->WriteHTML($html);
 
         $mpdf->Output('rekap_nilai.pdf', 'I');

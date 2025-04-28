@@ -339,11 +339,14 @@ class UserNilaiEvaluasiDiriController extends Controller
             'prodiPrefix' => $prodiPrefix,
         ])->render();
 
-        $mpdf = new Mpdf();
-
+        $mpdf = new \Mpdf\Mpdf();
         $mpdf->WriteHTML($html);
+        $pdfContent = $mpdf->Output('', 'S'); // S = Return as String
 
-        $mpdf->Output('rekap_nilai.pdf', 'I');
+        return response($pdfContent)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="rekap_nilai_lha.pdf"');
+
     }
 
     public function calculateTotal($periode, $prodi, $accreditationKey)
@@ -710,8 +713,13 @@ class UserNilaiEvaluasiDiriController extends Controller
             'prodiPrefix' => $prodiPrefix,
         ])->render();
 
-        $mpdf = new Mpdf();
+        $mpdf = new \Mpdf\Mpdf();
         $mpdf->WriteHTML($html);
-        $mpdf->Output('rekap_nilai.pdf', 'I');
+        $pdfContent = $mpdf->Output('', 'S'); // S = Return as String
+
+        return response($pdfContent)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="rekap_nilai_rtm.pdf"');
+
     }
 }

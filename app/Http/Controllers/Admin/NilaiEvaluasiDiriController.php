@@ -335,10 +335,10 @@ class NilaiEvaluasiDiriController extends Controller
             'prodiPrefix' => $prodiPrefix,
         ])->render();
 
-        $html = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
-
-        $mpdf = new Mpdf();
-
+        $mpdf = new \Mpdf\Mpdf([
+            'tempDir' => __DIR__ . '/custom-temp-directory',
+        ]);
+        
         $mpdf->WriteHTML($html);
 
         $mpdf->Output('rekap_nilai.pdf', 'I');

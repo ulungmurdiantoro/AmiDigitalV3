@@ -335,13 +335,16 @@ class NilaiEvaluasiDiriController extends Controller
             'prodiPrefix' => $prodiPrefix,
         ])->render();
 
-        $mpdf = new \Mpdf\Mpdf([
-            'tempDir' => __DIR__ . '/custom-temp-directory',
-        ]);
-        
-        $mpdf->WriteHTML($html);
+        $mpdf = new \Mpdf\Mpdf();
 
-        $mpdf->Output('rekap_nilai.pdf', 'I');
+        $mpdf->WriteHTML($html);
+        
+        $pdfContent = $mpdf->Output('', 'S'); // S = Return as String
+
+        return response($pdfContent)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="rekap_nilai.pdf"');
+
     }
 
     public function calculateTotal($periode, $prodi, $accreditationKey)

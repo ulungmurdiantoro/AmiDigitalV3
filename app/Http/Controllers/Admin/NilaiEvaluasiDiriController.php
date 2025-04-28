@@ -335,14 +335,20 @@ class NilaiEvaluasiDiriController extends Controller
             'prodiPrefix' => $prodiPrefix,
         ])->render();
 
-        $mpdf = new Mpdf();
-        $mpdf = new Mpdf([
-            'default_font' => 'Arial', // Set default font if required
+        $mpdf = new \Mpdf\Mpdf([
+            'tempDir' => __DIR__ . '/tmp',  // Change temp directory if needed
+            'fontDir' => [__DIR__ . '/fonts'], // Custom font directory
         ]);
         
-        $mpdf->WriteHTML($html);
-        header('Content-Type: application/pdf');
-        header('Content-Disposition: inline; filename="rekap_nilai.pdf"');
+        $html = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
+
+        try {
+            $mpdf->WriteHTML($html);
+            $mpdf->Output('rekap_nilai.pdf', 'I');
+        } catch (\Mpdf\MpdfException $e) {
+            Log::error('mPDF error: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to generate PDF'], 500);
+        }
         
         $mpdf->Output('rekap_nilai.pdf', 'I');
     }

@@ -17,7 +17,6 @@ class InputAmi extends Component
 
     public function __construct(string $id, $standards, $transkasis, $prodis, $periodes, $standarTargetsRelations, $standarCapaiansRelations, $standarNilaisRelations)
     {
-        // dd($id, $standards);
         $this->id = $id;
         $this->standards = $standards;
         $this->transkasis = $transkasis;

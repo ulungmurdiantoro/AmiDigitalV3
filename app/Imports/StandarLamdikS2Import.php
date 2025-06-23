@@ -7,12 +7,10 @@ use Maatwebsite\Excel\Concerns\ToModel;
 
 class StandarLamdikS2Import implements ToModel
 {
-    // A flag to ensure truncate() is called only once
     private $truncateFlag = false;
 
     public function model(array $row)
     {
-        // Only truncate the table once, when processing the first row
         if (!$this->truncateFlag) {
             StandarElemenLamdikS2::truncate();
             $this->truncateFlag = true;

@@ -25,7 +25,7 @@
           : ''
           }}">
     
-          <td class="text-center">{{ $standard->indikator_kode }}</td>
+          <td class="text-center">{{ $standard->indikator_id }}</td>
           <td>{{ $standard->elemen_nama }}</td>
           <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
           <td class="text-center">
@@ -137,7 +137,7 @@
                   @csrf
                   {{-- @method('PUT') --}}
                   <input type="hidden" name="ami_kodes" value="{{ $transkasis->ami_kode }}">
-                  <input type="hidden" name="indikator_kodes" value="{{ $standard->indikator_kode }}">
+                  <input type="hidden" name="indikator_ids" value="{{ $standard->indikator_id }}">
                   <input type="hidden" name="indikator_bobots" value="{{ $standard->indikator_bobot }}">
                   <input type="hidden" name="prodis" value="{{ $prodis }}">
                   <input type="hidden" name="periodes" value="{{ $periodes }}">
@@ -163,7 +163,7 @@
                 <div class="details-container">
                   <div class="row mb-2">
                     <div class="col-1 fw-bold">Kode:</div>
-                    <div class="col-3">{{ $standard->indikator_kode }}</div>
+                    <div class="col-3">{{ $standard->indikator_id }}</div>
                     
                     <div class="col-2 fw-bold">Elemen:</div>
                     <div class="col-6">{{ $standard->elemen_nama }}</div>

@@ -10,7 +10,7 @@ class StandarElemenLamdikTerapanS2 extends Model
     use HasFactory;
 
     protected $fillable = [
-        'indikator_kode',
+        'indikator_id',
         'standar_nama',
         'elemen_nama',
         'indikator_nama',
@@ -21,6 +21,6 @@ class StandarElemenLamdikTerapanS2 extends Model
 
     public function standarTargets()
     {
-        return $this->hasMany(StandarTarget::class, 'indikator_kode', 'indikator_kode');
+        return $this->hasMany(StandarTarget::class, 'indikator_id', 'indikator_id');
     }
 }

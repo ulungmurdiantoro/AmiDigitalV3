@@ -10,7 +10,11 @@ class Jenjang extends Model
     use HasFactory;
 
     protected $fillable = [
-        'jenjang_kode',
-        'jenjang_nama',
+        'nama',
     ];
+
+    public function standards() {
+        return $this->hasMany(Standard::class);
+    }
+
 }

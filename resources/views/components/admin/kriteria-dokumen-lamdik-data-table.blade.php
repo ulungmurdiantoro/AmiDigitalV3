@@ -15,7 +15,7 @@
     <tbody>
       @foreach ($standards as $standard)
         <tr>
-          <td class="text-center">{{ $standard->indikator_kode }}</td>
+          <td class="text-center">{{ $standard->indikator_id }}</td>
           <td>{{ $standard->elemen_nama }}</td>
           <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
           <td>{{ $standard->kategori }}</td>
@@ -28,7 +28,7 @@
             {{ $standard->{$standarTargetsRelations}->count() }}<br>
           </td>
           <td class="text-center">
-            <a href="{{ route('admin.kriteria-dokumen.kelola-target', ['importTitle' => urlencode($importTitle), 'indikator_kode' => $standard->indikator_kode]) }}" class="btn btn-primary btn-icon" title="Manage Target">
+            <a href="{{ route('admin.kriteria-dokumen.kelola-target', ['importTitle' => urlencode($importTitle), 'indikator_id' => $standard->indikator_id]) }}" class="btn btn-primary btn-icon" title="Manage Target">
               <i data-feather="plus-square"></i>
             </a>
           </td>

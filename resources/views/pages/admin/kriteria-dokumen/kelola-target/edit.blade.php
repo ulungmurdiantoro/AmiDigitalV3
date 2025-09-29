@@ -49,9 +49,9 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="mb-3">
-                        <label for="indikator_kode" class="form-label">Jenjang</label>
-                        <input id="indikator_kode" class="form-control" name="indikator_kode" type="text" value="{{ $indikator_kode }}" disabled>
-                        <input type="hidden" name="indikator_kode" value="{{ $indikator_kode }}">
+                        <label for="indikator_id" class="form-label">Jenjang</label>
+                        <input id="indikator_id" class="form-control" name="indikator_id" type="text" value="{{ $indikator_id }}" disabled>
+                        <input type="hidden" name="indikator_id" value="{{ $indikator_id }}">
                     </div>
                 </div>
             </div>
@@ -127,7 +127,7 @@
             <div class="col-sm-12">
               <div class="mb-12">
                 <label for="tipe_nama" class="form-label">Nama Tipe Dokumen</label>
-                <input type="hidden" name="indikator_kode" value="{{ $indikator_kode }}">
+                <input type="hidden" name="indikator_id" value="{{ $indikator_id }}">
                 <input id="tipe_nama" class="form-control" name="tipe_nama" type="text" placeholder="Masukkan Nama Tipe Dokumen">
               </div>
             </div>

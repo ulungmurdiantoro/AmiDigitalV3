@@ -85,7 +85,7 @@ class JenjangFactory extends Factory
     {
         return [
             'jenjang_kode' => $this->faker->unique()->numerify('JENJANG###'),
-            'jenjang_nama' => $this->faker->name(),
+            'nama' => $this->faker->name(),
         ];
     }
 
@@ -114,7 +114,7 @@ class StandarAkreditasiFactory extends Factory
     {
         return [
             'standar_akreditasis_kode' => $this->faker->unique()->numerify('STANDARAKRE###'),
-            'standar_akreditasis_nama' => $this->faker->name(),
+            'nama' => $this->faker->name(),
         ];
     }
 

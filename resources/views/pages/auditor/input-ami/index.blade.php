@@ -78,7 +78,7 @@
             <tbody>
               @foreach ($data_standar_k1 as $standard)
                 <tr>
-                  <td style="text-align: center;">{{ $standard->indikator_kode }}</td>
+                  <td style="text-align: center;">{{ $standard->indikator_id }}</td>
                   <td>{{ $standard->elemen_nama }}</td>
                   <td>
                     @php
@@ -163,7 +163,7 @@
             <tbody>
               @foreach ($data_standar_k2 as $standard)
                 <tr>
-                  <td style="text-align: center;">{{ $standard->indikator_kode }}</td>
+                  <td style="text-align: center;">{{ $standard->indikator_id }}</td>
                   <td>{{ $standard->elemen_nama }}</td>
                   <td>
                     @php
@@ -248,7 +248,7 @@
             <tbody>
               @foreach ($data_standar_k3 as $standard)
                 <tr>
-                  <td style="text-align: center;">{{ $standard->indikator_kode }}</td>
+                  <td style="text-align: center;">{{ $standard->indikator_id }}</td>
                   <td>{{ $standard->elemen_nama }}</td>
                   <td>
                     @php
@@ -333,7 +333,7 @@
             <tbody>
               @foreach ($data_standar_k4 as $standard)
                 <tr>
-                  <td style="text-align: center;">{{ $standard->indikator_kode }}</td>
+                  <td style="text-align: center;">{{ $standard->indikator_id }}</td>
                   <td>{{ $standard->elemen_nama }}</td>
                   <td>
                     @php
@@ -418,7 +418,7 @@
             <tbody>
               @foreach ($data_standar_k5 as $standard)
                 <tr>
-                  <td style="text-align: center;">{{ $standard->indikator_kode }}</td>
+                  <td style="text-align: center;">{{ $standard->indikator_id }}</td>
                   <td>{{ $standard->elemen_nama }}</td>
                   <td>
                     @php
@@ -503,7 +503,7 @@
             <tbody>
               @foreach ($data_standar_k6 as $standard)
                 <tr>
-                  <td style="text-align: center;">{{ $standard->indikator_kode }}</td>
+                  <td style="text-align: center;">{{ $standard->indikator_id }}</td>
                   <td>{{ $standard->elemen_nama }}</td>
                   <td>
                     @php
@@ -588,7 +588,7 @@
             <tbody>
               @foreach ($data_standar_k7 as $standard)
                 <tr>
-                  <td style="text-align: center;">{{ $standard->indikator_kode }}</td>
+                  <td style="text-align: center;">{{ $standard->indikator_id }}</td>
                   <td>{{ $standard->elemen_nama }}</td>
                   <td>
                     @php
@@ -673,7 +673,7 @@
             <tbody>
               @foreach ($data_standar_k8 as $standard)
                 <tr>
-                  <td style="text-align: center;">{{ $standard->indikator_kode }}</td>
+                  <td style="text-align: center;">{{ $standard->indikator_id }}</td>
                   <td>{{ $standard->elemen_nama }}</td>
                   <td>
                     @php
@@ -758,7 +758,7 @@
             <tbody>
               @foreach ($data_standar_k9 as $standard)
                 <tr>
-                  <td style="text-align: center;">{{ $standard->indikator_kode }}</td>
+                  <td style="text-align: center;">{{ $standard->indikator_id }}</td>
                   <td>{{ $standard->elemen_nama }}</td>
                   <td>
                     @php
@@ -843,7 +843,7 @@
             <tbody>
               @foreach ($data_standar_k10 as $standard)
                 <tr>
-                  <td style="text-align: center;">{{ $standard->indikator_kode }}</td>
+                  <td style="text-align: center;">{{ $standard->indikator_id }}</td>
                   <td>{{ $standard->elemen_nama }}</td>
                   <td>
                     @php
@@ -928,7 +928,7 @@
             <tbody>
               @foreach ($data_standar_k11 as $standard)
                 <tr>
-                  <td style="text-align: center;">{{ $standard->indikator_kode }}</td>
+                  <td style="text-align: center;">{{ $standard->indikator_id }}</td>
                   <td>{{ $standard->elemen_nama }}</td>
                   <td>
                     @php
@@ -1013,7 +1013,7 @@
             <tbody>
               @foreach ($data_standar_k12 as $standard)
                 <tr>
-                  <td style="text-align: center;">{{ $standard->indikator_kode }}</td>
+                  <td style="text-align: center;">{{ $standard->indikator_id }}</td>
                   <td>{{ $standard->elemen_nama }}</td>
                   <td>
                     @php

@@ -12,17 +12,17 @@ class KelolaTargetController extends Controller
     public function index(Request $request)
     {
         // Retrieve data from the request
-        $indikatorKode = $request->input('indikator_kode');
+        $indikatorKode = $request->input('indikator_id');
         $elemenNama = $request->input('elemen_nama');
         $indikatorNama = $request->input('indikator_nama');
 
         $standarTarget = StandarTarget::when(request()->q, function($standarTarget) {
             $standarTarget = $standarTarget->where('id', 'like', '%'. request()->q . '%');
         })->latest()->paginate(10);
-        dd([ 'indikator_kode' => $indikatorKode, 'elemen_nama' => $elemenNama, 'indikator_nama' => $indikatorNama, 'standarTarget' => $standarTarget, ]);
+        dd([ 'indikator_id' => $indikatorKode, 'elemen_nama' => $elemenNama, 'indikator_nama' => $indikatorNama, 'standarTarget' => $standarTarget, ]);
         // Pass the data to the view
         return view('pages.admin.kriteria-dokumen.kelola-target.index', [
-            'indikator_kode' => $indikatorKode,
+            'indikator_id' => $indikatorKode,
             'elemen_nama' => $elemenNama,
             'indikator_nama' => $indikatorNama,
             'standarTarget' => $standarTarget,

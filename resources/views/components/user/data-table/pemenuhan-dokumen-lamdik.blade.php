@@ -15,7 +15,7 @@
     <tbody>
       @foreach ($standards as $standard)
         <tr>
-          <td class="text-center">{{ $standard->indikator_kode }}</td>
+          <td class="text-center">{{ $standard->indikator_id }}</td>
           <td>{{ $standard->elemen_nama }}</td>                 
           <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
           <td>
@@ -28,7 +28,7 @@
             {{ $standard->$standarCapaiansRelations->count() }}<br>
           </td>
           <td>
-            <a href="{{ route('user.pemenuhan-dokumen.input-capaian', $standard->indikator_kode) }}" class="btn btn-primary btn-icon" title="Manage Target">
+            <a href="{{ route('user.pemenuhan-dokumen.input-capaian', $standard->indikator_id) }}" class="btn btn-primary btn-icon" title="Manage Target">
               <i data-feather="plus-square"></i>
             </a>            
           </td>

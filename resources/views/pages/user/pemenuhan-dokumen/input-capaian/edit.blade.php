@@ -30,7 +30,7 @@
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="dokumen_nama" class="form-label">Nama Dokumen :</label>
-                <input type="hidden" name="indikator_kode" value="{{ $indikator_kode }}">
+                <input type="hidden" name="indikator_id" value="{{ $indikator_id }}">
                 <input id="dokumen_nama" class="form-control" name="dokumen_nama" type="text" value="{{ $standarCapaian->dokumen_nama }}" disabled>
                 @error('dokumen_nama')
                   <div class="invalid-feedback">{{ $message }}</div>

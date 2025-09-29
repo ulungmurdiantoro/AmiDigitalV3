@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('standar_elemen_banpt_s1_s', function (Blueprint $table) {
             $table->id();
-            $table->string('indikator_kode');
+            $table->string('indikator_id');
             $table->string('standar_nama');
             $table->string('elemen_nama');
             $table->longText('indikator_nama');

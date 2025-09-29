@@ -11,7 +11,7 @@ class StandarCapaian extends Model
 
     protected $fillable = [
         'capaian_kode',
-        'indikator_kode',
+        'indikator_id',
         'dokumen_nama',
         'pertanyaan_nama',
         'dokumen_tipe',
@@ -25,11 +25,11 @@ class StandarCapaian extends Model
 
     public function standarCapaiansBanptS1()
     {
-        return $this->belongsTo(StandarElemenBanptS1::class, 'indikator_kode', 'indikator_kode');
+        return $this->belongsTo(StandarElemenBanptS1::class, 'indikator_id', 'indikator_id');
     }
 
     public function standarTarget()
     {
-        return $this->belongsTo(standarTarget::class, 'indikator_kode', 'indikator_kode');
+        return $this->belongsTo(standarTarget::class, 'indikator_id', 'indikator_id');
     }
 }

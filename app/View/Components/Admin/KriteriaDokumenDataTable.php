@@ -10,15 +10,15 @@ class KriteriaDokumenDataTable extends Component
     public $standards;
     public $showImportData;
     public $importTitle;
-    public $standarTargetsRelations;
+    // public $standarTargetsRelations;
 
-    public function __construct($id, $standards, $showImportData, $importTitle, $standarTargetsRelations)
+    public function __construct($id, $standards, $showImportData, $importTitle)
     {
         $this->id = $id;
         $this->standards = $standards;
         $this->showImportData = $showImportData;
         $this->importTitle = $importTitle;
-        $this->standarTargetsRelations = $standarTargetsRelations;
+        // $this->standarTargetsRelations = $standarTargetsRelations;
     }
     
     public function render()

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\BantuanController;
 use App\Http\Controllers\Admin\DokumenSpmiAmiController;
 use App\Http\Controllers\Admin\ForcastingController;
 use App\Http\Controllers\Admin\KriteriaDokumenController;
+use App\Http\Controllers\Admin\NewKriteriaDokumenController;
 use App\Http\Controllers\Admin\NilaiEvaluasiDiriController;
 use App\Http\Controllers\Admin\PenggunaAuditorController;
 use App\Http\Controllers\Admin\PenggunaProdiController;
@@ -89,22 +90,45 @@ Route::group(['prefix' => 'admin'], function(){
             'destroy' => 'admin.dokumen-spmi-ami.destroy',
         ]);
 
-        Route::get('/kriteria-dokumen/import', [KriteriaDokumenController::class, 'import'])->name('admin.kriteria-dokumen.import');
-        Route::get('/kriteria-dokumen/{importTitle}/{indikator_kode}/kelola-target', [KriteriaDokumenController::class, 'kelolaTarget'])->name('admin.kriteria-dokumen.kelola-target');
-        Route::get('/kriteria-dokumen/{importTitle}/{indikator_kode}/kelola-target/create', [KriteriaDokumenController::class, 'kelolaTargetCreate'])->name('admin.kriteria-dokumen.kelola-target.create');
+        // Route::get('/kriteria-dokumen/import', [KriteriaDokumenController::class, 'import'])->name('admin.kriteria-dokumen.import');
+        // Route::get('/kriteria-dokumen/{importTitle}/{indikator_id}/kelola-target', [KriteriaDokumenController::class, 'kelolaTarget'])->name('admin.kriteria-dokumen.kelola-target');
+        // Route::get('/kriteria-dokumen/{importTitle}/{indikator_id}/kelola-target/create', [KriteriaDokumenController::class, 'kelolaTargetCreate'])->name('admin.kriteria-dokumen.kelola-target.create');
 
-        Route::post('/kriteria-dokumen/kelola-target/store', [KriteriaDokumenController::class, 'kelolaTargetStore'])->name('admin.kriteria-dokumen.kelola-target.store');
-        Route::get('/kriteria-dokumen/kelola-target/{indikator_kode}/edit', [KriteriaDokumenController::class, 'kelolaTargetEdit'])->name('admin.kriteria-dokumen.kelola-target.edit');
-        Route::put('/kriteria-dokumen/kelola-target/{id}/update', [KriteriaDokumenController::class, 'kelolaTargetUpdate'])->name('admin.kriteria-dokumen.kelola-target.update');
-        Route::delete('/kriteria-dokumen/kelola-target/{id}', [KriteriaDokumenController::class, 'kelolaTargetDestroy'])->name('admin.kriteria-dokumen.kelola-target.destroy');
-        Route::post('/kriteria-dokumen/kelola-target/TipeDokumenStore', [KriteriaDokumenController::class, 'tipeDokumenStore'])->name('admin.kriteria-dokumen.kelola-target.tipedokumenstore');
-        Route::delete('/kriteria-dokumen/kelola-target/TipeDokumenDestroy', [KriteriaDokumenController::class, 'tipeDokumenDestroy'])->name('admin.kriteria-dokumen.kelola-target.tipedokumendestroy');
+        // Route::post('/kriteria-dokumen/kelola-target/store', [KriteriaDokumenController::class, 'kelolaTargetStore'])->name('admin.kriteria-dokumen.kelola-target.store');
+        // Route::get('/kriteria-dokumen/kelola-target/{indikator_id}/edit', [KriteriaDokumenController::class, 'kelolaTargetEdit'])->name('admin.kriteria-dokumen.kelola-target.edit');
+        // Route::put('/kriteria-dokumen/kelola-target/{id}/update', [KriteriaDokumenController::class, 'kelolaTargetUpdate'])->name('admin.kriteria-dokumen.kelola-target.update');
+        // Route::delete('/kriteria-dokumen/kelola-target/{id}', [KriteriaDokumenController::class, 'kelolaTargetDestroy'])->name('admin.kriteria-dokumen.kelola-target.destroy');
+        // Route::post('/kriteria-dokumen/kelola-target/TipeDokumenStore', [KriteriaDokumenController::class, 'tipeDokumenStore'])->name('admin.kriteria-dokumen.kelola-target.tipedokumenstore');
+        // Route::delete('/kriteria-dokumen/kelola-target/TipeDokumenDestroy', [KriteriaDokumenController::class, 'tipeDokumenDestroy'])->name('admin.kriteria-dokumen.kelola-target.tipedokumendestroy');
 
-        Route::post('/kriteria-dokumen/storeImport', [KriteriaDokumenController::class, 'storeImport'])->name('admin.kriteria-dokumen.storeImport');
-        Route::get('/kriteria-dokumen/{degree}/import', [KriteriaDokumenController::class, 'import'])->name('kriteria-dokumen.import');
-        Route::get('/kriteria-dokumen/{degree}/create', [KriteriaDokumenController::class, 'create'])->name('kriteria-dokumen.create');
+        // Route::post('/kriteria-dokumen/storeImport', [KriteriaDokumenController::class, 'storeImport'])->name('admin.kriteria-dokumen.storeImport');
+        // Route::get('/kriteria-dokumen/{degree}/import', [KriteriaDokumenController::class, 'import'])->name('kriteria-dokumen.import');
+        // Route::get('/kriteria-dokumen/{degree}/create', [KriteriaDokumenController::class, 'create'])->name('kriteria-dokumen.create');
 
-        Route::resource('kriteria-dokumen', KriteriaDokumenController::class)->names([
+        // Route::resource('kriteria-dokumen', KriteriaDokumenController::class)->names([
+        //     'index' => 'admin.kriteria-dokumen.index',
+        //     'store' => 'admin.kriteria-dokumen.store',
+        //     'show' => 'admin.kriteria-dokumen.show',
+        //     'edit' => 'admin.kriteria-dokumen.edit',
+        //     'update' => 'admin.kriteria-dokumen.update',
+        //     'destroy' => 'admin.kriteria-dokumen.destroy',
+        // ]);
+
+        Route::get('/kriteria-dokumen/import', [NewKriteriaDokumenController::class, 'import'])->name('admin.kriteria-dokumen.import');
+        Route::get('/kriteria-dokumen/{importTitle}/{indikator_id}/kelola-target', [NewKriteriaDokumenController::class, 'kelolaTarget'])->name('admin.kriteria-dokumen.kelola-target');
+        Route::get('/kriteria-dokumen/{importTitle}/{indikator_id}/kelola-target/create', [NewKriteriaDokumenController::class, 'kelolaTargetCreate'])->name('admin.kriteria-dokumen.kelola-target.create');
+        Route::post('/kriteria-dokumen/kelola-target/store', [NewKriteriaDokumenController::class, 'kelolaTargetStore'])->name('admin.kriteria-dokumen.kelola-target.store');
+        Route::get('/kriteria-dokumen/kelola-target/{indikator_id}/edit', [NewKriteriaDokumenController::class, 'kelolaTargetEdit'])->name('admin.kriteria-dokumen.kelola-target.edit');
+        Route::put('/kriteria-dokumen/kelola-target/{id}/update', [NewKriteriaDokumenController::class, 'kelolaTargetUpdate'])->name('admin.kriteria-dokumen.kelola-target.update');
+        Route::delete('/kriteria-dokumen/kelola-target/{id}', [NewKriteriaDokumenController::class, 'kelolaTargetDestroy'])->name('admin.kriteria-dokumen.kelola-target.destroy');
+        Route::post('/kriteria-dokumen/kelola-target/TipeDokumenStore', [NewKriteriaDokumenController::class, 'tipeDokumenStore'])->name('admin.kriteria-dokumen.kelola-target.tipedokumenstore');
+        Route::delete('/kriteria-dokumen/kelola-target/TipeDokumenDestroy', [NewKriteriaDokumenController::class, 'tipeDokumenDestroy'])->name('admin.kriteria-dokumen.kelola-target.tipedokumendestroy');
+
+        Route::post('/kriteria-dokumen/storeImport', [NewKriteriaDokumenController::class, 'storeImport'])->name('admin.kriteria-dokumen.storeImport');
+        Route::get('/kriteria-dokumen/{degree}/import', [NewKriteriaDokumenController::class, 'import'])->name('kriteria-dokumen.import');
+        Route::get('/kriteria-dokumen/{degree}/create', [NewKriteriaDokumenController::class, 'create'])->name('kriteria-dokumen.create');
+
+        Route::resource('kriteria-dokumen', NewKriteriaDokumenController::class)->names([
             'index' => 'admin.kriteria-dokumen.index',
             'store' => 'admin.kriteria-dokumen.store',
             'show' => 'admin.kriteria-dokumen.show',
@@ -213,8 +237,8 @@ Route::group(['prefix' => 'user'], function(){
             'destroy' => 'user.dokumen-spmi-ami.destroy',
         ]);
         
-        Route::get('/pemenuhan-dokumen/{indikator_kode}/input-capaian', [PemenuhanDokumenController::class, 'pemenuhanDokumen'])->name('user.pemenuhan-dokumen.input-capaian');
-        Route::get('/pemenuhan-dokumen/input-capaian/{indikator_kode}/create', [PemenuhanDokumenController::class, 'pemenuhanDokumenCreate'])->name('user.pemenuhan-dokumen.input-capaian.create');
+        Route::get('/pemenuhan-dokumen/{indikator_id}/input-capaian', [PemenuhanDokumenController::class, 'pemenuhanDokumen'])->name('user.pemenuhan-dokumen.input-capaian');
+        Route::get('/pemenuhan-dokumen/input-capaian/{indikator_id}/create', [PemenuhanDokumenController::class, 'pemenuhanDokumenCreate'])->name('user.pemenuhan-dokumen.input-capaian.create');
         Route::post('/pemenuhan-dokumen/input-capaian/store', [PemenuhanDokumenController::class, 'pemenuhanDokumenStore'])->name('user.pemenuhan-dokumen.input-capaian.store');
         Route::get('/pemenuhan-dokumen/input-capaian/{id}/edit', [PemenuhanDokumenController::class, 'pemenuhanDokumenEdit'])->name('user.pemenuhan-dokumen.input-capaian.edit');
         Route::put('/pemenuhan-dokumen/input-capaian/{id}/update', [PemenuhanDokumenController::class, 'pemenuhanDokumenUpdate'])->name('user.pemenuhan-dokumen.input-capaian.update');

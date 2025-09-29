@@ -463,7 +463,7 @@ class AuditorNilaiEvaluasiDiriController extends Controller
         $nilaiCollection = StandarNilai::where('periode', $periode)
             ->where('prodi', $prodi)
             ->get()
-            ->keyBy('indikator_kode');
+            ->keyBy('indikator_id');
 
         $compositeTotal    = 0;
         $nonCompositeTotal = 0;

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('standar_outputs', function (Blueprint $table) {
             $table->id();
             $table->string('ami_kode');
-            $table->string('indikator_kode');
+            $table->string('indikator_id');
             $table->float('tertimbang');
             $table->timestamps();
         });

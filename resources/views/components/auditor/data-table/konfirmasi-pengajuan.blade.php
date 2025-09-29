@@ -14,7 +14,7 @@
     <tbody>
       @foreach ($standards as $standard)
         <tr style="{{ $transkasis->status === 'Selesai' ? '' : (optional($standard->$standarNilaisRelations)->mandiri_nilai < 1 ? 'background-color: rgba(140, 18, 61, .85); color: white;' : '') }}">
-          <td class="text-center">{{ $standard->indikator_kode }}</td>
+          <td class="text-center">{{ $standard->indikator_id }}</td>
           <td>{{ $standard->elemen_nama }}</td>
           <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
           <td>

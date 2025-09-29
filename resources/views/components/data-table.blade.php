@@ -18,7 +18,7 @@
             <tbody>
               @foreach ($data as $standard)
                 <tr>
-                  <td style="text-align: center;">{{ $standard->indikator_kode }}</td>
+                  <td style="text-align: center;">{{ $standard->indikator_id }}</td>
                   <td>{{ $standard->elemen_nama }}</td>
                   <td>
                     @foreach (explode("\n", $standard->indikator_nama) as $line)
@@ -32,7 +32,7 @@
                   </td>
                   <td>{{ $standard->standar_targets_count }}</td>
                   <td>
-                    <a href="{{ route('admin.kriteria-dokumen.kelola-target', $standard->indikator_kode) }}" class="btn btn-primary btn-icon" title="Manage Target">
+                    <a href="{{ route('admin.kriteria-dokumen.kelola-target', $standard->indikator_id) }}" class="btn btn-primary btn-icon" title="Manage Target">
                       <i data-feather="plus-square"></i>
                     </a>
                   </td>

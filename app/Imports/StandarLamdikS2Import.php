@@ -17,7 +17,7 @@ class StandarLamdikS2Import implements ToModel
         }
 
         return new StandarElemenLamdikS2([
-            'indikator_kode'  => $row['indikator_kode'],
+            'indikator_id'  => $row['indikator_id'],
             'standar_nama'    => $row['standar_nama'],
             'elemen_nama'     => $row['elemen_nama'],
             'indikator_nama'  => $row['indikator_nama'],

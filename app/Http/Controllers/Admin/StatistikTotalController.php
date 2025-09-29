@@ -92,7 +92,7 @@ class StatistikTotalController extends Controller
 
         $data_standar = $modelClass::with([
             $standarNilaisRelation => function ($query) use ($periode, $prodi) {
-                $query->select('id', 'indikator_kode', 'hasil_nilai')
+                $query->select('id', 'indikator_id', 'hasil_nilai')
                     ->where('periode', $periode)
                     ->where('prodi', $prodi);
             }
@@ -100,7 +100,7 @@ class StatistikTotalController extends Controller
         ->when($request->q, function ($query) use ($request) {
             $query->where('elemen_nama', 'like', '%' . $request->q . '%');
         })
-        ->select('id', 'indikator_kode', 'elemen_nama')
+        ->select('id', 'indikator_id', 'elemen_nama')
         ->latest()
         ->get();
 
@@ -110,10 +110,10 @@ class StatistikTotalController extends Controller
         $averages = [];
 
         foreach ($data_standar as $standar) {
-            $categories[] = $standar->indikator_kode;
+            $categories[] = $standar->indikator_id;
 
             if ($standar->$standarNilaisRelation && $standar->$standarNilaisRelation->count() > 0) {
-                $matchingNilai = $standar->$standarNilaisRelation->firstWhere('indikator_kode', $standar->indikator_kode);
+                $matchingNilai = $standar->$standarNilaisRelation->firstWhere('indikator_id', $standar->indikator_id);
                 if ($matchingNilai) {
                     $averages[] = $matchingNilai->hasil_nilai;
                 } else {

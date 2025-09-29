@@ -12,7 +12,7 @@ class StandarTarget extends Model
     protected $fillable = [
         'jenjang',
         'target_kode',
-        'indikator_kode',
+        'indikator_id',
         'pertanyaan_nama',
         'dokumen_nama',
         'dokumen_tipe',

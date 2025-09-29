@@ -29,13 +29,13 @@
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="standar_nama" class="form-label">Kriteria</label>
-                <input id="standar_nama" class="form-control" name="standar_nama" type="text" value="{{ $standarElemen->standar_nama }}" disabled>
+                <input id="standar_nama" class="form-control" name="standar_nama" type="text" value="{{ $indikator->element->standard->nama }}" disabled>
               </div>
             </div><!-- Col -->
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="elemen_nama" class="form-label">Elemen</label>
-                <input id="elemen_nama" class="form-control" name="elemen_nama" type="text" value="{{ $standarElemen->elemen_nama }}" disabled>
+                <input id="elemen_nama" class="form-control" name="elemen_nama" type="text" value="{{ $indikator->element->nama }}" disabled>
               </div>
             </div><!-- Col -->
           </div>
@@ -43,7 +43,7 @@
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="indikator_nama" class="form-label">Indikator</label>
-                <textarea id="indikator_nama" class="form-control" name="indikator_nama" disabled>{{ $standarElemen->indikator_nama }}</textarea>
+                <textarea id="indikator_nama" class="form-control" name="indikator_nama" disabled>{{ $indikator->nama_indikator }}</textarea>
               </div>
             </div><!-- Col -->
             <div class="col-sm-6">
@@ -51,7 +51,7 @@
                 <label for="importTitle" class="form-label">Jenjang</label>
                 <input id="importTitle" class="form-control" name="importTitle" type="text" value="{{ $importTitle }}" disabled>
                 <input type="hidden" name="importTitle" value="{{ $importTitle }}">
-                <input type="hidden" name="indikator_kode" value="{{ $indikator_kode }}">
+                <input type="hidden" name="indikator_id" value="{{ $indikator_id }}">
               </div>
             </div><!-- Col -->
           </div>
@@ -125,7 +125,7 @@
             <div class="col-sm-12">
               <div class="mb-12">
                 <label for="tipe_nama" class="form-label">Nama Tipe Dokumen</label>
-                <input type="hidden" name="indikator_kode" value="{{ $indikator_kode }}">
+                <input type="hidden" name="indikator_id" value="{{ $indikator_id }}">
                 <input id="tipe_nama" class="form-control" name="tipe_nama" type="text" placeholder="Masukkan Nama Tipe Dokumen">
               </div>
             </div>

@@ -10,7 +10,7 @@ class StandarElemenLamdikS2 extends Model
     use HasFactory;
 
     protected $fillable = [
-        'indikator_kode',
+        'indikator_id',
         'standar_nama',
         'elemen_nama',
         'indikator_nama',
@@ -21,22 +21,22 @@ class StandarElemenLamdikS2 extends Model
 
     public function standarTargetsLamdikS2()
     {
-        return $this->hasMany(StandarTarget::class, 'indikator_kode', 'indikator_kode');
+        return $this->hasMany(StandarTarget::class, 'indikator_id', 'indikator_id');
     }
 
     public function standarCapaiansLamdikS2()
     {
-        return $this->hasMany(StandarCapaian::class, 'indikator_kode', 'indikator_kode');
+        return $this->hasMany(StandarCapaian::class, 'indikator_id', 'indikator_id');
     }
 
     public function standarNilaisLamdikS2()
     {
-        return $this->hasOne(StandarNilai::class, 'indikator_kode', 'indikator_kode');
+        return $this->hasOne(StandarNilai::class, 'indikator_id', 'indikator_id');
     }
 
     public function standarNilaisNotSesuaiLamdikS2()
     {
-        return $this->hasOne(StandarNilai::class, 'indikator_kode', 'indikator_kode')
+        return $this->hasOne(StandarNilai::class, 'indikator_id', 'indikator_id')
                     ->where('jenis_temuan', '!=', 'Sesuai');
     }
 }

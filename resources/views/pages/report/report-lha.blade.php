@@ -345,7 +345,7 @@
 								};
 							@endphp
 							<tr>
-								<td>{{ $standar->indikator_kode }}</td>
+								<td>{{ $standar->indikator_id }}</td>
 								<td>{{ $standar->elemen_nama }}</td>
 								<td>{!! nl2br(e($standar->indikator_nama)) !!}</td>
 								<td>{{ $nilai }}/4</td>
@@ -384,7 +384,7 @@
 						<table class="tbsurvey" style="width:100%">
 							<tr>
 								<th style="width:15%" class="tbpeserta subth">Kode</th>
-								<td colspan="3" class="tbpeserta">{{ $standar->indikator_kode }}</td>
+								<td colspan="3" class="tbpeserta">{{ $standar->indikator_id }}</td>
 							</tr>
 							<tr>
 								<th style="width:15%" class="tbpeserta subth">Jenis Temuan</th>

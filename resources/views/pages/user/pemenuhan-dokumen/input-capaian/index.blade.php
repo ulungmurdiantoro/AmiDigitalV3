@@ -18,12 +18,12 @@
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
           <div>
-            <h4 class="mb-3 mb-md-0">Daftar Referensi Kebutuhan Dokumen {{ session('user_akses') }} {{ $indikator_kode }}</h4>
-            <p>{{ $standarElemen->elemen_nama }}</p>
-            <p>{!! nl2br(e($standarElemen->indikator_nama)) !!}</p>
+            <h4 class="mb-3 mb-md-0">Daftar Referensi Kebutuhan Dokumen {{ session('user_akses') }}</h4>
+            <p>{{ $indikator->element->nama }}</p>
+            <p>{!! nl2br(e($indikator->nama_indikator)) !!}</p>
           </div>
           <div class="d-flex align-items-center flex-wrap text-nowrap ms-auto">
-            <a href="{{ route('user.pemenuhan-dokumen.input-capaian.create', $indikator_kode) }}" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
+            <a href="{{ route('user.pemenuhan-dokumen.input-capaian.create', $indikator_id) }}" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
               <i class="btn-icon-prepend" data-feather="plus-circle"></i>
               Tambah Data
             </a>
@@ -96,7 +96,7 @@
                         <form action="{{ route('user.pemenuhan-dokumen.input-capaian.destroy', $standarCapaian->id) }}" method="POST">
                           @csrf
                           @method('DELETE')
-                          <input type="hidden" name="indikator_kode" value="{{ $standarCapaian->indikator_kode }}">
+                          <input type="hidden" name="indikator_id" value="{{ $standarCapaian->indikator_id }}">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                           <button type="submit" class="btn btn-danger">Delete</button>
                         </form>

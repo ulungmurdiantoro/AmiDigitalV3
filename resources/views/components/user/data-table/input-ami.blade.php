@@ -19,7 +19,7 @@
               ? 'background-color: rgba(140, 18, 61, .85); color: white;' 
               : '' 
           }}">
-            <td class="text-center">{{ $standard->indikator_kode }}</td>
+            <td class="text-center">{{ $standard->indikator_id }}</td>
             <td>{{ $standard->elemen_nama }}</td>
             <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
             <td class="text-center">
@@ -137,7 +137,7 @@
                   </div>
                   <div class="modal-body">
                     <input type="hidden" name="ami_kodes" value="{{ $transkasis->ami_kode }}">
-                    <input type="hidden" name="indikator_kodes" value="{{ $standard->indikator_kode }}">
+                    <input type="hidden" name="indikator_ids" value="{{ $standard->indikator_id }}">
                     <input type="hidden" name="indikator_bobots" value="{{ $standard->indikator_bobot }}">
                     <input type="hidden" name="prodis" value="{{ $prodis }}">
                     <input type="hidden" name="periodes" value="{{ $periodes }}">

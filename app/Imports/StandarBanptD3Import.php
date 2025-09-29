@@ -19,7 +19,7 @@ class StandarBanptD3Import implements ToModel
         }
 
         return new StandarElemenBanptD3([
-            'indikator_kode'  => $row['indikator_kode'],
+            'indikator_id'  => $row['indikator_id'],
             'standar_nama'    => $row['standar_nama'],
             'elemen_nama'     => $row['elemen_nama'],
             'indikator_nama'  => $row['indikator_nama'],

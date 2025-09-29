@@ -135,31 +135,31 @@ class InputAmiAuditorController extends Controller
         ]);
     }
 
-    // public function nilaiAmi($indikator_kode)
+    // public function nilaiAmi($indikator_id)
     // {
     //     // Your logic for handling the request goes here
-    //     // For example, you could retrieve some data based on the $indikator_kode
+    //     // For example, you could retrieve some data based on the $indikator_id
     //     // and return a view or JSON response.
 
     //     // Example:
-    //     // $data = YourModel::where('indikator_kode', $indikator_kode)->first();
+    //     // $data = YourModel::where('indikator_id', $indikator_id)->first();
     //     // return view('your_view', compact('data'));
 
     //     return view('pages.auditor.input-ami.nilai-ami.index');
     // }
-    public function nilaiAmi(Request $request, $indikator_kode)
+    public function nilaiAmi(Request $request, $indikator_id)
     {
-        // Validate if indikator_kode exists
-        $standarElemen = StandarElemenBanptS1::where('indikator_kode', $indikator_kode)->firstOrFail();
+        // Validate if indikator_id exists
+        $standarElemen = StandarElemenBanptS1::where('indikator_id', $indikator_id)->firstOrFail();
 
         // Fetch StandarTarget data
-        $standarTarget = StandarTarget::where('indikator_kode', $indikator_kode)->when($request->q, function ($query, $q) {
+        $standarTarget = StandarTarget::where('indikator_id', $indikator_id)->when($request->q, function ($query, $q) {
             $query->where('id', 'like', "%{$q}%"); // Update the field if needed
         })->latest()->paginate(10);
 
         // Return the view
         return view('pages.auditor.input-ami.nilai-ami.index', [
-            'indikator_kode' => $indikator_kode,
+            'indikator_id' => $indikator_id,
             'standarTarget' => $standarTarget,
             'standarElemen' => $standarElemen,
         ]);

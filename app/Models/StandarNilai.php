@@ -11,7 +11,7 @@ class StandarNilai extends Model
 
     protected $fillable = [
         'ami_kode',
-        'indikator_kode',
+        'indikator_id',
         'mandiri_nilai',
         'hasil_nilai',
         'bobot',
@@ -34,17 +34,17 @@ class StandarNilai extends Model
 
     public function standarElemenBanptS1()
     {
-        return $this->belongsTo(StandarElemenBanptS1::class, 'indikator_kode', 'indikator_kode');
+        return $this->belongsTo(StandarElemenBanptS1::class, 'indikator_id', 'indikator_id');
     }
 
     public function standarElemenLamdikS1()
     {
-        return $this->belongsTo(StandarElemenLamdikS1::class, 'indikator_kode', 'indikator_kode');
+        return $this->belongsTo(StandarElemenLamdikS1::class, 'indikator_id', 'indikator_id');
     }
 
     public function standarNilaisLamdikS2()
     {
-        return $this->belongsTo(StandarElemenLamdikS2::class, 'indikator_kode', 'indikator_kode');
+        return $this->belongsTo(StandarElemenLamdikS2::class, 'indikator_id', 'indikator_id');
     }
 
     protected $compositeIndicatorsConfig = [
@@ -186,7 +186,7 @@ class StandarNilai extends Model
         $nilaiCollection = self::where('periode', $periode)
             ->where('prodi', $prodi)
             ->get()
-            ->keyBy('indikator_kode'); 
+            ->keyBy('indikator_id'); 
 
         $total = 0;
 
@@ -237,7 +237,7 @@ class StandarNilai extends Model
         $nilaiCollection = self::where('periode', $periode)
             ->where('prodi', $prodi)
             ->get()
-            ->keyBy('indikator_kode'); 
+            ->keyBy('indikator_id'); 
 
         $total = 0;
 
@@ -308,7 +308,7 @@ class StandarNilai extends Model
 
     public function getHasilNilai($indikatorKode, $periode, $prodi)
     {
-        return $this->where('indikator_kode', $indikatorKode)
+        return $this->where('indikator_id', $indikatorKode)
             ->where('periode', $periode)
             ->where('prodi', $prodi)
             ->value('hasil_nilai');

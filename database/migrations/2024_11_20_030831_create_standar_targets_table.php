@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('jenjang');
             $table->string('target_kode');
-            $table->string('indikator_kode');
+            $table->string('indikator_id');
             $table->string('pertanyaan_nama');
             $table->string('dokumen_nama');
             $table->string('dokumen_tipe');

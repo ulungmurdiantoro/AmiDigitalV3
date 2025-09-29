@@ -15,7 +15,7 @@
     <tbody>
       @foreach ($standards as $standard)
         <tr>
-          <td class="text-center">{{ $standard->indikator_kode }}</td>
+          <td class="text-center">{{ $standard->indikator_id }}</td>
           <td>{{ $standard->elemen_nama }}</td>
           <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
           <td>{{ $standard->kategori }}</td>
@@ -46,7 +46,7 @@
                 <div class="details-container">
                   <div class="row mb-2">
                     <div class="col-1 fw-bold">Kode:</div>
-                    <div class="col-2">{{ $standard->indikator_kode }}</div>
+                    <div class="col-2">{{ $standard->indikator_id }}</div>
                     <div class="col-2 fw-bold">Elemen:</div>
                     <div class="col-7">{{ $standard->elemen_nama }}</div>
                   </div>

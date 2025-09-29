@@ -387,7 +387,7 @@ class ForcastingController extends Controller
 
     public function getHasilNilai($indikatorKode, $periode, $prodi)
     {
-        return StandarNilai::where('indikator_kode', $indikatorKode)
+        return StandarNilai::where('indikator_id', $indikatorKode)
             ->where('periode', $periode)
             ->where('prodi', $prodi)
             ->value('hasil_nilai');
@@ -508,7 +508,7 @@ class ForcastingController extends Controller
         $nilaiCollection = StandarNilai::where('periode', $periode)
             ->where('prodi', $prodi)
             ->get()
-            ->keyBy('indikator_kode');
+            ->keyBy('indikator_id');
 
         $compositeTotal    = 0;
         $nonCompositeTotal = 0;

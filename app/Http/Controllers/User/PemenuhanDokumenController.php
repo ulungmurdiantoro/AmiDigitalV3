@@ -20,227 +20,127 @@ use App\Models\StandarElemenLamdikTerapanS2;
 use App\Models\StandarElemenLamdikTerapanS3;
 use App\Models\StandarCapaian;
 use App\Models\DokumenTipe;
+use App\Models\Indikator;
+use App\Models\Jenjang;
+use App\Models\StandarAkreditasi;
+use App\Models\Standard;
 use App\Models\StandarTarget;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Cache;
 
 class PemenuhanDokumenController extends Controller
 {
     public function index(Request $request)
     {
         $penempatan = session('user_penempatan'); 
-        $akses = session('user_akses'); 
+        $akses = session('user_akses');           
 
-        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $penempatan, $matches);
-        $degree = $matches[0] ?? 'PPG';
-        // dd($matches);
+        $jenjangNama = trim(explode('-', $penempatan)[0]);
 
-        $key = trim($akses . ' ' . $degree);
+        $jenjang = Jenjang::where('nama', $jenjangNama)->first();
 
-        $standar_names_banpt = [
-            'Kondisi Eksternal',
-            'Profil Unit Pengelola Program Studi',
-            '1. Visi, Misi, Tujuan dan Strategi',
-            '2. Tata Pamong dan Kerjasama',
-            '3. Mahasiswa',
-            '4. Sumber Daya Manusia',
-            '5. Keuangan, Sarana dan Prasarana',
-            '6. Pendidikan',
-            '7. Penelitian',
-            '8. Pengabdian Kepada Masyarakat',
-            '9. Luaran dan Capaian Tridharma',
-            'Analisis dan Penetapan Program Pengembangan'
-        ];
+        $akreditasi = StandarAkreditasi::where('nama', $akses)->first();
 
-        $standar_names_lamdik = [
-            'Visi Keilmuan',
-            'Tata Pamong dan Tata Kelola',
-            'Mahasiswa',
-            'Dosen dan Tenaga Kependidikan',
-            'Keuangan, Sarana dan Prasarana Pendidikan',
-            'Pendidikan',
-            'Pengabdian Kepada Masyarakat',
-            'Penjaminan Mutu',
-        ];
-
-        $degreeMappings = [
-            'BAN-PT D3' => [
-                'modelClass' => StandarElemenBanptD3::class,
-                'standarTargetsRelation' => 'standarTargetsD3',
-                'standarCapaiansRelation' => 'standarCapaiansD3',
-                'standarNilaisRelation' => 'standarNilaisD3',
-                'standarNames' => $standar_names_banpt,
-            ],
-            'BAN-PT S1' => [
-                'modelClass' => StandarElemenBanptS1::class,
-                'standarTargetsRelation' => 'standarTargetsBanptS1',
-                'standarCapaiansRelation' => 'standarCapaiansBanptS1',
-                'standarNilaisRelation' => 'standarNilaisBanptS1',
-                'standarNames' => $standar_names_banpt,
-            ],
-            'LAMDIK PPG' => [
-                'modelClass' => StandarElemenLamdikD3::class,
-                'standarTargetsRelation' => 'standarTargetsLamdikD3',
-                'standarCapaiansRelation' => 'standarCapaiansLamdikD3',
-                'standarNilaisRelation' => 'standarNilaisLamdikD3',
-                'standarNames' => $standar_names_lamdik,
-            ],
-            'LAMDIK S1' => [
-                'modelClass' => StandarElemenLamdikS1::class,
-                'standarTargetsRelation' => 'standarTargetsLamdikS1',
-                'standarCapaiansRelation' => 'standarCapaiansLamdikS1',
-                'standarNilaisRelation' => 'standarNilaisLamdikS1',
-                'standarNames' => $standar_names_lamdik,
-            ],
-            'LAMDIK S2' => [
-                'modelClass' => StandarElemenLamdikS2::class,
-                'standarTargetsRelation' => 'standarTargetsLamdikS2',
-                'standarCapaiansRelation' => 'standarCapaiansLamdikS2',
-                'standarNilaisRelation' => 'standarNilaisLamdikS2',
-                'standarNames' => $standar_names_lamdik,
-            ],
-        ];
-
-        if (!isset($degreeMappings[$key])) {
-            Log::warning("Unknown degree key: {$key}, falling back to BAN-PT S1");
+        if (!$jenjang || !$akreditasi) {
+            abort(404, 'Data jenjang atau standar akreditasi tidak ditemukan');
         }
-        $degreeInfo = $degreeMappings[$key] ?? $degreeMappings['BAN-PT S1'];
 
-        $modelClass = $degreeInfo['modelClass'];
-        $standarTargetsRelation = $degreeInfo['standarTargetsRelation'];
-        $standarCapaiansRelation = $degreeInfo['standarCapaiansRelation'];
-        $standarNames = $degreeInfo['standarNames'];
+        $standardsQuery = Standard::query()
+            ->with(['elements.indicators'])
+            ->where('standar_akreditasi_id', $akreditasi->id)
+            ->where('jenjang_id', $jenjang->id);
 
-        $data_standar = [];
-        $degree = trim($degree);
+        $standards = $standardsQuery->get();
 
-        foreach ($standarNames as $index => $name) {
-            $data_standar['data_standar_k' . ($index + 1)] = $modelClass::with([
-                $standarTargetsRelation => function ($query) use ($key) {
-                    $query->where('jenjang', $key);
-                },
-                $standarCapaiansRelation => function ($query) use ($penempatan) {
-                    $query->where('prodi', $penempatan);
-                },
-            ])
-            ->when($request->q, function ($query) use ($request) {
-                $query->where('elemen_nama', 'like', '%' . $request->q . '%');
-            })
-            ->where('standar_nama', $name)
-            ->latest()
-            ->paginate(30)
-            ->appends(['q' => $request->q]);
-        }        
+        return view('pages.user.pemenuhan-dokumen.index', compact('jenjang', 'akreditasi', 'standards'));
 
-        return view('pages.user.pemenuhan-dokumen.index', [
-            'nama_data_standar' => $standarNames,
-            'standarTargetsRelation' => $standarTargetsRelation,
-            'standarCapaiansRelation' => $standarCapaiansRelation,
-            'data_standar' => $data_standar,
-            'key' => $key
-        ]);
     }
 
-    public function pemenuhanDokumen(Request $request, $indikator_kode)
+    public function pemenuhanDokumen(Request $request, $indikator_id)
     {
         $penempatan = session('user_penempatan'); 
-        $akses = session('user_akses'); 
+        $akses = session('user_akses');           
 
-        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $penempatan, $matches);
-        $degree = $matches[0] ?? 'PPG';
+        $jenjangNama = trim(explode('-', $penempatan)[0]);
 
-        $key = trim($akses . ' ' . $degree);
+        $jenjang = Jenjang::where('nama', $jenjangNama)->first();
+        $akreditasi = StandarAkreditasi::where('nama', $akses)->first();
 
-        $degreeMappings = [
-            'BAN-PT D3' => [
-                'modelClass' => StandarElemenBanptD3::class,
-            ],
-            'BAN-PT S1' => [
-                'modelClass' => StandarElemenBanptS1::class,
-            ],
-            'LAMDIK PPG' => [
-                'modelClass' => StandarElemenLamdikD3::class,
-            ],
-            'LAMDIK S1' => [
-                'modelClass' => StandarElemenLamdikS1::class,
-            ],
-            'LAMDIK S2' => [
-                'modelClass' => StandarElemenLamdikS2::class,
-            ],
-        ];
-
-        if (!isset($degreeMappings[$key])) {
-            Log::warning("Unknown degree key: {$key}, falling back to BAN-PT S1");
+        if (!$jenjang || !$akreditasi) {
+            abort(404, 'Data jenjang atau standar akreditasi tidak ditemukan');
         }
 
-        $degreeInfo = $degreeMappings[$key] ?? $degreeMappings['BAN-PT S1'];
+        $indikator = Indikator::with(['element.standard'])
+            ->where('id', $indikator_id)
+            ->first();
 
-        $modelClass = $degreeInfo['modelClass'];
-        $standarElemen = $modelClass::where('indikator_kode', $indikator_kode)->firstOrFail();
+        if (!$indikator || 
+            $indikator->element->standard->jenjang_id !== $jenjang->id || 
+            $indikator->element->standard->standar_akreditasi_id !== $akreditasi->id) {
+            abort(404, 'Indikator tidak ditemukan atau tidak sesuai dengan jenjang/akreditasi');
+        }
 
-        $standarCapaian = StandarCapaian::where('indikator_kode', $indikator_kode)
-            ->where('prodi', $penempatan)
+        $standarCapaian = StandarCapaian::where('indikator_id', $indikator_id)
             ->when($request->q, function ($query, $q) {
                 $query->where('id', 'like', "%{$q}%");
-            })->latest()->paginate(10);
+            })
+            ->where('prodi', $penempatan)
+            ->latest()
+            ->paginate(10);
 
         return view('pages.user.pemenuhan-dokumen.input-capaian.index', [
-            'indikator_kode' => $indikator_kode,
+            'indikator_id' => $indikator_id,
             'standarCapaian' => $standarCapaian,
-            'standarElemen' => $standarElemen,
+            'indikator' => $indikator,
         ]);
     }
 
-    public function pemenuhanDokumenCreate(Request $request, $indikator_kode)
+    public function pemenuhanDokumenCreate(Request $request, $indikator_id)
     {
-        $penempatan = session('user_penempatan', 'BAN-PT'); 
-        $akses = session('user_akses', 'S1'); 
+        $penempatan = session('user_penempatan'); 
+        $akses = session('user_akses');           
 
-        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $penempatan, $matches);
-        $degree = $matches[0] ?? 'PPG';
+        $jenjangNama = trim(explode('-', $penempatan)[0]);
 
-        $key = trim($akses . ' ' . $degree);
+        $jenjang = Jenjang::where('nama', $jenjangNama)->first();
+        $akreditasi = StandarAkreditasi::where('nama', $akses)->first();
 
-        $degreeMappings = [
-            'BAN-PT D3' => [
-                'modelClass' => StandarElemenBanptD3::class,
-            ],
-            'BAN-PT S1' => [
-                'modelClass' => StandarElemenBanptS1::class,
-            ],
-            'LAMDIK PPG' => [
-                'modelClass' => StandarElemenLamdikD3::class,
-            ],
-            'LAMDIK S1' => [
-                'modelClass' => StandarElemenLamdikS1::class,
-            ],
-            'LAMDIK S2' => [
-                'modelClass' => StandarElemenLamdikS2::class,
-            ],
-        ];
-
-        if (!isset($degreeMappings[$key])) {
-            Log::warning("Unknown degree key: {$key}, falling back to BAN-PT S1");
+        if (!$jenjang || !$akreditasi) {
+            abort(404, 'Data jenjang atau standar akreditasi tidak ditemukan');
         }
 
-        $degreeInfo = $degreeMappings[$key] ?? $degreeMappings['BAN-PT S1'];
+        $indikator = Indikator::with(['element.standard'])
+            ->where('id', $indikator_id)
+            ->first();
 
-        $modelClass = $degreeInfo['modelClass'];
-        $standarElemen = $modelClass::where('indikator_kode', $indikator_kode)->firstOrFail();
-        $standarTargets = StandarTarget::where('indikator_kode', $indikator_kode)->where('jenjang', $key)->get();
+        if (!$indikator || 
+            $indikator->element->standard->jenjang_id !== $jenjang->id || 
+            $indikator->element->standard->standar_akreditasi_id !== $akreditasi->id) {
+            abort(404, 'Indikator tidak ditemukan atau tidak sesuai dengan jenjang/akreditasi');
+        }
+
+        $standarTarget = StandarTarget::where('indikator_id', $indikator_id)
+            ->when($request->q, function ($query, $q) {
+                $query->where('id', 'like', "%{$q}%");
+            })
+            ->where('jenjang', $penempatan)
+            ->latest()
+            ->paginate(10);
 
         return view('pages.user.pemenuhan-dokumen.input-capaian.create', [
-            'indikator_kode' => $indikator_kode,
-            'standarElemen' => $standarElemen,
-            'standarTargets' => $standarTargets,
+            'indikator_id' => $indikator_id,
+            'indikator ' => $indikator,
+            'standarTargets' => $standarTarget,
         ]);
     }
 
     public function pemenuhanDokumenStore(Request $request)
     {
         $request->validate([
-            'indikator_kode' => 'required|string',
+            'indikator_id' => 'required|string',
             'dokumen_nama' => 'required|string',
             'pertanyaan_nama' => 'required|string',
             'dokumen_tipe' => 'required|string',
@@ -261,7 +161,7 @@ class PemenuhanDokumenController extends Controller
 
         StandarCapaian::create([
             'capaian_kode' => 'cpn-' . Str::uuid() . uniqid(),
-            'indikator_kode' => $request->input('indikator_kode'),
+            'indikator_id' => $request->input('indikator_id'),
             'dokumen_nama' => $request->input('dokumen_nama'),
             'pertanyaan_nama' => $request->input('pertanyaan_nama'),
             'dokumen_tipe' => $request->input('dokumen_tipe'),
@@ -273,7 +173,7 @@ class PemenuhanDokumenController extends Controller
             'prodi' => session('user_penempatan'),
         ]);
 
-        return redirect()->route('user.pemenuhan-dokumen.input-capaian', ['indikator_kode' => $request->indikator_kode])
+        return redirect()->route('user.pemenuhan-dokumen.input-capaian', ['indikator_id' => $request->indikator_id])
         ->with([
             'success' => 'Tipe Dokumen created successfully.',
         ]);    
@@ -283,11 +183,11 @@ class PemenuhanDokumenController extends Controller
     {
         $standarCapaian = StandarCapaian::findOrFail($id);
 
-        $indikator_kode = $standarCapaian->indikator_kode;
+        $indikator_id = $standarCapaian->indikator_id;
 
         return view('pages.user.pemenuhan-dokumen.input-capaian.edit', [
             'standarCapaian' => $standarCapaian,
-            'indikator_kode' => $indikator_kode,
+            'indikator_id' => $indikator_id,
         ]);    
     }
 
@@ -317,7 +217,7 @@ class PemenuhanDokumenController extends Controller
 
         $standarCapaian->save();
 
-        return redirect()->route('user.pemenuhan-dokumen.input-capaian', ['indikator_kode' => $request->indikator_kode])
+        return redirect()->route('user.pemenuhan-dokumen.input-capaian', ['indikator_id' => $request->indikator_id])
         ->with([
             'success' => 'Tipe Dokumen updated successfully.',
         ]);    
@@ -331,11 +231,11 @@ class PemenuhanDokumenController extends Controller
             Storage::disk('public')->delete($standarCapaian->dokumen_file);
         }
 
-        $indikator_kode = $standarCapaian->indikator_kode;
+        $indikator_id = $standarCapaian->indikator_id;
 
         $standarCapaian->delete();
 
-        return redirect()->route('user.pemenuhan-dokumen.input-capaian', ['indikator_kode' => $indikator_kode])
+        return redirect()->route('user.pemenuhan-dokumen.input-capaian', ['indikator_id' => $indikator_id])
             ->with([
                 'success' => 'Tipe Dokumen deleted successfully.',
             ]);

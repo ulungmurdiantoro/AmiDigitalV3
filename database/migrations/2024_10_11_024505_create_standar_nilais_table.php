@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('standar_nilais', function (Blueprint $table) {
             $table->id();
             $table->string('ami_kode');
-            $table->string('indikator_kode');
+            $table->string('indikator_id');
             $table->float('mandiri_nilai');
             $table->float('hasil_nilai');
             $table->float('bobot');

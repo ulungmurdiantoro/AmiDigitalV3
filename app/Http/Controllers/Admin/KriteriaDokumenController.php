@@ -192,7 +192,7 @@ class KriteriaDokumenController extends Controller
         }
     }
 
-    public function kelolaTarget(Request $request, $importTitle, $indikator_kode)
+    public function kelolaTarget(Request $request, $importTitle, $indikator_id)
     {
         $importTitle = urldecode($importTitle);
 
@@ -220,9 +220,9 @@ class KriteriaDokumenController extends Controller
         $degreeInfo = $degreeMappings[$importTitle] ?? $degreeMappings['BAN-PT S1'];
         $modelClass = $degreeInfo['modelClass'];
 
-        $standarElemen = $modelClass::where('indikator_kode', $indikator_kode)->firstOrFail();
+        $standarElemen = $modelClass::where('indikator_id', $indikator_id)->firstOrFail();
 
-        $standarTarget = StandarTarget::where('indikator_kode', $indikator_kode)
+        $standarTarget = StandarTarget::where('indikator_id', $indikator_id)
             ->when($request->q, function ($query, $q) {
                 $query->where('id', 'like', "%{$q}%");
             })
@@ -231,7 +231,7 @@ class KriteriaDokumenController extends Controller
             ->paginate(10);
 
         return view('pages.admin.kriteria-dokumen.kelola-target.index', [
-            'indikator_kode' => $indikator_kode,
+            'indikator_id' => $indikator_id,
             'standarTarget' => $standarTarget,
             'standarElemen' => $standarElemen,
             'importTitle' => $importTitle,
@@ -239,7 +239,7 @@ class KriteriaDokumenController extends Controller
     }
 
 
-    public function kelolaTargetCreate($importTitle, $indikator_kode)
+    public function kelolaTargetCreate($importTitle, $indikator_id)
     {
         $importTitle = urldecode($importTitle); // Decode the importTitle
 
@@ -267,11 +267,11 @@ class KriteriaDokumenController extends Controller
         $degreeInfo = $degreeMappings[$importTitle] ?? $degreeMappings['BAN-PT S1'];
         $modelClass = $degreeInfo['modelClass'];
 
-        $standarElemen = $modelClass::where('indikator_kode', $indikator_kode)->firstOrFail();
+        $standarElemen = $modelClass::where('indikator_id', $indikator_id)->firstOrFail();
         $dokumenTipes = DokumenTipe::all();
 
         return view('pages.admin.kriteria-dokumen.kelola-target.create', [
-            'indikator_kode' => $indikator_kode,
+            'indikator_id' => $indikator_id,
             'standarElemen' => $standarElemen,
             'dokumenTipes' => $dokumenTipes,
             'importTitle' => $importTitle,
@@ -284,7 +284,7 @@ class KriteriaDokumenController extends Controller
             'dokumen_nama' => 'required|string|max:255',
             'pertanyaan_nama' => 'required|string|max:255',
             'dokumen_tipe' => 'required|string|max:255',
-            'indikator_kode' => 'required|string|max:255',
+            'indikator_id' => 'required|string|max:255',
             'importTitle' => 'required|string|max:255',
             'dokumen_keterangan' => 'nullable|string',
         ]); 
@@ -292,7 +292,7 @@ class KriteriaDokumenController extends Controller
         try {
             StandarTarget::create([
                 'target_kode' => 'tgr-' . Str::uuid() . uniqid(),
-                'indikator_kode' => $request->indikator_kode,
+                'indikator_id' => $request->indikator_id,
                 'jenjang' => $request->importTitle,
                 'dokumen_nama' => $request->dokumen_nama,
                 'pertanyaan_nama' => $request->pertanyaan_nama,
@@ -304,22 +304,22 @@ class KriteriaDokumenController extends Controller
             return back()->withErrors(['database' => 'Failed to save data. Please try again.']);
         }
 
-        return redirect()->route('admin.kriteria-dokumen.kelola-target', ['importTitle' => $request->importTitle, 'indikator_kode' => $request->indikator_kode])
+        return redirect()->route('admin.kriteria-dokumen.kelola-target', ['importTitle' => $request->importTitle, 'indikator_id' => $request->indikator_id])
         ->with([
             'success' => 'Tipe Dokumen created successfully.',
         ]);    
     }
 
-    public function kelolaTargetEdit($indikator_kode)
+    public function kelolaTargetEdit($indikator_id)
     {
         $dokumenTipes = DokumenTipe::all();
         
-        $standarElemen = StandarElemenBanptS1::where('indikator_kode', $indikator_kode)->firstOrFail();
+        $standarElemen = StandarElemenBanptS1::where('indikator_id', $indikator_id)->firstOrFail();
 
-        $standarTarget = StandarTarget::where('indikator_kode', $indikator_kode)->firstOrFail();
+        $standarTarget = StandarTarget::where('indikator_id', $indikator_id)->firstOrFail();
 
         return view('pages.admin.kriteria-dokumen.kelola-target.edit', [
-            'indikator_kode' => $indikator_kode,
+            'indikator_id' => $indikator_id,
             'standarTarget' => $standarTarget,
             'standarElemen' => $standarElemen,
             'dokumenTipes' => $dokumenTipes,
@@ -339,7 +339,7 @@ class KriteriaDokumenController extends Controller
 
         $standarTarget->update($validated);
 
-        return redirect()->route('admin.kriteria-dokumen.kelola-target', ['indikator_kode' => $request->indikator_kode])
+        return redirect()->route('admin.kriteria-dokumen.kelola-target', ['indikator_id' => $request->indikator_id])
         ->with([
             'success' => 'Tipe Dokumen created successfully.',
         ]);    
@@ -351,10 +351,10 @@ class KriteriaDokumenController extends Controller
             $standarTarget = StandarTarget::findOrFail($id);
             $standarTarget->delete();
             
-            return redirect()->route('admin.kriteria-dokumen.kelola-target', ['indikator_kode' => $request->indikator_kode])
+            return redirect()->route('admin.kriteria-dokumen.kelola-target', ['indikator_id' => $request->indikator_id])
                 ->with('success', 'Target deleted successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('admin.kriteria-dokumen.kelola-target', ['indikator_kode' => $request->indikator_kode])
+            return redirect()->route('admin.kriteria-dokumen.kelola-target', ['indikator_id' => $request->indikator_id])
                 ->with('error', 'Failed to delete target.');
         }
     }
@@ -363,7 +363,7 @@ class KriteriaDokumenController extends Controller
     {
         $request->validate([
             'tipe_nama' => 'required|string|max:255',
-            'indikator_kode' => 'required|string',
+            'indikator_id' => 'required|string',
         ]);
 
         $tipeDokumen = new DokumenTipe();
@@ -371,7 +371,7 @@ class KriteriaDokumenController extends Controller
 
         $tipeDokumen->save();
 
-        return redirect()->route('admin.kriteria-dokumen.kelola-target.create', ['indikator_kode' => $request->indikator_kode])
+        return redirect()->route('admin.kriteria-dokumen.kelola-target.create', ['indikator_id' => $request->indikator_id])
             ->with([
                 'success' => 'Tipe Dokumen created successfully.',
             ]);

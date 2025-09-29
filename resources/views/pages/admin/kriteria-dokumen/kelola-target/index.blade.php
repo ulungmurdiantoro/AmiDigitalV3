@@ -11,18 +11,17 @@
     <li class="breadcrumb-item active" aria-current="page">Kelola Dokumen</li>
   </ol>
 </nav>
-
 <div class="row">
   <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
         <div class="row align-items-center g-3">
           <div class="col-lg-8 col-md-7 col-sm-12">
-            <h4 class="mb-3 mb-md-0">Daftar Referensi Kebutuhan Dokumen {{ session('user_akses') }} {{ $importTitle }} {{ $indikator_kode }}</h4>
-            <p>{{ $standarElemen->elemen_nama }} - {!! nl2br(e($standarElemen->indikator_nama)) !!}</p>
+            <h4 class="mb-3 mb-md-0">Daftar Referensi Kebutuhan Dokumen {{ session('user_akses') }} {{ $importTitle }}</h4>
+            <p>{{ $indikator->element->nama }} - {!! nl2br(e($indikator->nama_indikator)) !!}</p>
           </div>
           <div class="col-lg-4 col-md-5 col-sm-12 text-md-end text-center">
-            <a href="{{ route('admin.kriteria-dokumen.kelola-target.create', ['importTitle' => urlencode($importTitle), 'indikator_kode' => $indikator_kode]) }}" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
+            <a href="{{ route('admin.kriteria-dokumen.kelola-target.create', ['importTitle' => urlencode($importTitle), 'indikator_id' => $indikator_id]) }}" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
               <i class="btn-icon-prepend" data-feather="plus-circle"></i>
               Tambah Data
             </a>
@@ -47,7 +46,7 @@
                   <td>{{ $standarTarget->dokumen_tipe }}</td>
                   <td>{{ $standarTarget->dokumen_keterangan }}</td>
                   <td>
-                    <a href="{{ route('admin.kriteria-dokumen.kelola-target.edit', $indikator_kode) }}" class="btn btn-primary btn-icon" rel="noopener noreferrer">
+                    <a href="{{ route('admin.kriteria-dokumen.kelola-target.edit', $indikator_id) }}" class="btn btn-primary btn-icon" rel="noopener noreferrer">
                       <i data-feather="edit"></i>
                     </a>
                     <a href="#" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal" rel="noopener noreferrer">
@@ -70,7 +69,7 @@
                         <form action="{{ route('admin.kriteria-dokumen.kelola-target.destroy', $standarTarget->id) }}" method="POST">
                           @csrf
                           @method('DELETE')
-                          <input type="hidden" name="indikator_kode" value="{{ $standarTarget->indikator_kode }}">
+                          <input type="hidden" name="indikator_id" value="{{ $standarTarget->indikator_id }}">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                           <button type="submit" class="btn btn-danger">Delete</button>
                         </form>

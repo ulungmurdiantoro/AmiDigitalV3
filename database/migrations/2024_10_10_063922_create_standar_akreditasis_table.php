@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('standar_akreditasis', function (Blueprint $table) {
             $table->id();
             $table->string('standar_akreditasis_kode');
-            $table->string('standar_akreditasis_nama');
+            $table->string('nama');
             $table->timestamps();
         });
     }

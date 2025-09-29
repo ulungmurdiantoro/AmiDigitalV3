@@ -16,7 +16,7 @@
       {{-- @if(isset($standards) && is_iterable($standards)) --}}
         @foreach ($standards as $standard)
           <tr>
-            <td class="text-center">{{ $standard->indikator_kode }}</td>
+            <td class="text-center">{{ $standard->indikator_id }}</td>
             <td>{{ $standard->elemen_nama }}</td>
             <td>{!! nl2br(e($standard->indikator_nama)) !!}</td>
             <td>
@@ -128,7 +128,7 @@
                   </div>
                   <div class="modal-body">
                       <input type="hidden" name="ami_kode" value="{{ $transaksi_ami->ami_kode }}">
-                      <input type="hidden" name="indikator_kode" value="{{ $standard->indikator_kode }}">
+                      <input type="hidden" name="indikator_id" value="{{ $standard->indikator_id }}">
                       <input type="hidden" name="prodi" value="{{ $prodi }}">
                       <input type="hidden" name="periode" value="{{ $periode }}">
                       <span>Kriteria</span>:

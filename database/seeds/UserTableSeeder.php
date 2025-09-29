@@ -58,23 +58,23 @@ class UserTableSeeder extends Seeder
         ];
 
         $jenjangs = [
-            ['jenjang_nama' => 'S1',],
-            ['jenjang_nama' => 'S2',],
-            ['jenjang_nama' => 'S3',],
-            ['jenjang_nama' => 'S1 Terapan',],
-            ['jenjang_nama' => 'S2 Terapan',],
-            ['jenjang_nama' => 'S3 Terapan',],
-            ['jenjang_nama' => 'PPG',],
+            ['nama' => 'S1',],
+            ['nama' => 'S2',],
+            ['nama' => 'S3',],
+            ['nama' => 'S1 Terapan',],
+            ['nama' => 'S2 Terapan',],
+            ['nama' => 'S3 Terapan',],
+            ['nama' => 'PPG',],
         ];
 
         $standar_akreditasis = [
-            ['standar_akreditasis_nama' => 'BAN-PT'],
-            ['standar_akreditasis_nama' => 'LAMDIK'],
-            ['standar_akreditasis_nama' => 'INFOKOM'],
-            ['standar_akreditasis_nama' => 'LAMEMBA'],
-            ['standar_akreditasis_nama' => 'LAMSAMA'],
-            ['standar_akreditasis_nama' => 'LAMPTKES'],
-            ['standar_akreditasis_nama' => 'LAMTEKNIK'],
+            ['nama' => 'BAN-PT'],
+            ['nama' => 'LAMDIK'],
+            ['nama' => 'INFOKOM'],
+            ['nama' => 'LAMEMBA'],
+            ['nama' => 'LAMSAMA'],
+            ['nama' => 'LAMPTKES'],
+            ['nama' => 'LAMTEKNIK'],
         ];
 
         $jurusans = [
@@ -142,7 +142,7 @@ class UserTableSeeder extends Seeder
         }
 
         foreach ($jenjangs as $jenjang) {
-            $jenjang['jenjang_kode'] = 'jjg-' . Str::uuid();
+            // $jenjang['jenjang_kode'] = 'jjg-' . Str::uuid();
             Jenjang::create($jenjang);
         }
 

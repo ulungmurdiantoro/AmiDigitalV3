@@ -15,6 +15,15 @@ return new class extends Migration
     {
         Schema::create('transaksi_amis', function (Blueprint $table) {
             $table->id();
+            $table->string('ami_kode');
+            $table->string('auditor_kode');
+            $table->text('informasi_tambahan')->nullable();
+            $table->string('prodi');
+            $table->string('fakultas');
+            $table->string('standar_akreditasi');
+            $table->string('periode');
+            $table->string('status');
+            $table->text('alasan')->nullable();
             $table->timestamps();
         });
     }

@@ -449,7 +449,7 @@
 						@endphp
 						@if (optional($standar->$standarNilaisRelation)->jenis_temuan != 'Sesuai')
 							<tr>
-								<td>{{ $standar->indikator_kode }}</td>
+								<td>{{ $standar->indikator_id }}</td>
 								<td>{{ optional($standar->$standarNilaisRelation)->jenis_temuan ?? null }}</td>
 								<td>{{ $standar->elemen_nama }}</td>
 								<td>{{ optional($standar->$standarNilaisRelation)->hasil_deskripsi ?? null }}</td>
@@ -499,7 +499,7 @@
 						@endphp
 						@if (optional($standar->$standarNilaisRelation)->jenis_temuan != 'Sesuai')
 							<tr>
-								<td>{{ $standar->indikator_kode }}</td>
+								<td>{{ $standar->indikator_id }}</td>
 								<td>{{ optional($standar->$standarNilaisRelation)->jenis_temuan }}</td>
 								<td>{{ optional($standar->$standarNilaisRelation)->hasil_deskripsi }}</td>
 								<td>{{ optional($standar->$standarNilaisRelation)->hasil_rencana_perbaikan }}</td>
@@ -574,7 +574,7 @@
 							};
 						@endphp
 						<tr>
-							<td>{{ $standar->indikator_kode }}</td>
+							<td>{{ $standar->indikator_id }}</td>
 							<td>{{ $standar->elemen_nama }}</td>
 							<td>{{ $nilai !== null ? $nilai . '/4' : '0/4' }}</td>
 							<td>{{ $pedikat }}</td>
@@ -637,10 +637,10 @@
 
 					@foreach ($data as $standar)
 						<tr>
-							<td>{{ $standar->indikator_kode }}</td>
+							<td>{{ $standar->indikator_id }}</td>
 							@php
 								// Find the corresponding previous data
-								$previous_standar = $previous_data->firstWhere('indikator_kode', $standar->indikator_kode);
+								$previous_standar = $previous_data->firstWhere('indikator_id', $standar->indikator_id);
 							@endphp
 							@if ($previous_standar)
 								<td>{{ optional($previous_standar->$standarNilaisRelation)->hasil_rekomendasi }}</td>
@@ -677,7 +677,7 @@
 					@endphp
 					@foreach ($data as $standar)
 						<tr>
-							<td style="border: 1px solid #f2f2f2;">{{ $standar->indikator_kode }} - {{ optional($standar->$standarNilaisRelation)->hasil_rencana_perbaikan ?? null; }}</td>
+							<td style="border: 1px solid #f2f2f2;">{{ $standar->indikator_id }} - {{ optional($standar->$standarNilaisRelation)->hasil_rencana_perbaikan ?? null; }}</td>
 						</tr>
 					@endforeach
 				@endforeach

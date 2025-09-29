@@ -90,7 +90,7 @@
                 <select class="form-select @error('user_akses') is-invalid @enderror" name="user_akses" id="user_akses">
                   <option selected disabled>-</option>
                   @foreach($StandarAkreditasis as $StandarAkreditasi)
-                    <option value="{{ $StandarAkreditasi->standar_akreditasis_nama }}">{{$StandarAkreditasi->standar_akreditasis_nama }}</option>
+                    <option value="{{ $StandarAkreditasi->nama }}">{{$StandarAkreditasi->nama }}</option>
                   @endforeach
                 </select>
                 @error('user_akses')

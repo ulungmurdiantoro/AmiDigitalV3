@@ -92,9 +92,9 @@
                 <select class="form-select @error('user_akses') is-invalid @enderror" name="user_akses" id="user_akses">
                   <option disabled {{ empty($users->user_akses) ? 'selected' : '' }}>-</option>
                   @foreach($StandarAkreditasis as $StandarAkreditasi)
-                    <option value="{{ $StandarAkreditasi->standar_akreditasis_nama }}"
-                      {{ (old('user_akses', $users->user_akses) == $StandarAkreditasi->standar_akreditasis_nama) ? 'selected' : '' }}>
-                      {{ $StandarAkreditasi->standar_akreditasis_nama }}
+                    <option value="{{ $StandarAkreditasi->nama }}"
+                      {{ (old('user_akses', $users->user_akses) == $StandarAkreditasi->nama) ? 'selected' : '' }}>
+                      {{ $StandarAkreditasi->nama }}
                     </option>
                   @endforeach
                 </select>

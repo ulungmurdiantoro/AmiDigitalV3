@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('standar_capaians', function (Blueprint $table) {
             $table->id();
             $table->string('capaian_kode');
-            $table->string('indikator_kode');
+            $table->string('indikator_id');
             $table->string('dokumen_nama');
             $table->string('pertanyaan_nama');
             $table->string('dokumen_keterangan');

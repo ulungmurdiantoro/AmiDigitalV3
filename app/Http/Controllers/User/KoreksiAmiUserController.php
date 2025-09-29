@@ -200,7 +200,7 @@ class KoreksiAmiUserController extends Controller
         // Validate the input data
         $validatedData = $request->validate([
             'ami_kodes' => 'required|string|max:255',
-            'indikator_kodes' => 'required|string|max:255',
+            'indikator_ids' => 'required|string|max:255',
             'indikator_bobots' => 'required',
             'prodis' => 'required|string|max:255',
             'periodes' => 'required|string|max:255',
@@ -213,7 +213,7 @@ class KoreksiAmiUserController extends Controller
         ]);
 
         try {
-            $amiInput = StandarNilai::where('indikator_kode', $validatedData['indikator_kodes'])
+            $amiInput = StandarNilai::where('indikator_id', $validatedData['indikator_ids'])
                 ->where('periode', $validatedData['periodes'])
                 ->where('prodi', $validatedData['prodis'])
                 ->first();
@@ -236,7 +236,7 @@ class KoreksiAmiUserController extends Controller
             } else {
                 $amiInput = new StandarNilai();
                 $amiInput->ami_kode = $validatedData['ami_kodes'];
-                $amiInput->indikator_kode = $validatedData['indikator_kodes'];
+                $amiInput->indikator_id = $validatedData['indikator_ids'];
                 $amiInput->bobot = $validatedData['indikator_bobots'];
                 $amiInput->prodi = $validatedData['prodis'];
                 $amiInput->periode = $validatedData['periodes'];

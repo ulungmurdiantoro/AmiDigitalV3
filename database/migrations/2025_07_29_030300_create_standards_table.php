@@ -13,10 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transaksi_amis', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        Schema::create('standards', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('standar_akreditasi_id')->constrained('standar_akreditasis')->onDelete('cascade');
+    $table->foreignId('jenjang_id')->constrained('jenjangs')->onDelete('cascade');
+    $table->text('nama');
+    $table->timestamps();
+});
+
     }
 
     /**
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaksi_amis');
+        Schema::dropIfExists('standards');
     }
 };

@@ -32,13 +32,14 @@
             </div>
             <div class="row">
               <div class="col-6 col-md-12 col-xl-6">
-                <div id="penggunaAdmin" data-value="{{ $penggunaAdmin }} class="mt-md-3 mt-xl-0"></div>
+                <div id="penggunaAdmin" data-value="{{ $penggunaAdmin }}" class="mt-md-3 mt-xl-0"></div>
+                
               </div>
               <div class="col-6 col-md-12 col-xl-6">
-                <div id="penggunaProdi" data-value="{{ $penggunaProdi }} class="mt-md-3 mt-xl-0"></div>
+                <div id="penggunaProdi" data-value="{{ $penggunaProdi }}" class="mt-md-3 mt-xl-0"></div>
               </div>
               <div class="col-6 col-md-12 col-xl-12">
-                <div id="penggunaAuditor" data-value="{{ $penggunaAuditor }} class="mt-md-3 mt-xl-0"></div>
+                <div id="penggunaAuditor" data-value="{{ $penggunaAuditor }}" class="mt-md-3 mt-xl-0"></div>
               </div>
             </div>
           </div>

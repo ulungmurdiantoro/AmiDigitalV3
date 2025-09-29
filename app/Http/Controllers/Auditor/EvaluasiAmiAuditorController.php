@@ -189,7 +189,7 @@ class EvaluasiAmiAuditorController extends Controller
 
         $validatedData = $request->validate([
             'ami_kodes' => 'required|string',
-            'indikator_kodes' => 'required|string',
+            'indikator_ids' => 'required|string',
             'indikator_bobots' => 'nullable|string',
             'hasil_nilais' => 'required|numeric|min:0|max:4',
             'hasil_kriterias' => 'nullable|string',
@@ -203,7 +203,7 @@ class EvaluasiAmiAuditorController extends Controller
         ]);
 
         try {
-            $standard = StandarNilai::where('indikator_kode', $validatedData['indikator_kodes'])
+            $standard = StandarNilai::where('indikator_id', $validatedData['indikator_ids'])
                 ->where('ami_kode', $validatedData['ami_kodes'])
                 ->first();
 
@@ -226,7 +226,7 @@ class EvaluasiAmiAuditorController extends Controller
             } else {
                 $standard = new StandarNilai();
                 $standard->ami_kode = $validatedData['ami_kodes'];
-                $standard->indikator_kode = $validatedData['indikator_kodes'];
+                $standard->indikator_id = $validatedData['indikator_ids'];
                 $standard->hasil_nilai = $validatedData['hasil_nilais'];
                 $standard->bobot = $validatedData['indikator_bobots'];
                 $standard->hasil_kriteria = $validatedData['hasil_kriterias'];

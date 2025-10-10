@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('elements', function (Blueprint $table) {
+        Schema::create('bukti_standars', function (Blueprint $table) {
             $table->id();
             $table->foreignId('standard_id')->constrained('standards')->onDelete('cascade');
             $table->text('nama');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('elements');
+        Schema::dropIfExists('bukti_standars');
     }
 };

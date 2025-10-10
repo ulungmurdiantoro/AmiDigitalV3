@@ -24,6 +24,7 @@ use App\Http\Controllers\Auditor\AuditorStatistikTotalController;
 use App\Http\Controllers\User\DashboardUserController;
 use App\Http\Controllers\User\DokumenSpmiAmiUserController;
 use App\Http\Controllers\User\PemenuhanDokumenController;
+use App\Http\Controllers\User\NewPemenuhanDokumenController;
 use App\Http\Controllers\User\DokumenAktifUserController;
 use App\Http\Controllers\User\DokumenKadaluarsaUserController;
 use App\Http\Controllers\User\PengajuanAmiUserController;
@@ -123,6 +124,16 @@ Route::group(['prefix' => 'admin'], function(){
         Route::delete('/kriteria-dokumen/kelola-target/{id}', [NewKriteriaDokumenController::class, 'kelolaTargetDestroy'])->name('admin.kriteria-dokumen.kelola-target.destroy');
         Route::post('/kriteria-dokumen/kelola-target/TipeDokumenStore', [NewKriteriaDokumenController::class, 'tipeDokumenStore'])->name('admin.kriteria-dokumen.kelola-target.tipedokumenstore');
         Route::delete('/kriteria-dokumen/kelola-target/TipeDokumenDestroy', [NewKriteriaDokumenController::class, 'tipeDokumenDestroy'])->name('admin.kriteria-dokumen.kelola-target.tipedokumendestroy');
+
+        Route::get('/kriteria-dokumen/{importTitle}/{id}/kelola-bukti/create', [NewKriteriaDokumenController::class, 'kelolabuktiCreate'])->name('admin.kriteria-dokumen.kelola-bukti.create');
+        Route::post('/kriteria-dokumen/kelola-bukti/store', [NewKriteriaDokumenController::class, 'kelolaBuktiStore'])->name('admin.kriteria-dokumen.kelola-bukti.store');
+        Route::put('/kriteria-dokumen/kelola-bukti/{id}/update', [NewKriteriaDokumenController::class, 'kelolaBuktiUpdate'])->name('admin.kriteria-dokumen.kelola-bukti.update');
+        Route::delete('/kriteria-dokumen/kelola-bukti/destroy/{id}', [NewKriteriaDokumenController::class, 'kelolaBuktiDestroy'])->name('admin.kriteria-dokumen.kelola-bukti.destroy');
+
+        Route::get('/kriteria-dokumen/{importTitle}/{id}/kelola-indikator/create', [NewKriteriaDokumenController::class, 'kelolaIndikatorCreate'])->name('admin.kriteria-dokumen.kelola-indikator.create');
+        Route::post('/kriteria-dokumen/kelola-indikator/store', [NewKriteriaDokumenController::class, 'kelolaIndikatorStore'])->name('admin.kriteria-dokumen.kelola-indikator.store');
+        Route::put('/kriteria-dokumen/kelola-indikator/{id}/update', [NewKriteriaDokumenController::class, 'kelolaIndikatorUpdate'])->name('admin.kriteria-dokumen.kelola-indikator.update');
+        Route::delete('/kriteria-dokumen/kelola-indikator/destroy/{id}', [NewKriteriaDokumenController::class, 'kelolaIndikatorDestroy'])->name('admin.kriteria-dokumen.kelola-indikator.destroy');
 
         Route::post('/kriteria-dokumen/storeImport', [NewKriteriaDokumenController::class, 'storeImport'])->name('admin.kriteria-dokumen.storeImport');
         Route::get('/kriteria-dokumen/{degree}/import', [NewKriteriaDokumenController::class, 'import'])->name('kriteria-dokumen.import');
@@ -237,24 +248,41 @@ Route::group(['prefix' => 'user'], function(){
             'destroy' => 'user.dokumen-spmi-ami.destroy',
         ]);
         
-        Route::get('/pemenuhan-dokumen/{indikator_id}/input-capaian', [PemenuhanDokumenController::class, 'pemenuhanDokumen'])->name('user.pemenuhan-dokumen.input-capaian');
-        Route::get('/pemenuhan-dokumen/input-capaian/{indikator_id}/create', [PemenuhanDokumenController::class, 'pemenuhanDokumenCreate'])->name('user.pemenuhan-dokumen.input-capaian.create');
-        Route::post('/pemenuhan-dokumen/input-capaian/store', [PemenuhanDokumenController::class, 'pemenuhanDokumenStore'])->name('user.pemenuhan-dokumen.input-capaian.store');
-        Route::get('/pemenuhan-dokumen/input-capaian/{id}/edit', [PemenuhanDokumenController::class, 'pemenuhanDokumenEdit'])->name('user.pemenuhan-dokumen.input-capaian.edit');
-        Route::put('/pemenuhan-dokumen/input-capaian/{id}/update', [PemenuhanDokumenController::class, 'pemenuhanDokumenUpdate'])->name('user.pemenuhan-dokumen.input-capaian.update');
-        Route::delete('/pemenuhan-dokumen/input-capaian/{id}', [PemenuhanDokumenController::class, 'pemenuhanDokumenDestroy'])->name('user.pemenuhan-dokumen.input-capaian.destroy');
+        // Route::get('/pemenuhan-dokumen/{indikator_id}/input-capaian', [PemenuhanDokumenController::class, 'pemenuhanDokumen'])->name('user.pemenuhan-dokumen.input-capaian');
+        // Route::get('/pemenuhan-dokumen/input-capaian/{indikator_id}/create', [PemenuhanDokumenController::class, 'pemenuhanDokumenCreate'])->name('user.pemenuhan-dokumen.input-capaian.create');
+        // Route::post('/pemenuhan-dokumen/input-capaian/store', [PemenuhanDokumenController::class, 'pemenuhanDokumenStore'])->name('user.pemenuhan-dokumen.input-capaian.store');
+        // Route::get('/pemenuhan-dokumen/input-capaian/{id}/edit', [PemenuhanDokumenController::class, 'pemenuhanDokumenEdit'])->name('user.pemenuhan-dokumen.input-capaian.edit');
+        // Route::put('/pemenuhan-dokumen/input-capaian/{id}/update', [PemenuhanDokumenController::class, 'pemenuhanDokumenUpdate'])->name('user.pemenuhan-dokumen.input-capaian.update');
+        // Route::delete('/pemenuhan-dokumen/input-capaian/{id}', [PemenuhanDokumenController::class, 'pemenuhanDokumenDestroy'])->name('user.pemenuhan-dokumen.input-capaian.destroy');
 
-        Route::get('/get-dokumen-details/{dokumen_nama}', [PemenuhanDokumenController::class, 'getDokumenDetails'])->name('getDokumenDetails');
+        // Route::get('/get-dokumen-details/{dokumen_nama}', [PemenuhanDokumenController::class, 'getDokumenDetails'])->name('getDokumenDetails');
 
-        Route::resource('pemenuhan-dokumen', PemenuhanDokumenController::class)->names([
-            'index' => 'user.pemenuhan-dokumen.index',
-            'create' => 'user.pemenuhan-dokumen.create',
-            'store' => 'user.pemenuhan-dokumen.store',
-            'show' => 'user.pemenuhan-dokumen.show',
-            'edit' => 'user.pemenuhan-dokumen.edit',
-            'update' => 'user.pemenuhan-dokumen.update',
-            'destroy' => 'user.pemenuhan-dokumen.destroy',
-        ]);
+        Route::get('/pemenuhan-dokumen', [NewPemenuhanDokumenController::class, 'index'])->name('user.pemenuhan-dokumen.index');
+        Route::get('/pemenuhan-dokumen/{indikator_id}/input-capaian', [NewPemenuhanDokumenController::class, 'pemenuhanDokumen'])->name('user.pemenuhan-dokumen.input-capaian');
+        Route::get('/pemenuhan-dokumen/input-capaian/{indikator_id}/create', [NewPemenuhanDokumenController::class, 'pemenuhanDokumenCreate'])->name('user.pemenuhan-dokumen.input-capaian.create');
+        Route::post('/pemenuhan-dokumen/input-capaian/store', [NewPemenuhanDokumenController::class, 'pemenuhanDokumenStore'])->name('user.pemenuhan-dokumen.input-capaian.store');
+        Route::post('/pemenuhan-dokumen/input-bukti-capaian/store', [NewPemenuhanDokumenController::class, 'pemenuhanBuktiStore'])->name('user.pemenuhan-dokumen.input-bukti.store');
+        Route::get('/pemenuhan-dokumen/input-capaian/{id}/edit', [NewPemenuhanDokumenController::class, 'pemenuhanDokumenEdit'])->name('user.pemenuhan-dokumen.input-capaian.edit');
+        Route::put('/pemenuhan-dokumen/input-capaian/{id}/update', [NewPemenuhanDokumenController::class, 'pemenuhanDokumenUpdate'])->name('user.pemenuhan-dokumen.input-capaian.update');
+        Route::delete('/pemenuhan-dokumen/input-capaian/{id}', [NewPemenuhanDokumenController::class, 'pemenuhanDokumenDestroy'])->name('user.pemenuhan-dokumen.input-capaian.destroy');
+
+
+            // Edit/Upload bukti: halaman baru
+            Route::get('/kriteria-dokumen/kelola-bukti/{bukti}/edit', [NewPemenuhanDokumenController::class, 'kelolaBuktiEdit'])
+                ->name('kriteria-dokumen.kelola-bukti.edit');
+
+            Route::put('/kriteria-dokumen/kelola-bukti/{bukti}', [NewPemenuhanDokumenController::class, 'kelolaBuktiUpdate'])
+                ->name('kriteria-dokumen.kelola-bukti.update');
+
+        // Route::resource('pemenuhan-dokumen', PemenuhanDokumenController::class)->names([
+        //     'index' => 'user.pemenuhan-dokumen.index',
+        //     'create' => 'user.pemenuhan-dokumen.create',
+        //     'store' => 'user.pemenuhan-dokumen.store',
+        //     'show' => 'user.pemenuhan-dokumen.show',
+        //     'edit' => 'user.pemenuhan-dokumen.edit',
+        //     'update' => 'user.pemenuhan-dokumen.update',
+        //     'destroy' => 'user.pemenuhan-dokumen.destroy',
+        // ]);
 
         Route::resource('dokumen-aktif', DokumenAktifUserController::class)->names([
             'index' => 'user.dokumen-aktif.index',

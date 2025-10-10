@@ -19,6 +19,10 @@ class Standard extends Model
         return $this->hasMany(Element::class);
     }
 
+    public function buktiStandar() {
+        return $this->hasMany(BuktiStandar::class);
+    }
+
     public function akreditasi() {
         return $this->belongsTo(StandarAkreditasi::class, 'standar_akreditasi_id');
     }

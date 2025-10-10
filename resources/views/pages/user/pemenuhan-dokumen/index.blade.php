@@ -11,41 +11,40 @@
   </div>
 </div>
 {{-- @dd($key) --}}
-@foreach ($standards as $index => $standard)
-  <div class="row">
+@foreach($standards as $index => $standard)
+  <div class="row mb-4">
     <div class="col-md-12 grid-margin stretch-card">
-      <div class="card" style="border-radius: 5px; overflow: hidden;">
+      <div class="card">
         <div class="card-header bg-primary text-white">
-            <h6 id="dataTitle{{ $index + 1 }}"> 
-              @if(request('akreditasi') === 'LAMEMBA')
-                <div class="d-flex align-items-center gap-2">
-                  <button type="button" class="btn btn-warning btn-sm btn-icon" data-bs-toggle="modal" data-bs-target="#infoModal{{ $standard->id }}">
-                    <i data-feather="info"></i>
-                  </button>
-                  <span>
-                    {{ $standard->nama }} - {{ $akreditasi->nama }} {{ $jenjang->nama }}
-                  </span>
-                </div>
-              @else
-                {{ $standard->nama }} - {{ $akreditasi->nama }} {{ $jenjang->nama }}
-              @endif
-            </h6>
-          </div>
+          <h6 id="dataTitle{{ $index + 1 }}" class="mb-0">
+            @if(request('akreditasi') === 'LAMEMBA')
+              <div class="d-flex align-items-center gap-2">
+                <button type="button" class="btn btn-warning btn-sm btn-icon" data-bs-toggle="modal" data-bs-target="#infoModal{{ $standard->id }}">
+                  <i data-feather="info"></i>
+                </button>
+                <span>{{ $standard->nama }} - {{ $akreditasi->nama }} {{ $jenjang->nama }}</span>
+              </div>
+            @else
+              {{ $standard->nama }} - {{ $akreditasi->nama }} {{ $jenjang->nama }}
+            @endif
+          </h6>
+        </div>
+
         <div class="card-body">
           @if($akreditasi->nama === 'LAMEMBA')
-            {{-- <x-user.data-table.pemenuhan-dokumen-lamemba
+            <x-user.data-table.pemenuhan-dokumen-lamemba-new
+              id="dataTableExample{{ $index + 1 }}"
+              :standards="$standard->buktiStandar"
+              :showImportData="$index === 0"
+              importTitle="{{ $akreditasi->nama }} {{ $jenjang->nama }}"
+            />
+          @else
+            <x-user.data-table.pemenuhan-dokumen
               id="dataTableExample{{ $index + 1 }}"
               :standards="$standard->elements"
               :showImportData="$index === 0"
               importTitle="{{ $akreditasi->nama }} {{ $jenjang->nama }}"
-            /> --}}
-          @else 
-            <x-user.data-table.pemenuhan-dokumen 
-              id="dataTableExample{{ $index + 1 }}"
-              :standards="$standard->elements"
-              :showImportData="$index === 0"
-              importTitle="{{ $akreditasi->nama }} {{ $jenjang->nama }}"
-            /> 
+            />
           @endif
         </div>
       </div>
@@ -67,7 +66,7 @@
 @endsection
 
 @push('plugin-scripts')
-  <script src="{{ asset('assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
+  {{-- <script src="{{ asset('assets/plugins/datatables-net/jquery.dataTables.js') }}"></script> --}}
   <script src="{{ asset('assets/plugins/datatables-net-bs5/dataTables.bootstrap5.js') }}"></script>
 @endpush
 

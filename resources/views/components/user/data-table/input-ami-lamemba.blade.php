@@ -2,7 +2,7 @@
 
 <div class="row">
     @foreach ($standards as $standard)
-    {{-- @dd($standards) --}}
+    {{-- @dd($standard) --}}
         <div class="col-md-12 mb-4">
             <div class="card shadow-sm">
                 <div class="card-header fw-bold">
@@ -13,13 +13,6 @@
                             </button>
                             <span>{{ $standard->nama }}</span>
                         </div>
-                        <a href="{{ route('admin.kriteria-dokumen.kelola-indikator.create', [
-                            'importTitle' => $importTitle,
-                            'id' => $standard->id
-                        ]) }}" class="btn btn-primary">
-                            <i data-feather="plus-square"></i>
-                            Tambah Indikator
-                        </a>
                     </div>
                 </div>
                 <div class="modal fade" id="infoModal{{ $standard->id }}" tabindex="-1" aria-labelledby="infoModalLabel{{ $standard->id }}" aria-hidden="true">
@@ -49,7 +42,7 @@
                                     <th style="width: 75%; padding: 7px 0;">Indikator</th>
                                     <th style="width: 10%; padding: 7px 0;">Informasi</th>
                                     {{-- <th style="width: 10%; padding: 7px 0;">Dokumen</th> --}}
-                                    <th style="width: 10%; padding: 7px 0;">Kelola</th>
+                                    {{-- <th style="width: 10%; padding: 7px 0;">Kelola</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -65,61 +58,55 @@
                                             </button>
                                         </td>
                                         {{-- <td class="text-center" style="padding: 5px 0;">{{ $indikator->dokumen_targets->count() }}</td> --}}
-                                        <td class="text-center" style="padding: 5px 0;">
-
-                                            {{-- Tombol EDIT --}}
+                                        {{-- <td class="text-center" style="padding: 5px 0;">
                                             <button type="button" class="btn btn-primary btn-icon" data-bs-toggle="modal" data-bs-target="#modalEditIndikator-{{ $indikator->id }}" title="Edit">
                                                 <i data-feather="edit"></i>
                                             </button>
 
-                                            {{-- Tombol DELETE --}}
                                             <button type="button" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#modalDeleteIndikator-{{ $indikator->id }}" title="Hapus">
                                                 <i data-feather="trash-2"></i>
                                             </button>
 
-                                            {{-- MODAL EDIT --}}
                                             <div class="modal fade" id="modalEditIndikator-{{ $indikator->id }}" tabindex="-1" aria-labelledby="modalEditIndikatorLabel-{{ $indikator->id }}" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
                                                     <form action="{{ route('admin.kriteria-dokumen.kelola-indikator.update', $indikator->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalEditIndikatorLabel-{{ $indikator->id }}">Edit Indikator</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="mb-3 text-start">
-                                                        <label for="nama_indikator_{{ $indikator->id }}" class="form-label">Nama Indikator</label>
-                                                        <input type="text"
-                                                            id="nama_indikator_{{ $indikator->id }}"
-                                                            name="nama_indikator"
-                                                            class="form-control"
-                                                            value="{{ old('nama_indikator', $indikator->nama_indikator) }}"
-                                                            required>
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalEditIndikatorLabel-{{ $indikator->id }}">Edit Indikator</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                                                         </div>
-                                                        <div class="mb-3 text-start">
-                                                        <label for="info_{{ $indikator->id }}" class="form-label">Keterangan / Informasi Lain</label>
-                                                        <textarea id="info_{{ $indikator->id }}"
-                                                            name="info"
-                                                            class="form-control"
-                                                            rows="3">{{ old('info', $indikator->info) }}</textarea>
-                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="mb-3 text-start">
+                                                            <label for="nama_indikator_{{ $indikator->id }}" class="form-label">Nama Indikator</label>
+                                                            <input type="text"
+                                                                id="nama_indikator_{{ $indikator->id }}"
+                                                                name="nama_indikator"
+                                                                class="form-control"
+                                                                value="{{ old('nama_indikator', $indikator->nama_indikator) }}"
+                                                                required>
+                                                            </div>
+                                                            <div class="mb-3 text-start">
+                                                            <label for="info_{{ $indikator->id }}" class="form-label">Keterangan / Informasi Lain</label>
+                                                            <textarea id="info_{{ $indikator->id }}"
+                                                                name="info"
+                                                                class="form-control"
+                                                                rows="3">{{ old('info', $indikator->info) }}</textarea>
+                                                            </div>
 
-                                                        {{-- Jika perlu kirim elemen_id/importTitle --}}
-                                                        <input type="hidden" name="elemen_id" value="{{ $indikator->elemen_id ?? ($element->id ?? null) }}">
-                                                        <input type="hidden" name="importTitle" value="{{ $importTitle ?? '' }}">
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
-                                                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                                                    </div>
+                                                            <input type="hidden" name="elemen_id" value="{{ $indikator->elemen_id ?? ($element->id ?? null) }}">
+                                                            <input type="hidden" name="importTitle" value="{{ $importTitle ?? '' }}">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                                                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                                        </div>
                                                     </form>
                                                 </div>
                                                 </div>
                                             </div>
 
-                                            {{-- MODAL DELETE --}}
                                             <div class="modal fade" id="modalDeleteIndikator-{{ $indikator->id }}" tabindex="-1" aria-labelledby="modalDeleteIndikatorLabel-{{ $indikator->id }}" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
@@ -147,8 +134,7 @@
                                                 </div>
                                                 </div>
                                             </div>
-
-                                            </td>
+                                        </td> --}}
 
                                     </tr>
 

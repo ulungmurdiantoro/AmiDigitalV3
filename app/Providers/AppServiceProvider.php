@@ -34,9 +34,13 @@ class AppServiceProvider extends ServiceProvider
             \App\View\Components\User\DataTable\RevisiProdiLamdik::class => ['id', 'standards', 'transaksis', 'prodis', 'periodes', 'standarTargetsRelations', 'standarCapaiansRelations', 'standarNilaisRelations'],
             \App\View\Components\User\DataTable\PemenuhanDokumen::class => ['id', 'standards', 'showImportData', 'importTitle'],
             \App\View\Components\User\DataTable\PemenuhanDokumenLamemba::class => ['id', 'standards', 'showImportData', 'importTitle'],
+            \App\View\Components\User\DataTable\PemenuhanDokumenLamemba2::class => ['id', 'standards', 'bukti', 'editRouteName', 'importTitle'],
+            \App\View\Components\User\DataTable\PemenuhanDokumenLamembaBaru::class => ['id', 'standards', 'bukti', 'editRouteName', 'importTitle'],
+            \App\View\Components\User\DataTable\PemenuhanDokumenLamembaNew::class => ['id', 'standards', 'bukti', 'editRouteName', 'importTitle'],
             \App\View\Components\User\DataTable\PemenuhanDokumenLamdik::class => ['id', 'standards', 'standarTargetsRelations', 'standarCapaiansRelations'],
             \App\View\Components\User\DataTable\InputAmi::class => ['id', 'standards', 'transaksis', 'prodis', 'standarTargetsRelations', 'standarCapaiansRelations', 'standarNilaisRelations', 'periodes'],
             \App\View\Components\User\DataTable\InputAmiLamdik::class => ['id', 'standards', 'transaksis', 'prodis', 'standarTargetsRelations', 'standarCapaiansRelations', 'standarNilaisRelations', 'periodes'],
+            \App\View\Components\User\DataTable\InputAmiLamemba::class => ['id', 'standards', 'bukti', 'editRouteName', 'importTitle'],
             \App\View\Components\User\InputAmiDataTable::class => ['id', 'standards', 'periode', 'prodi', 'transaksi_ami'],
             \App\View\Components\UserInputAmiDataTable::class => ['id', 'standards', 'periode', 'prodi', 'transaksi_ami'],
 
@@ -71,8 +75,11 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('admin.kriteria-dokumen-modal', \App\View\Components\Admin\KriteriaDokumenModal::class);
         Blade::component('user.data-table.input-ami', \App\View\Components\User\DataTable\InputAmi::class);
         Blade::component('user.data-table.input-ami-lamdik', \App\View\Components\User\DataTable\InputAmiLamdik::class);
+        Blade::component('user.data-table.input-ami-lamemba', \App\View\Components\User\DataTable\InputAmiLamemba::class);
         Blade::component('user.data-table.pemenuhan-dokumen', \App\View\Components\User\DataTable\PemenuhanDokumen::class);
         Blade::component('user.data-table.pemenuhan-dokumen-lamdik', \App\View\Components\User\DataTable\PemenuhanDokumenLamdik::class);
+        Blade::component('user.data-table.pemenuhan-dokumen-lamemba-baru', \App\View\Components\User\DataTable\PemenuhanDokumenLamembaBaru::class);
+        Blade::component('user.data-table.pemenuhan-dokumen-lamemba-new', \App\View\Components\User\DataTable\PemenuhanDokumenLamembaNew::class);
         Blade::component('user.data-table.revisi-prodi', \App\View\Components\User\DataTable\RevisiProdi::class);
         Blade::component('user.data-table.revisi-prodi-lamdik', \App\View\Components\User\DataTable\RevisiProdiLamdik::class);
         Blade::component('user.input-ami-data-table', \App\View\Components\User\InputAmiDataTable::class);

@@ -7,12 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\StandarAkreditasi;
 use App\Models\Jenjang;
 use App\Models\Standard;
-use App\Models\StandarElemenBanptD3;
 use App\Models\StandarElemenBanptS1;
-use App\Models\StandarElemenBanptS2;
-use App\Models\StandarElemenLamdikD3;
-use App\Models\StandarElemenLamdikS1;
-use App\Models\StandarElemenLamdikS2;
 use App\Models\StandarTarget;
 use App\Models\DokumenTipe;
 use App\Imports\StandarBanptD3Import;
@@ -22,11 +17,14 @@ use App\Imports\StandarLamdikPPGImport;
 use App\Imports\StandarLamdikS1Import;
 use App\Imports\StandarLamdikS2Import;
 use App\Models\Indikator;
+use App\Models\BuktiStandar;
+use App\Models\Element;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Dimensions;
 
 class NewKriteriaDokumenController extends Controller
 {  
@@ -53,7 +51,7 @@ class NewKriteriaDokumenController extends Controller
         });
 
         $standardsQuery = Standard::query()
-            ->with(['elements.indicators'])
+            ->with(['elements.indicators', 'buktiStandar'])
             ->where('standar_akreditasi_id', $akreditasi->id)
             ->where('jenjang_id', $jenjang->id);
 
@@ -279,5 +277,123 @@ class NewKriteriaDokumenController extends Controller
 
         return back()->with('success', 'Document type successfully deleted!');
     }
+
+    public function kelolabuktiCreate($importTitle, $id)
+    {
+        $importTitle = urldecode($importTitle);
+        [$akreditasiNama, $jenjangNama] = explode(' ', $importTitle, 2);
+
+        $akreditasi = StandarAkreditasi::where('nama', $akreditasiNama)->firstOrFail();
+        $jenjang = Jenjang::where('nama', $jenjangNama)->firstOrFail();
+
+        $standard = Standard::findOrFail($id);
+
+        $allStandards = Standard::with('buktiStandar')
+            ->where('standar_akreditasi_id', $akreditasi->id)
+            ->where('jenjang_id', $jenjang->id)
+            ->get();
+
+        return view('pages.admin.kriteria-dokumen.kelola-bukti.create', compact('standard', 'importTitle', 'allStandards'));
+    }
+
+    public function kelolaBuktiStore(Request $request)
+    {
+        $request->validate([
+            'standard_id' => 'required|exists:standards,id',
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+        ]);
+
+        BuktiStandar::create([
+            'standard_id' => $request->standard_id,
+            'nama' => $request->nama,
+            'deskripsi' => $request->deskripsi,
+        ]);
+
+        return back()->with('success', 'Bukti berhasil ditambahkan.');
+    }
+
+    public function kelolaBuktiUpdate(Request $request, $id)
+    {
+        $bukti = BuktiStandar::findOrFail($id);
+
+        $data = $request->validate([
+            'nama'      => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+        ]);
+
+        $bukti->update($data);
+
+        return back()->with('success', 'Bukti berhasil diperbarui.');
+    }
+
+    public function kelolaBuktiDestroy($id)
+    {
+        $bukti = BuktiStandar::findOrFail($id);
+        $bukti->delete();
+
+        return back()->with('success', 'Bukti berhasil dihapus.');
+    }
+
+    public function kelolaIndikatorCreate($importTitle, $id)
+    {
+        $importTitle = urldecode($importTitle);
+        [$akreditasiNama, $jenjangNama] = explode(' ', $importTitle, 2);
+
+        $akreditasi = StandarAkreditasi::where('nama', $akreditasiNama)->firstOrFail();
+        $jenjang = Jenjang::where('nama', $jenjangNama)->firstOrFail();
+
+        $element = Element::findOrFail($id);
+
+        $standards = Standard::where('standar_akreditasi_id', $akreditasi->id)
+            ->where('jenjang_id', $jenjang->id)
+            ->pluck('id'); // ambil ID-nya saja
+
+        $allElements = Standard::with('elements.indicators') // tambahkan eager load indikator
+            ->where('standar_akreditasi_id', $akreditasi->id)
+            ->where('jenjang_id', $jenjang->id)
+            ->get()
+            ->pluck('elements')
+            ->flatten();
+
+
+        return view('pages.admin.kriteria-dokumen.kelola-indikator.create', compact('importTitle', 'allElements', 'element'));
+    }
+
+    public function kelolaIndikatorStore(Request $request)
+    {
+        $request->validate([
+            'elemen_id' => 'required|exists:elements,id',
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+        ]);
+
+        Indikator::create([
+            'elemen_id' => $request->elemen_id,
+            'nama_indikator' => $request->nama,
+            'info' => $request->deskripsi,
+        ]);
+
+        return back()->with('success', 'Bukti berhasil ditambahkan.');
+    }
+    
+
+    public function kelolaIndikatorUpdate(Request $request, $id) 
+    {
+        $data = $request->validate([
+            'nama_indikator' => 'required|string|max:255',
+            'info'           => 'nullable|string',
+        ]);
+        Indikator::findOrFail($id)->update($data);
+        return back()->with('success','Indikator berhasil diperbarui.');
+    }
+
+    public function kelolaIndikatorDestroy($id) 
+    {
+        Indikator::findOrFail($id)->delete();
+        return back()->with('success','Indikator berhasil dihapus.');
+    }
+
+
 
 }

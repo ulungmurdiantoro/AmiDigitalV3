@@ -11,6 +11,7 @@ class StandarCapaian extends Model
 
     protected $fillable = [
         'capaian_kode',
+        'bukti_standar_id',
         'indikator_id',
         'dokumen_nama',
         'pertanyaan_nama',

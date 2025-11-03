@@ -3,24 +3,20 @@
 namespace App\Http\Controllers\Auditor;
 
 use App\Http\Controllers\Controller;
-use App\Models\StandarElemenBanptD3;
-use App\Models\StandarElemenBanptS1;
-use App\Models\StandarElemenBanptS2;
-use App\Models\StandarElemenBanptS3;
-use App\Models\StandarElemenBanptTerapanS1;
-use App\Models\StandarElemenBanptTerapanS2;
-use App\Models\StandarElemenBanptTerapanS3;
-use App\Models\StandarElemenLamdikD3;
-use App\Models\StandarElemenLamdikS1;
-use App\Models\StandarElemenLamdikS2;
-use App\Models\StandarElemenLamdikS3;
-use App\Models\StandarElemenLamdikTerapanS1;
-use App\Models\StandarElemenLamdikTerapanS2;
-use App\Models\StandarElemenLamdikTerapanS3;
+use App\Models\StandarCapaian;
+use App\Models\StandarNilai;
+use App\Models\PenjadwalanAmi;
+use App\Models\StandarAkreditasi;
+use App\Models\Jenjang;
 use App\Models\TransaksiAmi;
+use App\Models\User;
+use App\Models\Standard;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 
 class AuditorStatistikTotalController extends Controller
@@ -51,90 +47,69 @@ class AuditorStatistikTotalController extends Controller
         ->with('auditorAmi.user') 
         ->first();
 
-        $akses = $transaksi_ami->standar_akreditasi;
+        $akreditasi_kode  =$transaksi_ami->standar_akreditasi;       
+        $jenjang_raw      = $prodi;       
 
-        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $prodi, $matches);
-        $degree = $matches[0] ?? 'PPG';
+        $jenjang_nama = trim(explode(' - ', (string)$jenjang_raw, 2)[0]);
+        if ($jenjang_nama === '') $jenjang_nama = 'S1';
 
-        $key = trim($akses . ' ' . $degree);
+        $validAkreditasi = StandarAkreditasi::pluck('nama')->toArray();
+        $validJenjang    = Jenjang::pluck('nama')->toArray();
 
-        $degreeMappings = [
-            'BAN-PT D3' => [
-                'modelClass' => StandarElemenBanptD3::class,
-                'standarNilaisRelation' => 'standarNilaisD3',
-            ],
-            'BAN-PT S1' => [
-                'modelClass' => StandarElemenBanptS1::class,
-                'standarNilaisRelation' => 'standarNilaisBanptS1',
-            ],
-            'LAMDIK PPG' => [
-                'modelClass' => StandarElemenLamdikD3::class,
-                'standarNilaisRelation' => 'standarNilaisLamdikD3',
-            ],
-            'LAMDIK S1' => [
-                'modelClass' => StandarElemenLamdikS1::class,
-                'standarNilaisRelation' => 'standarNilaisLamdikS1',
-            ],
-            'LAMDIK S2' => [
-                'modelClass' => StandarElemenLamdikS2::class,
-                'standarNilaisRelation' => 'standarNilaisLamdikS2',
-            ],
-        ];
-
-        if (!isset($degreeMappings[$key])) {
-            Log::warning("Unknown degree key: {$key}, falling back to BAN-PT S1");
+        if (!in_array($akreditasi_kode, $validAkreditasi, true)) {
+            Log::warning('Nilai akreditasi sesi tidak valid, fallback ke BAN-PT', ['session' => $akreditasi_kode]);
+            $akreditasi_kode = 'BAN-PT';
         }
-        $degreeInfo = $degreeMappings[$key] ?? $degreeMappings['BAN-PT S1'];
-
-        $modelClass = $degreeInfo['modelClass'];
-        $standarNilaisRelation = $degreeInfo['standarNilaisRelation'];
-
-        $data_standar = [];
-        $degree = trim($degree);
-
-        $data_standar = $modelClass::with([
-            $standarNilaisRelation => function ($query) use ($periode, $prodi) {
-                $query->select('id', 'indikator_id', 'hasil_nilai')
-                    ->where('periode', $periode)
-                    ->where('prodi', $prodi);
-            }
-        ])
-        ->when($request->q, function ($query) use ($request) {
-            $query->where('elemen_nama', 'like', '%' . $request->q . '%');
-        })
-        ->select('id', 'indikator_id', 'elemen_nama')
-        ->latest()
-        ->get();
-
-        Log::info($data_standar);
-
-        $categories = [];
-        $averages = [];
-
-        foreach ($data_standar as $standar) {
-            $categories[] = $standar->indikator_id;
-
-            if ($standar->$standarNilaisRelation && $standar->$standarNilaisRelation->count() > 0) {
-                $matchingNilai = $standar->$standarNilaisRelation->firstWhere('indikator_id', $standar->indikator_id);
-                if ($matchingNilai) {
-                    $averages[] = $matchingNilai->hasil_nilai;
-                } else {
-                    $averages[] = null;
-                }
-            } else {
-                $averages[] = null;
-            }
+        if (!in_array($jenjang_nama, $validJenjang, true)) {
+            Log::warning('Nilai jenjang sesi tidak valid, fallback ke S1', ['session' => $jenjang_nama]);
+            $jenjang_nama = 'S1';
         }
 
-        Log::info($categories);
-        Log::info($averages);
+        $akreditasi = Cache::remember("akreditasi_{$akreditasi_kode}", 3600, function () use ($akreditasi_kode) {
+            return StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
+        });
+
+        $jenjang = Cache::remember("jenjang_{$jenjang_nama}", 3600, function () use ($jenjang_nama) {
+            return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
+        });
+
+        $standardsQuery = Standard::query()
+            ->with(['elements.indicators.dokumen_nilais', 'buktiStandar'])
+            ->where('standar_akreditasi_id', $akreditasi->id)
+            ->where('jenjang_id', $jenjang->id);
+
+        $standards = $standardsQuery->get();
+
+        $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
+            ->when($request->q, function ($query) use ($request) {
+                $query->whereHas('auditor_ami.user', function ($q) use ($request) {
+                    $q->where('user_nama', 'like', '%' . $request->q . '%');
+                })
+                ->orWhere('prodi_nama', 'like', '%' . $request->q . '%');
+            })
+            ->where('prodi', $jenjang_raw)
+            ->latest()
+            ->get();
+
+        $auditors = User::where('user_level', 'auditor')->get();
+
+        $akreditasi = Cache::remember("akreditasi_{$akreditasi_kode}", 3600, function () use ($akreditasi_kode) {
+            return StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
+        });
+
+        $jenjang = Cache::remember("jenjang_{$jenjang_nama}", 3600, function () use ($jenjang_nama) {
+            return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
+        });
 
         return view('pages.auditor.statistik-total.chart-total.index', [
+            'akreditasi' => $akreditasi,
+            'jenjang'    => $jenjang,
+            'standards'  => $standards,
             'periode' => $periode,
-            'prodi' => $prodi,
-            'categories' => $categories,
-            'averages' => $averages,
-            'key' => $key,
+            'prodi' => $jenjang_raw,
+            'penjadwalan_ami' => $penjadwalan_ami,
+            'transaksi_ami' => $transaksi_ami,
+            'auditors' => $auditors,
         ]);
     }
 }

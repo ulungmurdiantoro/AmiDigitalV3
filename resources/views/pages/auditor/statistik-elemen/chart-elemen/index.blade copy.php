@@ -1,6 +1,7 @@
 @extends('layout.master-auditor')
 
 @push('plugin-styles')
+  <!-- Include DataTables CSS -->
   <link href="{{ asset('assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
 @endpush
 
@@ -35,21 +36,6 @@
       </div>
     </div>
   </div>
-  @php
-    $chartData = collect($standards)->map(function ($standard) use ($periode) {
-        $indicators = $standard->elements->flatMap(fn($e) => $e->indicators);
-        $dokumenNilais = $indicators->flatMap(fn($i) =>
-            $i->dokumen_nilais ? $i->dokumen_nilais->where('periode', $periode) : collect()
-        );
-
-        return [
-            'nama' => $standard->nama,
-            'total_nilai' => $dokumenNilais->sum('hasil_nilai'),
-            'total_count' => $indicators->count(),
-        ];
-    });
-  @endphp
-
   @foreach ($standards as $index => $standard)
     <div class="col-md-6 grid-margin stretch-card">
       <div class="card" style="border-radius: 2px; overflow: hidden;">
@@ -63,6 +49,10 @@
     </div>
   @endforeach
 </div>
+
+<nav class="settings-sidebar">
+  <!-- Your sidebar content -->
+</nav>
 @endsection
 
 @push('plugin-scripts')
@@ -73,12 +63,14 @@
   <!-- Include Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endpush
-
+{{-- @dd($averages) --}}
 @push('custom-scripts')
 <script>
-  const chartData = @json($chartData);
-  const standarData = @json($standards);
+  var averages = @json(array_values($averages)); 
+  var categories = @json($short_standar_names);
+  var standarData = @json($standar_data);
+  var standarNames = @json($nama_data_standar);
 </script>
-<script src="{{ asset('assets/js/chart-elemen-lamemba.js') }}"></script>
-<script src="{{ asset('assets/js/chart-average-elemen-lamemba.js') }}"></script>
+<script src="{{ asset('assets/js/chart-average-elemen.js') }}"></script>
+<script src="{{ asset('assets/js/chart-elemen.js') }}"></script>
 @endpush

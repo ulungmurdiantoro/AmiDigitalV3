@@ -6,25 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\StandarCapaian;
 use App\Models\StandarNilai;
 use App\Models\PenjadwalanAmi;
-use App\Models\StandarElemenBanptD3;
-use App\Models\StandarElemenBanptS1;
-use App\Models\StandarElemenBanptS2;
-use App\Models\StandarElemenBanptS3;
-use App\Models\StandarElemenBanptTerapanS1;
-use App\Models\StandarElemenBanptTerapanS2;
-use App\Models\StandarElemenBanptTerapanS3;
-use App\Models\StandarElemenLamdikD3;
-use App\Models\StandarElemenLamdikS1;
-use App\Models\StandarElemenLamdikS2;
-use App\Models\StandarElemenLamdikS3;
-use App\Models\StandarElemenLamdikTerapanS1;
-use App\Models\StandarElemenLamdikTerapanS2;
-use App\Models\StandarElemenLamdikTerapanS3;
+use App\Models\StandarAkreditasi;
+use App\Models\Jenjang;
 use App\Models\TransaksiAmi;
 use App\Models\User;
+use App\Models\Standard;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class EvaluasiAmiAuditorController extends Controller
 {
@@ -50,136 +42,69 @@ class EvaluasiAmiAuditorController extends Controller
         ->with('auditorAmi.user') 
         ->first();
 
-        $akses = $transaksi_ami->standar_akreditasi;
+        $akreditasi_kode  =$transaksi_ami->standar_akreditasi;       
+        $jenjang_raw      = $prodi;       
 
-        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $prodi, $matches);
-        $degree = $matches[0] ?? 'PPG';
+        $jenjang_nama = trim(explode(' - ', (string)$jenjang_raw, 2)[0]);
+        if ($jenjang_nama === '') $jenjang_nama = 'S1';
 
-        $key = trim($akses . ' ' . $degree);
-// dd($key);
-        $standar_names_banpt = [
-            'Kondisi Eksternal',
-            'Profil Unit Pengelola Program Studi',
-            '1. Visi, Misi, Tujuan dan Strategi',
-            '2. Tata Pamong dan Kerjasama',
-            '3. Mahasiswa',
-            '4. Sumber Daya Manusia',
-            '5. Keuangan, Sarana dan Prasarana',
-            '6. Pendidikan',
-            '7. Penelitian',
-            '8. Pengabdian Kepada Masyarakat',
-            '9. Luaran dan Capaian Tridharma',
-            'Analisis dan Penetapan Program Pengembangan'
-        ];
+        $validAkreditasi = StandarAkreditasi::pluck('nama')->toArray();
+        $validJenjang    = Jenjang::pluck('nama')->toArray();
 
-        $standar_names_lamdik = [
-            'Visi Keilmuan',
-            'Tata Pamong dan Tata Kelola',
-            'Mahasiswa',
-            'Dosen dan Tenaga Kependidikan',
-            'Keuangan, Sarana dan Prasarana Pendidikan',
-            'Pendidikan',
-            'Pengabdian Kepada Masyarakat',
-            'Penjaminan Mutu',
-        ];
-
-        $degreeMappings = [
-            'BAN-PT D3' => [
-                'modelClass' => StandarElemenBanptD3::class,
-                'standarTargetsRelation' => 'standarTargetsD3',
-                'standarCapaiansRelation' => 'standarCapaiansD3',
-                'standarNilaisRelation' => 'standarNilaisD3',
-                'standarNames' => $standar_names_banpt,
-            ],
-            'BAN-PT S1' => [
-                'modelClass' => StandarElemenBanptS1::class,
-                'standarTargetsRelation' => 'standarTargetsBanptS1',
-                'standarCapaiansRelation' => 'standarCapaiansBanptS1',
-                'standarNilaisRelation' => 'standarNilaisBanptS1',
-                'standarNames' => $standar_names_banpt,
-            ],
-            'LAMDIK S1' => [
-                'modelClass' => StandarElemenLamdikS1::class,
-                'standarTargetsRelation' => 'standarTargetsLamdikS1',
-                'standarCapaiansRelation' => 'standarCapaiansLamdikS1',
-                'standarNilaisRelation' => 'standarNilaisLamdikS1',
-                'standarNames' => $standar_names_lamdik,
-            ],
-            'LAMDIK PPG' => [
-                'modelClass' => StandarElemenLamdikD3::class,
-                'standarTargetsRelation' => 'standarTargetsLamdikD3',
-                'standarCapaiansRelation' => 'standarCapaiansLamdikD3',
-                'standarNilaisRelation' => 'standarNilaisLamdikD3',
-                'standarNames' => $standar_names_lamdik,
-            ],
-            'LAMDIK S2' => [
-                'modelClass' => StandarElemenLamdikS2::class,
-                'standarTargetsRelation' => 'standarTargetsLamdikS2',
-                'standarCapaiansRelation' => 'standarCapaiansLamdikS2',
-                'standarNilaisRelation' => 'standarNilaisLamdikS2',
-                'standarNames' => $standar_names_lamdik,
-            ],
-        ];
-
-        if (!isset($degreeMappings[$key])) {
-            Log::warning("Unknown degree key: {$key}, falling back to BAN-PT S1");
+        if (!in_array($akreditasi_kode, $validAkreditasi, true)) {
+            Log::warning('Nilai akreditasi sesi tidak valid, fallback ke BAN-PT', ['session' => $akreditasi_kode]);
+            $akreditasi_kode = 'BAN-PT';
         }
-        $degreeInfo = $degreeMappings[$key];
+        if (!in_array($jenjang_nama, $validJenjang, true)) {
+            Log::warning('Nilai jenjang sesi tidak valid, fallback ke S1', ['session' => $jenjang_nama]);
+            $jenjang_nama = 'S1';
+        }
 
-        $modelClass = $degreeInfo['modelClass'];
-        $standarTargetsRelation = $degreeInfo['standarTargetsRelation'];
-        $standarCapaiansRelation = $degreeInfo['standarCapaiansRelation'];
-        $standarNilaisRelation = $degreeInfo['standarNilaisRelation'];
-        $standarNames = $degreeInfo['standarNames'];
+        $akreditasi = Cache::remember("akreditasi_{$akreditasi_kode}", 3600, function () use ($akreditasi_kode) {
+            return StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
+        });
 
-        $data_standar = [];
-        $degree = trim($degree);
+        $jenjang = Cache::remember("jenjang_{$jenjang_nama}", 3600, function () use ($jenjang_nama) {
+            return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
+        });
 
-        foreach ($standarNames as $index => $name) {
-            $data_standar['data_standar_k' . ($index + 1)] = $modelClass::with([
-                $standarTargetsRelation => function ($query) use ($key) {
-                    $query->where('jenjang', $key);
-                },
-                $standarCapaiansRelation => function ($query) use ($prodi) {
-                    $query->where('prodi', $prodi);
-                },
-                $standarNilaisRelation => function ($query) use ($periode, $prodi) {
-                    $query->where('periode', $periode)->where('prodi', $prodi);
-                },
-            ])
-            ->when($request->q, function ($query) use ($request) {
-                $query->where('elemen_nama', 'like', '%' . $request->q . '%');
-            })
-            ->where('standar_nama', $name)
-            ->latest()
-            ->paginate(30)
-            ->appends(['q' => $request->q]);
-        }        
-        
+        $standardsQuery = Standard::query()
+            ->with(['elements.indicators.dokumen_nilais', 'buktiStandar'])
+            ->where('standar_akreditasi_id', $akreditasi->id)
+            ->where('jenjang_id', $jenjang->id);
+
+        $standards = $standardsQuery->get();
+
         $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
-            ->when($request->q, function($query) use ($request) {
-                $query->whereHas('auditor_ami.user', function($q) use ($request) {
+            ->when($request->q, function ($query) use ($request) {
+                $query->whereHas('auditor_ami.user', function ($q) use ($request) {
                     $q->where('user_nama', 'like', '%' . $request->q . '%');
                 })
                 ->orWhere('prodi_nama', 'like', '%' . $request->q . '%');
             })
+            ->where('prodi', $jenjang_raw)
             ->latest()
-            ->get(); 
-    
+            ->get();
+
         $auditors = User::where('user_level', 'auditor')->get();
 
+        $akreditasi = Cache::remember("akreditasi_{$akreditasi_kode}", 3600, function () use ($akreditasi_kode) {
+            return StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
+        });
+
+        $jenjang = Cache::remember("jenjang_{$jenjang_nama}", 3600, function () use ($jenjang_nama) {
+            return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
+        });
+        
         return view('pages.auditor.evaluasi-ami.audit-ami.index', [
-            'nama_data_standar' => $standarNames,
-            'data_standar' => $data_standar,
-            'standarTargetsRelation' => $standarTargetsRelation,
-            'standarCapaiansRelation' => $standarCapaiansRelation,
-            'standarNilaisRelation' => $standarNilaisRelation,
-            'periode' => $request->periode,
-            'prodi' => $prodi,
+            'akreditasi' => $akreditasi,
+            'jenjang'    => $jenjang,
+            'standards'  => $standards,
+            'periode' => $periode,
+            'prodi' => $jenjang_raw,
             'penjadwalan_ami' => $penjadwalan_ami,
             'transaksi_ami' => $transaksi_ami,
             'auditors' => $auditors,
-            'key' => $key,
         ]);
     }
 
@@ -191,6 +116,7 @@ class EvaluasiAmiAuditorController extends Controller
             'ami_kodes' => 'required|string',
             'indikator_ids' => 'required|string',
             'indikator_bobots' => 'nullable|string',
+            'mandiri_nilais' => 'required|numeric|min:0|max:4',
             'hasil_nilais' => 'required|numeric|min:0|max:4',
             'hasil_kriterias' => 'nullable|string',
             'hasil_deskripsis' => 'nullable|string',
@@ -208,6 +134,7 @@ class EvaluasiAmiAuditorController extends Controller
                 ->first();
 
             if ($standard) {
+                $standard->mandiri_nilai = $validatedData['mandiri_nilais'];
                 $standard->hasil_nilai = $validatedData['hasil_nilais'];
                 $standard->hasil_kriteria = $validatedData['hasil_kriterias'];
                 $standard->hasil_deskripsi = $validatedData['hasil_deskripsis'];
@@ -227,6 +154,7 @@ class EvaluasiAmiAuditorController extends Controller
                 $standard = new StandarNilai();
                 $standard->ami_kode = $validatedData['ami_kodes'];
                 $standard->indikator_id = $validatedData['indikator_ids'];
+                $standard->mandiri_nilai = $validatedData['mandiri_nilais'];
                 $standard->hasil_nilai = $validatedData['hasil_nilais'];
                 $standard->bobot = $validatedData['indikator_bobots'];
                 $standard->hasil_kriteria = $validatedData['hasil_kriterias'];

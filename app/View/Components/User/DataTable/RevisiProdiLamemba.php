@@ -4,7 +4,7 @@ namespace App\View\Components\User\DataTable;
 
 use Illuminate\View\Component;
 
-class InputAmiLamemba extends Component
+class RevisiProdiLamemba extends Component
 {
     public $id;
     public $standards;
@@ -24,8 +24,9 @@ class InputAmiLamemba extends Component
         $this->showImportData = $showImportData;
         $this->importTitle = $importTitle;
     }
+    
     public function render()
     {
-        return view('components.user.data-table.input-ami-lamemba');
+        return view('components.user.data-table.revisi-prodi-lamemba');
     }
 }

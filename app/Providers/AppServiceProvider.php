@@ -24,14 +24,18 @@ class AppServiceProvider extends ServiceProvider
             // Auditor Components
             \App\View\Components\Auditor\DataTable\KonfirmasiPengajuan::class => ['id', 'standards', 'transaksis', 'prodis', 'periodes', 'standarTargetsRelations', 'standarCapaiansRelations', 'standarNilaisRelations'],
             \App\View\Components\Auditor\DataTable\KonfirmasiPengajuanLamdik::class => ['id', 'standards', 'transaksis', 'prodis', 'periodes', 'standarTargetsRelations', 'standarCapaiansRelations', 'standarNilaisRelations'],
+            \App\View\Components\Auditor\DataTable\KonfirmasiPengajuanLamemba::class => ['id', 'standards', 'prodis', 'periodes', 'transaksis', 'showImportData', 'importTitle'],
             \App\View\Components\Auditor\DataTable\AuditAmi::class => ['id', 'standards', 'transaksis', 'prodis', 'standarTargetsRelations', 'standarCapaiansRelations', 'standarNilaisRelations', 'periodes'],
             \App\View\Components\Auditor\DataTable\AuditAmiLamdik::class => ['id', 'standards', 'transaksis', 'prodis', 'standarTargetsRelations', 'standarCapaiansRelations', 'standarNilaisRelations', 'periodes'],
+            \App\View\Components\Auditor\DataTable\AuditAmiLamemba::class => ['id', 'standards', 'elements', 'transaksis', 'prodis', 'periodes', 'showImportData', 'importTitle'],
             \App\View\Components\Auditor\DataTable\RevisiAmi::class => ['id', 'standards', 'transaksis', 'prodis', 'periodes', 'standarTargetsRelations', 'standarCapaiansRelations', 'standarNilaisRelations'],
             \App\View\Components\Auditor\DataTable\RevisiAmiLamdik::class => ['id', 'standards', 'transaksis', 'prodis', 'periodes', 'standarTargetsRelations', 'standarCapaiansRelations', 'standarNilaisRelations'],
-            
+            \App\View\Components\Auditor\DataTable\RevisiAmiLamemba::class => ['standards', 'elements', 'transaksis', 'prodis', 'periodes'],
+
             // User Components
             \App\View\Components\User\DataTable\RevisiProdi::class => ['id', 'standards', 'transaksis', 'prodis', 'periodes', 'standarTargetsRelations', 'standarCapaiansRelations', 'standarNilaisRelations'],
             \App\View\Components\User\DataTable\RevisiProdiLamdik::class => ['id', 'standards', 'transaksis', 'prodis', 'periodes', 'standarTargetsRelations', 'standarCapaiansRelations', 'standarNilaisRelations'],
+            \App\View\Components\User\DataTable\RevisiProdiLamemba::class => ['standards', 'elements', 'transaksis', 'prodis', 'periodes'],
             \App\View\Components\User\DataTable\PemenuhanDokumen::class => ['id', 'standards', 'showImportData', 'importTitle'],
             \App\View\Components\User\DataTable\PemenuhanDokumenLamemba::class => ['id', 'standards', 'showImportData', 'importTitle'],
             \App\View\Components\User\DataTable\PemenuhanDokumenLamemba2::class => ['id', 'standards', 'bukti', 'editRouteName', 'importTitle'],
@@ -56,8 +60,10 @@ class AppServiceProvider extends ServiceProvider
             \App\View\Components\HeaderRekapNilaiAuditor::class => ['periode', 'prodi'],
             \App\View\Components\DataTableRekapNilai::class => ['id', 'standards', 'periode', 'prodi', 'transaksi_ami', 'standarTargetsRelations', 'standarCapaiansRelations', 'standarNilaisRelations'],
             \App\View\Components\DataTableRekapNilaiLamdik::class => ['id', 'standards', 'periode', 'prodi', 'transaksi_ami', 'standarTargetsRelations', 'standarCapaiansRelations', 'standarNilaisRelations'],
+            \App\View\Components\DataTableRekapNilaiLamemba::class => ['id', 'standards', 'elements', 'transaksis', 'prodis', 'periodes', 'showImportData', 'importTitle'],
             \App\View\Components\HasilForcasting::class => ['tableTerakreditasis', 'tablePeringkatUngguls', 'tableBaikSekalis', 'totals', 'h2s', 'h3s', 'h4s', 'h5s', 'h6s'],
             \App\View\Components\HasilForcastingLamdik::class => ['tablePeringkatUngguls', 'totals', 'h2s', 'h3s'],
+            \App\View\Components\HasilForcastingLamemba::class => ['standards', 'transaksis', 'prodis', 'periodes'],
         ];
 
         foreach ($bindings as $class => $params) {
@@ -82,20 +88,26 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('user.data-table.pemenuhan-dokumen-lamemba-new', \App\View\Components\User\DataTable\PemenuhanDokumenLamembaNew::class);
         Blade::component('user.data-table.revisi-prodi', \App\View\Components\User\DataTable\RevisiProdi::class);
         Blade::component('user.data-table.revisi-prodi-lamdik', \App\View\Components\User\DataTable\RevisiProdiLamdik::class);
+        Blade::component('user.data-table.revisi-prodi-lamemba', \App\View\Components\User\DataTable\RevisiProdiLamemba::class);
         Blade::component('user.input-ami-data-table', \App\View\Components\User\InputAmiDataTable::class);
         Blade::component('userinput-ami-data-table', \App\View\Components\UserInputAmiDataTable::class);
         Blade::component('auditor.data-table.konfirmasi-pengajuan', \App\View\Components\Auditor\DataTable\KonfirmasiPengajuan::class);
         Blade::component('auditor.data-table.konfirmasi-pengajuan-lamdik', \App\View\Components\Auditor\DataTable\KonfirmasiPengajuanLamdik::class);
+        Blade::component('auditor.data-table.konfirmasi-pengajuan-lamemba', \App\View\Components\Auditor\DataTable\KonfirmasiPengajuanLamemba::class);
         Blade::component('auditor.data-table.audit-ami', \App\View\Components\Auditor\DataTable\AuditAmi::class);
         Blade::component('auditor.data-table.audit-ami-lamdik', \App\View\Components\Auditor\DataTable\AuditAmiLamdik::class);
+        Blade::component('auditor.data-table.audit-ami-lamemba', \App\View\Components\Auditor\DataTable\AuditAmiLamemba::class);
         Blade::component('auditor.data-table.revisi-ami', \App\View\Components\Auditor\DataTable\RevisiAmi::class);
         Blade::component('auditor.data-table.revisi-ami-lamdik', \App\View\Components\Auditor\DataTable\RevisiAmiLamdik::class);
+        Blade::component('auditor.data-table.revisi-ami-lamemba', \App\View\Components\Auditor\DataTable\RevisiAmiLamemba::class);
         Blade::component('header-rekap-nilai', \App\View\Components\HeaderRekapNilai::class);
         Blade::component('header-rekap-nilai-user', \App\View\Components\HeaderRekapNilaiUser::class);
         Blade::component('header-rekap-nilai-auditor', \App\View\Components\HeaderRekapNilaiAuditor::class);
         Blade::component('data-table-rekap-nilai', \App\View\Components\DataTableRekapNilai::class);
         Blade::component('data-table-rekap-nilai-lamdik', \App\View\Components\DataTableRekapNilaiLamdik::class);
+        Blade::component('data-table-rekap-nilai-lamemba', \App\View\Components\DataTableRekapNilaiLamemba::class);
         Blade::component('hasil-forcasting', \App\View\Components\HasilForcasting::class);
         Blade::component('hasil-forcasting-lamdik', \App\View\Components\HasilForcastingLamdik::class);
+        Blade::component('hasil-forcasting-lamemba', \App\View\Components\HasilForcastingLamemba::class);
     }
 }

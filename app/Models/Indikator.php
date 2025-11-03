@@ -28,7 +28,11 @@ class Indikator extends Model
         return $this->hasMany(StandarCapaian::class, 'indikator_id');
     }
 
-    // In Indikator.php
+    public function dokumen_nilais()
+    {
+        return $this->hasMany(StandarNilai::class, 'indikator_id');
+    }
+
     public function element() {
         return $this->belongsTo(Element::class, 'elemen_id', 'id');
     }

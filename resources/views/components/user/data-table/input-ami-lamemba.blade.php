@@ -1,5 +1,5 @@
 @props(['standards', 'importTitle'])
-
+{{-- @dd($transaksis,$prodis,$periodes) --}}
 <div class="row">
     @foreach ($standards as $standard)
     {{-- @dd($standard) --}}
@@ -39,16 +39,17 @@
                             <thead class="text-bg-secondary">
                                 <tr class="text-white text-center">
                                     <th style="width: 5%; padding: 7px 0;">No</th>
-                                    <th style="width: 75%; padding: 7px 0;">Indikator</th>
+                                    <th style="width: 65%; padding: 7px 0;">Indikator</th>
                                     <th style="width: 10%; padding: 7px 0;">Informasi</th>
                                     {{-- <th style="width: 10%; padding: 7px 0;">Dokumen</th> --}}
-                                    {{-- <th style="width: 10%; padding: 7px 0;">Kelola</th> --}}
+                                    <th style="width: 20%; padding: 7px 0;">Memenuhi SN-Dikti/Standar LAM</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php $nomor = 1; @endphp
                                 @foreach ($standard->indicators as $indikator)
-                                    @php $isEmptyTarget = $indikator->dokumen_targets->isEmpty(); @endphp
+                                    @php $isEmptyTarget = $indikator->dokumen_nilais->isEmpty(); @endphp
+                                    
                                     <tr>
                                         <td class="text-center" style="padding: 5px 0;">{{ $nomor++ }}</td>
                                         <td style="padding: 5px 0;">{!! nl2br(e($indikator->nama_indikator)) !!}</td>
@@ -57,85 +58,18 @@
                                                 <i data-feather="info"></i>
                                             </button>
                                         </td>
-                                        {{-- <td class="text-center" style="padding: 5px 0;">{{ $indikator->dokumen_targets->count() }}</td> --}}
-                                        {{-- <td class="text-center" style="padding: 5px 0;">
-                                            <button type="button" class="btn btn-primary btn-icon" data-bs-toggle="modal" data-bs-target="#modalEditIndikator-{{ $indikator->id }}" title="Edit">
-                                                <i data-feather="edit"></i>
-                                            </button>
+                                        {{-- @dd($indikator->dokumen_nilais) --}}
+                                        @php $nilaiMandiri = $indikator->dokumen_nilais->first()?->mandiri_nilai; @endphp
 
-                                            <button type="button" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#modalDeleteIndikator-{{ $indikator->id }}" title="Hapus">
-                                                <i data-feather="trash-2"></i>
-                                            </button>
-
-                                            <div class="modal fade" id="modalEditIndikator-{{ $indikator->id }}" tabindex="-1" aria-labelledby="modalEditIndikatorLabel-{{ $indikator->id }}" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <form action="{{ route('admin.kriteria-dokumen.kelola-indikator.update', $indikator->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalEditIndikatorLabel-{{ $indikator->id }}">Edit Indikator</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="mb-3 text-start">
-                                                            <label for="nama_indikator_{{ $indikator->id }}" class="form-label">Nama Indikator</label>
-                                                            <input type="text"
-                                                                id="nama_indikator_{{ $indikator->id }}"
-                                                                name="nama_indikator"
-                                                                class="form-control"
-                                                                value="{{ old('nama_indikator', $indikator->nama_indikator) }}"
-                                                                required>
-                                                            </div>
-                                                            <div class="mb-3 text-start">
-                                                            <label for="info_{{ $indikator->id }}" class="form-label">Keterangan / Informasi Lain</label>
-                                                            <textarea id="info_{{ $indikator->id }}"
-                                                                name="info"
-                                                                class="form-control"
-                                                                rows="3">{{ old('info', $indikator->info) }}</textarea>
-                                                            </div>
-
-                                                            <input type="hidden" name="elemen_id" value="{{ $indikator->elemen_id ?? ($element->id ?? null) }}">
-                                                            <input type="hidden" name="importTitle" value="{{ $importTitle ?? '' }}">
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
-                                                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="modal fade" id="modalDeleteIndikator-{{ $indikator->id }}" tabindex="-1" aria-labelledby="modalDeleteIndikatorLabel-{{ $indikator->id }}" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <form action="{{ route('admin.kriteria-dokumen.kelola-indikator.destroy', $indikator->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalDeleteIndikatorLabel-{{ $indikator->id }}">Hapus Indikator</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                                                    </div>
-                                                    <div class="modal-body text-start">
-                                                        <p>Apakah Anda yakin ingin menghapus indikator berikut?</p>
-                                                        <ul class="mb-0">
-                                                        <li><strong>{{ $indikator->nama_indikator }}</strong></li>
-                                                        @if($indikator->info)
-                                                            <li><em>{{ $indikator->info }}</em></li>
-                                                        @endif
-                                                        </ul>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
-                                                        <button type="submit" class="btn btn-danger">Hapus</button>
-                                                    </div>
-                                                    </form>
-                                                </div>
-                                                </div>
-                                            </div>
-                                        </td> --}}
-
+                                        <td class="text-center" style="padding: 5px 0;">
+                                            <input type="checkbox" class="check-standar" style="transform: scale(1.5);"
+                                                data-id="{{ $indikator->id }}"
+                                                data-bobot="{{ $indikator->bobot }}"
+                                                data-ami="{{ $transaksis->ami_kode }}"
+                                                data-prodi="{{ $prodis }}"
+                                                data-periode="{{ $periodes }}"
+                                                {{ $nilaiMandiri == 1 ? 'checked' : '' }}>
+                                        </td>
                                     </tr>
 
                                     {{-- Modal Info --}}
@@ -166,3 +100,47 @@
         </div>
     @endforeach
 </div>
+<script>
+    document.querySelectorAll('.check-standar').forEach(function(checkbox) {
+        let debounceTimer;
+
+        checkbox.addEventListener('change', function() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const indikatorId = this.dataset.id;
+                const bobot = this.dataset.bobot || 0;
+                const amiKode = this.dataset.ami;
+                const prodi = this.dataset.prodi;
+                const periode = this.dataset.periode;
+                const nilaiMandiri = this.checked ? 1 : 0;
+
+                fetch("{{ route('user.pengajuan-ami.input-ami.store') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({
+                        ami_kodes: amiKode,
+                        indikator_ids: indikatorId,
+                        indikator_bobots: bobot,
+                        prodis: prodi,
+                        periodes: periode,
+                        nilai_mandiris: nilaiMandiri
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error("Gagal menyimpan");
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Berhasil disimpan:", data);
+                })
+                .catch(error => {
+                    console.error("Gagal:", error);
+                });
+            }, 300); // debounce 300ms
+        });
+    });
+</script>
+

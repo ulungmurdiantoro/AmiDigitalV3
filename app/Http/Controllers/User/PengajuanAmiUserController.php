@@ -12,7 +12,6 @@ use App\Models\TransaksiAmi;
 use App\Models\User;
 use App\Models\Standard;
 use Illuminate\Support\Facades\Cache;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -66,12 +65,19 @@ class PengajuanAmiUserController extends Controller
             return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
         });
 
-        $standardsQuery = Standard::query()
-            ->with(['elements.indicators', 'buktiStandar'])
-            ->where('standar_akreditasi_id', $akreditasi->id)
-            ->where('jenjang_id', $jenjang->id);
+        $standards = Standard::with([
+            'elements.indicators.dokumen_nilais' => function ($query) use ($periode, $jenjang_raw) {
+                $query->where('periode', $periode)
+                    ->where('prodi', $jenjang_raw);
+            },
+            'elements.indicators', // tetap perlu agar indikator dimuat
+            'buktiStandar'
+        ])
+        ->where('standar_akreditasi_id', $akreditasi->id)
+        ->where('jenjang_id', $jenjang->id)
+        ->get();
 
-        $standards = $standardsQuery->get();
+        // dd($standards);
 
         $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
             ->when($request->q, function ($query) use ($request) {

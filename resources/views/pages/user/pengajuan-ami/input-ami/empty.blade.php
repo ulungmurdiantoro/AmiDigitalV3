@@ -26,7 +26,7 @@
 								<div class="mb-3">
 									<label for="periode" class="form-label">Periode</label>
 									<input type="hidden" name="auditor_kode" value="{{ $item->auditor_kode }}"/>
-									<input name="periode" type="text" class="form-control @error('periode') is-invalid @enderror" value="{{ $item->periode }}" readonly/>
+									<input name="periode" type="text" class="form-control @error('periode') is-invalid @enderror" value="{{ $periode }}" readonly/>
 								</div>
 							</div><!-- Col -->
 						</div>

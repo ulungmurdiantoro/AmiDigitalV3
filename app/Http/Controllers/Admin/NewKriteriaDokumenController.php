@@ -364,7 +364,7 @@ class NewKriteriaDokumenController extends Controller
     {
         $request->validate([
             'elemen_id' => 'required|exists:elements,id',
-            'nama' => 'required|string|max:255',
+            'nama' => 'required|string',
             'deskripsi' => 'nullable|string',
         ]);
 

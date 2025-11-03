@@ -31,4 +31,26 @@ class Standard extends Model
         return $this->belongsTo(Jenjang::class);
     }
 
+    public function standarTargets()
+    {
+        return $this->hasMany(StandarTarget::class, 'indikator_id', 'indikator_id');
+    }
+
+    public function standarCapaians()
+    {
+        return $this->hasMany(StandarCapaian::class, 'indikator_id', 'indikator_id');
+    }
+
+    public function standarNilais()
+    {
+        return $this->hasOne(StandarNilai::class, 'indikator_id', 'indikator_id');
+    }
+
+    public function standarNilaisNotSesuai()
+    {
+        return $this->hasOne(StandarNilai::class, 'indikator_id', 'indikator_id')
+                    ->where('jenis_temuan', '!=', 'Sesuai');
+    }
+
+
 }

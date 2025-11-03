@@ -194,6 +194,7 @@
 		}
 	</style>
 </head>
+
 <body>
 	<header>
 		<table width="100%">
@@ -264,13 +265,13 @@
 				<tr>
 					<td class="tbpeserta">
 						{{-- @dd($total) --}}
-						<h4>{{ $totalNilai }}%</h4>
+						<h4>{{ $total }}</h4>
 					</td>
 					<td class="tbpeserta">
-						<p>91% - 100% = A (Unggul)</p>
-						<p>81% - 90% = B (Baik Sekali)</p>
-						<p>71% - 80% = C (Baik)</p>
-						<p>< 71% = Tidak Terakreditasi</p>
+						<p>361 - 400 = A (Unggul)</p>
+						<p>301 - 360 = B (Baik Sekali)</p>
+						<p>200 - 300 = C (Baik)</p>
+						<p>< 200 = Tidak Terakreditasi</p>
 					</td>
 				</tr>
 			</tbody>
@@ -303,130 +304,178 @@
 		</svg>
 	</section>
 	<section name="standar">
-    @forelse(($standards ?? []) as $index => $standard)
+    @foreach ($nama_data_standar as $index => $standar_nama)
+			@php
+				$key = 'data_standar_k' . ($index + 1);
+				$data = $data_standar[$key] ?? [];
+				$num = 1;
+				$total_nilai = 0;
+				$total_count = count($data);
+			@endphp
+
 			<table class="tbsubbody" width="100%">
 				<tr>
-					<td class="tdjudul upper"><h3>{{ $standard->nama }}</h3></td>
+					<td class="tdjudul upper"><h3>{{ $standar_nama }}</h3></td>
 				</tr>
 			</table>
 			<svg height="10" width="1500">
 				<line x1="0" y1="0" x2="1500" y2="0" style="stroke:rgb(255,200,0);stroke-width:10;" />
 			</svg>
-
 			<table class="tbsurvey" style="width:100%">
 				<thead>
 					<tr>
-						<th style="width:7%" class="tbpeserta">Kode</th>
+						<th style="width:6%" class="tbpeserta">Kode</th>
 						<th style="width:20%" class="tbpeserta">Elemen</th>
-						<th style="width:60%" class="tbpeserta">Indikator</th>
-						<th style="width:13%" class="tbpeserta">Memenuhi</th>
+						<th style="width:56%" class="tbpeserta">Indikator</th>
+						<th style="width:7%" class="tbpeserta">Nilai</th>
+						<th style="width:11%" class="tbpeserta">Predikat</th>
 					</tr>
-				</thead>
-				<tbody>
-					@foreach($standard->elements as $eIndex => $element)
-						@foreach($element->indicators as $iIndex => $indikator)
-							@php $kode = ($index + 1) . '.' . ($iIndex + 1); @endphp
+					</thead>
+					<tbody>
+						@foreach ($data as $standar)
+							@php
+								$nilai = optional($standar->$standarNilaisRelation)->hasil_nilai ?? 0;
+								$total_nilai += $nilai;
+
+								$predikat = match (true) {
+									$nilai >= 3.5 => 'Sangat Baik',
+									$nilai >= 2.5 => 'Baik',
+									$nilai >= 1.5 => 'Cukup',
+									$nilai >= 0.5 => 'Kurang',
+									default => 'Sangat Kurang'
+								};
+							@endphp
 							<tr>
-								<td>{{ $kode }}</td>
-								<td>{{ $element->nama }}</td>
-								<td>{{ $indikator->nama_indikator }}</td>
-								<td>
-									@forelse($indikator->dokumen_nilais->where('periode', $periode)->where('prodi', $prodi) as $nilai)
-										{!! $nilai->hasil_nilai == 1 ? '✔' : '✘' !!}
-										<br>
-									@empty
-											✘
-									@endforelse
-								</td>
+								<td>{{ $standar->indikator_id }}</td>
+								<td>{{ $standar->elemen_nama }}</td>
+								<td>{!! nl2br(e($standar->indikator_nama)) !!}</td>
+								<td>{{ $nilai }}/4</td>
+								<td>{{ $predikat }}</td>
 							</tr>
 						@endforeach
-					@endforeach
-				</tbody>
-			</table>
-
-        {{-- Deskripsi Temuan Audit --}}
-        <section name="temuan-{{ $standard->id }}" class="subbab">
-					<table class="tbsubbab" width="100%">
+						@php
+							$persen_nilai_akhir = $total_count > 0 ? round(($total_nilai / ($total_count * 4)) * 100, 2) : 0;
+							$predikat_akhir = match (true) {
+								$persen_nilai_akhir >= 90 => 'A (Unggul)',
+								$persen_nilai_akhir >= 80 => 'B (Baik)',
+								$persen_nilai_akhir >= 70 => 'C (Cukup)',
+								default => 'Kurang'
+							};
+						@endphp
 						<tr>
-							<td class="tdjudul upper"><h5>Deskripsi Temuan Audit</h5></td>
+							<td colspan="3" class="tbtotal">Persentase Total</td>
+							<td><b>{{ $persen_nilai_akhir }}%</b></td>
+							<td><b>{{ $predikat_akhir }}</b></td>
 						</tr>
-					</table>
-					<svg height="10" width="1500">
-						<line x1="0" y1="0" x2="1500" y2="0" style="stroke:rgb(255, 227, 128);stroke-width:10;" />
-					</svg>
+					</tbody>
+			</table>
+        {{-- Deskripsi Temuan Audit --}}
+			<section name="1A" class="subbab">
+				<table class="tbsubbab" width="100%">
+					<tr>
+						<td class="tdjudul, upper"><h5>Deskripsi Temuan Audit</h5></td>
+					</tr>
+				</table>
+				<svg height="10" width="1500">
+          <line x1="0" y1="0" x2="1500" y2="0" style="stroke:rgb(255, 227, 128);stroke-width:10;" />
+        </svg>
 
-					@foreach($standard->elements as $eIndex => $element)
-						@foreach($element->indicators as $iIndex => $indikator)
-							@php
-								$nilai = $indikator->dokumen_nilais
-									->filter(fn($item) => $item->periode == $periode)
-									->first();
-								$kode = ($index + 1) . '.' . ($iIndex + 1);
-							@endphp
-
-							@if($nilai)
-								<table class="tbsurvey" style="width:100%">
-									<tr>
-										<th style="width:15%" class="tbpeserta subth">Kode</th>
-										<td colspan="3" class="tbpeserta">{{ $kode }}</td>
-									</tr>
-									<tr>
-										<th class="tbpeserta subth">Jenis Temuan</th>
-										<td colspan="3" class="tbpeserta">{{ $nilai->jenis_temuan }}</td>
-									</tr>
-									<tr>
-										<th class="tbpeserta subth">Deskripsi Temuan</th>
-										<td colspan="3" class="tbpeserta">{{ $nilai->hasil_deskripsi }}</td>
-									</tr>
-									<tr>
-										<th class="tbpeserta subth">Kriteria</th>
-										<td colspan="3" class="tbpeserta">{{ $nilai->hasil_kriteria }}</td>
-									</tr>
-									<tr>
-										<th class="tbpeserta subth">Akibat</th>
-										<td colspan="3" class="tbpeserta">{{ $nilai->hasil_akibat }}</td>
-									</tr>
-									<tr>
-										<th class="tbpeserta subth">Akar Masalah</th>
-										<td colspan="3" class="tbpeserta">{{ $nilai->hasil_masalah }}</td>
-									</tr>
-									<tr>
-										<th class="tbpeserta subth">Rekomendasi</th>
-										<td colspan="3" class="tbpeserta">{{ $nilai->hasil_rekomendasi }}</td>
-									</tr>
-
-									@if($nilai->jenis_temuan !== 'Sesuai')
-										<tr>
-											<th class="tbpeserta subth">Rencana Perbaikan</th>
-											<td colspan="3" class="tbpeserta">{{ $nilai->hasil_rencana_perbaikan }}</td>
-										</tr>
-										<tr>
-											<th class="tbpeserta subth">Jadwal Perbaikan</th>
-											<td class="tbpeserta">{{ $nilai->hasil_jadwal_perbaikan }}</td>
-											<th class="tbpeserta subth">Penanggung Jawab</th>
-											<td class="tbpeserta">{{ $nilai->hasil_perbaikan_penanggung }}</td>
-										</tr>
-										<tr>
-											<th class="tbpeserta subth">Rencana Pencegahan</th>
-											<td colspan="3" class="tbpeserta">{{ $nilai->hasil_rencana_pencegahan }}</td>
-										</tr>
-										<tr>
-											<th class="tbpeserta subth">Jadwal Pencegahan</th>
-											<td class="tbpeserta">{{ $nilai->hasil_jadwal_pencegahan }}</td>
-											<th class="tbpeserta subth">Penanggung Jawab</th>
-											<td class="tbpeserta">{{ $nilai->hasil_rencana_penanggung }}</td>
-										</tr>
-									@endif
-								</table>
+				@if(isset($data_standar[$key]) && count($data_standar[$key]) > 0)
+					@foreach ($data_standar[$key] as $standar)
+						<table class="tbsurvey" style="width:100%">
+							<tr>
+								<th style="width:15%" class="tbpeserta subth">Kode</th>
+								<td colspan="3" class="tbpeserta">{{ $standar->indikator_id }}</td>
+							</tr>
+							<tr>
+								<th style="width:15%" class="tbpeserta subth">Jenis Temuan</th>
+								<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->jenis_temuan }}</td>
+							</tr>
+							<tr>
+								<th style="width:15%" class="tbpeserta subth">Deskripsi Temuan</th>
+								<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_deskripsi }}</td> 
+							</tr>
+							<tr>
+								<th style="width:15%" class="tbpeserta subth">Kriteria</th>
+								<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_kriteria }}</td>
+							</tr>
+							<tr>
+								<th style="width:15%" class="tbpeserta subth">Akibat</th>
+								<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_akibat }}</td>
+							</tr>
+							<tr>
+								<th style="width:15%" class="tbpeserta subth">Akar Masalah</th>
+								<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_masalah }}</td>
+							</tr>
+							<tr>
+								<th style="width:15%" class="tbpeserta subth">Rekomendasi</th>
+								<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_rekomendasi }}</td>
+							</tr>
+							@if (optional($standar->$standarNilaisRelation)->jenis_temuan !== 'Sesuai')
+								<tr>
+									<th style="width:15%" class="tbpeserta subth">Rencana Perbaikan</th>
+									<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_rencana_perbaikan }}</td>
+								</tr>
+								<tr>
+									<th style="width:15%" class="tbpeserta subth">Jadwal Perbaikan</th>
+									<td class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_jadwal_perbaikan }}</td>
+									<th style="width:14%" class="tbpeserta subth">Penanggung Jawab</th>
+									<td class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_perbaikan_penanggung }}</td>
+								</tr>
+								<tr>
+									<th style="width:15%" class="tbpeserta subth">Rencana Pencegahan</th>
+									<td colspan="3" class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_rencana_pencegahan }}</td>
+								</tr>
+								<tr>
+									<th style="width:15%" class="tbpeserta subth">Jadwal Pencegahan</th>
+									<td class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_jadwal_pencegahan }}</td>
+									<th style="width:14%" class="tbpeserta subth">Penanggung Jawab</th>
+									<td class="tbpeserta">{{ optional($standar->$standarNilaisRelation)->hasil_rencana_penanggung }}</td>
+								</tr>
 							@endif
-						@endforeach
+						</table>
 					@endforeach
-        </section>
-		@empty
-			<div class="alert alert-warning">
-				Belum ada kriteria/standar yang dapat ditampilkan.
-			</div>
-		@endforelse
+				@else
+					<p><i>Tidak ada temuan audit.</i></p>
+				@endif
+			</section>
+    @endforeach
+	</section>
+	<section name="quick_scan">
+		<table class="tbsubbody" width="100%">
+			<tr>
+				<td class="tdjudul"><h3>PREDIKAT NILAI AKHIR</h3></td>
+			</tr>
+		</table>
+		<svg height="10" width="1500">
+			<line x1="0" y1="0" x2="1500" y2="0" style="stroke:rgb(255,200,0);stroke-width:10;" />
+		</svg>
+		<table class="tbscan" style="width:100%">
+			<thead>
+				<tr>
+					<td style="width:55%; background-color: #d00000;" class="thscan">
+						< 71%
+					</td>
+					<td style="background-color: #f48c06;" class="thscan">
+						71% - 80%
+					</td>
+					<td style="background-color: #ffff00;" class="thscan">
+						81% - 90%
+					</td>
+					<td style="background-color: #77b300;" class="thscan">
+						91% - 100%
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="tdscan">KURANG</td>
+					<td class="tdscan">C (Cukup)</td>
+					<td class="tdscan">B (Baik)</td>
+					<td class="tdscan">A (Unggul)</td>
+				</tr>
+			</tbody>
+		</table>
 	</section>
 	<section name="ttd">
 		<br>

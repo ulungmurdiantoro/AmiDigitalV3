@@ -26,7 +26,7 @@
             <div class="mb-3">
               <label for="periode" class="form-label">Periode</label>
               <input name="periode" type="text" class="form-control @error('periode') is-invalid @enderror"
-                     value="{{ $transaksi_ami->periode ?? '-' }}" disabled readonly/>
+                value="{{ $transaksi_ami->periode ?? '-' }}" disabled readonly/>
             </div>
           </div>
         </div>
@@ -36,7 +36,7 @@
             <div class="mb-3">
               <label for="status" class="form-label">Status</label>
               <input name="status" type="text" class="form-control @error('status') is-invalid @enderror"
-                     value="{{ $transaksi_ami->status ?? '-' }}" disabled readonly/>
+                value="{{ $transaksi_ami->status ?? '-' }}" disabled readonly/>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
               <label for="auditor" class="form-label">Daftar Auditor</label>
               @forelse(($transaksi_ami->auditorAmi ?? []) as $auditor)
                 <input name="auditor" type="text" class="form-control @error('auditor') is-invalid @enderror mb-2"
-                       value="{{ $auditor->user->user_nama ?? '-' }}" disabled readonly/>
+                  value="{{ $auditor->user->user_nama ?? '-' }}" disabled readonly/>
               @empty
                 <input type="text" class="form-control" value="Belum ada auditor" disabled readonly/>
               @endforelse
@@ -68,7 +68,6 @@
   </div>
 </div>
 
-{{-- Standards / Kriteria --}}
 @forelse(($standards ?? []) as $index => $standard)
   @php
     $stdId      = $standard->id ?? ('x'.$index);
@@ -95,7 +94,6 @@
           </h6>
         </div>
 
-        {{-- INFO MODAL (khusus LAMEMBA) --}}
         @if($akreNama === 'LAMEMBA')
           <div class="modal fade" id="infoModal{{ $stdId }}" tabindex="-1" aria-labelledby="infoModalLabel{{ $stdId }}" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -122,11 +120,11 @@
                           - {{ $bukti->deskripsi }}
                         @endif
                       </div>
+                      @php $hasDokumen = $bukti->dokumenCapaian->isNotEmpty(); @endphp
                       <div class="btn-group">
-                        {{-- Hanya tombol LIHAT --}}
                         <button
                           type="button"
-                          class="btn btn-sm btn-outline-success btn-view-bukti"
+                          class="btn btn-sm {{ $hasDokumen ? 'btn-outline-success' : 'btn-outline-danger' }} btn-view-bukti"
                           data-source-modal="#infoModal{{ $stdId }}"
                           data-tpl="#buktiTpl{{ $bukti->id ?? ('x'.$i) }}"
                         >
@@ -135,7 +133,6 @@
                       </div>
                     </div>
 
-                    {{-- Template konten modal untuk bukti ini --}}
                     <template id="buktiTpl{{ $bukti->id ?? ('x'.$i) }}">
                       <div class="mb-3">
                         <p class="mb-1"><strong>Nama Bukti:</strong></p>
@@ -183,12 +180,14 @@
             </div>
           </div>
         @endif
-
         <div class="card-body">
           @if($akreNama === 'LAMEMBA')
             <x-user.data-table.input-ami-lamemba
               id="dataTableExample{{ $index + 1 }}"
               :standards="($standard->elements ?? collect())"
+              :prodis="($prodi)"
+              :periodes="($periode)"
+              :transaksis="($transaksi_ami)"
               :showImportData="$index === 0"
               importTitle="{{ ($akreNama ?? '-') . ' ' . $jenjangNama }}"
               class="datatable"
@@ -230,7 +229,6 @@
   </div>
 </nav>
 
-{{-- MODAL GENERIK: VIEW BUKTI (1x saja di halaman) --}}
 <div class="modal fade" id="viewBuktiModal" tabindex="-1" aria-labelledby="viewBuktiModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
@@ -239,7 +237,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
       </div>
       <div class="modal-body" id="viewBuktiBody">
-        <!-- Konten dari <template> akan disisipkan via JS -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
@@ -250,26 +247,23 @@
 @endsection
 
 @push('plugin-scripts')
-  {{-- jQuery + DataTables core terlebih dulu, lalu adapter BS5 --}}
   <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
-  {{-- <script src="{{ asset('assets/plugins/datatables-net/jquery.dataTables.js') }}"></script> --}}
   <script src="{{ asset('assets/plugins/datatables-net-bs5/dataTables.bootstrap5.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
-  {{-- Inisialisasi DataTables ke tabel yang memang dipakai --}}
   <script>
     $(function () {
       $('.datatable').DataTable();
     });
   </script>
 
-  {{-- Handler "Lihat Bukti" --}}
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.feather) feather.replace();
 
-      // helper: tutup modal sumber lalu buka target
+      let lastSourceModal = null;
+
       function openAfterHidingSource(sourceSelector, openFn) {
         const srcEl = sourceSelector ? document.querySelector(sourceSelector) : null;
         if (!srcEl) { openFn(); return; }
@@ -282,18 +276,18 @@
         srcModal.hide();
       }
 
-      // VIEW handler (satu-satunya yang dipakai)
       document.querySelectorAll('.btn-view-bukti').forEach(btn => {
         btn.addEventListener('click', function () {
           const tplSel = this.dataset.tpl;
           const source = this.dataset.sourceModal || null;
+          lastSourceModal = source;
 
           const tpl  = tplSel ? document.querySelector(tplSel) : null;
           const wrap = document.getElementById('viewBuktiBody');
           if (!wrap) return;
 
           const openModal = () => {
-            wrap.innerHTML = ''; // reset isi modal
+            wrap.innerHTML = '';
             if (tpl && 'content' in tpl) {
               wrap.appendChild(tpl.content.cloneNode(true));
             } else {
@@ -309,9 +303,24 @@
         });
       });
 
-      // Feather re-render saat modal tampil
       const vb = document.getElementById('viewBuktiModal');
-      if (vb) vb.addEventListener('shown.bs.modal', () => { if (window.feather) feather.replace(); });
+      if (vb) {
+        vb.addEventListener('shown.bs.modal', () => {
+          if (window.feather) feather.replace();
+        });
+
+        vb.addEventListener('hidden.bs.modal', () => {
+          if (lastSourceModal) {
+            const srcEl = document.querySelector(lastSourceModal);
+            if (srcEl) {
+              const srcModal = bootstrap.Modal.getOrCreateInstance(srcEl);
+              srcModal.show();
+            }
+            lastSourceModal = null;
+          }
+        });
+      }
     });
-  </script>
+</script>
+
 @endpush

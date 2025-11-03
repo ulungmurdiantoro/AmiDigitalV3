@@ -257,24 +257,22 @@
 			<tbody>
 				<tr>
 					<td class="tbpeserta" style="text-align: justify">
-							<p><b>Rapat Tinjauan Manajemen (RTM)</b> merupakan forum evaluatif yang diselenggarakan secara berkala oleh 
-								jajaran pimpinan institusi guna menelaah efektivitas sistem manajemen mutu dan kualitas layanan kelembagaan. 
-								Tujuan utama dari kegiatan ini adalah untuk memastikan keberlanjutan, kesesuaian, kecukupan, serta efektivitas 
-								sistem yang diterapkan dalam mendukung pencapaian visi institusi.
-							</p><br>
-							<p>Evaluasi dalam RTM didasarkan pada berbagai sumber data yang mencerminkan kinerja institusi, antara lain: hasil 
-								Audit Mutu Internal (AMI) dari program studi dan unit kerja, umpan balik dari pemangku kepentingan, hasil survei 
-								kepuasan stakeholder, capaian kinerja layanan dan dosen, pencapaian indikator mutu, serta status tindak lanjut 
-								dari RTM sebelumnya. RTM berperan sebagai mekanisme pengendalian dalam siklus PPEPP (Penetapan, Pelaksanaan, Evaluasi, 
-								Pengendalian, dan Peningkatan), dengan memanfaatkan hasil AMI sebagai dasar pengambilan keputusan strategis.
-							</p><br>
-							<p>Pelaksanaan RTM dilakukan secara berjenjang, dimulai dari tingkat program studi, fakultas, hingga universitas, 
-								sebagai wujud komitmen pimpinan terhadap peningkatan mutu berkelanjutan.
-							</p><br>
-							<p>Luaran dari RTM mencakup kebijakan, keputusan, dan/atau tindakan yang diarahkan untuk memperbaiki sistem dan hasil layanan, 
-								memenuhi kebutuhan sumber daya, serta mengidentifikasi perubahan yang diperlukan dalam sistem penjaminan mutu dan pelayanan. 
-								Selain itu, RTM juga menjadi dasar dalam penyediaan fasilitas dan sumber daya yang mendukung efektivitas sistem secara keseluruhan.
-							</p>
+							<p><b>Rapat Tinjauan Manajemen (RTM)</b> merupakan rapat yang dilakukan oleh seluruh manajemen 
+							secara periodik untuk meninjau kinerja sistem manajemen mutu dan kinerja pelayanan institusi 
+							serta memastikan kelanjutan, kesesuaian, kecukupan dan efektivitas sistem manajemen mutu dan 
+							sistem pelayanan. Peninjauan kinerja sistem manajemen mutu dan kinerja pelayanan institusi dilakukan 
+							berdasarkan materi berupa hasil audit mutu internal (AMI) program studi dan unit-unit lain, umpan 
+							balik dari stakeholder, hasil survei kepuasan stakeholder, kinerja layanan, kinerja dosen, pencapaian 
+							sasaran mutu/indikator kinerja, serta status tindak lanjut dari hasil tinjauan manajemen sebelumnya. 
+							Rapat tinjauan manajemen merupakan tahapan yang strategis untuk memanfaatkan hasil AMI sebagai bagian 
+							dari aspek pengendalian dalam PPEPP. Rapat tinjauan manajemen di lingkungan Universitas telah dilakukan 
+							secara berjenjang, dimulai dari tingkat program studi, fakultas, hingga universitas. Tindak lanjut dari 
+							rapat tinjauan manajemen merupakan bentuk nyata komitmen pimpinan untuk peningkatan mutu.</p>
+							<br>
+							<p>Luaran atau hasil dari RTM berupa kebijakan, keputusan, dan/atau tindakan untuk peningkatan sistem dan 
+							hasil layanan, pemenuhan kebutuhan sumber daya, identifikasi perubahan-perubahan yang diperlukan baik 
+							pada sistem penjaminan mutu maupun sistem pelayanan, penyediaan sumber daya dan fasilitas yang perlu 
+							dilakukan agar sistem penjaminan mutu dan sistem pelayanan menjadi efektif.</p>
 					</td>
 				</tr>
 			</tbody>
@@ -296,41 +294,40 @@
 			<tbody>
 				<tr>
 					<td class="tbpeserta" style="text-align: justify">
-						<p>
-							Berdasarkan komponen evaluasi dalam siklus PPEPP Sistem Penjaminan Mutu Internal (SPMI), Universitas melaksanakan kegiatan tinjauan manajemen dengan cakupan yang telah ditetapkan, meliputi aspek-aspek berikut:
-						</p>
+						<p>Mengacu pada aspek Evaluasi dalam Siklus PPEPP SPMI, maka Universitas melaksanakan 
+								tinjauan manajemen dengan ruang lingkup seperti yang dipersyaratkan, yaitu: </p>
 						<table>
 							<tr>
 								<td>1.</td>
-								<td>Hasil audit internal, mencakup temuan-temuan yang diperoleh dari pelaksanaan Audit Mutu Internal (AMI) pada tingkat program studi.</td>
+								<td>Hasil audit, meliputi temuan-temuan dalam AMI program studi.</td>
 							</tr>
 							<tr>
 								<td>2.</td>
-								<td>Evaluasi tingkat kepuasan mahasiswa terhadap penerapan budaya mutu serta suasana akademik yang mendukung proses pembelajaran.</td>
+								<td>Tingkat kepuasan mahasiswa terhadap budaya mutu dan suasana akademik.</td>
 							</tr>
 							<tr>
 								<td>3.</td>
-								<td>Penilaian kepuasan mahasiswa terhadap pelaksanaan kegiatan perkuliahan, termasuk aspek metodologi dan interaksi pembelajaran.</td>
+								<td>Tingkat kepuasan mahasiswa terhadap pelaksanaan perkuliahan.</td>
 							</tr>
 							<tr>
 								<td>4.</td>
-								<td>Penilaian kepuasan dosen terhadap efektivitas layanan administrasi akademik dan non-akademik yang disediakan oleh institusi.</td>
+								<td>Tingkat kepuasan dosen terhadap layanan administrasi.</td>
 							</tr>
 							<tr>
 								<td>5.</td>
-								<td>Evaluasi kinerja proses bisnis institusi, mencakup pencapaian terhadap sasaran mutu dan realisasi program kerja yang telah direncanakan.</td>
+								<td>Kinerja proses bisnis, meliputi capaian sasaran mutu dan capaian program kerja.</td>
 							</tr>
 							<tr>
 								<td style="vertical-align: text-top;">6.</td>
-								<td>Identifikasi dan analisis terhadap tindakan pencegahan serta koreksi atas hambatan yang dihadapi program studi, termasuk tindak lanjut yang dirancang untuk mencegah terulangnya hambatan serupa.</td>
+								<td>Tindakan pencegahan dan tindakan koreksi (hambatan program studi dan tindak lanjut untuk mencegah hambatan tersebut agar tidak terjadi lagi).</td>
 							</tr>
 							<tr>
 								<td style="vertical-align: text-top;">7.</td>
-								<td>Penelaahan terhadap tindak lanjut hasil tinjauan manajemen sebelumnya, khususnya pada poin-poin yang memerlukan perhatian dan penyelesaian lanjutan.</td>
+								<td>Tindak lanjut tinjauan manajemen sebelumnya (catatan yang perlu mendapat perhatian pada tinjauan manajemen sebelumnya).</td>
 							</tr>
 							<tr>
 								<td>8.</td>
-								<td>Identifikasi perubahan yang berdampak terhadap Sistem Manajemen Mutu, baik yang berasal dari dinamika internal institusi maupun faktor eksternal.</td>
+								<td>Perubahan yang mempengaruhi Sistem Manajemen Mutu (baik internal maupun dari eksternal).</td>
 							</tr>
 						</table>
 					</td>
@@ -354,16 +351,11 @@
 			<tbody>
 				<tr>
 					<td class="tbpeserta" style="text-align: justify">
-						<p>Hasil Audit Mutu Internal (AMI) diperoleh dari ringkasan pelaksanaan AMI pada tingkat program studi dan lembaga, 
-							yang disusun dengan mengacu pada ketentuan dalam Peraturan BAN-PT Nomor 5 Tahun 2019 tentang Instrumen Akreditasi 
-							Program Studi (IAPS) dan Peraturan BAN-PT Nomor 3 Tahun 2019 tentang Instrumen Akreditasi Perguruan Tinggi (IAPT). 
-							Ringkasan hasil AMI beserta rekomendasi tindakan perbaikannya disajikan dalam Tabel 2 dan Tabel 3.
-						</p><br>
-						<p>Temuan dari AMI menunjukkan adanya sejumlah ketidaksesuaian terhadap standar mutu yang telah ditetapkan. Oleh karena itu, 
-							diperlukan tindak lanjut perbaikan yang akan diintegrasikan ke dalam siklus PPEPP berikutnya. Beberapa aspek yang menjadi 
-							perhatian mencakup ketidaksesuaian dalam pelaksanaan standar akademik dan non-akademik, kurangnya dokumentasi pendukung, 
-							serta perlunya penguatan mekanisme evaluasi dan tindak lanjut terhadap hasil audit sebelumnya.
-						</p>
+						<p>Hasil AMI bersumber pada ringkasan AMI program studi dan lembaga serta mengacu pada 
+								pemenuhan PerBAN PT No. 5 Tahun 2019 Tentang IAPS dan PerBAN PT No. 3 Tahun 2019 
+								Tentang IAPT. Hasil ringkasan AMI dan tindakan perbaikan disajikan pada Tabel 2 dan 
+								3. Hasil AMI menunjukkan beberapa kondisi ketidaksesuaian dan diperlukan tindak 
+								lanjut perbaikan pada siklus PPEPP selanjutnya, antara lain: </p>
 					</td>
 				</tr>
 			</tbody>
@@ -381,52 +373,44 @@
 		<canvas id="Standar1A"></canvas>
 		<table class="tbsurvey" style="width:100%">
 			<thead>
-				<tr>
-					<th style="width:5%" class="tbpeserta">No.</th>
-					<th style="width:55%" class="tbpeserta">Standar Dikti</th>
-					<th style="width:20%" class="tbpeserta">Nilai Capaian</th>
-					<th style="width:20%" class="tbpeserta">Predikat</th>
-				</tr>
+					<tr>
+						<th style="width:5%" class="tbpeserta">No.</th>
+						<th style="width:60%" class="tbpeserta">Standar Dikti</th>
+						<th style="width:20%" class="tbpeserta">Nilai Capaian</th>
+						<th style="width:15%" class="tbpeserta">Predikat</th>
+					</tr>
 			</thead>
 			<tbody>
-				@php
-					$total_nilai = 0;
-					$total_count = 0;
-				@endphp
-
-				@forelse(($standards ?? []) as $index => $standard)
+				@foreach($nama_data_standar as $index => $standar_nama)
 					@php
-						$indicators = $standard->elements
-								->flatMap(fn($element) => $element->indicators);
-
-						$total_count = $indicators->count();
-
-						$dokumenNilais = $indicators
-							->flatMap(fn($indicator) =>
-									$indicator->dokumen_nilais
-											? $indicator->dokumen_nilais
-													->where('periode', $periode)
-													->where('prodi', $prodi)
-											: collect()
-							);
-
-						$total_nilai = $dokumenNilais->sum('hasil_nilai');
-
-						$predikat_akhir = $total_nilai >= $total_count ? 'Memenuhi' : 'Tidak Memenuhi';
+						$key = 'data_standar_k' . ($index + 1);
+						$data = $data_standar[$key] ?? [];
+						$total_nilai = 0;
+						$total_count = count($data);
 					@endphp
-
 					<tr>
 						<td>{{ $index + 1 }}</td>
-						<td>{{ $standard->nama }}</td>
-						<td>{{ $total_nilai }}/{{ $total_count }}</td>
+						<td>{{ $standar_nama }}</td>
+						@php
+							foreach ($data as $standar) {
+								$nilai = optional($standar->$standarNilaisRelation)->hasil_nilai ?? 0;
+								$total_nilai += $nilai;
+							}
+							
+							$average_nilai = $total_count > 0 ? round($total_nilai / $total_count, 2) : 0;
+							
+							$predikat_akhir = match (true) {
+								$average_nilai >= 3.5 => 'A (Unggul)',
+								$average_nilai >= 2.5 => 'B (Baik)',
+								$average_nilai >= 1.5 => 'C (Cukup)',
+								$average_nilai >= 1.0 => 'D (Kurang)',
+								default => 'D (Kurang)'
+							};
+						@endphp
+						<td>{{ $average_nilai }}/4</td>
 						<td>{{ $predikat_akhir }}</td>
 					</tr>
-
-				@empty
-					<tr>
-						<td colspan="4">Belum ada data standar yang tersedia.</td>
-					</tr>
-				@endforelse
+				@endforeach
 			</tbody>
 		</table>
 	</section>
@@ -440,51 +424,47 @@
 			<line x1="0" y1="0" x2="1500" y2="0" style="stroke:rgb(255,200,0);stroke-width:10;" />
     </svg>
     <canvas id="Standar1A"></canvas>
-			<table class="tbsurvey" style="width:100%">
-				<thead>
-					<tr>
-						<th style="width:7%" class="tbpeserta">Kode</th>
-						<th style="width:10%" class="tbpeserta">Kategori</th>
-						<th style="width:20%" class="tbpeserta">Standar Dikti</th>
-						<th style="width:43%" class="tbpeserta">Uraian Kondisi/Temuan</th>
-						<th style="width:20%" class="tbpeserta">Nilai Capaian</th>
-					</tr>
-				</thead>
-				<tbody>
-					@php $total_nilai = 0; @endphp
-					@foreach(($standards ?? []) as $index => $standard)
-						@foreach($standard->elements as $eIndex => $element)
-							@foreach($element->indicators as $iIndex => $indikator)
-								@php
-									$nilaiItem = $indikator->dokumen_nilais
-										->filter(fn($item) => $item->periode == $periode && $item->prodi == $prodi)
-										->first();
-									$nilai = optional($nilaiItem)->hasil_nilai ?? null;
-									$temuan = optional($nilaiItem)->jenis_temuan ?? null;
-									$deskripsi = optional($nilaiItem)->hasil_deskripsi ?? null;
-									$status = $nilai === 1 ? 'Memenuhi' : 'Tidak Memenuhi';
-									$kode = ($index + 1) . '.' . ($eIndex + 1) . '.' . ($iIndex + 1);
-								@endphp
-
-								@if ($temuan !== 'Sesuai')
-									<tr>
-										<td>{{ $kode }}</td>
-										<td>{{ $temuan ?? '-' }}</td>
-										<td>{{ $standard->nama ?? '-' }}</td>
-										<td>{{ $deskripsi ?? '-' }}</td>
-										<td>{{ $status }}</td>
-									</tr>
-								@endif
-							@endforeach
-						@endforeach
+    <table class="tbsurvey" style="width:100%">
+			<thead>
+				<tr>
+					<th style="width:7%" class="tbpeserta">Kode</th>
+					<th style="width:10%" class="tbpeserta">Kategori</th>
+					<th style="width:20%" class="tbpeserta">Standar Dikti</th>
+					<th style="width:48%" class="tbpeserta">Uraian Kondisi/Temuan</th>
+					<th style="width:15%" class="tbpeserta">Nilai Capaian</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach($nama_data_standar as $index => $standar_nama)
+					@php
+						$key = 'data_standar_k' . ($index + 1);
+						$data = $data_standar[$key] ?? [];
+						$total_nilai = 0;
+						$total_count = count($data);
+					@endphp
+					@foreach ($data as $standar)
+						@php
+							$nilai = optional($standar->$standarNilaisRelation)->hasil_nilai ?? null;
+							$total_nilai += $nilai ?? 0;  
+						@endphp
+						@if (optional($standar->$standarNilaisRelation)->jenis_temuan != 'Sesuai')
+							<tr>
+								<td>{{ $standar->indikator_id }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->jenis_temuan ?? null }}</td>
+								<td>{{ $standar->elemen_nama }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->hasil_deskripsi ?? null }}</td>
+								<td>{{ $nilai !== null ? $nilai . '/4' : '0/4' }}</td>
+							</tr>
+						@endif
 					@endforeach
-				</tbody>
-			</table>
+				@endforeach
+			</tbody>
+    </table>
 	</section>
 	<section name="TABEL 3." class="subbab">
     <table class="tbsubbody" width="100%">
 			<tr>
-				<td class="tdjudul, upper"><h3>Tabel 3. Tindakan Perbaikan dari Hasil AMI Tahun {{ $periode }}</h3></td>
+				<td class="tdjudul, upper"><h3>Tabel 2. Tindakan Perbaikan dari Hasil AMI Tahun {{ $periode }}</h3></td>
 			</tr>
     </table>
     <svg height="10" width="1500">
@@ -504,40 +484,32 @@
 				</tr>
 			</thead>
 			<tbody>
-				@php $total_nilai = 0; @endphp
-					@foreach(($standards ?? []) as $index => $standard)
-						@foreach($standard->elements as $eIndex => $element)
-							@foreach($element->indicators as $iIndex => $indikator)
-								@php
-									$nilaiItem = $indikator->dokumen_nilais
-										->filter(fn($item) => $item->periode == $periode && $item->prodi == $prodi)
-										->first();
+				@foreach($nama_data_standar as $index => $standar_nama)
+					@php
+						$key = 'data_standar_k' . ($index + 1);
+						$data = $data_standar[$key] ?? [];
+						$total_nilai = 0;
+						$total_count = count($data);
+					@endphp
 
-									$nilai = optional($nilaiItem)->hasil_nilai ?? null;
-									$temuan = optional($nilaiItem)->jenis_temuan ?? null;
-									$deskripsi = optional($nilaiItem)->hasil_deskripsi ?? null;
-									$rencana_perbaikan = optional($nilaiItem)->hasil_rencana_perbaikan ?? null;
-									$jadwal_perbaikan = optional($nilaiItem)->hasil_jadwal_perbaikan ?? null;
-									$jadwal_perbaikan = optional($nilaiItem)->hasil_perbaikan_penanggung ?? null;
-									$status_akhir = optional($nilaiItem)->status_akhir ?? null;
-									$status = $nilai == 1 ? 'Memenuhi' : 'Tidak Memenuhi';
-									$kode = ($index + 1) . '.' . ($eIndex + 1) . '.' . ($iIndex + 1);
-								@endphp
-
-								@if ($temuan !== 'Sesuai')
-									<tr>
-										<td>{{ $kode }}</td>
-										<td>{{ $temuan ?? '-' }}</td>
-										<td>{{ $deskripsi ?? '-' }}</td>
-										<td>{{ $rencana_perbaikan ?? '-' }}</td>
-										<td>{{ $jadwal_perbaikan ?? '-' }}</td>
-										<td>{{ $perbaikan_penanggung ?? '-' }}</td>
-										<td>{{ $status_akhir ?? '-' }}</td>
-									</tr>
-								@endif
-							@endforeach
-						@endforeach
+					@foreach ($data as $standar)
+						@php
+							$nilai = optional($standar->$standarNilaisRelation)->hasil_nilai ?? null;
+							$total_nilai += $nilai ?? 0;  
+						@endphp
+						@if (optional($standar->$standarNilaisRelation)->jenis_temuan != 'Sesuai')
+							<tr>
+								<td>{{ $standar->indikator_id }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->jenis_temuan }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->hasil_deskripsi }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->hasil_rencana_perbaikan }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->hasil_jadwal_perbaikan }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->hasil_perbaikan_penanggung }}</td>
+								<td>{{ optional($standar->$standarNilaisRelation)->status_akhir }}</td>
+							</tr>
+						@endif
 					@endforeach
+				@endforeach
 			</tbody>
     </table>
 	</section>
@@ -578,33 +550,37 @@
 					<th style="width:5%" class="tbpeserta">No.</th>
 					<th style="width:60%" class="tbpeserta">Elemen</th>
 					<th style="width:20%" class="tbpeserta">Nilai Capaian</th>
+					<th style="width:15%" class="tbpeserta">Predikat</th>
 				</tr>
 			</thead>
 			<tbody>
-				@php $total_nilai = 0; @endphp
-					@foreach(($standards ?? []) as $index => $standard)
-						@foreach($standard->elements as $eIndex => $element)
-							@foreach($element->indicators as $iIndex => $indikator)
-								@php
-									$nilaiItem = $indikator->dokumen_nilais
-										->filter(fn($item) => $item->periode == $periode && $item->prodi == $prodi)
-										->first();
+				@foreach($nama_data_standar as $index => $standar_nama)
+					@php
+						$key = 'data_standar_k' . ($index + 1);
+						$data = $data_standar[$key] ?? [];
+						$total_nilai = 0;
+						$total_count = count($data);
+					@endphp
 
-									$nilai = optional($nilaiItem)->hasil_nilai ?? null;
-									$temuan = optional($nilaiItem)->jenis_temuan ?? null;
-									$deskripsi = optional($nilaiItem)->hasil_deskripsi ?? null;
-									$status = $nilai == 1 ? 'Memenuhi' : 'Tidak Memenuhi';
-									$kode = ($index + 1) . '.' . ($eIndex + 1) . '.' . ($iIndex + 1);
-								@endphp
-
-								<tr>
-									<td>{{ $kode }}</td>
-									<td>{{ $element->nama ?? '-' }}</td>
-									<td>{{ $status }}</td>
-								</tr>
-							@endforeach
-						@endforeach
+					@foreach ($data as $standar)
+						@php
+							$nilai = optional($standar->$standarNilaisRelation)->hasil_nilai ?? null;
+							$pedikat = match (true) {
+								$nilai >= 3.5 => 'A (Unggul)',
+								$nilai >= 2.5 => 'B (Baik)',
+								$nilai >= 1.5 => 'C (Cukup)',
+								$nilai >= 1.0 => 'D (Kurang)',
+								default => 'D (Kurang)'
+							};
+						@endphp
+						<tr>
+							<td>{{ $standar->indikator_id }}</td>
+							<td>{{ $standar->elemen_nama }}</td>
+							<td>{{ $nilai !== null ? $nilai . '/4' : '0/4' }}</td>
+							<td>{{ $pedikat }}</td>
+						</tr>
 					@endforeach
+				@endforeach
 			</tbody>
     </table>
 	</section>
@@ -640,54 +616,45 @@
     <canvas id="Standar1A"></canvas>
     <table class="tbsurvey" style="width:100%">
 			<thead>
-        <tr>
-					<th style="width:7%" class="tbpeserta">No.</th>
-					<th style="width:27%" class="tbpeserta">Rekomendasi Tinjauan Manajemen Sebelumnya ({{ $periodeSebelumnya }})</th>
+				<tr>
+					<th style="width:5%" class="tbpeserta">No.</th>
+					<th style="width:27%" class="tbpeserta">Rekomendasi Tinjauan Manajemen Sebelumnya ({{ $previousPeriode }})</th>
 					<th style="width:21%" class="tbpeserta">Tindak Lanjut yang SUDAH dilakukan ({{ $periode }})</th>
 					<th style="width:20%" class="tbpeserta">Kendala yang dihadapi</th>
-					<th style="width:25%" class="tbpeserta">Rencana selanjutnya ({{ $periodeSelanjutnya }})</th>
-        </tr>
+					<th style="width:27%" class="tbpeserta">Rencana selanjutnya ({{ $nextPeriode }})</th>
+				</tr>
 			</thead>
 			<tbody>
-        @foreach(($standards ?? []) as $index => $standard)
-					@foreach($standard->elements as $eIndex => $element)
-						@foreach($element->indicators as $iIndex => $indikator)
+				@foreach($nama_data_standar as $index => $standar_nama)
+				@php
+						$key = 'data_standar_k' . ($index + 1);
+						$data = $data_standar[$key] ?? [];
+						$previous_key = 'data_standar_k' . ($index + 1);
+						$previous_data = $previous_data_standar[$previous_key] ?? [];
+						$total_nilai = 0;
+						$total_count = count($data);
+				@endphp
+
+					@foreach ($data as $standar)
+						<tr>
+							<td>{{ $standar->indikator_id }}</td>
 							@php
-								$kode = ($index + 1) . '.' . ($eIndex + 1) . '.' . ($iIndex + 1);
-								$nilaiItem = $indikator->dokumen_nilais
-									->filter(fn($item) => $item->periode == $periode && $item->prodi == $prodi)
-									->first();
-
-								$nilaiItemSebelumnya = $indikator->dokumen_nilais
-									->filter(fn($item) => $item->periode == $periodeSebelumnya && $item->prodi == $prodi)
-									->first();
-								$nilai = optional($nilaiItem)->hasil_nilai;
-								$temuan = optional($nilaiItem)->jenis_temuan;
-								$deskripsi = optional($nilaiItem)->hasil_deskripsi;
-								$status = $nilai === 1 ? 'Memenuhi' : 'Tidak Memenuhi';
-
-								// Placeholder untuk data lintas periode
-								$rekomendasiSebelumnya = optional($nilaiItemSebelumnya)->hasil_rekomendasi ?? '-';
-								$tindakLanjut = optional($nilaiItem)->hasil_rencana_perbaikan ?? '-';
-								$kendala = optional($nilaiItem)->hasil_masalah ?? '-';
-								$rencanaSelanjutnya = optional($nilaiItem)->hasil_rencana_pencegahan ?? '-';
-
+								// Find the corresponding previous data
+								$previous_standar = $previous_data->firstWhere('indikator_id', $standar->indikator_id);
 							@endphp
-
-							@if ($temuan !== 'Sesuai')
-								<tr>
-									<td>{{ $kode }}</td>
-									<td>{{ $rekomendasiSebelumnya }}</td>
-									<td>{{ $tindakLanjut }}</td>
-									<td>{{ $kendala }}</td>
-									<td>{{ $rencanaSelanjutnya }}</td>
-								</tr>
+							@if ($previous_standar)
+								<td>{{ optional($previous_standar->$standarNilaisRelation)->hasil_rekomendasi }}</td>
+							@else
+								<td>-</td>
 							@endif
-						@endforeach
+							<td>{{ optional($standar->$standarNilaisRelation)->hasil_rencana_perbaikan }}</td>
+							<td>{{ optional($standar->$standarNilaisRelation)->hasil_masalah }}</td>
+							<td>{{ optional($standar->$standarNilaisRelation)->hasil_rencana_pencegahan }}</td>
+						</tr>
 					@endforeach
-        @endforeach
+				@endforeach
 			</tbody>
-		</table>
+    </table>
 	</section>
 	<section name="REKOMENDASI TINDAK LANJUT RTM">
 		<table class="tbsubbody" width="100%">
@@ -703,27 +670,17 @@
 				<tr>
 					<td>Rekomendasi tindak lanjut RTM yang harus segera dilaksanakan adalah:</td>
 				</tr>
-				@foreach(($standards ?? []) as $index => $standard)
-					@foreach($standard->elements as $eIndex => $element)
-						@foreach($element->indicators as $iIndex => $indikator)
-							@php
-								$kode = ($index + 1) . '.' . ($eIndex + 1) . '.' . ($iIndex + 1);
-								$nilaiItem = $indikator->dokumen_nilais
-									->filter(fn($item) => $item->periode == $periode && $item->prodi == $prodi)
-									->first();
-
-								$nilai = optional($nilaiItem)->hasil_nilai;
-								$rencanaSelanjutnya = optional($nilaiItem)->hasil_rencana_pencegahan ?? '-';
-							@endphp
-
-							@if ($temuan !== 'Sesuai')
-								<tr>
-									<td style="border: 1px solid #f2f2f2;">{{ $kode }} - {{ $rencanaSelanjutnya }}</td>
-								</tr>
-							@endif
-						@endforeach
+				@foreach($nama_data_standar as $index => $standar_nama)
+					@php
+						$key = 'data_standar_k' . ($index + 1);
+						$data = $data_standar[$key] ?? [];
+					@endphp
+					@foreach ($data as $standar)
+						<tr>
+							<td style="border: 1px solid #f2f2f2;">{{ $standar->indikator_id }} - {{ optional($standar->$standarNilaisRelation)->hasil_rencana_perbaikan ?? null; }}</td>
+						</tr>
 					@endforeach
-        @endforeach
+				@endforeach
 			</tbody>
 		</table>	
 	</section>

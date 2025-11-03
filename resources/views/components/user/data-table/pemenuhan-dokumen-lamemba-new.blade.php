@@ -17,7 +17,8 @@
 						<tbody>
 							@php $nomor = 1; @endphp
 							@foreach ($standards as $indikator)
-								<tr>
+								@php $hasDokumen = $indikator->dokumenCapaian->isEmpty(); @endphp
+								<tr @if($hasDokumen) style="background-color: rgba(140, 18, 61, .85); color: white;" @endif>
 									<td class="text-center" style="padding: 5px 0;">{{ $nomor++ }}</td>
 									<td style="padding: 5px 0;">{!! nl2br(e($indikator->nama)) !!}</td>
 									<td class="text-center" style="padding: 5px 0;">
@@ -52,7 +53,7 @@
 
 																<div class="col-md-6">
 																	<label for="periode" class="form-label">Periode</label>
-																	<input type="text" id="periode" name="periode" class="form-control" placeholder="Contoh: 2024/2025" required>
+																	<input type="text" id="periode" name="periode" class="form-control" placeholder="Contoh: 2024/2025" value="2024/2025" required>
 																</div>
 
 																<div class="col-md-6">
@@ -84,7 +85,7 @@
 														<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
 													</div>
 
-													<div class="modal-body text-start">
+													<div class="modal-body text-start" style="color: black;">
 														<p class="mb-2"><strong>Nama:</strong> {{ $indikator->nama ?? '—' }}</p>
 														<p class="mb-0"><strong>Deskripsi:</strong></p>
 														<p>{!! nl2br(e($indikator->deskripsi ?? '—')) !!}</p>
@@ -165,7 +166,6 @@
 											</div>
 										@endforeach
 									</td>
-										
 								</tr>
 								
 							@endforeach

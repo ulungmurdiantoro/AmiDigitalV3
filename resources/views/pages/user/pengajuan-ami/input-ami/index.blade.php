@@ -172,7 +172,6 @@
                     </template>
                   @endforeach
                 </div>
-
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 </div>
@@ -193,9 +192,12 @@
               class="datatable"
             />
           @else
-            <x-user.data-table.pemenuhan-dokumen
+            <x-user.data-table.input-ami
               id="dataTableExample{{ $index + 1 }}"
               :standards="($standard->elements ?? collect())"
+              :prodis="($prodi)"
+              :periodes="($periode)"
+              :transaksis="($transaksi_ami)"
               :showImportData="$index === 0"
               importTitle="{{ ($akreNama ?? '-') . ' ' . $jenjangNama }}"
               class="datatable"

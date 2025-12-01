@@ -68,7 +68,13 @@ class KonfirmasiPengajuanController extends Controller
         });
 
         $standardsQuery = Standard::query()
-            ->with(['elements.indicators', 'buktiStandar'])
+            ->with([
+                'elements.indicators.dokumen_nilais' => function ($q) use ($periode, $prodi) {
+                    $q->where('periode', $periode)
+                    ->where('prodi', $prodi);
+                },
+                'buktiStandar'
+            ])
             ->where('standar_akreditasi_id', $akreditasi->id)
             ->where('jenjang_id', $jenjang->id);
 

@@ -70,12 +70,16 @@ class PengajuanAmiUserController extends Controller
                 $query->where('periode', $periode)
                     ->where('prodi', $jenjang_raw);
             },
-            'elements.indicators', // tetap perlu agar indikator dimuat
+            'elements.indicators.dokumen_targets',
+            'elements.indicators.dokumen_capaians',
+            'elements.indicators',
+            'elements.standard',
             'buktiStandar'
         ])
         ->where('standar_akreditasi_id', $akreditasi->id)
         ->where('jenjang_id', $jenjang->id)
         ->get();
+
 
         // dd($standards);
 

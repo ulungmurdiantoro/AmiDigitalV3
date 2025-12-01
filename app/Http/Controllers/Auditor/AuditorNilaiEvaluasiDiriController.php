@@ -74,7 +74,13 @@ class AuditorNilaiEvaluasiDiriController extends Controller
         });
 
         $standardsQuery = Standard::query()
-            ->with(['elements.indicators.dokumen_nilais', 'buktiStandar'])
+            ->with([
+                'elements.indicators.dokumen_nilais' => function ($q) use ($periode, $prodi) {
+                    $q->where('periode', $periode)
+                    ->where('prodi', $prodi);
+                },
+                'buktiStandar'
+            ])
             ->where('standar_akreditasi_id', $akreditasi->id)
             ->where('jenjang_id', $jenjang->id);
 
@@ -301,21 +307,25 @@ class AuditorNilaiEvaluasiDiriController extends Controller
 
     public function calculateTotalLamemeba($periode, $prodi, $accreditationKey)
     {
-        // dd($periode, $prodi, $accreditationKey);
-        // Ambil jenjang dan akreditasi dari string akreditasiKey
         $parts = explode(' ', $accreditationKey, 2);
         $akreditasi_kode = trim($parts[0] ?? 'LAMEMBA');
         $jenjang_nama    = trim($parts[1] ?? 'S1');
 
-        // Validasi fallback
         $akreditasi = StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
         $jenjang    = Jenjang::where('nama', $jenjang_nama)->firstOrFail();
 
-        // Ambil semua standar dan indikator terkait
-        $standards = Standard::with(['elements.indicators'])
+        $standardsQuery = Standard::query()
+            ->with([
+                'elements.indicators.dokumen_nilais' => function ($q) use ($periode, $prodi) {
+                    $q->where('periode', $periode)
+                    ->where('prodi', $prodi);
+                },
+                'buktiStandar'
+            ])
             ->where('standar_akreditasi_id', $akreditasi->id)
-            ->where('jenjang_id', $jenjang->id)
-            ->get();
+            ->where('jenjang_id', $jenjang->id);
+
+        $standards = $standardsQuery->get();
 
         $indikatorIds = collect();
         foreach ($standards as $standard) {
@@ -328,7 +338,6 @@ class AuditorNilaiEvaluasiDiriController extends Controller
 
         $indikatorIds = $indikatorIds->unique()->values();
 
-        // Ambil nilai dari indikator tersebut
         $nilaiCollection = StandarNilai::where('periode', $periode)
             ->where('prodi', $prodi)
             ->whereIn('indikator_id', $indikatorIds)
@@ -384,10 +393,18 @@ class AuditorNilaiEvaluasiDiriController extends Controller
             return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
         });
 
-        $standards = Standard::with(['elements.indicators.dokumen_nilais', 'buktiStandar'])
+        $standardsQuery = Standard::query()
+            ->with([
+                'elements.indicators.dokumen_nilais' => function ($q) use ($periode, $prodi) {
+                    $q->where('periode', $periode)
+                    ->where('prodi', $prodi);
+                },
+                'buktiStandar'
+            ])
             ->where('standar_akreditasi_id', $akreditasi->id)
-            ->where('jenjang_id', $jenjang->id)
-            ->get();
+            ->where('jenjang_id', $jenjang->id);
+
+        $standards = $standardsQuery->get();
 
         $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
             ->when($request->q, function ($query) use ($request) {
@@ -498,10 +515,18 @@ class AuditorNilaiEvaluasiDiriController extends Controller
             return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
         });
 
-        $standards = Standard::with(['elements.indicators.dokumen_nilais', 'buktiStandar'])
+        $standardsQuery = Standard::query()
+            ->with([
+                'elements.indicators.dokumen_nilais' => function ($q) use ($periode, $prodi) {
+                    $q->where('periode', $periode)
+                    ->where('prodi', $prodi);
+                },
+                'buktiStandar'
+            ])
             ->where('standar_akreditasi_id', $akreditasi->id)
-            ->where('jenjang_id', $jenjang->id)
-            ->get();
+            ->where('jenjang_id', $jenjang->id);
+
+        $standards = $standardsQuery->get();
 
         $standards_sebelumnya = Standard::with(['elements.indicators.dokumen_nilais', 'buktiStandar'])
             ->where('standar_akreditasi_id', $akreditasi->id)

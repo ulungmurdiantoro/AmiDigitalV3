@@ -42,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
             \App\View\Components\User\DataTable\PemenuhanDokumenLamembaBaru::class => ['id', 'standards', 'bukti', 'editRouteName', 'importTitle'],
             \App\View\Components\User\DataTable\PemenuhanDokumenLamembaNew::class => ['id', 'standards', 'bukti', 'editRouteName', 'importTitle'],
             \App\View\Components\User\DataTable\PemenuhanDokumenLamdik::class => ['id', 'standards', 'standarTargetsRelations', 'standarCapaiansRelations'],
-            \App\View\Components\User\DataTable\InputAmi::class => ['id', 'standards', 'transaksis', 'prodis', 'standarTargetsRelations', 'standarCapaiansRelations', 'standarNilaisRelations', 'periodes'],
+            \App\View\Components\User\DataTable\InputAmi::class => ['id', 'standards', 'prodis', 'periodes', 'transaksis', 'showImportData', 'importTitle'],
             \App\View\Components\User\DataTable\InputAmiLamdik::class => ['id', 'standards', 'transaksis', 'prodis', 'standarTargetsRelations', 'standarCapaiansRelations', 'standarNilaisRelations', 'periodes'],
             \App\View\Components\User\DataTable\InputAmiLamemba::class => ['id', 'standards', 'bukti', 'editRouteName', 'importTitle'],
             \App\View\Components\User\InputAmiDataTable::class => ['id', 'standards', 'periode', 'prodi', 'transaksi_ami'],

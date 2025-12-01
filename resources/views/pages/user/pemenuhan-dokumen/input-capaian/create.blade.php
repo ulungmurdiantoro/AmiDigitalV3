@@ -17,7 +17,7 @@
     <li class="breadcrumb-item active" aria-current="page">Tambah Dokumen</li>
   </ol>
 </nav>
-
+{{-- @dd($indikator) --}}
 <div class="row">
   <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
@@ -29,30 +29,30 @@
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="standar_nama" class="form-label">Kriteria :</label>
-                <input id="standar_nama" class="form-control" name="standar_nama" type="text" value="{{ $standarElemen->standar_nama }}" disabled>
+                <input id="standar_nama" class="form-control" name="standar_nama" type="text" value="{{ $indikator->element->standard->nama }}" disabled>
               </div>
-            </div><!-- Col -->
+            </div>
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="elemen_nama" class="form-label">Elemen :</label>
-                <input id="elemen_nama" class="form-control" name="elemen_nama" type="text" value="{{ $standarElemen->elemen_nama }}" disabled>
+                <input id="elemen_nama" class="form-control" name="elemen_nama" type="text" value="{{ $indikator->element->nama }}" disabled>
               </div>
-            </div><!-- Col -->
+            </div>
           </div>
           <div class="row">
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="indikator_nama" class="form-label">Indikator :</label>
-                <textarea id="indikator_nama" class="form-control" name="indikator_nama" disabled>{{ $standarElemen->indikator_nama }}</textarea>
+                <textarea id="indikator_nama" class="form-control" name="indikator_nama" disabled>{{ $indikator->nama_indikator }}</textarea>
               </div>
-            </div><!-- Col -->
+            </div>
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="indikator_id" class="form-label">Jenjang :</label>
                 <input id="indikator_id" class="form-control" name="indikator_id" type="text" value="{{ $indikator_id }}" disabled>
                 <input type="hidden" name="indikator_id" value="{{ $indikator_id }}">
               </div>
-            </div><!-- Col -->
+            </div>
           </div>
           <div class="row">
             <div class="col-sm-6">
@@ -70,7 +70,7 @@
                   <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>
-            </div><!-- Col -->
+            </div>
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="pertanyaan_nama" class="form-label">Pertanyaan :</label>
@@ -79,7 +79,7 @@
                   <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>
-            </div><!-- Col -->
+            </div>
           </div>
           <div class="row">
             <div class="col-sm-6">
@@ -90,7 +90,7 @@
                   <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>
-            </div><!-- Col -->
+            </div>
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="dokumen_keterangan" class="form-label">Keterangan / Informasi Lain :</label>
@@ -99,7 +99,7 @@
                   <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>
-            </div><!-- Col -->
+            </div>
           </div>
           <div class="row">
             <div class="col-sm-6">
@@ -110,7 +110,7 @@
                   <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>
-            </div><!-- Col -->
+            </div>
           </div>
           <div class="row">
             <div class="col-sm-6">
@@ -121,7 +121,7 @@
                   <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>
-            </div><!-- Col -->
+            </div>
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="dokumen_kadaluarsa" class="form-label">Tanggal Kadaluarsa :</label>
@@ -133,7 +133,7 @@
                   <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>
-            </div><!-- Col -->
+            </div>
           </div>
           <div class="row">
             <div class="col-sm-6">
@@ -144,7 +144,7 @@
                   <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>
-            </div><!-- Col -->
+            </div>
           </div>
           <input class="btn btn-primary" type="submit" value="Submit">
         </form>
@@ -158,24 +158,24 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $(document).ready(function() {
-    let dataTarget = @json($standarTargets); // Pass PHP data to JavaScript
+    let dataTarget = @json($standarTargets);
 
     $('#dokumen_nama').on('change', function() {
-      console.log('Dropdown changed'); // Ensure this logs
+      console.log('Dropdown changed'); 
 
       let selectedValue = $(this).val();
-      console.log('Selected value:', selectedValue); // Log the selected value
+      console.log('Selected value:', selectedValue); 
 
-      console.log('Data Dokumen:', dataTarget); // Log the data structure for debugging
+      console.log('Data Dokumen:', dataTarget); 
 
       dataTarget.forEach(function(standarTarget) {
         let comparisonValue = standarTarget.dokumen_nama;
-        console.log('Comparing selected value with:', comparisonValue); // Log the comparison value
+        console.log('Comparing selected value with:', comparisonValue); 
         if (selectedValue == comparisonValue) {
-          console.log("Match found, updating fields:", standarTarget.pertanyaan_nama, standarTarget.dokumen_tipe, standarTarget.dokumen_keterangan); // Log matched fields
-          $('#pertanyaan_nama').val(standarTarget.pertanyaan_nama); // Set value of pertanyaan_nama
-          $('#dokumen_tipe').val(standarTarget.dokumen_tipe); // Set value of dokumen_tipe
-          $('#dokumen_keterangan').val(standarTarget.dokumen_keterangan); // Set value of dokumen_keterangan
+          console.log("Match found, updating fields:", standarTarget.pertanyaan_nama, standarTarget.dokumen_tipe, standarTarget.dokumen_keterangan); 
+          $('#pertanyaan_nama').val(standarTarget.pertanyaan_nama); 
+          $('#dokumen_tipe').val(standarTarget.dokumen_tipe); 
+          $('#dokumen_keterangan').val(standarTarget.dokumen_keterangan); 
         }
       });
     });
@@ -187,13 +187,13 @@
     let currentYear = currentDate.getFullYear();
     let periodeValue;
 
-    if (currentDate.getMonth() < 5) { // Months are 0-based, so 5 is June
+    if (currentDate.getMonth() < 5) { 
       periodeValue = (currentYear - 1) + "/" + currentYear;
     } else {
       periodeValue = currentYear + "/" + (currentYear + 1);
     }
 
-    $('#periode').val(periodeValue); // Set the value of the periode input field
+    $('#periode').val(periodeValue); 
   });
 </script>
 

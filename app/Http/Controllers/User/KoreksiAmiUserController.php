@@ -67,14 +67,12 @@ use Illuminate\Support\Str;class KoreksiAmiUserController extends Controller
                 $query->where('periode', $periode)
                     ->where('prodi', $jenjang_raw);
             },
-            'elements.indicators', // tetap perlu agar indikator dimuat
+            'elements.indicators',
             'buktiStandar'
         ])
         ->where('standar_akreditasi_id', $akreditasi->id)
         ->where('jenjang_id', $jenjang->id)
         ->get();
-
-        // dd($standards);
 
         $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
             ->when($request->q, function ($query) use ($request) {

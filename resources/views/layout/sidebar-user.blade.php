@@ -87,7 +87,7 @@
       <li class="nav-item {{ active_class(['user.forcasting.*']) }}">
         <a href="{{ route('user.forcasting.index') }}" class="nav-link">
           <i class="link-icon" data-feather="trending-up"></i>
-          <span class="link-title">Forcasting</span>
+          <span class="link-title">Forecasting</span>
         </a>
       </li>
       <li class="nav-item nav-category">bantuan</li>

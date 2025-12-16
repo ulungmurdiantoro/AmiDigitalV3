@@ -25,7 +25,9 @@
               {{ $indikator->dokumen_targets->count() ?? 0 }}
             </td>
             <td class="text-center" style="padding: 5px 0;">
-              {{ $indikator->dokumen_capaians->count() ?? 0 }}
+                {{ $indikator->dokumen_capaians
+                  ->where('dokumen_kadaluarsa', '>', now())
+                  ->count() ?? 0 }}
             </td>
             <td class="text-center" style="padding: 5px 0;">
               <a href="{{ route('user.pemenuhan-dokumen.input-capaian', $indikator->id) }}" class="btn btn-primary btn-icon" title="Manage Target">

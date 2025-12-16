@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Standard;
 use App\Models\StandarCapaian;
+use App\Models\Indikator;
+use App\Models\StandarTarget;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -15,7 +17,7 @@ use App\Models\Jenjang;
 
 class NewPemenuhanDokumenController extends Controller
 {
-    public function index(Request $request, $periode, $prodi)
+    public function index(Request $request)
     {
         $akreditasi_kode = $this->resolveAkreditasi(session('user_akses'));
         $jenjang_nama    = $this->resolveJenjang(session('user_penempatan'));
@@ -24,20 +26,15 @@ class NewPemenuhanDokumenController extends Controller
         $jenjang    = $this->getJenjang($jenjang_nama);
 
         $standards = Standard::query()
-            ->with([
-                'elements.indicators.dokumen_nilais' => function ($q) use ($periode, $prodi) {
-                    $q->where('periode', $periode)
-                    ->where('prodi', $prodi);
-                },
-                'buktiStandar.dokumenCapaian'
-            ])
-            ->where('standar_akreditasi_id', $akreditasi->id)
-            ->where('jenjang_id', $jenjang->id)
-            ->whereHas('elements.indicators.dokumen_nilais', function ($q) use ($periode, $prodi) {
-                $q->where('periode', $periode)
-                ->where('prodi', $prodi);
-            })
-            ->get();
+        ->with([
+            'elements.indicators.dokumen_nilais',
+            'buktiStandar.dokumenCapaian' => function ($query) {
+                $query->whereDate('dokumen_kadaluarsa', '>', now());
+            },
+        ])
+        ->where('standar_akreditasi_id', $akreditasi->id)
+        ->where('jenjang_id', $jenjang->id)
+        ->get();
 
         if ($standards->isEmpty()) {
             return view('pages.admin.kriteria-dokumen.empty', compact('akreditasi', 'jenjang'));
@@ -45,6 +42,7 @@ class NewPemenuhanDokumenController extends Controller
 
         return view('pages.user.pemenuhan-dokumen.index', compact('akreditasi', 'jenjang', 'standards'));
     }
+
 
     protected function resolveAkreditasi(?string $kode): string
     {
@@ -95,9 +93,9 @@ class NewPemenuhanDokumenController extends Controller
 
     public function pemenuhanDokumen(Request $request, $indikator_id)
     {
-        $indikator = \App\Models\Indikator::with(['element.standard'])->findOrFail($indikator_id);
+        $indikator = Indikator::with(['element.standard'])->findOrFail($indikator_id);
 
-        $standarCapaian = \App\Models\StandarCapaian::where('indikator_id', $indikator_id)
+        $standarCapaian = StandarCapaian::where('indikator_id', $indikator_id)
             ->orderByDesc('created_at')
             ->get();
 
@@ -113,11 +111,11 @@ class NewPemenuhanDokumenController extends Controller
 
     public function pemenuhanDokumenCreate(Request $request, $indikator_id)
     {
-        $indikator = \App\Models\Indikator::with(['element.standard'])->findOrFail($indikator_id);
+        $indikator = Indikator::with(['element.standard'])->findOrFail($indikator_id);
 
         $standarElemen = $indikator->element;
 
-        $standarTargets = \App\Models\StandarTarget::where('indikator_id', $indikator_id)->get();
+        $standarTargets = StandarTarget::where('indikator_id', $indikator_id)->get();
 
         return view('pages.user.pemenuhan-dokumen.input-capaian.create', [
             'indikator_id'    => $indikator_id,
@@ -130,6 +128,12 @@ class NewPemenuhanDokumenController extends Controller
 
     public function pemenuhanDokumenStore(Request $request)
     {
+        Log::info('pemenuhanDokumenStore initiated', [
+            'user_penempatan' => session('user_penempatan'),
+            'user_akses' => session('user_akses'),
+            'indikator_id' => $request->indikator_id ?? null,
+        ]);
+
         $request->validate([
             'indikator_id' => 'required|string',
             'dokumen_nama' => 'required|string',
@@ -142,24 +146,62 @@ class NewPemenuhanDokumenController extends Controller
             'informasi' => 'nullable|string',
         ]);
 
-        $filePath = $this->handleFileUpload($request->file('dokumen_file'));
+        $file = $request->file('dokumen_file');
+        Log::info('Received dokumen_file', [
+            'original_name' => $file->getClientOriginalName(),
+            'mime' => $file->getClientMimeType(),
+            'size' => $file->getSize(),
+        ]);
+
+        $filePath = $this->handleFileUpload($file);
         if (!$filePath) {
+            Log::error('File upload failed in pemenuhanDokumenStore', [
+                'user_penempatan' => session('user_penempatan'),
+                'indikator_id' => $request->indikator_id ?? null,
+                'original_name' => $file->getClientOriginalName(),
+            ]);
             return back()->withErrors(['dokumen_file' => 'File upload failed. Please try again.']);
         }
 
-        StandarCapaian::create([
-            'capaian_kode' => 'cpn-' . Str::uuid() . uniqid(),
-            'indikator_id' => $request->indikator_id,
-            'dokumen_nama' => $request->dokumen_nama,
-            'pertanyaan_nama' => $request->pertanyaan_nama,
-            'dokumen_tipe' => $request->dokumen_tipe,
-            'dokumen_keterangan' => $request->dokumen_keterangan,
-            'dokumen_file' => $filePath,
-            'periode' => $request->periode,
-            'dokumen_kadaluarsa' => $request->dokumen_kadaluarsa,
-            'informasi' => $request->informasi,
-            'prodi' => session('user_penempatan'),
-        ]);
+        try {
+            $standarCapaian = StandarCapaian::create([
+                'capaian_kode' => 'cpn-' . Str::uuid() . uniqid(),
+                'indikator_id' => $request->indikator_id,
+                'dokumen_nama' => $request->dokumen_nama,
+                'pertanyaan_nama' => $request->pertanyaan_nama,
+                'dokumen_tipe' => $request->dokumen_tipe,
+                'dokumen_keterangan' => $request->dokumen_keterangan,
+                'dokumen_file' => $filePath,
+                'periode' => $request->periode,
+                'dokumen_kadaluarsa' => $request->dokumen_kadaluarsa,
+                'informasi' => $request->informasi,
+                'prodi' => session('user_penempatan'),
+            ]);
+
+            Log::info('StandarCapaian created', [
+                'id' => $standarCapaian->id,
+                'capaian_kode' => $standarCapaian->capaian_kode,
+                'dokumen_file' => $standarCapaian->dokumen_file,
+                'indikator_id' => $standarCapaian->indikator_id,
+                'prodi' => $standarCapaian->prodi,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to create StandarCapaian', [
+                'error' => $e->getMessage(),
+                'indikator_id' => $request->indikator_id ?? null,
+                'dokumen_file' => $filePath,
+            ]);
+
+            // cleanup uploaded file on failure
+            try {
+                Storage::disk('public')->delete(str_replace('/storage/', '', $filePath));
+                Log::info('Uploaded file cleaned up after create failure', ['file' => $filePath]);
+            } catch (\Exception $ex) {
+                Log::warning('Failed to cleanup uploaded file after create failure', ['error' => $ex->getMessage(), 'file' => $filePath]);
+            }
+
+            return back()->withErrors(['store' => 'Failed to save record. Please try again.']);
+        }
 
         return redirect()->route('user.pemenuhan-dokumen.input-capaian', ['indikator_id' => $request->indikator_id])
             ->with(['success' => 'Tipe Dokumen created successfully.']);

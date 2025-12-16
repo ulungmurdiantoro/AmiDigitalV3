@@ -12,92 +12,20 @@ use Illuminate\Support\Str;
 
 class DokumenKadaluarsaUserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $DokumenSpmiAmis = StandarCapaian::with('standarCapaiansBanptS1')
-            ->when(request()->q, function($query) {
-                $query->where('nama_dokumen', 'like', '%' . request()->q . '%');
+        $activity = 'Kadaluarsa';
+
+        $DokumenSpmiAmis = StandarCapaian::with('Indikator')
+            ->when(request('q'), function($query, $q) {
+                $query->where('dokumen_nama', 'like', "%{$q}%");
             })
-            ->whereDate('dokumen_kadaluarsa', '<', now()) // Adjust this condition as needed
+            ->whereDate('dokumen_kadaluarsa', '<', now())
+            ->where('prodi', session('user_penempatan')) // filter sesuai session
             ->latest()
-            ->paginate(10);
+            ->paginate(10)
+            ->appends(['q' => request('q')]);
 
-        // Append query string to pagination links
-        $DokumenSpmiAmis->appends(['q' => request()->q]);
-
-        return view('pages.user.dokumen-kadaluarsa.index', [
-            'DokumenSpmiAmis' => $DokumenSpmiAmis,
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return view('pages.user.dokumen-aktif.index', compact('DokumenSpmiAmis', 'activity'));
     }
 }

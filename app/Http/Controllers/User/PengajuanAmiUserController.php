@@ -24,10 +24,7 @@ class PengajuanAmiUserController extends Controller
     {
         $prodi = session('user_penempatan'); 
 
-        $data_kesiapan = StandarCapaian::with('standarCapaiansBanptS1')
-            ->select('periode', 'prodi')
-            ->where('prodi', $prodi)
-            ->groupBy('periode', 'prodi')
+        $data_kesiapan = StandarCapaian::where('prodi', $prodi)
             ->latest()
             ->paginate(10);
 
@@ -71,17 +68,21 @@ class PengajuanAmiUserController extends Controller
                     ->where('prodi', $jenjang_raw);
             },
             'elements.indicators.dokumen_targets',
-            'elements.indicators.dokumen_capaians',
+            'elements.indicators.dokumen_capaians' => function ($query) use ($periode, $jenjang_raw) {
+                $query->where('periode', $periode)
+                    ->where('prodi', $jenjang_raw);
+            },
             'elements.indicators',
             'elements.standard',
+            'buktiStandar.dokumenCapaian' => function ($query) use ($periode, $jenjang_raw) {
+                $query->where('periode', $periode)
+                    ->where('prodi', $jenjang_raw);
+            },
             'buktiStandar'
         ])
         ->where('standar_akreditasi_id', $akreditasi->id)
         ->where('jenjang_id', $jenjang->id)
         ->get();
-
-
-        // dd($standards);
 
         $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
             ->when($request->q, function ($query) use ($request) {

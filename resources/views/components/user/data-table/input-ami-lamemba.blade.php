@@ -41,7 +41,6 @@
                                     <th style="width: 5%; padding: 7px 0;">No</th>
                                     <th style="width: 65%; padding: 7px 0;">Indikator</th>
                                     <th style="width: 10%; padding: 7px 0;">Informasi</th>
-                                    {{-- <th style="width: 10%; padding: 7px 0;">Dokumen</th> --}}
                                     <th style="width: 20%; padding: 7px 0;">Memenuhi SN-Dikti/Standar LAM</th>
                                 </tr>
                             </thead>
@@ -58,7 +57,6 @@
                                                 <i data-feather="info"></i>
                                             </button>
                                         </td>
-                                        {{-- @dd($indikator->dokumen_nilais) --}}
                                         @php $nilaiMandiri = $indikator->dokumen_nilais->first()?->mandiri_nilai; @endphp
 
                                         <td class="text-center" style="padding: 5px 0;">
@@ -68,11 +66,11 @@
                                                 data-ami="{{ $transaksis->ami_kode }}"
                                                 data-prodi="{{ $prodis }}"
                                                 data-periode="{{ $periodes }}"
-                                                {{ $nilaiMandiri == 1 ? 'checked' : '' }}>
+                                                {{ $nilaiMandiri == 1 ? 'checked' : '' }}
+                                                {{ $transaksis->status !== 'Draft' ? 'disabled' : '' }}>
                                         </td>
                                     </tr>
 
-                                    {{-- Modal Info --}}
                                     <div class="modal fade" id="infoModal{{ $indikator->id }}" tabindex="-1" aria-labelledby="infoModalLabel{{ $indikator->id }}" aria-hidden="true">
                                         <div class="modal-dialog modal-lg modal-dialog-centered">
                                             <div class="modal-content">

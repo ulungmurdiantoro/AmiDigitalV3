@@ -59,21 +59,21 @@
                     <a href="{{ url('/admin/program-studi/' . $program_studi->id . '/edit/') }}" class="btn btn-primary btn-icon" rel="noopener noreferrer">
                       <i data-feather="edit"></i>
                     </a>
-                    <a href="#" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal" rel="noopener noreferrer">
+                    <a href="#" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $program_studi->id }}">
                       <i data-feather="delete"></i>
-                    </a> 
+                    </a>
                   </td>
                 </tr>
-                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+                <div class="modal fade" id="deleteModal{{ $program_studi->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $program_studi->id }}" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModal">Delete Program Studi</h5>
+                        <h5 class="modal-title" id="deleteModalLabel{{ $program_studi->id }}">Delete Program Studi</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
                       </div>
-                      <div class="modal-body" style="align-items: center;">
-                        <h6><b>Are you sure?</b></h6>
-                        <p>You won't be able to revert this!</p>
+                      <div class="modal-body text-center">
+                        <h6><b>Apakah Anda yakin?</b></h6>
+                        <p>Data Program Studi <b>{{ $program_studi->prodi_nama }}</b> akan dihapus dan tidak dapat dikembalikan!</p>
                       </div>
                       <div class="modal-footer">
                         <form action="{{ route('admin.program-studi.destroy', $program_studi->id) }}" method="POST">

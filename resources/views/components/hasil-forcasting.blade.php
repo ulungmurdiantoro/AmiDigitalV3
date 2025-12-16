@@ -2,7 +2,7 @@
 	<div class="col-md-12 grid-margin stretch-card">
 		<div class="card" style="border-radius: 5px; overflow: hidden;">
 			<div class="card-header bg-primary text-white">
-				<h6 class="mb-0">Hasil Forcasting</h6>
+				<h6 class="mb-0">Hasil Forecasting</h6>
 			</div>
 			<div class="card-body">
 				<table class="table table-bordered">

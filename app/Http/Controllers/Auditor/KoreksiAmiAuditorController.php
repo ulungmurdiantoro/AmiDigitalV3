@@ -67,18 +67,27 @@ class KoreksiAmiAuditorController extends Controller
             return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
         });
 
-        $standardsQuery = Standard::query()
-            ->with([
-                'elements.indicators.dokumen_nilais' => function ($q) use ($periode, $prodi) {
-                    $q->where('periode', $periode)
+        $standards = Standard::with([
+            'elements.indicators.dokumen_nilais' => function ($query) use ($periode, $prodi) {
+                $query->where('periode', $periode)
                     ->where('prodi', $prodi);
-                },
-                'buktiStandar'
-            ])
-            ->where('standar_akreditasi_id', $akreditasi->id)
-            ->where('jenjang_id', $jenjang->id);
-
-        $standards = $standardsQuery->get();
+            },
+            'elements.indicators.dokumen_targets',
+            'elements.indicators.dokumen_capaians' => function ($query) use ($periode, $prodi) {
+                $query->where('periode', $periode)
+                    ->where('prodi', $prodi);
+            },
+            'elements.indicators',
+            'elements.standard',
+            'buktiStandar.dokumenCapaian' => function ($query) use ($periode, $prodi) {
+                $query->where('periode', $periode)
+                    ->where('prodi', $prodi);
+            },
+            'buktiStandar'
+        ])
+        ->where('standar_akreditasi_id', $akreditasi->id)
+        ->where('jenjang_id', $jenjang->id)
+        ->get();
 
         $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
             ->when($request->q, function ($query) use ($request) {

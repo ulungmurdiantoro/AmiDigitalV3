@@ -24,9 +24,9 @@ class StandarCapaian extends Model
         'prodi',
     ];
 
-    public function standarCapaiansBanptS1()
+    public function Indikator()
     {
-        return $this->belongsTo(StandarElemenBanptS1::class, 'indikator_id', 'indikator_id');
+        return $this->belongsTo(Indikator::class, 'indikator_id', 'id');
     }
 
     public function standarTarget()

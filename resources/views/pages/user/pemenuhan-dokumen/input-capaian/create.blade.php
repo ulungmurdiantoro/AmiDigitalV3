@@ -43,16 +43,16 @@
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="indikator_nama" class="form-label">Indikator :</label>
-                <textarea id="indikator_nama" class="form-control" name="indikator_nama" disabled>{{ $indikator->nama_indikator }}</textarea>
+                <textarea id="indikator_nama" class="form-control" name="indikator_nama" rows="8" disabled>{{ $indikator->nama_indikator }}</textarea>
               </div>
             </div>
-            <div class="col-sm-6">
+            {{-- <div class="col-sm-6">
               <div class="mb-3">
                 <label for="indikator_id" class="form-label">Jenjang :</label>
-                <input id="indikator_id" class="form-control" name="indikator_id" type="text" value="{{ $indikator_id }}" disabled>
+                <input id="indikator_id" class="form-control" name="indikator_id" type="text" value="{{ $indikator_id }}" disabled> --}}
                 <input type="hidden" name="indikator_id" value="{{ $indikator_id }}">
-              </div>
-            </div>
+              {{-- </div>
+            </div> --}}
           </div>
           <div class="row">
             <div class="col-sm-6">

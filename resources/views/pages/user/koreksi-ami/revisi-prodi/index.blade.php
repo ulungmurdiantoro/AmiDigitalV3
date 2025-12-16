@@ -38,7 +38,7 @@
                 <div class="modal-body">
                   <input type="hidden" name="ami_kode" class="form-control" value="" hidden>
                   <span>Jika Anda memutuskan untuk mengubah status menjadi "Selesai", maka Siklus AMI sudah selesai dan dapat di lihat hasilnya di menu 
-                    Nilai Evaluasi Diri, Statistik AMI, dan Forcasting. 
+                    Nilai Evaluasi Diri, Statistik AMI, dan Forecasting. 
                     <br><br> Harap pastikan bahwa semua indikator yang terkait sudah diperiksa dan disesuaikan sesuai dengan prosedur yang berlaku.</span>
                   <input type="hidden" name="id" value="{{ $transaksi_ami->id }}">
                   <input type="hidden" name="status" value="Selesai">

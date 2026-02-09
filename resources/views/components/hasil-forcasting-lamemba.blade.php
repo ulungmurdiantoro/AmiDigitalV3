@@ -188,23 +188,21 @@
 
                               $hasil = $nilai?->hasil_nilai;
 
-                              $status = match (true) {
-                                  $hasil === 1 || $hasil === '1' => 'Memenuhi',
-                                  $hasil === 0 || $hasil === '0' => 'Tidak Memenuhi',
-                                  default => 'Belum Dinilai',
-                              };
+                              $status = 'Memenuhi';
+                              $warna  = 'success';
 
-                              $warna = match (true) {
-                                  $hasil === 1 || $hasil === '1' => 'success',
-                                  $hasil === 0 || $hasil === '0' => 'danger',
-                                  default => 'secondary',
-                              };
-                            @endphp
-                            @php
-                              // temporary debug
-                              // dd($periodes, $prodis, $indikator->id, $indikator->dokumen_nilais()->first());
-                            @endphp
+                              // $status = match (true) {
+                              //     $hasil === 1 || $hasil === '1' => 'Memenuhi',
+                              //     $hasil === 0 || $hasil === '0' => 'Tidak Memenuhi',
+                              //     default => 'Belum Dinilai',
+                              // };
 
+                              // $warna = match (true) {
+                              //     $hasil === 1 || $hasil === '1' => 'success',
+                              //     $hasil === 0 || $hasil === '0' => 'danger',
+                              //     default => 'secondary',
+                              // };
+                            @endphp
 
 														<tr>
 															<td class="text-center">{{ $kode }}</td>

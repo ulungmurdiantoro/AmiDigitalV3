@@ -202,7 +202,7 @@
                             @endphp
                             @php
                               // temporary debug
-                              dd($periodes, $prodis, $indikator->id, $indikator->dokumen_nilais()->first());
+                              // dd($periodes, $prodis, $indikator->id, $indikator->dokumen_nilais()->first());
                             @endphp
 
 

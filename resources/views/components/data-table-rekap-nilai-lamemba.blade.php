@@ -58,17 +58,19 @@
 
                 @foreach ($element->indicators as $indikator)
                   @php
-                    $dokumenNilais = $indikator->dokumen_nilais;
-                    $isEmptyTarget = $dokumenNilais->isEmpty();
-                    $nilai = $dokumenNilais->first();
-                    $hasil_nilai = $nilai?->hasil_nilai;
+                    // hasOne => Model|null
+                    $nilai = $indikator->dokumen_nilais;
+
+                    $isEmptyTarget = is_null($nilai);
+                    $jenis_temuan  = $nilai?->jenis_temuan;        // 'Sesuai' | 'OB' | 'KTS' | null
+                    $hasil_nilai   = $nilai?->hasil_nilai;         // 1|0|null
 
                     // Tentukan kelas baris
                     $rowClass = '';
                     if ($isEmptyTarget) {
-                        $rowClass = 'table-warning'; // Belum ada dokumen nilai
-                    } elseif ($hasil_nilai != 1) {
-                        $rowClass = 'table-danger'; // Nilai tidak memenuhi
+                        $rowClass = 'table-warning'; // belum ada dokumen nilai
+                    } elseif ($jenis_temuan !== 'Sesuai') {
+                        $rowClass = 'table-danger';  // temuan selain 'Sesuai'
                     }
                   @endphp
 

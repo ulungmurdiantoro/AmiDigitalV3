@@ -183,10 +183,12 @@
           />
 
           @else
-            <x-auditor.data-table.audit-ami
+            <x-auditor.data-table.revisi-ami
               id="dataTableExample{{ $index + 1 }}"
               :standards="($standard->elements ?? collect())"
-              :transkasis="$transaksi_ami"
+              :prodis="($prodi)"
+              :periodes="($periode)"
+              :transaksis="($transaksi_ami)"
               :showImportData="$index === 0"
               importTitle="{{ ($akreNama ?? '-') . ' ' . $jenjangNama }}"
               class="datatable"

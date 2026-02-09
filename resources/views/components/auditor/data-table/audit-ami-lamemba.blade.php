@@ -58,19 +58,22 @@
 
                 @foreach ($element->indicators as $indikator)
                   @php
-                    $dokumenNilais = $indikator->dokumen_nilais;
-                    $isEmptyTarget = $dokumenNilais->isEmpty();
-                    $nilai = $dokumenNilais->first();
-                    $hasil_nilai = $nilai?->hasil_nilai;
+                    // hasOne => Model|null
+                    $nilai = $indikator->dokumen_nilais;  // bisa null
+                    $isEmptyTarget = is_null($nilai);
+
+                    $hasil_nilai  = $nilai?->hasil_nilai;
+                    $nilaiMandiri = $nilai?->mandiri_nilai;
 
                     // Tentukan kelas baris
                     $rowClass = '';
                     if ($isEmptyTarget) {
-                        $rowClass = 'table-warning'; // Belum ada dokumen nilai
-                    } elseif ($hasil_nilai != 1) {
-                        $rowClass = 'table-danger'; // Nilai tidak memenuhi
+                        $rowClass = 'table-warning'; // belum ada data nilai
+                    } elseif ((int)$hasil_nilai !== 1) {
+                        $rowClass = 'table-danger';  // tidak memenuhi
                     }
                   @endphp
+
 
                   <tr class="{{ $rowClass }}">
                     <td class="text-center" style="padding: 5px 0;">{{ $nomor++ }}</td>
@@ -152,7 +155,7 @@
 
                             <div class="d-flex align-items-center mb-2">
                               <span>Memenuhi SN-Dikti/Standar LAM Menurut Prodi</span>:
-                              @php $nilaiMandiri = $indikator->dokumen_nilais->first()?->mandiri_nilai; @endphp
+                              @php $nilaiMandiri = $indikator->dokumen_nilais?->mandiri_nilai; @endphp
                               <input type="checkbox" class="form-check-input ms-3"
                                 value="1" {{ $nilaiMandiri == 1 ? 'checked' : '' }} disabled style="transform: scale(1.5);">
                               <input type="hidden" name="mandiri_nilais" value="{{ $nilaiMandiri == 1 ? '1' : '0' }}">

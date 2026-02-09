@@ -8,24 +8,21 @@ class DataTableRekapNilai extends Component
 {
     public $id;
     public $standards;
-    public $transkasis;
     public $prodis;
     public $periodes;
-    public $standarTargetsRelations;
-    public $standarCapaiansRelations;
-    public $standarNilaisRelations;
+    public $transaksis;
+    public $showImportData;
+    public $importTitle;
 
-    public function __construct(string $id, $standards, $transkasis, $prodis, $periodes, $standarTargetsRelations, $standarCapaiansRelations, $standarNilaisRelations)
+    public function __construct($id, $standards, $prodis, $periodes, $transaksis, $showImportData, $importTitle)
     {
-        // dd($periodes, $prodis);
         $this->id = $id;
         $this->standards = $standards;
-        $this->transkasis = $transkasis;
         $this->prodis = $prodis;
         $this->periodes = $periodes;
-        $this->standarTargetsRelations = $standarTargetsRelations;
-        $this->standarCapaiansRelations = $standarCapaiansRelations;
-        $this->standarNilaisRelations = $standarNilaisRelations;
+        $this->transaksis = $transaksis;
+        $this->showImportData = $showImportData;
+        $this->importTitle = $importTitle;
     }
     
     public function render()

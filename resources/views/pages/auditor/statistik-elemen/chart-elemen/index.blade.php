@@ -36,15 +36,18 @@
     </div>
   </div>
   @php
-    $chartData = collect($standards)->map(function ($standard) use ($periode) {
+    $chartData = collect($standards)->map(function ($standard) {
+        // kumpulkan semua indikator dari semua elemen
         $indicators = $standard->elements->flatMap(fn($e) => $e->indicators);
-        $dokumenNilais = $indicators->flatMap(fn($i) =>
-            $i->dokumen_nilais ? $i->dokumen_nilais->where('periode', $periode) : collect()
-        );
+
+        // hasOne => ambil hasil_nilai langsung dari model (atau 0 jika null)
+        $totalNilai = $indicators->sum(function ($i) {
+            return (int) ($i->dokumen_nilais?->hasil_nilai ?? 0);
+        });
 
         return [
-            'nama' => $standard->nama,
-            'total_nilai' => $dokumenNilais->sum('hasil_nilai'),
+            'nama'        => $standard->nama,
+            'total_nilai' => $totalNilai,
             'total_count' => $indicators->count(),
         ];
     });

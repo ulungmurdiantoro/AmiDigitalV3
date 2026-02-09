@@ -59,18 +59,19 @@
 
                 @foreach ($element->indicators as $indikator)
                   @php
-                    $dokumenNilais = $indikator->dokumen_nilais;
-                    $isEmptyTarget = $dokumenNilais->isEmpty();
-                    $nilai = $dokumenNilais->first();
-                    $jenis_temuan = $nilai?->jenis_temuan;
-                    $hasil_nilai = $nilai?->hasil_nilai ;
+                    // hasOne => Model|null
+                    $nilai = $indikator->dokumen_nilais;
+
+                    $isEmptyTarget = is_null($nilai);
+                    $jenis_temuan  = $nilai?->jenis_temuan;        // 'Sesuai' | 'OB' | 'KTS' | null
+                    $hasil_nilai   = $nilai?->hasil_nilai;         // 1|0|null
 
                     // Tentukan kelas baris
                     $rowClass = '';
                     if ($isEmptyTarget) {
-                        $rowClass = 'table-warning'; // Belum ada dokumen nilai
-                    } elseif ($jenis_temuan != 'Sesuai') {
-                        $rowClass = 'table-danger'; // Nilai tidak memenuhi
+                        $rowClass = 'table-warning'; // belum ada dokumen nilai
+                    } elseif ($jenis_temuan !== 'Sesuai') {
+                        $rowClass = 'table-danger';  // temuan selain 'Sesuai'
                     }
                   @endphp
 
@@ -85,13 +86,15 @@
                     </td>
 
                     <td class="text-center" style="padding: 5px 0;">
-                      @if ($jenis_temuan == 'Sesuai') 
-                        <span class="bg-success d-inline-flex align-items-center justify-content-center" style="padding: 7.5px 7.5px; color: white; border-radius: 10%;">
-                          {{ $dokumenNilais->first()?->jenis_temuan }}
-                        </span> 
+                      @if ($jenis_temuan === 'Sesuai')
+                        <span class="bg-success d-inline-flex align-items-center justify-content-center"
+                          style="padding: 7.5px; color: white; border-radius: 10%;">
+                          {{ $jenis_temuan }}
+                        </span>
                       @else
-                        <span class="bg-danger d-inline-flex align-items-center justify-content-center" style="padding: 7.5px 7.5px; color: white; border-radius: 10%;">
-                          {{ $dokumenNilais->first()?->jenis_temuan ?? 'KTS/OB' }}
+                        <span class="bg-danger d-inline-flex align-items-center justify-content-center"
+                          style="padding: 7.5px; color: white; border-radius: 10%;">
+                          {{ $jenis_temuan ?? 'KTS/OB' }}
                         </span>
                       @endif
                     </td>
@@ -154,7 +157,7 @@
                             <input type="hidden" name="indikator_bobots" value="{{ $indikator->bobot ?? 0 }}">
                             <input type="hidden" name="prodis" value="{{ $prodis }}">
                             <input type="hidden" name="periodes" value="{{ $periodes }}">
-                            <input type="hidden" name="jenis_temuans" value="{{ optional($nilai)->jenis_temuan ?? 'Tidak ada' }}">
+                            <input type="hidden" name="jenis_temuans" value="{{ optional($nilai)->jenis_temuan ?? '' }}">
 
                             <!-- Nilai Auditor -->
                             <div class="mb-3">

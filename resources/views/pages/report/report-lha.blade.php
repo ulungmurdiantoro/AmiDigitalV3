@@ -325,18 +325,20 @@
 				<tbody>
 					@foreach($standard->elements as $eIndex => $element)
 						@foreach($element->indicators as $iIndex => $indikator)
-							@php $kode = ($index + 1) . '.' . ($iIndex + 1); @endphp
+							@php $kode = ($index + 1) . '.' . ($eIndex + 1) . '.' . ($iIndex + 1); @endphp
 							<tr>
 								<td>{{ $kode }}</td>
 								<td>{{ $element->nama }}</td>
 								<td>{{ $indikator->nama_indikator }}</td>
 								<td>
-									@forelse($indikator->dokumen_nilais->where('periode', $periode)->where('prodi', $prodi) as $nilai)
-										{!! $nilai->hasil_nilai == 1 ? '✔' : '✘' !!}
-										<br>
-									@empty
-											✘
-									@endforelse
+									@php
+										$nilai = $indikator->dokumen_nilais()
+											->where('periode', $periode)
+											->where('prodi', $prodi)
+											->first();
+									@endphp
+
+									{!! ($nilai && $nilai->hasil_nilai == 1) ? '✔' : '✘' !!}
 								</td>
 							</tr>
 						@endforeach
@@ -358,10 +360,10 @@
 					@foreach($standard->elements as $eIndex => $element)
 						@foreach($element->indicators as $iIndex => $indikator)
 							@php
-								$nilai = $indikator->dokumen_nilais
-									->filter(fn($item) => $item->periode == $periode)
+								$nilai = $indikator->dokumen_nilais()
+									->where('periode', $periode)
+									->where('prodi', $prodi)
 									->first();
-								$kode = ($index + 1) . '.' . ($iIndex + 1);
 							@endphp
 
 							@if($nilai)

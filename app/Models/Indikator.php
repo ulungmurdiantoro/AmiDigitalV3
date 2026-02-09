@@ -30,7 +30,7 @@ class Indikator extends Model
 
     public function dokumen_nilais()
     {
-        return $this->hasMany(StandarNilai::class, 'indikator_id');
+        return $this->hasOne(StandarNilai::class, 'indikator_id');
     }
 
     public function element() {

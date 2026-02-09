@@ -401,16 +401,14 @@
 
 						$total_count = $indicators->count();
 
-						$dokumenNilais = $indicators
-							->flatMap(fn($indicator) =>
-									$indicator->dokumen_nilais
-											? $indicator->dokumen_nilais
-													->where('periode', $periode)
-													->where('prodi', $prodi)
-											: collect()
-							);
+						$dokumenNilais = $indicators->map(function($indicator) use ($periode, $prodi) {
+							return $indicator->dokumen_nilais()
+								->where('periode', $periode)
+								->where('prodi', $prodi)
+								->first();
+						})->filter();
 
-						$total_nilai = $dokumenNilais->sum('hasil_nilai');
+						$total_nilai = $dokumenNilais->sum(fn($d) => $d->hasil_nilai ?? 0);
 
 						$predikat_akhir = $total_nilai >= $total_count ? 'Memenuhi' : 'Tidak Memenuhi';
 					@endphp
@@ -456,9 +454,11 @@
 						@foreach($standard->elements as $eIndex => $element)
 							@foreach($element->indicators as $iIndex => $indikator)
 								@php
-									$nilaiItem = $indikator->dokumen_nilais
-										->filter(fn($item) => $item->periode == $periode && $item->prodi == $prodi)
-										->first();
+									$nilaiItem = $indikator->dokumen_nilais()
+									->where('periode', $periode)
+									->where('prodi', $prodi)
+									->first();
+
 									$nilai = optional($nilaiItem)->hasil_nilai ?? null;
 									$temuan = optional($nilaiItem)->jenis_temuan ?? null;
 									$deskripsi = optional($nilaiItem)->hasil_deskripsi ?? null;
@@ -509,8 +509,9 @@
 						@foreach($standard->elements as $eIndex => $element)
 							@foreach($element->indicators as $iIndex => $indikator)
 								@php
-									$nilaiItem = $indikator->dokumen_nilais
-										->filter(fn($item) => $item->periode == $periode && $item->prodi == $prodi)
+									$nilaiItem = $indikator->dokumen_nilais()
+										->where('periode', $periode)
+										->where('prodi', $prodi)
 										->first();
 
 									$nilai = optional($nilaiItem)->hasil_nilai ?? null;
@@ -586,8 +587,9 @@
 						@foreach($standard->elements as $eIndex => $element)
 							@foreach($element->indicators as $iIndex => $indikator)
 								@php
-									$nilaiItem = $indikator->dokumen_nilais
-										->filter(fn($item) => $item->periode == $periode && $item->prodi == $prodi)
+									$nilaiItem = $indikator->dokumen_nilais()
+										->where('periode', $periode)
+										->where('prodi', $prodi)
 										->first();
 
 									$nilai = optional($nilaiItem)->hasil_nilai ?? null;
@@ -654,13 +656,19 @@
 						@foreach($element->indicators as $iIndex => $indikator)
 							@php
 								$kode = ($index + 1) . '.' . ($eIndex + 1) . '.' . ($iIndex + 1);
-								$nilaiItem = $indikator->dokumen_nilais
-									->filter(fn($item) => $item->periode == $periode && $item->prodi == $prodi)
+
+								// PERIODE SAAT INI (hasOne => query relasi)
+								$nilaiItem = $indikator->dokumen_nilais()
+									->where('periode', $periode)
+									->where('prodi', $prodi)
 									->first();
 
-								$nilaiItemSebelumnya = $indikator->dokumen_nilais
-									->filter(fn($item) => $item->periode == $periodeSebelumnya && $item->prodi == $prodi)
+								// PERIODE SEBELUMNYA
+								$nilaiItemSebelumnya = $indikator->dokumen_nilais()
+									->where('periode', $periodeSebelumnya)
+									->where('prodi', $prodi)
 									->first();
+
 								$nilai = optional($nilaiItem)->hasil_nilai;
 								$temuan = optional($nilaiItem)->jenis_temuan;
 								$deskripsi = optional($nilaiItem)->hasil_deskripsi;
@@ -671,7 +679,6 @@
 								$tindakLanjut = optional($nilaiItem)->hasil_rencana_perbaikan ?? '-';
 								$kendala = optional($nilaiItem)->hasil_masalah ?? '-';
 								$rencanaSelanjutnya = optional($nilaiItem)->hasil_rencana_pencegahan ?? '-';
-
 							@endphp
 
 							@if ($temuan !== 'Sesuai')
@@ -708,8 +715,10 @@
 						@foreach($element->indicators as $iIndex => $indikator)
 							@php
 								$kode = ($index + 1) . '.' . ($eIndex + 1) . '.' . ($iIndex + 1);
-								$nilaiItem = $indikator->dokumen_nilais
-									->filter(fn($item) => $item->periode == $periode && $item->prodi == $prodi)
+
+								$nilaiItem = $indikator->dokumen_nilais()
+									->where('periode', $periode)
+									->where('prodi', $prodi)
 									->first();
 
 								$nilai = optional($nilaiItem)->hasil_nilai;

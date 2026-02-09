@@ -47,7 +47,11 @@
                             <tbody>
                                 @php $nomor = 1; @endphp
                                 @foreach ($standard->indicators as $indikator)
-                                    @php $isEmptyTarget = $indikator->dokumen_nilais->isEmpty(); @endphp
+                                    @php
+                                        $dokNilai = $indikator->dokumen_nilais; // Model|null
+                                        $isEmptyTarget = is_null($dokNilai);
+                                        $nilaiMandiri = $dokNilai?->mandiri_nilai; // PHP 8
+                                    @endphp
                                     
                                     <tr>
                                         <td class="text-center" style="padding: 5px 0;">{{ $nomor++ }}</td>
@@ -57,7 +61,6 @@
                                                 <i data-feather="info"></i>
                                             </button>
                                         </td>
-                                        @php $nilaiMandiri = $indikator->dokumen_nilais->first()?->mandiri_nilai; @endphp
 
                                         <td class="text-center" style="padding: 5px 0;">
                                             <input type="checkbox" class="check-standar" style="transform: scale(1.5);"

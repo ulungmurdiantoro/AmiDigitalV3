@@ -17,90 +17,98 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (!Array.isArray(standarData)) {
-    console.error("standarData is not an array.");
+    console.error("standarData is not an array.", standarData);
     return;
   }
-
-  let globalElementIndex = 0;
 
   standarData.forEach((standard, index) => {
     const canvasId = `StatistikSpiderweb-${index}`;
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
 
-    const dokumenNilaiData = [];
+    const labels = [];
+    const dataValues = [];
 
     standard.elements?.forEach((element) => {
       element.indicators?.forEach((indicator) => {
-        indicator.dokumen_nilais?.forEach((dokumen) => {
-          dokumenNilaiData.push({
-            nama: dokumen.nama ?? `Indikator ${dokumenNilaiData.length + 1}`,
-            nilai: dokumen.hasil_nilai ?? 0
-          });
-        });
+
+        // === HANDLE hasOne / hasMany ===
+        const dn = indicator.dokumen_nilais;
+
+        // label indikator (lebih masuk akal daripada dokumen.nama)
+        const label = indicator.nama ?? `Indikator ${labels.length + 1}`;
+
+        // nilai dari hasOne
+        let nilai = 0;
+
+        // kalau ternyata array (hasMany)
+        if (Array.isArray(dn)) {
+          // ambil total / atau ambil pertama (pilih salah satu)
+          // nilai = dn.reduce((sum, x) => sum + (Number(x?.hasil_nilai) || 0), 0);
+          nilai = Number(dn?.[0]?.hasil_nilai) || 0;
+        } else {
+          nilai = Number(dn?.hasil_nilai) || 0;
+        }
+
+        labels.push(label);
+        dataValues.push(nilai);
       });
     });
 
-    const labels = dokumenNilaiData.map((d) => d.nama);
-    const dataValues = dokumenNilaiData.map((d) => d.nilai);
-    const maxDataValue = 1;
+    // kalau tidak ada data, jangan bikin chart
+    if (!labels.length) {
+      console.warn(`No data for ${canvasId}`, standard);
+      return;
+    }
+
+    // sesuaikan max biar tidak "nge-press" (contoh nilai 0-4)
+    const maxDataValue = Math.max(1, ...dataValues);
+
+    const chartType = dataValues.length < 3 ? "bar" : "radar";
 
     const chartOptions = {
       responsive: true,
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
-      scales: {}
+      scales: chartType === "bar"
+        ? {
+            x: {
+              grid: { color: colors.gridBorder },
+              ticks: { color: colors.bodyColor, font: { size: 13, family: fontFamily } }
+            },
+            y: {
+              beginAtZero: true,
+              min: 0,
+              suggestedMax: maxDataValue,
+              grid: { color: colors.gridBorder },
+              ticks: { color: colors.bodyColor, font: { size: 13, family: fontFamily } }
+            }
+          }
+        : {
+            r: {
+              angleLines: { display: true, color: colors.gridBorder },
+              grid: { color: colors.gridBorder },
+              min: 0,
+              suggestedMax: maxDataValue,
+              ticks: {
+                backdropColor: colors.cardBg,
+                color: colors.bodyColor,
+                font: { size: 11, family: fontFamily }
+              },
+              pointLabels: {
+                color: colors.bodyColor,
+                font: { family: fontFamily, size: 13 }
+              }
+            }
+          }
     };
-
-    const chartType = dataValues.length < 3 ? "bar" : "radar";
-
-    if (chartType === "bar") {
-      chartOptions.scales = {
-        x: {
-          beginAtZero: true,
-          grid: { color: colors.gridBorder },
-          ticks: {
-            color: colors.bodyColor,
-            font: { size: 13, family: fontFamily }
-          }
-        },
-        y: {
-          beginAtZero: true,
-          min: 0,
-          suggestedMax: maxDataValue,
-          grid: { color: colors.gridBorder },
-          ticks: {
-            color: colors.bodyColor,
-            font: { size: 13, family: fontFamily }
-          }
-        }
-      };
-    } else {
-      chartOptions.scales = {
-        r: {
-          angleLines: { display: true, color: colors.gridBorder },
-          grid: { color: colors.gridBorder },
-          min: 0,
-          suggestedMax: maxDataValue,
-          ticks: {
-            backdropColor: colors.cardBg,
-            color: colors.bodyColor,
-            font: { size: 11, family: fontFamily }
-          },
-          pointLabels: {
-            color: colors.bodyColor,
-            font: { family: fontFamily, size: 13 }
-          }
-        }
-      };
-    }
 
     new Chart(canvas, {
       type: chartType,
       data: {
-        labels: labels,
+        labels,
         datasets: [{
-          label: '',
+          label: "",
           backgroundColor: hexToRgba(colors.primary, 0.2),
           borderColor: colors.primary,
           pointBorderColor: colors.primary,

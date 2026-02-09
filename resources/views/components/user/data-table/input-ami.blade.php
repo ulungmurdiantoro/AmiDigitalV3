@@ -18,12 +18,13 @@
     <tbody>
       @foreach ($standards as $standard)
         @foreach ($standard->indicators as $indikator)
-          <tr style="{{ 
-            $transaksis->status == 'Draft' 
-              && optional($standard->dokumen_nilais)->mandiri_nilai == 0 
-              ? 'background-color: rgba(140, 18, 61, .85); color: white;' 
-              : '' 
-          }}">            
+          @php
+            $mandiri = $indikator->dokumen_nilais->mandiri_nilai ?? 0;
+          @endphp
+          <tr style="{{ $transaksis->status == 'Draft' && $mandiri == 0
+              ? 'background-color: rgba(140, 18, 61, .85); color: white;'
+              : '' }}">
+
             <td class="text-center" style="vertical-align: top; padding: 5px 1px;">{{ $indikator->indikator_kode }}</td>
             <td style="vertical-align: top; padding: 5px 1px;">{{ $standard->nama }}</td>
             <td style="padding: 5px 1px;">{!! nl2br(e($indikator->nama_indikator)) !!}</td>
@@ -44,14 +45,14 @@
             </td>
             @if ($transaksis->status == 'Draft')
               <td class="text-center">
-                {{ optional($indikator->dokumen_nilais)->mandiri_nilai ?? 0 }}<br>
+                  {{ $mandiri }} <br>
                   <a href="#" data-bs-toggle="modal" data-bs-target="#editModal{{ $indikator->id }}">
                     [Edit]
                   </a>
               </td>
             @else
               <td class="text-center">
-                {{ optional($indikator->dokumen_nilais)->first()->mandiri_nilai ?? 0 }}
+                {{ $mandiri }}
               </td>
             @endif
           </tr>
@@ -151,7 +152,7 @@
                     <textarea rows="8" name="indikator_namas" class="form-control mb-1" readonly disabled>{{ $indikator->first()->nama_indikator }}
                     </textarea>
                     <span>Nilai</span>:
-                    <input type="number" min="0" max="4" step="0.01" name="nilai_mandiris" class="form-control mb-1 w-50" value="{{ optional($indikator->dokumen_nilais)->mandiri_nilai ?? 0 }}">
+                    <input type="number" min="0" max="4" step="0.01" name="nilai_mandiris" class="form-control mb-1 w-50" value="{{ $mandiri }}">
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

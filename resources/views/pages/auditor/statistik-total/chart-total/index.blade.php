@@ -14,16 +14,24 @@
   $nilaiLabels = collect();
   $nilaiValues = collect();
 
-  foreach(($standards ?? []) as $index => $standard) {
-    foreach($standard->elements as $eIndex => $element) {
-      foreach($element->indicators as $iIndex => $indikator) {
-        $kode = ($index + 1) . '.' . ($eIndex + 1) . '.' . ($iIndex + 1);
-        $dokumen = $indikator->dokumen_nilais?->where('periode', $periode) ?? collect();
+  foreach(($standards ?? []) as $sIndex => $standard) {
+    foreach(($standard->elements ?? []) as $eIndex => $element) {
+      foreach(($element->indicators ?? []) as $iIndex => $indikator) {
 
-        foreach ($dokumen as $d) {
+        $kode = ($sIndex + 1) . '.' . ($eIndex + 1) . '.' . ($iIndex + 1);
+
+        $d = $indikator->dokumen_nilais; // hasOne (model / null)
+
+        // jika relasi ada dan periodenya match
+        if ($d && ($d->periode ?? null) == $periode) {
           $nilaiLabels->push($kode);
           $nilaiValues->push(round($d->hasil_nilai ?? 0, 2));
+        } else {
+          // kalau mau tetap tampilkan semua indikator walau belum ada nilai
+          $nilaiLabels->push($kode);
+          $nilaiValues->push(0);
         }
+
       }
     }
   }

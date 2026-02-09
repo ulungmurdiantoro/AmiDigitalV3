@@ -105,7 +105,11 @@
                   @php
                     $kode = ($sIndex + 1) . '.' . ($eIndex + 1) . '.' . ($iIndex + 1);
 
-                    $nilai = $indikator->dokumen_nilais->first();
+                    $nilai = $indikator->dokumen_nilais()
+                      ->where('periode', $periodes)
+                      ->where('prodi', $prodis)
+                      ->first();
+
                     $hasil = $nilai?->hasil_nilai;
 
                     $status = match(true) {
@@ -174,23 +178,33 @@
 												@foreach($standard->elements as $eIndex => $element)
 													@foreach($element->indicators as $iIndex => $indikator)
 														@php
-															$kode = ($sIndex + 1) . '.' . ($eIndex + 1) . '.' . ($iIndex + 1);
+                              $kode = ($sIndex + 1) . '.' . ($eIndex + 1) . '.' . ($iIndex + 1);
 
-															$nilai = $indikator->dokumen_nilais->first();
-															$hasil = $nilai?->hasil_nilai;
+                              // hasOne, filter periode & prodi
+                              $nilai = $indikator->dokumen_nilais()
+                                  ->where('periode', (string) $periodes)
+                                  ->where('prodi', (string) $prodis)
+                                  ->first();
 
-															$status = match(true) {
-																$hasil == 1 => 'Memenuhi',
-																$hasil == 0 => 'Tidak Memenuhi',
-																default => 'Belum Dinilai',
-															};
+                              $hasil = $nilai?->hasil_nilai;
 
-															$warna = match(true) {
-																$hasil == 1 => 'success',
-																$hasil == 0 => 'danger',
-																default => 'secondary',
-															};
-														@endphp
+                              $status = match (true) {
+                                  $hasil === 1 || $hasil === '1' => 'Memenuhi',
+                                  $hasil === 0 || $hasil === '0' => 'Tidak Memenuhi',
+                                  default => 'Belum Dinilai',
+                              };
+
+                              $warna = match (true) {
+                                  $hasil === 1 || $hasil === '1' => 'success',
+                                  $hasil === 0 || $hasil === '0' => 'danger',
+                                  default => 'secondary',
+                              };
+                            @endphp
+                            @php
+                              // temporary debug
+                              dd($periodes, $prodis, $indikator->id, $indikator->dokumen_nilais()->first());
+                            @endphp
+
 
 														<tr>
 															<td class="text-center">{{ $kode }}</td>
@@ -261,7 +275,11 @@
                       @foreach($element->indicators as $indikator)
                         @php
                           $countTotal++;
-                          $nilai = $indikator->dokumen_nilais->first();
+                          $nilai = $indikator->dokumen_nilais()
+                                ->where('periode', $periodes)
+                                ->where('prodi', $prodis)
+                                ->first();
+                                
                           if($nilai?->hasil_nilai == 1) {
                             $countMemenuhi++;
                           }

@@ -15,30 +15,16 @@
       </div>
     </div>
   </div>
-  @if (strpos($key, 'LAMDIK') !== false)
-    <x-hasil-forcasting-lamdik
-      :tablePeringkatUngguls="$tablePeringkatUnggul" 
-      :totals="$total" 
-      :h2s="$h2" 
-      :h3s="$h3" 
-    />
-  @else
-    <x-hasil-forcasting 
-      :tableTerakreditasis="$tableTerakreditasi" 
-      :tablePeringkatUngguls="$tablePeringkatUnggul" 
-      :tableBaikSekalis="$tableBaikSekali" 
-      :totals="$total" 
-      :h2s="$h2" 
-      :h3s="$h3" 
-      :h4s="$h4" 
-      :h5s="$h5" 
-      :h6s="$h6" 
-    />
-  @endif
-@endsection
 
+  <x-hasil-forcasting-lamemba
+    :standards="$standards"
+    :transkasis="$transaksi_ami"
+    :periodes="$periode"
+    :prodis="$prodi"
+  />
+
+@endsection
 @push('plugin-scripts')
   <!-- Include jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 @endpush
-

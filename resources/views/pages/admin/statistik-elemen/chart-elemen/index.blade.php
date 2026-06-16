@@ -1,7 +1,6 @@
 @extends('layout.master')
 
 @push('plugin-styles')
-  <!-- Include DataTables CSS -->
   <link href="{{ asset('assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
 @endpush
 
@@ -36,11 +35,29 @@
       </div>
     </div>
   </div>
-  @foreach ($nama_data_standar as $index => $nama)
+  @php
+    $chartData = collect($standards)->map(function ($standard) {
+        // kumpulkan semua indikator dari semua elemen
+        $indicators = $standard->elements->flatMap(fn($e) => $e->indicators);
+
+        // hasOne => ambil hasil_nilai langsung dari model (atau 0 jika null)
+        $totalNilai = $indicators->sum(function ($i) {
+            return (int) ($i->dokumen_nilais?->hasil_nilai ?? 0);
+        });
+
+        return [
+            'nama'        => $standard->nama,
+            'total_nilai' => $totalNilai,
+            'total_count' => $indicators->count(),
+        ];
+    });
+  @endphp
+
+  @foreach ($standards as $index => $standard)
     <div class="col-md-6 grid-margin stretch-card">
       <div class="card" style="border-radius: 2px; overflow: hidden;">
         <div class="card-header bg-primary text-white">
-          <h6 class="mb-0">{{ $nama }}</h6>
+          <h6 class="mb-0">{{ $standard->nama }}</h6>
         </div>
         <div class="card-body">
           <canvas id="StatistikSpiderweb-{{ $index }}" class="mt-md-3 mt-xl-0"></canvas>
@@ -49,10 +66,6 @@
     </div>
   @endforeach
 </div>
-
-<nav class="settings-sidebar">
-  <!-- Your sidebar content -->
-</nav>
 @endsection
 
 @push('plugin-scripts')
@@ -63,14 +76,12 @@
   <!-- Include Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endpush
-{{-- @dd($averages) --}}
+
 @push('custom-scripts')
 <script>
-  var averages = @json(array_values($averages)); 
-  var categories = @json($short_standar_names);
-  var standarData = @json($standar_data);
-  var standarNames = @json($nama_data_standar);
+  const chartData = @json($chartData);
+  const standarData = @json($standards);
 </script>
-<script src="{{ asset('assets/js/chart-average-elemen.js') }}"></script>
-<script src="{{ asset('assets/js/chart-elemen.js') }}"></script>
+<script src="{{ asset('assets/js/chart-elemen-lamemba.js') }}"></script>
+<script src="{{ asset('assets/js/chart-average-elemen-lamemba.js') }}"></script>
 @endpush

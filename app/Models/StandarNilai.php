@@ -32,21 +32,6 @@ class StandarNilai extends Model
         'periode',
     ];
 
-    public function standarElemenBanptS1()
-    {
-        return $this->belongsTo(StandarElemenBanptS1::class, 'indikator_id', 'indikator_id');
-    }
-
-    public function standarElemenLamdikS1()
-    {
-        return $this->belongsTo(StandarElemenLamdikS1::class, 'indikator_id', 'indikator_id');
-    }
-
-    public function standarNilaisLamdikS2()
-    {
-        return $this->belongsTo(StandarElemenLamdikS2::class, 'indikator_id', 'indikator_id');
-    }
-
     protected $compositeIndicatorsConfig = [
         'D3' => [
         ],

@@ -5,26 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\StandarNilai;
 use App\Models\PenjadwalanAmi;
-use App\Models\StandarElemenBanptD3;
-use App\Models\StandarElemenBanptS1;
-use App\Models\StandarElemenBanptS2;
-use App\Models\StandarElemenBanptS3;
-use App\Models\StandarElemenBanptTerapanS1;
-use App\Models\StandarElemenBanptTerapanS2;
-use App\Models\StandarElemenBanptTerapanS3;
-use App\Models\StandarElemenLamdikD3;
-use App\Models\StandarElemenLamdikS1;
-use App\Models\StandarElemenLamdikS2;
-use App\Models\StandarElemenLamdikS3;
-use App\Models\StandarElemenLamdikTerapanS1;
-use App\Models\StandarElemenLamdikTerapanS2;
-use App\Models\StandarElemenLamdikTerapanS3;
+use App\Models\StandarAkreditasi;
+use App\Models\Jenjang;
 use App\Models\TransaksiAmi;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
+use App\Models\Standard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 use Mpdf\Mpdf;
 use Carbon\Carbon;
+
 class NilaiEvaluasiDiriController extends Controller
 {
     public function index()
@@ -44,419 +35,93 @@ class NilaiEvaluasiDiriController extends Controller
         ]);
     }
 
-    
     public function rekapNilai(Request $request, $periode, $prodi)
     {
         $transaksi_ami = TransaksiAmi::where('periode', $periode)
-        ->where('prodi', $prodi)
-        ->with('auditorAmi.user') 
-        ->first();
-
-        $akses = $transaksi_ami->standar_akreditasi;
-
-        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $prodi, $matches);
-        $degree = $matches[0] ?? 'PPG';
-
-        $key = trim($akses . ' ' . $degree);
-
-        $standar_names_banpt = [
-            'Kondisi Eksternal',
-            'Profil Unit Pengelola Program Studi',
-            '1. Visi, Misi, Tujuan dan Strategi',
-            '2. Tata Pamong dan Kerjasama',
-            '3. Mahasiswa',
-            '4. Sumber Daya Manusia',
-            '5. Keuangan, Sarana dan Prasarana',
-            '6. Pendidikan',
-            '7. Penelitian',
-            '8. Pengabdian Kepada Masyarakat',
-            '9. Luaran dan Capaian Tridharma',
-            'Analisis dan Penetapan Program Pengembangan'
-        ];
-
-        $standar_names_lamdik = [
-            'Visi Keilmuan',
-            'Tata Pamong dan Tata Kelola',
-            'Mahasiswa',
-            'Dosen dan Tenaga Kependidikan',
-            'Keuangan, Sarana dan Prasarana Pendidikan',
-            'Pendidikan',
-            'Pengabdian Kepada Masyarakat',
-            'Penjaminan Mutu',
-        ];
-
-        $degreeMappings = [
-            'BAN-PT D3' => [
-                'modelClass' => StandarElemenBanptD3::class,
-                'standarTargetsRelation' => 'standarTargetsD3',
-                'standarCapaiansRelation' => 'standarCapaiansD3',
-                'standarNilaisRelation' => 'standarNilaisD3',
-                'standarNames' => $standar_names_banpt,
-            ],
-            'BAN-PT S1' => [
-                'modelClass' => StandarElemenBanptS1::class,
-                'standarTargetsRelation' => 'standarTargetsBanptS1',
-                'standarCapaiansRelation' => 'standarCapaiansBanptS1',
-                'standarNilaisRelation' => 'standarNilaisBanptS1',
-                'standarNames' => $standar_names_banpt,
-            ],
-            'LAMDIK S1' => [
-                'modelClass' => StandarElemenLamdikS1::class,
-                'standarTargetsRelation' => 'standarTargetsLamdikS1',
-                'standarCapaiansRelation' => 'standarCapaiansLamdikS1',
-                'standarNilaisRelation' => 'standarNilaisLamdikS1',
-                'standarNames' => $standar_names_lamdik,
-            ],
-            'LAMDIK PPG' => [
-                'modelClass' => StandarElemenLamdikD3::class,
-                'standarTargetsRelation' => 'standarTargetsLamdikD3',
-                'standarCapaiansRelation' => 'standarCapaiansLamdikD3',
-                'standarNilaisRelation' => 'standarNilaisLamdikD3',
-                'standarNames' => $standar_names_lamdik,
-            ],
-            'LAMDIK S2' => [
-                'modelClass' => StandarElemenLamdikS2::class,
-                'standarTargetsRelation' => 'standarTargetsLamdikS2',
-                'standarCapaiansRelation' => 'standarCapaiansLamdikS2',
-                'standarNilaisRelation' => 'standarNilaisLamdikS2',
-                'standarNames' => $standar_names_lamdik,
-            ],
-        ];
-
-        if (!isset($degreeMappings[$key])) {
-            Log::warning("Unknown degree key: {$key}, falling back to BAN-PT S1");
-        }
-        $degreeInfo = $degreeMappings[$key] ?? $degreeMappings['BAN-PT S1'];
-
-        $modelClass = $degreeInfo['modelClass'];
-        $standarTargetsRelation = $degreeInfo['standarTargetsRelation'];
-        $standarCapaiansRelation = $degreeInfo['standarCapaiansRelation'];
-        $standarNilaisRelation = $degreeInfo['standarNilaisRelation'];
-        $standarNames = $degreeInfo['standarNames'];
-
-        $data_standar = [];
-        $degree = trim($degree);
-
-        foreach ($standarNames as $index => $name) {
-            $data_standar['data_standar_k' . ($index + 1)] = $modelClass::with([
-                $standarTargetsRelation => function ($query) use ($key) {
-                    $query->where('jenjang', $key);
-                },
-                $standarCapaiansRelation => function ($query) use ($prodi) {
-                    $query->where('prodi', $prodi);
-                },
-                $standarNilaisRelation => function ($query) use ($periode, $prodi) {
-                    $query->where('periode', $periode)->where('prodi', $prodi);
-                },
-            ])
-            ->when($request->q, function ($query) use ($request) {
-                $query->where('elemen_nama', 'like', '%' . $request->q . '%');
-            })
-            ->where('standar_nama', $name)
-            ->latest()
-            ->paginate(30)
-            ->appends(['q' => $request->q]);
-        }        
-        
-        $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
-            ->latest()
-            ->get();
-    
-        $auditors = User::where('user_level', 'auditor')->get();
-
-        $transaksi_ami = TransaksiAmi::where('periode', $periode)
             ->where('prodi', $prodi)
-            ->with('auditorAmi.user') 
+            ->with('auditorAmi.user')
             ->first();
 
-            return view('pages.admin.nilai-evaluasi-diri.rekap-nilai.index', [
-            'nama_data_standar' => $standarNames,
-            'data_standar' => $data_standar,
-            'standarTargetsRelation' => $standarTargetsRelation,
-            'standarCapaiansRelation' => $standarCapaiansRelation,
-            'standarNilaisRelation' => $standarNilaisRelation,
-            'periode' => $request->periode,
-            'prodi' => $prodi,
+        $akreditasi_kode = $transaksi_ami->standar_akreditasi ?? 'BAN-PT';
+        $jenjang_raw     = $prodi;
+        $jenjang_nama    = trim(explode(' - ', (string) $jenjang_raw, 2)[0]) ?: 'S1';
+
+        $validAkreditasi = StandarAkreditasi::pluck('nama')->toArray();
+        $validJenjang    = Jenjang::pluck('nama')->toArray();
+
+        if (!in_array($akreditasi_kode, $validAkreditasi, true)) {
+            Log::warning('Nilai akreditasi tidak valid, fallback ke BAN-PT', ['nilai' => $akreditasi_kode]);
+            $akreditasi_kode = 'BAN-PT';
+        }
+        if (!in_array($jenjang_nama, $validJenjang, true)) {
+            Log::warning('Nilai jenjang tidak valid, fallback ke S1', ['nilai' => $jenjang_nama]);
+            $jenjang_nama = 'S1';
+        }
+
+        $akreditasi = Cache::remember("akreditasi_{$akreditasi_kode}", 3600, function () use ($akreditasi_kode) {
+            return StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
+        });
+
+        $jenjang = Cache::remember("jenjang_{$jenjang_nama}", 3600, function () use ($jenjang_nama) {
+            return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
+        });
+
+        $standards = Standard::query()
+            ->with([
+                'elements.indicators.dokumen_nilais' => function ($q) use ($periode, $prodi) {
+                    $q->where('periode', $periode)->where('prodi', $prodi);
+                },
+                'buktiStandar',
+            ])
+            ->where('standar_akreditasi_id', $akreditasi->id)
+            ->where('jenjang_id', $jenjang->id)
+            ->get();
+
+        $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
+            ->when($request->q, function ($query) use ($request) {
+                $query->whereHas('auditor_ami.user', function ($q) use ($request) {
+                    $q->where('user_nama', 'like', '%' . $request->q . '%');
+                })
+                ->orWhere('prodi_nama', 'like', '%' . $request->q . '%');
+            })
+            ->where('prodi', $jenjang_raw)
+            ->latest()
+            ->get();
+
+        $auditors = User::where('user_level', 'auditor')->get();
+
+        return view('pages.admin.nilai-evaluasi-diri.rekap-nilai.index', [
+            'akreditasi'      => $akreditasi,
+            'jenjang'         => $jenjang,
+            'standards'       => $standards,
+            'periode'         => $periode,
+            'prodi'           => $jenjang_raw,
             'penjadwalan_ami' => $penjadwalan_ami,
-            'transaksi_ami' => $transaksi_ami,
-            'auditors' => $auditors,
-            'key' => $key,
+            'transaksi_ami'   => $transaksi_ami,
+            'auditors'        => $auditors,
         ]);
-    }
-
-    public function reportLha(Request $request, $periode, $prodi)
-    {
-        $transaksi_ami = TransaksiAmi::where('periode', $periode)
-        ->where('prodi', $prodi)
-        ->with('auditorAmi.user') 
-        ->first();
-
-        $akses = $transaksi_ami->standar_akreditasi;
-
-        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $prodi, $matches);
-        $degree = $matches[0] ?? 'PPG';
-
-        $accreditationKey = trim("{$akses} {$degree}"); 
-        $key = trim($akses . ' ' . $degree);
-
-        $standar_names_banpt = [
-            'Kondisi Eksternal',
-            'Profil Unit Pengelola Program Studi',
-            '1. Visi, Misi, Tujuan dan Strategi',
-            '2. Tata Pamong dan Kerjasama',
-            '3. Mahasiswa',
-            '4. Sumber Daya Manusia',
-            '5. Keuangan, Sarana dan Prasarana',
-            '6. Pendidikan',
-            '7. Penelitian',
-            '8. Pengabdian Kepada Masyarakat',
-            '9. Luaran dan Capaian Tridharma',
-            'Analisis dan Penetapan Program Pengembangan'
-        ];
-
-        $standar_names_lamdik = [
-            'Visi Keilmuan',
-            'Tata Pamong dan Tata Kelola',
-            'Mahasiswa',
-            'Dosen dan Tenaga Kependidikan',
-            'Keuangan, Sarana dan Prasarana Pendidikan',
-            'Pendidikan',
-            'Pengabdian Kepada Masyarakat',
-            'Penjaminan Mutu',
-        ];
-
-        $degreeMappings = [
-            'BAN-PT D3' => [
-                'modelClass' => StandarElemenBanptD3::class,
-                'standarTargetsRelation' => 'standarTargetsD3',
-                'standarCapaiansRelation' => 'standarCapaiansD3',
-                'standarNilaisRelation' => 'standarNilaisD3',
-                'standarNames' => $standar_names_banpt,
-            ],
-            'BAN-PT S1' => [
-                'modelClass' => StandarElemenBanptS1::class,
-                'standarTargetsRelation' => 'standarTargetsBanptS1',
-                'standarCapaiansRelation' => 'standarCapaiansBanptS1',
-                'standarNilaisRelation' => 'standarNilaisBanptS1',
-                'standarNames' => $standar_names_banpt,
-            ],
-            'LAMDIK PPG' => [
-                'modelClass' => StandarElemenLamdikD3::class,
-                'standarTargetsRelation' => 'standarTargetsLamdikD3',
-                'standarCapaiansRelation' => 'standarCapaiansLamdikD3',
-                'standarNilaisRelation' => 'standarNilaisLamdikD3',
-                'standarNames' => $standar_names_lamdik,
-            ],
-            'LAMDIK S1' => [
-                'modelClass' => StandarElemenLamdikS1::class,
-                'standarTargetsRelation' => 'standarTargetsLamdikS1',
-                'standarCapaiansRelation' => 'standarCapaiansLamdikS1',
-                'standarNilaisRelation' => 'standarNilaisLamdikS1',
-                'standarNames' => $standar_names_lamdik,
-            ],
-            'LAMDIK S2' => [
-                'modelClass' => StandarElemenLamdikS2::class,
-                'standarTargetsRelation' => 'standarTargetsLamdikS2',
-                'standarCapaiansRelation' => 'standarCapaiansLamdikS2',
-                'standarNilaisRelation' => 'standarNilaisLamdikS2',
-                'standarNames' => $standar_names_lamdik,
-            ],
-        ];
-
-        if (!isset($degreeMappings[$key])) {
-            Log::warning("Unknown degree key: {$key}, falling back to BAN-PT S1");
-        }
-        $degreeInfo = $degreeMappings[$key] ?? $degreeMappings['BAN-PT S1'];
-
-        $modelClass = $degreeInfo['modelClass'];
-        $standarTargetsRelation = $degreeInfo['standarTargetsRelation'];
-        $standarCapaiansRelation = $degreeInfo['standarCapaiansRelation'];
-        $standarNilaisRelation = $degreeInfo['standarNilaisRelation'];
-        $standarNames = $degreeInfo['standarNames'];
-
-        $data_standar = [];
-        $degree = trim($degree);
-
-        foreach ($standarNames as $index => $name) {
-            $data_standar['data_standar_k' . ($index + 1)] = $modelClass::with([
-                $standarTargetsRelation => function ($query) use ($key) {
-                    $query->where('jenjang', $key);
-                },
-                $standarCapaiansRelation => function ($query) use ($prodi) {
-                    $query->where('prodi', $prodi);
-                },
-                $standarNilaisRelation => function ($query) use ($periode, $prodi) {
-                    $query->where('periode', $periode)->where('prodi', $prodi);
-                },
-            ])
-            ->when($request->q, function ($query) use ($request) {
-                $query->where('elemen_nama', 'like', '%' . $request->q . '%');
-            })
-            ->where('standar_nama', $name)
-            ->latest()
-            ->get();
-        }        
-
-        $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
-            ->latest()
-            ->get();
-
-        $auditors = User::where('user_level', 'auditor')->get();
-
-        $transaksi_ami = TransaksiAmi::where('periode', $periode)
-            ->where('prodi', $prodi)
-            ->with(['auditorAmi.user', 'penempatanUser']) 
-            ->first();
-
-        $prodiParts = explode(' - ', $prodi);
-        $prodiPrefix = trim($prodiParts[0] ?? $prodi);
-
-        $totalData = $this->calculateTotal($periode, $prodi, $accreditationKey);
-        $total = $totalData['total'];
-
-        Carbon::setLocale('id');
-        $tanggal = Carbon::now()->isoFormat('dddd, D MMMM Y');
-        $tanggal_audit = $transaksi_ami->updated_at->isoFormat('dddd, D MMMM Y');
-
-        $html = view('pages.report.report-lha', [
-            'nama_data_standar' => $standarNames,
-            'data_standar' => $data_standar,
-            'standarTargetsRelation' => $standarTargetsRelation,
-            'standarCapaiansRelation' => $standarCapaiansRelation,
-            'standarNilaisRelation' => $standarNilaisRelation,
-            'periode' => $request->periode,
-            'prodi' => $prodi,
-            'penjadwalan_ami' => $penjadwalan_ami,
-            'transaksi_ami' => $transaksi_ami,
-            'auditors' => $auditors,
-            'tanggal' => $tanggal, 
-            'tanggal_audit' => $tanggal_audit, 
-            'total' => $total,
-            'prodiPrefix' => $prodiPrefix,
-        ])->render();
-
-        $mpdf = new \Mpdf\Mpdf();
-
-        $mpdf->WriteHTML($html);
-        
-        $pdfContent = $mpdf->Output('', 'S'); // S = Return as String
-
-        return response($pdfContent)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'inline; filename="rekap_nilai_lha.pdf"');
-
     }
 
     public function calculateTotal($periode, $prodi, $accreditationKey)
     {
         $compositeIndicatorsConfig = [
-            'BAN-PT D3' => [
-                
-            ],
+            'BAN-PT D3' => [],
             'BAN-PT S1' => [
-                'S1-6' => [
-                    'components' => [
-                        ['kode' => 'S1-6A', 'weight' => 1],
-                        ['kode' => 'S1-6B', 'weight' => 2],
-                    ],
-                    'divisor'    => 3,
-                    'multiplier' => 0.34,
-                ],
-                'S1-7' => [
-                    'components' => [
-                        ['kode' => 'S1-7A', 'weight' => 1],
-                        ['kode' => 'S1-7B', 'weight' => 2],
-                    ],
-                    'divisor'    => 3,
-                    'multiplier' => 0.34,
-                ],
-                'S1-9' => [
-                    'components' => [
-                        ['kode' => 'S1-9A', 'weight' => 2],
-                        ['kode' => 'S1-9B', 'weight' => 1],
-                    ],
-                    'divisor'    => 3,
-                    'multiplier' => 0.34,
-                ],
-                'S1-15' => [
-                    'components' => [
-                        ['kode' => 'S1-15A', 'weight' => 2],
-                        ['kode' => 'S1-15B', 'weight' => 1],
-                    ],
-                    'divisor'    => 3,
-                    'multiplier' => 3.07,
-                ],
-                'S1-16' => [
-                    'components' => [
-                        ['kode' => 'S1-16A', 'weight' => 1],
-                        ['kode' => 'S1-16B', 'weight' => 2],
-                    ],
-                    'divisor'    => 3,
-                    'multiplier' => 1.53,
-                ],
-                'S1-31' => [
-                    'components' => [
-                        ['kode' => 'S1-31A', 'weight' => 1],
-                        ['kode' => 'S1-31B', 'weight' => 1],
-                    ],
-                    'divisor'    => 2,
-                    'multiplier' => 1.12,
-                ],
-                'S1-38' => [
-                    'components' => [
-                        ['kode' => 'S1-38A', 'weight' => 1],
-                        ['kode' => 'S1-38B', 'weight' => 2],
-                        ['kode' => 'S1-38C', 'weight' => 2],
-                    ],
-                    'divisor'    => 5,
-                    'multiplier' => 2.51,
-                ],
-                'S1-40' => [
-                    'components' => [
-                        ['kode' => 'S1-40A', 'weight' => 1],
-                        ['kode' => 'S1-40B', 'weight' => 2],
-                    ],
-                    'divisor'    => 3,
-                    'multiplier' => 1.67,
-                ],
-                'S1-41' => [
-                    'components' => [
-                        ['kode' => 'S1-41A', 'weight' => 1],
-                        ['kode' => 'S1-41B', 'weight' => 2],
-                        ['kode' => 'S1-41C', 'weight' => 2],
-                        ['kode' => 'S1-41D', 'weight' => 2],
-                        ['kode' => 'S1-41E', 'weight' => 2],
-                    ],
-                    'divisor'    => 9,
-                    'multiplier' => 1.12,
-                ],
-                'S1-44' => [
-                    'components' => [
-                        ['kode' => 'S1-44A', 'weight' => 1],
-                        ['kode' => 'S1-44B', 'weight' => 2],
-                        ['kode' => 'S1-44C', 'weight' => 2],
-                    ],
-                    'divisor'    => 5,
-                    'multiplier' => 1.67,
-                ],
-                'S1-47' => [
-                    'components' => [
-                        ['kode' => 'S1-47A', 'weight' => 1],
-                        ['kode' => 'S1-47B', 'weight' => 2],
-                    ],
-                    'divisor'    => 3,
-                    'multiplier' => 3.35,
-                ],
+                'S1-6'  => ['components' => [['kode' => 'S1-6A', 'weight' => 1], ['kode' => 'S1-6B', 'weight' => 2]], 'divisor' => 3, 'multiplier' => 0.34],
+                'S1-7'  => ['components' => [['kode' => 'S1-7A', 'weight' => 1], ['kode' => 'S1-7B', 'weight' => 2]], 'divisor' => 3, 'multiplier' => 0.34],
+                'S1-9'  => ['components' => [['kode' => 'S1-9A', 'weight' => 2], ['kode' => 'S1-9B', 'weight' => 1]], 'divisor' => 3, 'multiplier' => 0.34],
+                'S1-15' => ['components' => [['kode' => 'S1-15A', 'weight' => 2], ['kode' => 'S1-15B', 'weight' => 1]], 'divisor' => 3, 'multiplier' => 3.07],
+                'S1-16' => ['components' => [['kode' => 'S1-16A', 'weight' => 1], ['kode' => 'S1-16B', 'weight' => 2]], 'divisor' => 3, 'multiplier' => 1.53],
+                'S1-31' => ['components' => [['kode' => 'S1-31A', 'weight' => 1], ['kode' => 'S1-31B', 'weight' => 1]], 'divisor' => 2, 'multiplier' => 1.12],
+                'S1-38' => ['components' => [['kode' => 'S1-38A', 'weight' => 1], ['kode' => 'S1-38B', 'weight' => 2], ['kode' => 'S1-38C', 'weight' => 2]], 'divisor' => 5, 'multiplier' => 2.51],
+                'S1-40' => ['components' => [['kode' => 'S1-40A', 'weight' => 1], ['kode' => 'S1-40B', 'weight' => 2]], 'divisor' => 3, 'multiplier' => 1.67],
+                'S1-41' => ['components' => [['kode' => 'S1-41A', 'weight' => 1], ['kode' => 'S1-41B', 'weight' => 2], ['kode' => 'S1-41C', 'weight' => 2], ['kode' => 'S1-41D', 'weight' => 2], ['kode' => 'S1-41E', 'weight' => 2]], 'divisor' => 9, 'multiplier' => 1.12],
+                'S1-44' => ['components' => [['kode' => 'S1-44A', 'weight' => 1], ['kode' => 'S1-44B', 'weight' => 2], ['kode' => 'S1-44C', 'weight' => 2]], 'divisor' => 5, 'multiplier' => 1.67],
+                'S1-47' => ['components' => [['kode' => 'S1-47A', 'weight' => 1], ['kode' => 'S1-47B', 'weight' => 2]], 'divisor' => 3, 'multiplier' => 3.35],
             ],
-            'LAMDIK S1' => [
-                
-            ],
-            'LAMDIK PPG' => [
-
-            ],
-            'LAMDIK S2' => [
-                
-            ],
+            'LAMDIK S1'  => [],
+            'LAMDIK PPG' => [],
+            'LAMDIK S2'  => [],
         ];
 
         $nilaiCollection = StandarNilai::where('periode', $periode)
@@ -490,7 +155,7 @@ class NilaiEvaluasiDiriController extends Controller
             $indicatorRange  = 0;
         }
 
-        $compositeConfigKey = $accreditationKey;
+        $compositeConfigKey  = $accreditationKey;
         $compositeIndicators = isset($compositeIndicatorsConfig[$compositeConfigKey])
             ? array_keys($compositeIndicatorsConfig[$compositeConfigKey])
             : [];
@@ -532,194 +197,252 @@ class NilaiEvaluasiDiriController extends Controller
         ];
     }
 
-    public function reportRtm(Request $request, $periode, $prodi)
+    public function calculateTotalLamemeba($periode, $prodi, $accreditationKey)
     {
-        list($startYear, $endYear) = explode('/', $periode);
-        $previousStartYear = $startYear - 1;
-        $previousEndYear = $endYear - 1;
-        $previousPeriode = "{$previousStartYear}/{$previousEndYear}";
+        $parts = explode(' ', $accreditationKey, 2);
+        $akreditasi_kode = trim($parts[0] ?? 'LAMEMBA');
+        $jenjang_nama    = trim($parts[1] ?? 'S1');
 
-        $nextStartYear = $startYear + 1;
-        $nextEndYear = $endYear + 1;
-        $nextPeriode = "{$nextStartYear}/{$nextEndYear}";
+        $akreditasi = StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
+        $jenjang    = Jenjang::where('nama', $jenjang_nama)->firstOrFail();
 
-        $transaksi_ami = TransaksiAmi::where('periode', $periode)
-        ->where('prodi', $prodi)
-        ->with('auditorAmi.user') 
-        ->first();
-
-        $akses = $transaksi_ami->standar_akreditasi;
-
-        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $prodi, $matches);
-        $degree = $matches[0] ?? 'PPG';
-
-        $key = trim($akses . ' ' . $degree);
-
-        $standar_names_banpt = [
-            'Kondisi Eksternal',
-            'Profil Unit Pengelola Program Studi',
-            '1. Visi, Misi, Tujuan dan Strategi',
-            '2. Tata Pamong dan Kerjasama',
-            '3. Mahasiswa',
-            '4. Sumber Daya Manusia',
-            '5. Keuangan, Sarana dan Prasarana',
-            '6. Pendidikan',
-            '7. Penelitian',
-            '8. Pengabdian Kepada Masyarakat',
-            '9. Luaran dan Capaian Tridharma',
-            'Analisis dan Penetapan Program Pengembangan'
-        ];
-
-        $standar_names_lamdik = [
-            'Visi Keilmuan',
-            'Tata Pamong dan Tata Kelola',
-            'Mahasiswa',
-            'Dosen dan Tenaga Kependidikan',
-            'Keuangan, Sarana dan Prasarana Pendidikan',
-            'Pendidikan',
-            'Pengabdian Kepada Masyarakat',
-            'Penjaminan Mutu',
-        ];
-
-        $degreeMappings = [
-            'BAN-PT D3' => [
-                'modelClass' => StandarElemenBanptD3::class,
-                'standarTargetsRelation' => 'standarTargetsD3',
-                'standarCapaiansRelation' => 'standarCapaiansD3',
-                'standarNilaisRelation' => 'standarNilaisD3',
-                'standarNames' => $standar_names_banpt,
-            ],
-            'BAN-PT S1' => [
-                'modelClass' => StandarElemenBanptS1::class,
-                'standarTargetsRelation' => 'standarTargetsBanptS1',
-                'standarCapaiansRelation' => 'standarCapaiansBanptS1',
-                'standarNilaisRelation' => 'standarNilaisBanptS1',
-                'standarNames' => $standar_names_banpt,
-            ],
-            'LAMDIK PPG' => [
-                'modelClass' => StandarElemenLamdikD3::class,
-                'standarTargetsRelation' => 'standarTargetsLamdikD3',
-                'standarCapaiansRelation' => 'standarCapaiansLamdikD3',
-                'standarNilaisRelation' => 'standarNilaisLamdikD3',
-                'standarNames' => $standar_names_lamdik,
-            ],
-            'LAMDIK S1' => [
-                'modelClass' => StandarElemenLamdikS1::class,
-                'standarTargetsRelation' => 'standarTargetsLamdikS1',
-                'standarCapaiansRelation' => 'standarCapaiansLamdikS1',
-                'standarNilaisRelation' => 'standarNilaisLamdikS1',
-                'standarNames' => $standar_names_lamdik,
-            ],
-            'LAMDIK S2' => [
-                'modelClass' => StandarElemenLamdikS2::class,
-                'standarTargetsRelation' => 'standarTargetsLamdikS2',
-                'standarCapaiansRelation' => 'standarCapaiansLamdikS2',
-                'standarNilaisRelation' => 'standarNilaisLamdikS2',
-                'standarNames' => $standar_names_lamdik,
-            ],
-        ];
-
-        if (!isset($degreeMappings[$key])) {
-            Log::warning("Unknown degree key: {$key}, falling back to BAN-PT S1");
-        }
-        $degreeInfo = $degreeMappings[$key] ?? $degreeMappings['BAN-PT S1'];
-
-        $modelClass = $degreeInfo['modelClass'];
-        $standarTargetsRelation = $degreeInfo['standarTargetsRelation'];
-        $standarCapaiansRelation = $degreeInfo['standarCapaiansRelation'];
-        $standarNilaisRelation = $degreeInfo['standarNilaisRelation'];
-        $standarNames = $degreeInfo['standarNames'];
-
-        $data_standar = [];
-        $degree = trim($degree);
-
-        foreach ($standarNames as $index => $name) {
-            $data_standar['data_standar_k' . ($index + 1)] = $modelClass::with([
-                $standarTargetsRelation => function ($query) use ($key) {
-                    $query->where('jenjang', $key);
+        $standards = Standard::query()
+            ->with([
+                'elements.indicators.dokumen_nilais' => function ($q) use ($periode, $prodi) {
+                    $q->where('periode', $periode)->where('prodi', $prodi);
                 },
-                $standarCapaiansRelation => function ($query) use ($prodi) {
-                    $query->where('prodi', $prodi);
-                },
-                $standarNilaisRelation => function ($query) use ($periode, $prodi) {
-                    $query->where('periode', $periode)->where('prodi', $prodi);
-                },
+                'buktiStandar',
             ])
-            ->when($request->q, function ($query) use ($request) {
-                $query->where('elemen_nama', 'like', '%' . $request->q . '%');
-            })
-            ->where('standar_nama', $name)
-            ->latest()
+            ->where('standar_akreditasi_id', $akreditasi->id)
+            ->where('jenjang_id', $jenjang->id)
             ->get();
-            
-            $previous_data_standar['data_standar_k' . ($index + 1)] = $modelClass::with([
-                $standarTargetsRelation => function ($query) use ($key) {
-                    $query->where('jenjang', $key);
-                },
-                $standarCapaiansRelation => function ($query) use ($prodi) {
-                    $query->where('prodi', $prodi);
-                },
-                $standarNilaisRelation => function ($query) use ($previousPeriode, $prodi) {
-                    $query->where('periode', $previousPeriode)->where('prodi', $prodi);
-                },
-            ])
-            ->when($request->q, function ($query) use ($request) {
-                $query->where('elemen_nama', 'like', '%' . $request->q . '%');
-            })
-            ->where('standar_nama', $name)
-            ->latest()
-            ->get();
+
+        $indikatorIds = collect();
+        foreach ($standards as $standard) {
+            foreach ($standard->elements as $element) {
+                foreach ($element->indicators as $indicator) {
+                    $indikatorIds->push($indicator->id);
+                }
+            }
         }
+        $indikatorIds = $indikatorIds->unique()->values();
 
-        $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
-            ->latest()
-            ->get();
-
-        $auditors = User::where('user_level', 'auditor')->get();
-
-        $transaksi_ami = TransaksiAmi::where('periode', $periode)
+        $nilaiCollection = StandarNilai::where('periode', $periode)
             ->where('prodi', $prodi)
-            ->with(['auditorAmi.user', 'penempatanUser'])
-            ->first();
+            ->whereIn('indikator_id', $indikatorIds)
+            ->get();
 
-        $prodiParts = explode(' - ', $prodi);
+        $totalNilai      = $nilaiCollection->sum('hasil_nilai');
+        $jumlahIndikator = $indikatorIds->count();
+
+        $persentase = $jumlahIndikator > 0 ? ($totalNilai / $jumlahIndikator) * 100 : 0;
+
+        $prodiParts  = explode(' - ', $prodi);
         $prodiPrefix = trim($prodiParts[0] ?? $prodi);
 
-        $total = StandarNilai::calculateTotal($periode, $prodi);
-
-        Carbon::setLocale('id');
-        $tanggal = Carbon::now()->isoFormat('dddd, D MMMM Y');
-        $tanggal_audit = $transaksi_ami->updated_at->isoFormat('dddd, D MMMM Y');
-
-        $html = view('pages.report.report-rtm', [
-            'nama_data_standar' => $standarNames,
-            'data_standar' => $data_standar,
-            'standarTargetsRelation' => $standarTargetsRelation,
-            'standarCapaiansRelation' => $standarCapaiansRelation,
-            'standarNilaisRelation' => $standarNilaisRelation,
-            'previous_data_standar' => $previous_data_standar,
-            'periode' => $request->periode,
-            'previousPeriode' => $previousPeriode,
-            'nextPeriode' => $nextPeriode,
-            'prodi' => $prodi,
-            'penjadwalan_ami' => $penjadwalan_ami,
-            'transaksi_ami' => $transaksi_ami,
-            'auditors' => $auditors,
-            'tanggal' => $tanggal,
-            'tanggal_audit' => $tanggal_audit,
-            'total' => $total,
+        return [
+            'total'       => round($persentase, 2),
             'prodiPrefix' => $prodiPrefix,
+        ];
+    }
+
+    public function reportLha(Request $request, $periode, $prodi)
+    {
+        $transaksi_ami = TransaksiAmi::where('periode', $periode)
+            ->where('prodi', $prodi)
+            ->with('auditorAmi.user')
+            ->first();
+
+        $akreditasi_kode = $transaksi_ami->standar_akreditasi ?? 'BAN-PT';
+        $jenjang_raw     = $prodi;
+        $jenjang_nama    = trim(explode(' - ', (string) $jenjang_raw, 2)[0]) ?: 'S1';
+
+        $validAkreditasi = StandarAkreditasi::pluck('nama')->toArray();
+        $validJenjang    = Jenjang::pluck('nama')->toArray();
+
+        if (!in_array($akreditasi_kode, $validAkreditasi, true)) {
+            $akreditasi_kode = 'BAN-PT';
+        }
+        if (!in_array($jenjang_nama, $validJenjang, true)) {
+            $jenjang_nama = 'S1';
+        }
+
+        $akreditasi = Cache::remember("akreditasi_{$akreditasi_kode}", 3600, function () use ($akreditasi_kode) {
+            return StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
+        });
+
+        $jenjang = Cache::remember("jenjang_{$jenjang_nama}", 3600, function () use ($jenjang_nama) {
+            return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
+        });
+
+        $standards = Standard::query()
+            ->with([
+                'elements.indicators.dokumen_nilais' => function ($q) use ($periode, $prodi) {
+                    $q->where('periode', $periode)->where('prodi', $prodi);
+                },
+                'buktiStandar',
+            ])
+            ->where('standar_akreditasi_id', $akreditasi->id)
+            ->where('jenjang_id', $jenjang->id)
+            ->get();
+
+        $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
+            ->where('prodi', $jenjang_raw)
+            ->latest()
+            ->get();
+
+        $auditors      = User::where('user_level', 'auditor')->get();
+        $tanggal       = now()->format('d-m-Y');
+        $tanggal_audit = optional($transaksi_ami->updated_at)->format('d-m-Y') ?? $tanggal;
+
+        $totalResult = ($akreditasi_kode === 'LAMEMBA')
+            ? $this->calculateTotalLamemeba($periode, $prodi, "{$akreditasi_kode} {$jenjang_nama}")
+            : $this->calculateTotal($periode, $prodi, "{$akreditasi_kode} {$jenjang_nama}");
+
+        $totalNilai  = $totalResult['total'];
+        $prodiPrefix = $totalResult['prodiPrefix'];
+
+        $html = view('pages.report.report-lha', [
+            'akreditasi'      => $akreditasi,
+            'jenjang'         => $jenjang,
+            'standards'       => $standards,
+            'periode'         => $periode,
+            'prodi'           => $jenjang_raw,
+            'penjadwalan_ami' => $penjadwalan_ami,
+            'transaksi_ami'   => $transaksi_ami,
+            'auditors'        => $auditors,
+            'tanggal'         => $tanggal,
+            'tanggal_audit'   => $tanggal_audit,
+            'totalNilai'      => $totalNilai,
+            'prodiPrefix'     => $prodiPrefix,
         ])->render();
 
-        $mpdf = new \Mpdf\Mpdf();
-
+        $mpdf = new \Mpdf\Mpdf([
+            'format'        => 'A4',
+            'orientation'   => 'P',
+            'margin_top'    => 10,
+            'margin_bottom' => 15,
+        ]);
+        $mpdf->SetTitle('Laporan Hasil Audit');
+        $mpdf->SetFooter('{DATE j-m-Y}||Page {PAGENO}');
         $mpdf->WriteHTML($html);
-        
-        $pdfContent = $mpdf->Output('', 'S'); // S = Return as String
+        $pdfContent = $mpdf->Output('', 'S');
 
         return response($pdfContent)
             ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'inline; filename="rekap_nilai_rtm.pdf"');
+            ->header('Content-Disposition', 'inline; filename="laporan_hasil_audit.pdf"');
     }
 
+    public function reportRtm(Request $request, $periode, $prodi)
+    {
+        if (strpos($periode, '/') !== false) {
+            [$tahunAwal, $tahunAkhir] = explode('/', $periode);
+            $periode = (int) $tahunAwal;
+        }
+
+        $periodeSebelumnya  = $periode - 1;
+        $periodeSelanjutnya = $periode + 1;
+
+        $tahunAjaran            = $periode . '/' . ($periode + 1);
+        $tahunAjaranSebelumnya  = $periodeSebelumnya . '/' . ($periode);
+        $tahunAjaranSelanjutnya = $periodeSelanjutnya . '/' . ($periodeSelanjutnya + 1);
+
+        $transaksi_ami = TransaksiAmi::where('periode', $periode)
+            ->where('prodi', $prodi)
+            ->with('auditorAmi.user')
+            ->first();
+
+        $transaksi_ami_sebelumnya = TransaksiAmi::where('periode', $periodeSebelumnya)
+            ->where('prodi', $prodi)
+            ->with('auditorAmi.user')
+            ->first();
+
+        $akreditasi_kode = $transaksi_ami->standar_akreditasi ?? 'BAN-PT';
+        $jenjang_raw     = $prodi;
+        $jenjang_nama    = trim(explode(' - ', (string) $jenjang_raw, 2)[0]) ?: 'S1';
+
+        $validAkreditasi = StandarAkreditasi::pluck('nama')->toArray();
+        $validJenjang    = Jenjang::pluck('nama')->toArray();
+
+        if (!in_array($akreditasi_kode, $validAkreditasi, true)) {
+            $akreditasi_kode = 'BAN-PT';
+        }
+        if (!in_array($jenjang_nama, $validJenjang, true)) {
+            $jenjang_nama = 'S1';
+        }
+
+        $akreditasi = Cache::remember("akreditasi_{$akreditasi_kode}", 3600, function () use ($akreditasi_kode) {
+            return StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
+        });
+
+        $jenjang = Cache::remember("jenjang_{$jenjang_nama}", 3600, function () use ($jenjang_nama) {
+            return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
+        });
+
+        $standards = Standard::query()
+            ->with([
+                'elements.indicators.dokumen_nilais' => function ($q) use ($periode, $prodi) {
+                    $q->where('periode', $periode)->where('prodi', $prodi);
+                },
+                'buktiStandar',
+            ])
+            ->where('standar_akreditasi_id', $akreditasi->id)
+            ->where('jenjang_id', $jenjang->id)
+            ->get();
+
+        $standards_sebelumnya = Standard::with(['elements.indicators.dokumen_nilais', 'buktiStandar'])
+            ->where('standar_akreditasi_id', $akreditasi->id)
+            ->where('jenjang_id', $jenjang->id)
+            ->get();
+
+        $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
+            ->where('prodi', $jenjang_raw)
+            ->latest()
+            ->get();
+
+        $auditors      = User::where('user_level', 'auditor')->get();
+        $tanggal       = now()->format('d-m-Y');
+        $tanggal_audit = optional($transaksi_ami->updated_at)->format('d-m-Y') ?? $tanggal;
+
+        $totalResult = ($akreditasi_kode === 'LAMEMBA')
+            ? $this->calculateTotalLamemeba($periode, $prodi, "{$akreditasi_kode} {$jenjang_nama}")
+            : $this->calculateTotal($periode, $prodi, "{$akreditasi_kode} {$jenjang_nama}");
+
+        $totalNilai  = $totalResult['total'];
+        $prodiPrefix = $totalResult['prodiPrefix'];
+
+        $html = view('pages.report.report-rtm', [
+            'akreditasi'               => $akreditasi,
+            'jenjang'                  => $jenjang,
+            'standards'                => $standards,
+            'periode'                  => $tahunAjaran,
+            'prodi'                    => $jenjang_raw,
+            'penjadwalan_ami'          => $penjadwalan_ami,
+            'transaksi_ami'            => $transaksi_ami,
+            'auditors'                 => $auditors,
+            'tanggal'                  => $tanggal,
+            'tanggal_audit'            => $tanggal_audit,
+            'totalNilai'               => $totalNilai,
+            'prodiPrefix'              => $prodiPrefix,
+            'standards_sebelumnya'     => $standards_sebelumnya,
+            'periodeSebelumnya'        => $tahunAjaranSebelumnya,
+            'periodeSelanjutnya'       => $tahunAjaranSelanjutnya,
+            'transaksi_ami_sebelumnya' => $transaksi_ami_sebelumnya,
+        ])->render();
+
+        $mpdf = new \Mpdf\Mpdf([
+            'format'        => 'A4',
+            'orientation'   => 'P',
+            'margin_top'    => 10,
+            'margin_bottom' => 15,
+        ]);
+        $mpdf->SetTitle('Hasil Rapat Tinjauan Manajemen');
+        $mpdf->SetFooter('{DATE j-m-Y}||Page {PAGENO}');
+        $mpdf->WriteHTML($html);
+        $pdfContent = $mpdf->Output('', 'S');
+
+        return response($pdfContent)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="hasil_rapat_tinjauan_manajemen.pdf"');
+    }
 }

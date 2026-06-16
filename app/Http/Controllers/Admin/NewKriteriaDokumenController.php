@@ -7,15 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\StandarAkreditasi;
 use App\Models\Jenjang;
 use App\Models\Standard;
-use App\Models\StandarElemenBanptS1;
 use App\Models\StandarTarget;
 use App\Models\DokumenTipe;
-use App\Imports\StandarBanptD3Import;
-use App\Imports\StandarBanptS1Import;
-use App\Imports\StandarBanptS2Import;
-use App\Imports\StandarLamdikPPGImport;
-use App\Imports\StandarLamdikS1Import;
-use App\Imports\StandarLamdikS2Import;
 use App\Models\Indikator;
 use App\Models\BuktiStandar;
 use App\Models\Element;
@@ -86,43 +79,11 @@ class NewKriteriaDokumenController extends Controller
 
     public function storeImport(Request $request)
     {
-        $request->validate([
-            'nama_dokumen' => 'required|mimes:csv,xls,xlsx'
-        ]);
-
-        $degree = $request->input('degree');
-
-        switch ($degree) {
-            case 'BAN-PT D3':
-                $importClass = new StandarBanptD3Import();
-                break;
-            case 'BAN-PT S1':
-                $importClass = new StandarBanptS1Import();
-                break;
-            case 'BAN-PT S2':
-                $importClass = new StandarBanptS2Import();
-                break;
-            case 'LAMDIK PPG':
-                $importClass = new StandarLamdikPPGImport();
-                break;
-            case 'LAMDIK S1':
-                $importClass = new StandarLamdikS1Import();
-                break;
-            case 'LAMDIK S2':
-                $importClass = new StandarLamdikS2Import();
-                break;
-            default:
-                return redirect()->route('admin.kriteria-dokumen.index')->with('error', 'Invalid degree selected.');
-        }
-
-        try {
-            Excel::import($importClass, $request->file('nama_dokumen'));
-
-            return redirect()->route('admin.kriteria-dokumen.index')->with('success', 'File imported successfully.');
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return redirect()->route('admin.kriteria-dokumen.index')->with('error', 'There was an issue importing the file.');
-        }
+        // Import Excel lama menulis ke tabel standar_elemen_* yang sudah dipensiunkan.
+        // Struktur standar kini dikelola lewat tabel standards/elements/indikators
+        // (mis. menu Kelola Indikator & Kelola Bukti), jadi import massal ini dinonaktifkan.
+        return redirect()->route('admin.kriteria-dokumen.index')
+            ->with('error', 'Fitur import Excel lama telah dinonaktifkan. Standar kini dikelola melalui Kelola Indikator/Bukti.');
     }
 
     public function kelolaTarget(Request $request, $importTitle, $indikator_id)
@@ -198,8 +159,13 @@ class NewKriteriaDokumenController extends Controller
     public function kelolaTargetEdit($indikator_id)
     {
         $dokumenTipes = DokumenTipe::all();
-        
-        $standarElemen = StandarElemenBanptS1::where('indikator_id', $indikator_id)->firstOrFail();
+
+        $indikator = Indikator::with(['element.standard'])->findOrFail($indikator_id);
+        $standarElemen = (object) [
+            'standar_nama'   => optional(optional($indikator->element)->standard)->nama,
+            'elemen_nama'    => optional($indikator->element)->nama,
+            'indikator_nama' => $indikator->nama_indikator,
+        ];
 
         $standarTarget = StandarTarget::where('indikator_id', $indikator_id)->firstOrFail();
 
@@ -208,7 +174,7 @@ class NewKriteriaDokumenController extends Controller
             'standarTarget' => $standarTarget,
             'standarElemen' => $standarElemen,
             'dokumenTipes' => $dokumenTipes,
-        ]);    
+        ]);
     }
 
     public function kelolaTargetUpdate(Request $request, $id)

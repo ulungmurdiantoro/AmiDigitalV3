@@ -7,7 +7,6 @@ use App\Http\Controllers\Admin\AktivitasProdiController;
 use App\Http\Controllers\Admin\BantuanController;
 use App\Http\Controllers\Admin\DokumenSpmiAmiController;
 use App\Http\Controllers\Admin\ForcastingController;
-use App\Http\Controllers\Admin\KriteriaDokumenController;
 use App\Http\Controllers\Admin\NewKriteriaDokumenController;
 use App\Http\Controllers\Admin\NilaiEvaluasiDiriController;
 use App\Http\Controllers\Admin\PenggunaAuditorController;
@@ -23,18 +22,15 @@ use App\Http\Controllers\Auditor\AuditorStatistikElemenController;
 use App\Http\Controllers\Auditor\AuditorStatistikTotalController;
 use App\Http\Controllers\User\DashboardUserController;
 use App\Http\Controllers\User\DokumenSpmiAmiUserController;
-use App\Http\Controllers\User\PemenuhanDokumenController;
 use App\Http\Controllers\User\NewPemenuhanDokumenController;
 use App\Http\Controllers\User\DokumenAktifUserController;
 use App\Http\Controllers\User\DokumenKadaluarsaUserController;
 use App\Http\Controllers\User\PengajuanAmiUserController;
-use App\Http\Controllers\User\InputAmiUserController;
 use App\Http\Controllers\User\KoreksiAmiUserController;
 use App\Http\Controllers\Auditor\DashboardAuditorController;
 use App\Http\Controllers\Auditor\DokumenSpmiAmiauditorController;
 use App\Http\Controllers\Auditor\KonfirmasiPengajuanController;
 use App\Http\Controllers\Auditor\EvaluasiAmiAuditorController;
-use App\Http\Controllers\Auditor\InputAmiAuditorController;
 use App\Http\Controllers\Auditor\EditAmiAuditorController;
 use App\Http\Controllers\Auditor\KoreksiAmiAuditorController;
 use App\Http\Controllers\User\UserForcastingController;
@@ -304,16 +300,6 @@ Route::group(['prefix' => 'user'], function(){
             'edit' => 'user.pengajuan-ami.edit',
             'update' => 'user.pengajuan-ami.update',
             'destroy' => 'user.pengajuan-ami.destroy',
-        ]);
-
-        Route::resource('input-ami', InputAmiUserController::class)->names([
-            'index' => 'user.input-ami.index',
-            'create' => 'user.input-ami.create',
-            'store' => 'user.input-ami.store',
-            'show' => 'user.input-ami.show',
-            'edit' => 'user.input-ami.edit',
-            'update' => 'user.input-ami.update',
-            'destroy' => 'user.input-ami.destroy',
         ]);
 
         Route::get('/koreksi-ami/{periode}/{prodi}/revisi-prodi', [KoreksiAmiUserController::class, 'revisiProdi'])->where('periode', '.*')->where('prodi', '.*')->name('user.koreksi-ami.revisi-prodi');

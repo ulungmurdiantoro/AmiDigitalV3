@@ -3,20 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\StandarElemenBanptD3;
-use App\Models\StandarElemenBanptS1;
-use App\Models\StandarElemenBanptS2;
-use App\Models\StandarElemenBanptS3;
-use App\Models\StandarElemenBanptTerapanS1;
-use App\Models\StandarElemenBanptTerapanS2;
-use App\Models\StandarElemenBanptTerapanS3;
-use App\Models\StandarElemenLamdikD3;
-use App\Models\StandarElemenLamdikS1;
-use App\Models\StandarElemenLamdikS2;
-use App\Models\StandarElemenLamdikS3;
-use App\Models\StandarElemenLamdikTerapanS1;
-use App\Models\StandarElemenLamdikTerapanS2;
-use App\Models\StandarElemenLamdikTerapanS3;
+use App\Models\Standard;
+use App\Models\StandarAkreditasi;
+use App\Models\Jenjang;
 use App\Models\TransaksiAmi;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -48,94 +37,46 @@ class UserStatistikTotalController extends Controller
     public function chartTotal(Request $request, $periode, $prodi)
     {
         $transaksi_ami = TransaksiAmi::where('periode', $periode)
-        ->where('prodi', $prodi)
-        ->with('auditorAmi.user') 
-        ->first();
+            ->where('prodi', $prodi)
+            ->with('auditorAmi.user')
+            ->first();
 
-        $akses = $transaksi_ami->standar_akreditasi;
-
-        preg_match('/\b(S[0-9]+(?: Terapan)?|D[0-9]+|PPG)\b/', $prodi, $matches);
-        $degree = $matches[0] ?? 'PPG';
-
-        $key = trim($akses . ' ' . $degree);
-
-        $degreeMappings = [
-            'BAN-PT D3' => [
-                'modelClass' => StandarElemenBanptD3::class,
-                'standarNilaisRelation' => 'standarNilaisD3',
-            ],
-            'BAN-PT S1' => [
-                'modelClass' => StandarElemenBanptS1::class,
-                'standarNilaisRelation' => 'standarNilaisBanptS1',
-            ],
-            'LAMDIK PPG' => [
-                'modelClass' => StandarElemenLamdikD3::class,
-                'standarNilaisRelation' => 'standarNilaisLamdikD3',
-            ],
-            'LAMDIK S1' => [
-                'modelClass' => StandarElemenLamdikS1::class,
-                'standarNilaisRelation' => 'standarNilaisLamdikS1',
-            ],
-            'LAMDIK S2' => [
-                'modelClass' => StandarElemenLamdikS2::class,
-                'standarNilaisRelation' => 'standarNilaisLamdikS2',
-            ],
-        ];
-
-        if (!isset($degreeMappings[$key])) {
-            Log::warning("Unknown degree key: {$key}, falling back to BAN-PT S1");
-        }
-        $degreeInfo = $degreeMappings[$key] ?? $degreeMappings['BAN-PT S1'];
-
-        $modelClass = $degreeInfo['modelClass'];
-        $standarNilaisRelation = $degreeInfo['standarNilaisRelation'];
-
-        $data_standar = [];
-        $degree = trim($degree);
-
-        $data_standar = $modelClass::with([
-            $standarNilaisRelation => function ($query) use ($periode, $prodi) {
-                $query->select('id', 'indikator_id', 'hasil_nilai')
-                    ->where('periode', $periode)
-                    ->where('prodi', $prodi);
-            }
-        ])
-        ->when($request->q, function ($query) use ($request) {
-            $query->where('elemen_nama', 'like', '%' . $request->q . '%');
-        })
-        ->select('id', 'indikator_id', 'elemen_nama')
-        ->latest()
-        ->get();
-
-        Log::info($data_standar);
-
-        $categories = [];
-        $averages = [];
-
-        foreach ($data_standar as $standar) {
-            $categories[] = $standar->indikator_id;
-
-            if ($standar->$standarNilaisRelation && $standar->$standarNilaisRelation->count() > 0) {
-                $matchingNilai = $standar->$standarNilaisRelation->firstWhere('indikator_id', $standar->indikator_id);
-                if ($matchingNilai) {
-                    $averages[] = $matchingNilai->hasil_nilai;
-                } else {
-                    $averages[] = null;
-                }
-            } else {
-                $averages[] = null;
-            }
+        $akreditasi_kode = $transaksi_ami->standar_akreditasi ?? 'BAN-PT';
+        $jenjang_nama = trim(explode(' - ', (string) $prodi, 2)[0]);
+        if ($jenjang_nama === '') {
+            $jenjang_nama = 'S1';
         }
 
-        Log::info($categories);
-        Log::info($averages);
+        if (!in_array($akreditasi_kode, StandarAkreditasi::pluck('nama')->toArray(), true)) {
+            Log::warning('Nilai akreditasi tidak valid, fallback ke BAN-PT', ['nilai' => $akreditasi_kode]);
+            $akreditasi_kode = 'BAN-PT';
+        }
+        if (!in_array($jenjang_nama, Jenjang::pluck('nama')->toArray(), true)) {
+            Log::warning('Nilai jenjang tidak valid, fallback ke S1', ['nilai' => $jenjang_nama]);
+            $jenjang_nama = 'S1';
+        }
+
+        $akreditasi = StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
+        $jenjang = Jenjang::where('nama', $jenjang_nama)->firstOrFail();
+
+        $standards = Standard::query()
+            ->with([
+                'elements.indicators.dokumen_nilais' => function ($q) use ($periode, $prodi) {
+                    $q->where('periode', $periode)->where('prodi', $prodi);
+                },
+                'buktiStandar',
+            ])
+            ->where('standar_akreditasi_id', $akreditasi->id)
+            ->where('jenjang_id', $jenjang->id)
+            ->get();
 
         return view('pages.user.statistik-total.chart-total.index', [
+            'akreditasi' => $akreditasi,
+            'jenjang' => $jenjang,
+            'standards' => $standards,
             'periode' => $periode,
             'prodi' => $prodi,
-            'categories' => $categories,
-            'averages' => $averages,
-            'key' => $key,
+            'transaksi_ami' => $transaksi_ami,
         ]);
     }
 }

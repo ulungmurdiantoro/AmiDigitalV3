@@ -51,19 +51,25 @@ class KriteriaLamdikSeeder extends Seeder
                     $teks = trim($it['indikator'] ?? '');
                     if ($teks === '') continue;
 
+                    // Nama elemen asli (dari Excel) bila ada; fallback ke teks indikator (sumber PDF).
+                    $elemenNama = trim($it['elemen'] ?? '');
+                    if ($elemenNama === '') $elemenNama = $teks;
+
                     // 1 elemen per indikator (instrumen LAMDIK: elemen 1:1 dengan indikator).
                     $element = Element::firstOrCreate([
                         'standard_id' => $standard->id,
-                        'nama'        => $teks,
+                        'nama'        => $elemenNama,
                     ]);
                     if ($element->wasRecentlyCreated) $cEl++;
 
-                    $ind = Indikator::firstOrCreate(
+                    $info = trim($it['info'] ?? '');
+                    $ind = Indikator::updateOrCreate(
                         ['elemen_id' => $element->id, 'nama_indikator' => $teks],
                         [
                             'indikator_kode' => $it['kode'] ?? null,
                             'bobot'          => $it['bobot'] ?? null,
                             'kategori'       => $kriteria,
+                            'info'           => $info !== '' ? $info : null,
                         ]
                     );
                     if ($ind->wasRecentlyCreated) $cInd++;

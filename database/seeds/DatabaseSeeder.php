@@ -2,13 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\Classroom;
-use App\Models\Exam;
-use App\Models\ExamSession;
-use App\Models\Student;
-use App\Models\Report;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,14 +11,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call([
+            // Master / referensi
+            StandarAkreditasiSeeder::class,
+            JenjangSeeder::class,
+            FakultasSeeder::class,
+            JurusanSeeder::class,
+            ProgramStudiSeeder::class,
 
-        // User::factory()->create([
-        //     'users_code'    => 'usr-' . rand(11, 99) . uniqid(),
-        //     'name'          => 'Administrator',
-        //     'email'         => 'admin@gmail.com',
-        //     'password'      => bcrypt('password'),
-        // ]);
+            // Kriteria akreditasi dari file Excel (database/data/*.xlsx)
+            KriteriaBanptSeeder::class,
+            // Kriteria LAMEMBA (struktur ditanam; 1 instrumen untuk semua jenjang)
+            KriteriaLamembaSeeder::class,
+            // Kriteria LAMDIK (dari database/data/lamdik.json hasil ekstraksi PDF)
+            KriteriaLamdikSeeder::class,
 
+            // Akun login
+            UserSeeder::class,
+        ]);
     }
 }

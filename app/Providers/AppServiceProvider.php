@@ -9,7 +9,13 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        //
+        // Aplikasi memakai auth sendiri (UserController), bukan Laravel Fortify.
+        // Cegah Fortify mendaftarkan route bawaannya (GET /login dll) yang bentrok
+        // dengan route bernama "login" milik aplikasi dan butuh LoginViewResponse
+        // yang tidak dikonfigurasi.
+        if (class_exists(\Laravel\Fortify\Fortify::class)) {
+            \Laravel\Fortify\Fortify::ignoreRoutes();
+        }
     }
 
     public function boot()

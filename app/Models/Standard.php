@@ -13,6 +13,7 @@ class Standard extends Model
         'standar_akreditasi_id',
         'jenjang_id',
         'nama',
+        'deskripsi',
     ];
 
     public function elements() {

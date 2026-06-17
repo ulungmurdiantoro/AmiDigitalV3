@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('indikators', function (Blueprint $table) {
             $table->id();
             $table->foreignId('elemen_id')->constrained('elements')->onDelete('cascade');
+            $table->string('indikator_kode', 20)->nullable();
             $table->text('nama_indikator');
             $table->string('kategori')->nullable();
             $table->text('info')->nullable();

@@ -1,0 +1,2373 @@
+{
+    "S1": {
+        "Visi Keilmuan Program Studi": [
+            {
+                "kode": "65",
+                "bobot": 1,
+                "indikator": "Elemenelemen tersebut dirancang untuk memastikan bahwa semua aspek penting dari pengelolaan dan pelaksanaan PS terukur secara sistematis, guna mendukung pencapaian standar mutu pendidikan tinggi yang baik."
+            },
+            {
+                "kode": "4",
+                "bobot": 1.25,
+                "indikator": "Skor 1 menunjukkan bahwa elemen tersebut tidak memenuhi standar mutu yang ditetapkan. Sebaliknya, skor 4 mencerminkan kualitas tertinggi, yang berarti elemen tersebut sepenuhnya memenuhi semua parameter mutu yang ditetapkan. Apabila elemen hanya memenuhi sebagian standar mutu atau implementasinya dinilai belum optimal, maka elemen tersebut diberi skor 2 sampai 3. Penentuan skor ini dilakukan oleh asesor menggunakan dengan expert judgement berdasarkan parameter-parameter yang telah dirumuskan. Pendekatan ini dirancang untuk memberikan penilaian yang obyektif namun tetap fleksibel, sehingga"
+            },
+            {
+                "kode": "1",
+                "bobot": 1.5,
+                "indikator": "PS memiliki visi keilmuan yang dirumuskan (a) secara tepat sebagai visi keilmuan, (b) menunjukkan kekhasan PS, (c) berwawasan ke depan, (d) relevan dengan perkembangan IPTEKS dan kebutuhan masyarakat, dan (e) selaras dengan visi kelembagaan PT/UPPS."
+            },
+            {
+                "kode": "2",
+                "bobot": 1.5,
+                "indikator": "Dalam tiga tahun terakhir,"
+            },
+            {
+                "kode": "3",
+                "bobot": 1.25,
+                "indikator": "Visi keilmuan PS menjadi rujukan (a) pengembangan kurikulum; (b) pelaksanaan pembelajaran; (c) pelaksanaan penelitian, dan (d) pelaksanaan PkM."
+            }
+        ],
+        "Tata Pamong dan Tata Kelola UPPS": [
+            {
+                "kode": "5",
+                "bobot": 1.5,
+                "indikator": "Tata pamong di UPPS yang: (a) memiliki 5 aspek: (1) struktur organisasi, (2) job description tiap organ, (3) staffing, (4) tata hubungan antar organ, (5) mekanisme dan sistem kontrol; (b) memenuhi prinsip good governance: (1) kredibel, (2) transparan, (3) akuntabel, (4) bertanggung jawab, dan (5) adil."
+            },
+            {
+                "kode": "6",
+                "bobot": 1.5,
+                "indikator": "UPPS menjalankan proses tata kelola secara efektif yang mencakup aspek (a) perencanaan, (b) pengorganisasian, (c) penempatan personel, (d) pelaksanaan, (e) pengendalian dan"
+            },
+            {
+                "kode": "7",
+                "bobot": 1.5,
+                "indikator": "(a) PT/UPPS menjalin kerjasama dalam bidang pendidikan, penelitian, dan PkM dengan pihak lain di tingkat wilayah/lokal, nasional dan internasional dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "8",
+                "bobot": 1.25,
+                "indikator": "UPPS melakukan evaluasi dan refleksi terhadap kriteria Tata Pamong dan"
+            }
+        ],
+        "Mahasiswa": [
+            {
+                "kode": "9",
+                "bobot": 1.25,
+                "indikator": "PT/UPPS melaksanakan"
+            },
+            {
+                "kode": "10",
+                "bobot": 1.25,
+                "indikator": "(a) PS memperoleh mahasiswa baru dengan kualitas input yang baik, yang memenuhi aspekaspek sebagai berikut: (1) memiliki kriteria seleksi yang tinggi, (2) memiliki mekanisme seleksi yang ketat, (3) rasio pendaftar dan yang diterima minimal 1:1, dan (4) jumlah pendaftar memenuhi daya tampung dalam 5 tahun terakhir. (b) PS melakukan analisis terhadap (1) rasio pendaftar dan yang diterima, (2) jumlah pendaftar terhadap daya tampung, dan (3) kualitas input berdasarkan mekanisme dan hasil seleksi."
+            },
+            {
+                "kode": "11",
+                "bobot": 1.25,
+                "indikator": "Rasio jumlah DTPS terhadap jumlah mahasiswa: (a) memungkinkan mahasiswa berinteraksi dengan dan memperoleh bimbingan dari dosen dengan baik."
+            },
+            {
+                "kode": "12",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS (a) menyediakan layanan mahasiswa yang mencakup: (1) administrasi akademik, (2) bimbingan konseling, (3) Kesehatan, (4) keperluan dasar untuk mahasiswa berkebutuhan khusus, (5) beasiswa, (6) layanan Teknologi Informasi (TI), dan (7) bimbingan penulisan dan publikasi artikel; (b) Layanan tersebut"
+            },
+            {
+                "kode": "13",
+                "bobot": 2,
+                "indikator": "PT/UPPS/PS menyediakan layanan perlindungan kepada mahasiswa dari perundungan, pelecehan seksual, dan intoleransi yang meliputi aspek-aspek berikut: (a) Ketersediaan unit /organ/satuan tugas pelaksana, (b) Ketersediaan panduan, (c) Kegiatan sosialisasi dan pelatihan di PS, dan (d) Ketersediaan bukti pelaksanaan di tingkat PS."
+            },
+            {
+                "kode": "14",
+                "bobot": 2.5,
+                "indikator": "Prestasi mahasiswa: (a) mahasiswa memiliki prestasi akademik (seperti juara 1,2,3 dalam LKTI/PIMNAS dan sejenisnya, mengikuti program pertukaran mahasiswa internasional, dan meraih medali di olimpiade sains) dan non akademik (seperti juara di bidang olah raga, bidang seni, dan bidang kepemimpinan/organisasi) dalam tiga tahun terakhir."
+            },
+            {
+                "kode": "15",
+                "bobot": 1.5,
+                "indikator": "Produktivitas karya inovatif dan/atau publikasi ilmiah mahasiswa: (a) dalam 5 tahun terakhir, mahasiswa dalam jumlah tertentu menghasilkan karya inovatif, publikasi ilmiah yang sesuai dengan bidang keilmuan PS, dan/atau karya seni yang dipamerkan/ dipagelarkan."
+            },
+            {
+                "kode": "16",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan pengukuran kepuasan mahasiswa terhadap (a) performa mengajar dosen, layanan administrasi akademik, dan kuantitaskualitas fasilitas pendidikan yang memenuhi 6 aspek sebagai berikut: (1) menggunakan instrumen kepuasan yang valid dan mudah digunakan, (2) dilaksanakan di setiap akhir semester dan datanya terekam secara lengkap, (3) hasilnya dianalisis dengan metode yang tepat dan bermanfaat untuk pengambilan keputusan, (4) dilakukan review terhadap"
+            },
+            {
+                "kode": "17",
+                "bobot": 1.25,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria mahasiswa serta tindak lanjut, dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi (1) dilakukan terhadap elemenelemen pada kriteria mahasiswa dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara"
+            }
+        ],
+        "Dosen dan Tenaga Kependidikan": [
+            {
+                "kode": "18",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS/PS melaksanakan seleksi calon dosen dan tenaga kependidikan yang memenuhi aspek-aspek sbb: (a) melakukan analisis kebutuhan, (b) pengumuman yang transparan, (c) seleksi berbasisi kompetensi, (d) metode seleksi yang beragam, (e) pengumuman hasil, dan (f) memberi kesempatan banding."
+            },
+            {
+                "kode": "19",
+                "bobot": 1.25,
+                "indikator": "Pada saat TS, DTPS memiliki"
+            },
+            {
+                "kode": "20",
+                "bobot": 1.75,
+                "indikator": "Beban kerja DTPS: (a) beban Kerja dalam satu tahun terakhir memungkinkan DTPS bekerja secara maksimal."
+            },
+            {
+                "kode": "21",
+                "bobot": 1.75,
+                "indikator": "Pengakuan kepakaran DTPS: (a) DTPS memiliki prestasi yang diakui di tingkat wilayah/lokal, nasional dan/atau internasional."
+            },
+            {
+                "kode": "22",
+                "bobot": 1.25,
+                "indikator": "Pengembangan kompetensi dosen: (a) DTPS mengikut kegiatan pengembangan kompetensi (postdoct academic recharging program-ARP), sertifikasi kompetensi dari BNSP atau lembaga sertifikasi internasional, workshop/pelatihan minimal 32 jam, seminar/konferensi yang relevan dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "23",
+                "bobot": 1.5,
+                "indikator": "(a) tenaga kependidikan mengikuti kegiatan pengembangan kompetensi (studi lanjut, sertifikasi kompetensi dari BNSP atau lembaga sertifikasi internasional, workshop/pelatihan minimal 16 jam yang relevan) yang mendukung pengembangan tenaga kependidikan dalam 3 tahun terakhir. (b) PS melakukan analisis kontribusi kecukupan, kompetensi, dan partisipasi tenaga kependidikan dalam program pengembangan pada: (1) peningkatan kualitas layanan administrasi, (2) keefektifan tata kelola, dan (3) pencapaian mutu akademik dan non-akademik di UPPS/PS."
+            },
+            {
+                "kode": "24",
+                "bobot": 1,
+                "indikator": "UPPS melakukan evaluasi dan refleksi terhadap kriteria dosen dan tenaga kependidikan serta tindak lanjut, dengan ketentuan sebagai berikut. (a) Evaluasi"
+            }
+        ],
+        "Keuangan, Sarana, dan Prasarana Pendidikan": [
+            {
+                "kode": "25",
+                "bobot": 1.5,
+                "indikator": "UPPS menjalankan prinsip keuangan yang transparan tercermin dari aspek (a) perencanaan, (b) pelaksanaan, (c) evaluasi, (d) tindak lanjut, (e) berbasis sistem informasi."
+            },
+            {
+                "kode": "26",
+                "bobot": 1.25,
+                "indikator": "PS mengelola anggaran operasional pendidikan, penelitian, PkM yang memadai dari PT/UPPS, dan melakukan analisis terhadap aspek: (a) penggunaan anggaran untuk menjamin terlaksananya kegiatan tridharma secara efektif, dan (b) dampak penggunaan anggaran terhadap kinerja PS."
+            },
+            {
+                "kode": "27",
+                "bobot": 1.25,
+                "indikator": "PT/UPPS menyediakan sarana dan prasarana utama untuk mendukung kegiatan akademik dan administrasi yang memenuhi aspek (a) kelengkapan, (b) kualitas,"
+            },
+            {
+                "kode": "28",
+                "bobot": 1.25,
+                "indikator": "PT/UPPS menyediakan infrastruktur dan teknologi informasi (TI) dan mengembangkan platform digital untuk mendukung kegiatan akademik dan administrasi yang memenuhi aspek (a) kelengkapan, (b) kualitas, (c) kemutakhiran, (d) keterintegrasian, (e) keterawatan, (f) aksesibilitas, dan (g) analisis dampaknya terhadap kegiatan akademik dan administrasi."
+            },
+            {
+                "kode": "29",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS menjamin pemenuhan standar K3L belajar/bekerja yang memenuhi aspek (a) ketersediaan kebijakan, (b) ketersediaan sistem manajemen, (c) ketersediaan peralatan dan fasilitas pendukung, (d) pelaksanaan sosialisasi dan"
+            },
+            {
+                "kode": "30",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS melakukan evaluasi dan refleksi serta tindak lanjut terhadap kriteria keuangan dan sarpras pendidikan dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi (1) dilakukan terhadap elemenelemen keuangan dan sarpras pendidikan dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih; (b) Tindak lanjut (1) didasarkan pada hasil evaluasi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu,(3) dimonitor untuk memastikan tindak lanjut benar-benar"
+            }
+        ],
+        "Pendidikan": [
+            {
+                "kode": "31",
+                "bobot": 2,
+                "indikator": "UPPS/PS memiliki kurikulum berbasis luaran (OBE) yang: (a) disusun secara sistematis dengan tahapan sbb: (1) evaluasi kurikulum berjalan, (2) penyusunan dokumen kurikulum, (3) review dan perbaikan, (4) pelaksanaan, dan (5) evaluasi dan tindak lanjut, (6) melibatkan stakeholders internal (pimpinan UPPS/PS, dosen, mahasiswa, tenaga kependidikan) dan stakeholders eksternal (alumni, pengguna lulusan, asosiasi program studi/profesi, pakar) dalam proses penyusunan kurikulum; dan (b) memenuhi karakteristik kurukulum yang baik sbb: (1) lengkap, (2) sesuai dengan level KKNI, (3) koheren (ketepatan struktur kurikulum dalam pencapaian CPL), (4)"
+            },
+            {
+                "kode": "32",
+                "bobot": 2,
+                "indikator": "DTPS melaksanakan pembelajaran yang (a) sesuai dengan RPS yang telah disusun, (b) menciptakan suasana belajar yang menyenangkan, inklusif, kolaboratif, kreatif, dan efektif serta berpusat pada mahasiswa, (c) merealisasikan CPL melalui sub-CPMK, (d) fleksibel: luring, daring, atau bauran (hybrid), (e) melaksanakan assessment for learning, (f) mengintegrasikan hasil penelitian/PkM, (g)"
+            },
+            {
+                "kode": "33",
+                "bobot": 2,
+                "indikator": "(a) DTPS mengintegrasikan penelitian dan/atau PkM dalam pembelajaran yang memenuhi aspek berikut: (1) hasil penelitian/PkM relevan dengan mata kuliah; (2) hasil penelitian menjadi bagian dari materi mata kuliah; (3) pengintegrasian disertai bukti, seperti materi presentasi, handout, atau modul; (b) DTPS yang mengintegrasikan hasil penelitian/PkM dalam pembelajaran mencapai jumlah yang memadai;"
+            },
+            {
+                "kode": "34",
+                "bobot": 2,
+                "indikator": "DTPS melaksanakan penilaian pembelajaran yang (a) sesuai dengan tujuan khusus pembelajaran/Sub-CPMK, (b) menggunakan teknik penilaian yang bervariasi, (c) memiliki tingkat kesulitan yang proporsional, (d) memberikan umpan balik yang konstruktif, dan (e) memberi kesempatan kepada mahasiswa untuk melakukan banding terhadap hasil penilaian."
+            },
+            {
+                "kode": "35",
+                "bobot": 1.75,
+                "indikator": "PS melaksanakan microteaching atau nama lain yang sejenis bagi PS kependidikan nonmengajar yang: (a) memenuhi"
+            },
+            {
+                "kode": "36",
+                "bobot": 1.5,
+                "indikator": "UPPS melaksanakan program magang kependidikan dengan lama waktu tertentu, yang tercermin dari adanya: (a) kerja sama antara UPPS dengan lembaga mitra; (b) panduan pelaksanaan magang; (c) unit pelaksana magang; (d) laporan pelaksanaan magang; (e) laporan monitoring dan evaluasi pelaksanaan magang; (f) laporan tindak lanjut hasil monitoring dan evaluasi pelaksanaan magang; dan (g) analisis terhadap keefektifan program magang kependidikan."
+            },
+            {
+                "kode": "37",
+                "bobot": 1.5,
+                "indikator": "Dosen pembimbing melaksanakan pembimbingan magang kependidikan dengan frekuensi tertentu secara intensif dan berkualitas yang tercermin dari: (a) kemudahan pembimbing untuk diakses oleh mahasiswa; (b) frekuensi pembimbingan yang memadai; (c) pemberian umpan balik yang konstrukstif; (d)"
+            },
+            {
+                "kode": "38",
+                "bobot": 1.75,
+                "indikator": "PS meningkatkan suasana akademik melalui kebebasan mimbar akademik dan otonomi keilmuan dengan menyelenggarakan kegiatan akademik di luar kelas yang: (a) beragam, (b) intensif dan berkelanjutan, (c) relevan dengan visi keilmuan PS, dan (d) didokumentasikan secara lengkap dan terstruktur."
+            },
+            {
+                "kode": "39",
+                "bobot": 1,
+                "indikator": "Pembimbingan Tugas Akhir oleh DTPS memenuhi aspek: (a) Ketersediaan panduan dan sistem informasi tugas akhir, (b) Kecukupan jumlah pembimbing utama tugas akhir, (c) Frekuensi pembimbingan, dan (d) analisis terhadap"
+            },
+            {
+                "kode": "40",
+                "bobot": 1.5,
+                "indikator": "(a) lulusan PS memiliki ratarata IPK yang baik dalam 3 tahun terakhir;"
+            },
+            {
+                "kode": "41",
+                "bobot": 1.5,
+                "indikator": "(a) Rata-rata masa studi lulusan dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "42",
+                "bobot": 1.5,
+                "indikator": "(a) Mahasiswa dapat menyelesaikan studinya sesuai masa tempuh kurikulum (MTK)."
+            },
+            {
+                "kode": "43",
+                "bobot": 1.5,
+                "indikator": "(a) Mahasiswa berhasil menyelesaikan studinya."
+            },
+            {
+                "kode": "44",
+                "bobot": 1.25,
+                "indikator": "UPPS/PS melakukan tracer study yang mencakup 5 aspek, yaitu: (a) terkoordinasi ditingkat PT/ UPPS, (b) dilakukan secara regular setiap tahun dan terdokumentasi, (c) menggunakan instrumen yang mencakup seluruh inti pertanyaan tracer study Pendidikan tinggi, (d) ditargetkan pada seluruh lulusan TS-4 s.d TS-2, (e) analisis terhadap hasil tracer study, dan (f) hasilnya disosialisasikan dan digunakan untuk pengembangan kurikulum dan pembelajaran."
+            },
+            {
+                "kode": "45",
+                "bobot": 1,
+                "indikator": "(a) Setelah menyelesaikan studi, para lulusan PS (1) bekerja di lembaga pendidikan tertentu atau bidang lainnya yang relevan dengan profil lulusan, (2) melakukan usaha mandiri, (3) melakukan studi lanjut ke S2, atau (4) mengikuti program pendidikan profesi guru (PPG)."
+            },
+            {
+                "kode": "46",
+                "bobot": 1,
+                "indikator": "(a) Mahasiswa PS mendapatkan pekerjaan pertama setelah lulus."
+            },
+            {
+                "kode": "47",
+                "bobot": 1.5,
+                "indikator": "(a) Lulusan PS memperoleh"
+            },
+            {
+                "kode": "48",
+                "bobot": 2,
+                "indikator": "(a) UPPS/PS melakukan evaluasi tingkat kepuasan pengguna lulusan terhadap kompetensi yang dimiliki oleh lulusan, yang mencakup aspek (1) etika, (2) keahlian pada bidang ilmu (kompetensi utama), (3) kemampuan berbahasa asing, (4) penggunaan teknologi informasi, (5) kemampuan berkomunikasi, (6) kerjasama (7) pengembangan diri (8) berpikir kritis, dan (9) kreativitas."
+            },
+            {
+                "kode": "49",
+                "bobot": 1.5,
+                "indikator": "PS melakukan asesmen pencapaian Capaian Pembelajaran Lulusan (CPL) berdasarkan capaian hasil belajar mahasiswa pada mata kuliah penciri"
+            },
+            {
+                "kode": "50",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan evaluasi kurikulum PS yang memenuhi aspek-aspek sebagai berikut: (a) evaluasi mikro dilakukan paling lama 1 tahun sekali; (b) evaluasi makro dilakukan paling lama 5 tahun sekali; (c) evaluasi merujuk pada kebijakan pemerintah; visi keilmuan PS; perkembangan IPTEKS (termasuk literasi digital), tuntutan industri,"
+            },
+            {
+                "kode": "51",
+                "bobot": 1,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi serta tindak lanjut terhadap pendidikan, dengan ketentuan sebagai berikut. (a) Evaluasi (1) dilakukan terhadap elemen-elemen pendidikan dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara"
+            }
+        ],
+        "Penelitian": [
+            {
+                "kode": "52",
+                "bobot": 2.25,
+                "indikator": "PS memiliki peta jalan penelitian yang (a) mendukung pencapaian visi keilmuan PS, (b) memiliki fokus dan tahapan yang jelas, dan (c) didukung oleh SDM yang kompeten dalam keilmuan, dan (d) disertasi dengan analisis terhadap ketepatan dan relevansi peta jalan penelitian."
+            },
+            {
+                "kode": "53",
+                "bobot": 1,
+                "indikator": "(a) DTPS melakukan penelitian dengan dana mandiri/PT, dana dalam negeri, dan dana dari luar negeri dalam tiga tahun terakhir."
+            },
+            {
+                "kode": "54",
+                "bobot": 2.5,
+                "indikator": "(a) DTPS melibatkan mahasiswa dalam kegiatan penelitiannya."
+            },
+            {
+                "kode": "55",
+                "bobot": 2,
+                "indikator": "(a) Dalam 3 tahun terakhir, 20% DTPS memiliki karya yang (1) dipublikasikan di jurnal nasional dan/atau jurnal internasional, (2) dipresentasikan di seminar nasional dan/atau internasional, dan (3) dipublikasikan di media massa wilayah, nasional, dan/atau internasional."
+            },
+            {
+                "kode": "56",
+                "bobot": 2,
+                "indikator": "Dalam tiga tahun terakhir, (a) DTPS memiliki publikasi di jurnal nasional dan/atau jurnal internasional sebagai penulis pertama atau corresponding author."
+            },
+            {
+                "kode": "57",
+                "bobot": 1.5,
+                "indikator": "(a) Jumlah artikel ilmiah DTPS yang disitasi dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "58",
+                "bobot": 2,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria penelitian"
+            }
+        ],
+        "Pengabdian Kepada Masyarakat": [
+            {
+                "kode": "59",
+                "bobot": 1,
+                "indikator": "(a) DTPS memiliki"
+            },
+            {
+                "kode": "60",
+                "bobot": 1.5,
+                "indikator": "(a) DTPS melibatkan mahasiswa dalam kegiatan PkM."
+            },
+            {
+                "kode": "61",
+                "bobot": 1.75,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria PkM serta tindak lanjut dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi: (1) dilakukan terhadap elemenelemen PkM dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk memastikan tindak lanjut benar-benar diimplementasikan, (4) didukung bukti pelaksanaan yang lengkap dan sahih, dan (5) digunakan sebagai dasar"
+            }
+        ],
+        "Penjaminan Mutu": [
+            {
+                "kode": "62",
+                "bobot": 1.75,
+                "indikator": "UPPS memiliki unsur pelaksana penjaminan mutu di UPPS yang tercermin dari adanya (a) surat keputusan pembentukan unit penjaminan mutu, (b) struktur organisasi penjaminan mutu, (c) deskripsi kerja personil yang ada dalam struktur organisasi, dan (d) personil yang kompeten dalam bidang penjaminan mutu."
+            },
+            {
+                "kode": "63",
+                "bobot": 2.5,
+                "indikator": "PT/UPPS: menetapkan perangkat Sistem Penjaminan Mutu Internal (SPMI) yang minimal mencakup: (1) kebijakan SPMI, (2) pedoman penerapan siklus PPEPP standar pendidikan tinggi dalam SPMI, (3) standar dan/atau kriteria penyelenggaraan pendidikan dan pengelolaan perguruan tinggi, (4) tata cara pendokumentasian implementasi SPMI; dengan pemanfaatan TI untuk mendukung implementasi SPMI."
+            },
+            {
+                "kode": "64",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS/PS melaksanakan SPMI dengan mengikuti 5 tahap dalam siklus (a) Penetapan, (b) Pelaksanaan, (c) Evaluasi, (d) Pengendalian, dan (e) Peningkatan standar pendidikan tinggi (SN Dikti dan Standar Pendidikan tinggi yang ditetapkan oleh perguruan tinggi)."
+            }
+        ]
+    },
+    "S1 PJJ": {
+        "Visi Keilmuan Program Studi": [
+            {
+                "kode": "70",
+                "bobot": 1,
+                "indikator": "Elemenelemen tersebut dirancang untuk memastikan bahwa semua aspek penting dari pengelolaan dan pelaksanaan PS terukur secara sistematis, guna mendukung pencapaian standar mutu pendidikan tinggi yang unggul."
+            },
+            {
+                "kode": "4",
+                "bobot": 1,
+                "indikator": "Skor 1 menunjukkan bahwa elemen tersebut tidak memenuhi standar mutu yang ditetapkan. Sebaliknya, skor 4 mencerminkan kualitas tertinggi, yang berarti elemen tersebut sepenuhnya memenuhi semua parameter mutu yang ditetapkan. Apabila elemen hanya memenuhi sebagian standar mutu atau implementasinya dinilai belum optimal, maka elemen tersebut diberi skor 2 sampai 3. Penentuan skor ini dilakukan oleh asesor menggunakan expert judgement berdasarkan parameter-parameter yang telah dirumuskan. Pendekatan ini dirancang untuk memberikan penilaian yang obyektif namun tetap fleksibel, sehingga dapat mencerminkan variasi dalam tingkat pencapaian mutu di berbagai elemen penilaian."
+            },
+            {
+                "kode": "1",
+                "bobot": 1.5,
+                "indikator": "PS memiliki visi keilmuan yang dirumuskan (a) secara tepat sebagai visi keilmuan, (b) menunjukkan kekhasan PS, (c) berwawasan ke depan, (d) relevan dengan perkembangan IPTEKS dan kebutuhan masyarakat, dan (e) selaras dengan visi kelembagaan PT/UPPS."
+            },
+            {
+                "kode": "2",
+                "bobot": 1.5,
+                "indikator": "Dalam 3 tahun terakhir, PS (a) melakukan sosialisasi visi keilmuan kepada para pemangku kepentingan melalui (1) rapat PS, (2) kuliah umum PS, (3) flyer/banner/ papan, dll, (4) website PS, (5) media sosial PS, (b) mengukur, menganalisis dan mengevaluasi pemahaman pemangku kepentingan terhadap visi keilmuan tersebut secara periodik, dan (c) menindaklanjuti hasil evaluasi tersebut."
+            },
+            {
+                "kode": "3",
+                "bobot": 1.25,
+                "indikator": "Visi keilmuan PS menjadi rujukan (a) pengembangan kurikulum; (b) pelaksanaan pembelajaran; (c) pelaksanaan penelitian, dan (d) pelaksanaan PkM."
+            }
+        ],
+        "Tata Pamong dan Tata Kelola UPPS": [
+            {
+                "kode": "5",
+                "bobot": 1.5,
+                "indikator": "Tata pamong di UPPS yang: (a) memiliki 5 aspek: (1) struktur organisasi, (2) job description tiap organ, (3) staffing, (4) tata hubungan antar organ, (5) mekanisme dan sistem kontrol. (b) memenuhi prinsip good governance: (1) kredibel, (2) transparan, (3) akuntabel, (4) bertanggung jawab, dan (5) adil."
+            },
+            {
+                "kode": "6",
+                "bobot": 1.5,
+                "indikator": "UPPS menjalankan proses tata kelola secara efektif yang mencakup aspek (a) perencanaan, (b) pengorganisasian, (c) penempatan personel, (d) pelaksanaan, (e) pengendalian dan pengawasan, dan (f) pelaporan yang menjadi dasar tindak lanjut."
+            },
+            {
+                "kode": "7",
+                "bobot": 1.5,
+                "indikator": "(a) PT/UPPS menjalin kerja Jika RK 4, maka A = 4"
+            },
+            {
+                "kode": "8",
+                "bobot": 1,
+                "indikator": "UPPS melakukan evaluasi dan refleksi terhadap kriteria Tata Pamong dan Tata Kelola UPPS serta Tindak Lanjut, dengan aspek berikut. (a) Evaluasi dan Refleksi (1) dilakukan terhadap elemen-elemen tata kelola dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak Lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk"
+            }
+        ],
+        "Mahasiswa": [
+            {
+                "kode": "9",
+                "bobot": 1,
+                "indikator": "PT/UPPS melaksanakan seleksi calon mahasiswa baru yang mencerminkan prinsip (1) kualitas, (2) keadilan, (3) inklusivitas, (4) transparansi, (5) akuntabilitas, dan (6) fleksibilitas."
+            },
+            {
+                "kode": "10",
+                "bobot": 1.25,
+                "indikator": "(a) PT/UPPS melaksanakan pemetaan input mahasiswa baru dengan kualitas input yang baik, yang meliputi (1) memenuhi persyaratan administrasi, (2) domisili, (3) hasil tes skolastik, dan (4) kemampuan IT. (b) PS melakukan analisis terhadap (1) hasil pemetaan aspek administrasi, (2) hasil pemetaan aspek akademik dan kemampuan IT, dan (3)"
+            },
+            {
+                "kode": "11",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS (a) menyediakan layanan mahasiswa yang mencakup: (1) administrasi akademik, (2) bimbingan konseling, (3) Kesehatan, (4) keperluan dasar untuk mahasiswa berkebutuhan khusus, (5) beasiswa, (6) layanan Teknologi Informasi (TI), dan (7) bimbingan penulisan dan publikasi artikel; (b) Layanan tersebut dapat diakses oleh mahasiswa; dan (c) Layanan tersebut memiliki kualitas yang baik."
+            },
+            {
+                "kode": "12",
+                "bobot": 2,
+                "indikator": "PT/UPPS/PS menyediakan layanan perlindungan kepada mahasiswa dari perundungan, pelecehan seksual, dan intoleransi yang meliputi aspek-aspek berikut: (a) Ketersediaan unit /organ/satuan tugas pelaksana, (b) Ketersediaan panduan, (c) Kegiatan sosialisasi dan"
+            },
+            {
+                "kode": "13",
+                "bobot": 2.5,
+                "indikator": "(a) Mahasiswa memiliki prestasi akademik (seperti juara 1,2,3 dalam LKTI/PIMNAS dan sejenisnya, mengikuti program pertukaran mahasiswa internasional, dan meraih medali di olimpiade sains) dan non akademik (seperti juara di bidang olah raga, seni,dan kepemimpinan/organisasi) dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "14",
+                "bobot": 1.5,
+                "indikator": "(a) Dalam 5 tahun terakhir, mahasiswa dalam jumlah tertentu menghasilkan karya inovatif dan/atau publikasi ilmiah yang sesuai dengan bidang keilmuan PS, dan/atau karya seni yang dipamerkan/ dipagelarkan."
+            },
+            {
+                "kode": "15",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan pengukuran kepuasan mahasiswa terhadap (a) performa mengajar dosen, layanan administrasi akademik, dan kuantitas-kualitas fasilitas pendidikan yang memenuhi 6 aspek sebagai berikut: (1) menggunakan instrumen kepuasan yang valid dan mudah digunakan, (2) dilaksanakan di setiap akhir semester dan datanya terekam secara lengkap, (3) hasilnya dianalisis dengan metode yang tepat dan bermanfaat untuk pengambilan keputusan, (4) dilakukan review terhadap hasil pelaksanaan pengukuran kepuasan, (5) ditindaklanjuti untuk perbaikan dan peningkatan mutu pengajaran, dan (6) hasilnya dipublikasikan dan mudah diakses; dan"
+            },
+            {
+                "kode": "16",
+                "bobot": 1,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria mahasiswa serta tindak lanjut, dengan ketentuan sebagai berikut. (a) Evaluasi dan Refleksi (1) dilakukan terhadap elemen-elemen pada kriteria mahasiswa dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4)"
+            }
+        ],
+        "Dosen dan Tenaga Kependidikan": [
+            {
+                "kode": "17",
+                "bobot": 2,
+                "indikator": "PT/UPPS/PS melaksanakan seleksi calon dosen dan tenaga kependidikan yang memenuhi aspek-aspek sbb: (a) melakukan analisis kebutuhan, (b) pengumuman yang transparan, (c) seleksi berbasisi kompetensi, (d) metode seleksi yang beragam, (e) pengumuman hasil, dan (f) memberi kesempatan banding."
+            },
+            {
+                "kode": "18",
+                "bobot": 1,
+                "indikator": "(a) Pada saat TS, DTPS"
+            },
+            {
+                "kode": "19",
+                "bobot": 1.5,
+                "indikator": "(a) Beban Kerja dalam satu tahun terakhir memungkinkan DTPS bekerja secara maksimal (b) PS melakukan analisis distribusi beban kerja DTPS dalam mendukung (1) tercapainya kualitas tridarma yang seimbang (pendidikan, penelitian, PkM), (2) menjaga kesejahteraan dosen dan (3) keberlanjutan mutu program studi"
+            },
+            {
+                "kode": "20",
+                "bobot": 1.5,
+                "indikator": "Pengakuan kepakaran DTPS: (a) DTPS memiliki prestasi yang diakui di tingkat wilayah/lokal, nasional dan/atau internasional."
+            },
+            {
+                "kode": "21",
+                "bobot": 1.25,
+                "indikator": "Pengembangan kompetensi dosen: (a) DTPS mengikuti kegiatan pengembangan kompetensi (postdoct academic recharging program-ARP), sertifikasi kompetensi dari BNSP atau lembaga sertifikasi internasional, workshop/pelatihan minimal 32 jam, seminar/konferensi yang relevan dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "22",
+                "bobot": 1.25,
+                "indikator": "Pendidik dengan tugas khusus memiliki: (a) kualifikasi akademik, (b) jabatan akademik/fungsional yang dipersyaratkan; serta (c) UPPS/PS melakukan analisis kontribusi kualifikasi dan jabatan akademik pendidik tersebut dengan: (1) peningkatan kualitas tridarma, (2) penguatan jejaring akademik, serta (3) pencapaian visi keilmuan program studi secara berkelanjutan."
+            },
+            {
+                "kode": "23",
+                "bobot": 1,
+                "indikator": "(a) Tutor memiliki kualifikasi akademik yang dipersyaratkan (b) UPPS/PS melakukan analisis kecukupan dan kontribusi kualifikasi tutor yang ada dengan: (1) peningkatan kualitas tridharma, (2) penguatan jejaring akademik, serta (3) pencapaian visi keilmuan program studi secara berkelanjutan"
+            },
+            {
+                "kode": "24",
+                "bobot": 1.25,
+                "indikator": "(a) Tenaga kependidikan, yaitu (1) administrator, (2) pustakawan, (3) laboran dan/atau teknisi, (4) pranata teknologi informasi dan komunikasi, (5) pranata teknologi pendidikan, (6) pengelola LMS, memiliki kualifikasi yang dipersyaratkan dan jumlah yang memadai. (b) UPPS/PS melakukan analisis kecukupan dan kontribusi kualifikasi tenaga kependidikan yang ada dengan kualitas: (1) kualitas akademik PJJ, (2) layanan administrasi mahasiswa dan dosen, serta (3) efektivitas tata kelola PS."
+            },
+            {
+                "kode": "25",
+                "bobot": 1.5,
+                "indikator": "Pengembangan kompetensi tenaga kependidikan: (a) Tenaga kependidikan mengikuti kegiatan pengembangan kompetensi (studi lanjut, sertifikasi kompetensi dari BNSP,LSP, atau lembaga sertifikasi internasional, workshop/pelatihan minimal 16 jam yang relevan) yang mendukung pengembangan tenaga kependidikan dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "26",
+                "bobot": 1,
+                "indikator": "UPPS melakukan evaluasi dan refleksi terhadap kriteria dosen dan tendik serta tindak lanjut, dengan ketentuan sebagai berikut. (a) Evaluasi dan Refleksi (1) dilakukan terhadap elemenelemen dosen dan tendik dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/ kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumenta- sikan secara lengkap dan sahih. (b) Tindak Lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur,"
+            }
+        ],
+        "Keuangan, Sarana, dan Prasarana Pendidikan": [
+            {
+                "kode": "27",
+                "bobot": 1.5,
+                "indikator": "UPPS menjalankan prinsip keuangan yang transparan tercermin dari aspek (a) perencanaan, (b) pelaksanaan, (c) evaluasi, (d) tindak lanjut, (e) berbasis sistem informasi."
+            },
+            {
+                "kode": "28",
+                "bobot": 1,
+                "indikator": "PS/DTPS mengelola anggaran operasional pendidikan, penelitian, PkM yang memadai dari PT/UPPS dan sumber lain, dan melakukan analisis terhadap aspek: (1) penggunaan anggaran terlaksananya untuk menjamin kegiatan tridharma PT secara efektif, dan (2)"
+            },
+            {
+                "kode": "29",
+                "bobot": 1,
+                "indikator": "(a) PT/UPPS PJJ menyediakan infrastruktur perangkat keras TIK yang meliputi: (1) Highend Server (misalnya dalam bentuk farm server, colocation server, hosting, cloud, virtual private server (VPS) dan sejenisnya); (2) Fasilitas teleconference; (3) Ketersediaan NOC (Network Operation Center) dan DRC (Disarter Recovery Center); (4) Jaminan pasok daya listrik tidak terputus dengan penyediaan cadangan catu daya melalui 2 (dua) gardu listrik dan genset atau lebih yang memadai. (b) PS melakukan analisis terhadap aspek: (1)"
+            },
+            {
+                "kode": "30",
+                "bobot": 1,
+                "indikator": "(a) PT/UPPS menyediakan server (dedicated) LMS dengan fasilitas berikut: (1) Ruang data (penyimpan/storage) untuk setiap mata kuliah yang diselenggarakan minimal 5 GB per mata kuliah; (2) Kapasitas memori (RAM) yang disediakan paling sedikit berukuran 100 MB per pengguna bersamaan; (3) Kecepatan transfer data untuk akses ke luar sebesar 100 Kbps per pengguna bersamaan; (4) Kecepatan transfer data untuk akses masuk"
+            },
+            {
+                "kode": "31",
+                "bobot": 1,
+                "indikator": "(a) PT/UPPS memiliki LMS dengan fasilitas/fitur: (1) presentasi (sinkron/ asinkron), (2) interaksi/komunikasi (sinkron/asinkron), (3) asesmen (mengakomodasi berbagai format tes), (4) pengelompokan (grouping), (5) pengarsipan bukti pembelajaran (catatan aktivitas/logbook, nilai mahasiswa, learning analytics, dan sejenisnya), (6) Integrasi"
+            },
+            {
+                "kode": "32",
+                "bobot": 1,
+                "indikator": "(a) PT/UPPS memiliki Sistem Informasi Manajemen (SIM) yang meliputi: Sistem Informasi Manajemen berbasis web (Akademik, Kemahasiswaan, Perpustakaan, Kepegawaian, Keuangan, sarana prasarana, dan online helpdesk); dan antar SIM saling berkaitan/terintegrasi."
+            },
+            {
+                "kode": "33",
+                "bobot": 1,
+                "indikator": "(a) Rerata Luas fasilitas belajar di setiap Pusat Belajar Jarak Jauh (PBJJ): (1) Luas ruang dosen per dosen dan status kepemilikan yaitu SD = milik sendiri, KS = Kerja Sama, atau SW = sewa atau kontrak (2) Luas ruang kantor per pegawai dan status kepemilikan yaitu SD = milik sendiri atau SW = sewa atau kontrak atau kerjasama (3) Luas ruang teleconference dan status kepemilikan yaitu SD = milik sendiri, KS = Kerja"
+            },
+            {
+                "kode": "34",
+                "bobot": 1,
+                "indikator": "Ketersediaan bahan ajar digital (modul dan/atau video) mata kuliah untuk mendukung proses pembelajaran yang meliputi aspek: (a) sesuai dengan capaian pembelajaran, (b)"
+            },
+            {
+                "kode": "35",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS menjamin pemenuhan standar K3L belajar/bekerja yang memenuhi aspek (a) ketersediaan kebijakan, (b) ketersediaan sistem manajemen, (c) ketersediaan peralatan dan fasilitas pendukung, (d) pelaksanaan sosialisasi dan edukasi, dan (e) pelaksanaan penilaian dan audit K3L secara berkala."
+            },
+            {
+                "kode": "36",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS melakukan evaluasi dan refleksi terhadap kriteria keuangan, sarana dan prasarana pendidikan, serta tindak lanjut dengan ketentuan sebagai berikut. (a) Evaluasi dan Refleksi (1) dilakukan terhadap elemen-elemen keuangan, sarana, dan prasarana pendidikan dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2)"
+            }
+        ],
+        "Pendidikan": [
+            {
+                "kode": "37",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS memiliki kurikulum berbasis luaran (OBE) yang: (a) disusun secara sistematis dengan tahapan sbb: (1) evaluasi kurikulum berjalan, (2) penyusunan dokumen"
+            },
+            {
+                "kode": "38",
+                "bobot": 1.5,
+                "indikator": "(a) DTPS dan/atau Tutor melaksanakan pembelajaran yang (1) sesuai dengan RPS yang telah disusun, (2) menciptakan suasana belajar yang menyenangkan, inklusif, kolaboratif, kreatif, dan efektif serta berpusat pada mahasiswa, (3) merealisasikan CPL melalui sub-CPMK, (4) melaksanakan assessment for learning, (5) mengintegrasikan hasil penelitian/PkM, dan (6) melakukan refleksi terhadap pelaksanaan pembelajaran. (b) Pembelajaran dilakukan secara luring, daring, dan bauran (hybrid) dengan memanfaatkan Teknologi Informasi yang relevan."
+            },
+            {
+                "kode": "39",
+                "bobot": 1.5,
+                "indikator": "(a) UPPS-PJJ memiliki sistem pengendalian mutu pembelajaran yang meliputi keberadaan aspek: (1) monitoring pembelajaran mandiri, (2) mutu tugas tutorial dan soal ujian, (3) mutu bahan ajar, (4) kelulusan mahasiswa dalam mengikuti ujian, dan (5) kemutakhiran bahan ajar."
+            },
+            {
+                "kode": "40",
+                "bobot": 1.5,
+                "indikator": "(a) DTPS mengintegrasikan penelitian dan/atau PkM dalam pembelajaran yang memenuhi aspek berikut: (1) hasil penelitian/PkM relevan dengan mata kuliah; (2) hasil penelitian menjadi bagian dari materi mata kuliah; (3) pengintegrasian disertai bukti, seperti materi presentasi, handout, atau modul; (b) DTPS yang mengintegrasikan hasil penelitian/PkM dalam pembelajaran mencapai jumlah yang memadai;"
+            },
+            {
+                "kode": "41",
+                "bobot": 1.5,
+                "indikator": "DTPS melaksanakan penilaian pembelajaran yang (a) sesuai dengan tujuan khusus pembelajaran/Sub-CPMK, (b) menggunakan teknik penilaian yang bervariasi, (c) memiliki tingkat kesulitan yang proporsional, (d) memberikan umpan balik yang konstruktif, dan (e) memberi kesempatan kepada mahasiswa untuk melakukan banding terhadap hasil penilaian."
+            },
+            {
+                "kode": "42",
+                "bobot": 1.25,
+                "indikator": "PS melaksanakan microteaching atau nama lain yang sejenis bagi PS kependidikan nonmengajar yang: (a) memenuhi kecukupan laboratorium microteaching dan sarana prasarana pendukung, (b) memenuhi frekuensi praktik, (c) melatihkan 8 keterampilan dasar mengajar, dan (d) melakukan refleksi diri."
+            },
+            {
+                "kode": "43",
+                "bobot": 1,
+                "indikator": "UPPS melaksanakan program magang kependidikan dengan lama waktu tertentu, yang tercermin dari adanya: (a) kerja sama antara UPPS dengan lembaga mitra; (b) panduan pelaksanaan magang; (c) unit pelaksana magang; (d) laporan pelaksanaan magang; (e) laporan monitoring dan evaluasi pelaksanaan magang; (f) laporan tindak lanjut hasil monitoring dan evaluasi pelaksanaan magang; dan (g) analisis terhadap keefektifan program magang kependidikan."
+            },
+            {
+                "kode": "44",
+                "bobot": 1,
+                "indikator": "Pembimbingan Tugas Akhir oleh DTPS memenuhi aspek: (a) Ketersediaan panduan dan sistem informasi tugas akhir, (b) Kecukupan jumlah pembimbing utama tugas akhir, (c) Frekuensi pembimbingan, dan (d) analisis terhadap keefektifan pembimbingan tugas akhir."
+            },
+            {
+                "kode": "45",
+                "bobot": 1,
+                "indikator": "(a) lulusan PS memiliki rata-rata IPK yang baik dalam 3 tahun terakhir;"
+            },
+            {
+                "kode": "46",
+                "bobot": 2.5,
+                "indikator": "(a) Lulusan PS memiliki rata-rata masa studi lulusan dalam 3 tahun terakhir"
+            },
+            {
+                "kode": "47",
+                "bobot": 1,
+                "indikator": "(a) Mahasiswa dapat menyelesaikan studinya sesuai masa tempuh kurikulum (MTK)."
+            },
+            {
+                "kode": "48",
+                "bobot": 1.25,
+                "indikator": "(a) Mahasiswa berhasil menyelesaikan studinya."
+            },
+            {
+                "kode": "49",
+                "bobot": 1.25,
+                "indikator": "UPPS/PS melakukan tracer study yang mencakup 5 aspek, yaitu: (a) terkoordinasi ditingkat PT/ UPPS, (b) dilakukan secara regular setiap tahun dan terdokumentasi, (c) menggunakan instrumen yang mencakup seluruh inti pertanyaan tracer study Pendidikan tinggi, (d) ditargetkan pada seluruh lulusan TS-4 s.d"
+            },
+            {
+                "kode": "50",
+                "bobot": 1,
+                "indikator": "(a) Setelah menyelesaikan studi, para lulusan PS (1) bekerja di lembaga pendidikan tertentu atau bidang lainnya yang relevan dengan profil lulusan, (2) melakukan usaha mandiri, (3) melakukan studi lanjut ke S2, atau (4) mengikuti program pendidikan profesi guru (PPG)."
+            },
+            {
+                "kode": "51",
+                "bobot": 1.5,
+                "indikator": "(a) Mahasiswa PS mendapatkan pekerjaan pertama setelah lulus."
+            },
+            {
+                "kode": "52",
+                "bobot": 2,
+                "indikator": "(a) Lulusan PS memperoleh pekerjaan pertama yang sesuai dengan bidang keilmuan PS (TS-4 sampai dengan TS-2)"
+            },
+            {
+                "kode": "53",
+                "bobot": 1.5,
+                "indikator": "(a) UPPS/PS melakukan evaluasi tingkat kepuasan pengguna lulusan terhadap kompetensi yang dimiliki oleh lulusan, yang mencakup aspek (1) etika, (2) keahlian pada bidang ilmu (kompetensi utama), (3) kemampuan berbahasa asing, (4) penggunaan teknologi informasi, (5) kemampuan berkomunikasi, (6) kerjasama (7) pengembangan diri (8) berpikir kritis, dan (9) kreativitas."
+            },
+            {
+                "kode": "54",
+                "bobot": 1.5,
+                "indikator": "PS melakukan asesmen pencapaian Capaian Pembelajaran Lulusan (CPL) berdasarkan capaian hasil belajar mahasiswa pada mata kuliah inti"
+            },
+            {
+                "kode": "55",
+                "bobot": 1,
+                "indikator": "UPPS/PS melakukan evaluasi kurikulum PS yang memenuhi aspekaspek sebagai berikut: (a) evaluasi mikro dilakukan paling lama 1 tahun sekali; (b) evaluasi makro dilakukan paling lama 5 tahun sekali; (c) evaluasi merujuk pada kebijakan pemerintah; visi keilmuan PS; perkembangan IPTEKS (termasuk literasi digital),"
+            },
+            {
+                "kode": "56",
+                "bobot": 2.5,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria pendidikan, serta tindak lanjut dengan ketentuan sebagai berikut. (a) Evaluasi dan Refleksi (1) dilakukan terhadap elemen-elemen pendidikan dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis"
+            }
+        ],
+        "Penelitian": [
+            {
+                "kode": "57",
+                "bobot": 1.25,
+                "indikator": "PS memiliki peta jalan penelitian yang (a) mendukung pencapaian visi keilmuan PS, (b) relevan dengan bidang keilmuan PS, (c) terintegrasi dengan kegiatan tridharma PT, (d) memiliki fokus dan tahapan yang jelas, (e) didukung oleh SDM yang kompeten dalam keilmuan, dan (d) disertasi"
+            },
+            {
+                "kode": "58",
+                "bobot": 2.5,
+                "indikator": "(a) DTPS melakukan penelitian dengan dana mandiri/PT, dana dalam negeri, dan dana dari luar negeri dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "59",
+                "bobot": 2,
+                "indikator": "(a) DTPS melibatkan mahasiswa dalam kegiatan penelitiannya."
+            },
+            {
+                "kode": "60",
+                "bobot": 1.5,
+                "indikator": "(a) Dalam 3 tahun terakhir, 20% DTPS memiliki karya yang (1) dipublikasikan di jurnal nasional dan/atau jurnal internasional, (2) dipresentasikan di seminar nasional dan/atau internasional, dan (3) dipublikasikan di media massa wilayah, nasional, dan/atau internasional."
+            },
+            {
+                "kode": "61",
+                "bobot": 1.5,
+                "indikator": "(a) Dalam 3 tahun terakhir, DTPS memiliki publikasi di jurnal nasional terakreditasi minimal Sinta 4 dan/atau jurnal internasional bereputasi sebagai penulis pertama atau corresponding author."
+            },
+            {
+                "kode": "62",
+                "bobot": 1.25,
+                "indikator": "(a) Jumlah artikel ilmiah DTPS yang disitasi dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "63",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria penelitian serta tindak lanjut, dengan ketentuan sebagai berikut. (a) Evaluasi dan Refleksi: (1) dilakukan terhadap elemen-elemen penelitian dengan cara"
+            }
+        ],
+        "Pengabdian Kepada Masyarakat": [
+            {
+                "kode": "64",
+                "bobot": 2,
+                "indikator": "(a) DTPS memiliki"
+            },
+            {
+                "kode": "65",
+                "bobot": 2,
+                "indikator": "(a) DTPS melibatkan mahasiswa dalam kegiatan PkM."
+            },
+            {
+                "kode": "66",
+                "bobot": 2.5,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria PkM serta tindak lanjut dengan ketentuan sebagai berikut. (a) Evaluasi dan Refleksi: (1) dilakukan terhadap elemen-elemen PkM dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak Lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk memastikan tindak lanjut benar-benar diimplementasikan, (4) didukung bukti"
+            }
+        ],
+        "Penjaminan Mutu": [
+            {
+                "kode": "67",
+                "bobot": 1.5,
+                "indikator": "UPPS memiliki unsur pelaksana penjaminan mutu di UPPS yang tercermin dari adanya (a) surat keputusan pembentukan unit penjaminan mutu, (b) struktur organisasi penjaminan mutu, (c) deskripsi kerja personel yang ada dalam struktur organisasi, dan (d) personel yang kompeten dalam bidang penjaminan mutu."
+            },
+            {
+                "kode": "68",
+                "bobot": null,
+                "indikator": "PT/UPPS (a) menetapkan perangkat Sistem Penjaminan Mutu Internal (SPMI) yang minimal mencakup: (1) kebijakan SPMI, (2) pedoman penerapan siklus PPEPP standar pendidikan tinggi dalam SPMI, (3) standar dan/atau kriteria penyelenggaraan pendidikan dan pengelolaan perguruan"
+            },
+            {
+                "kode": "69",
+                "bobot": null,
+                "indikator": "PT/UPPS/PS melaksanakan SPMI dengan mengikuti 5 tahap dalam siklus (a) Penetapan, (b) Pelaksanaan, (c) Evaluasi, (d) Pengendalian, dan (e) Peningkatan standar pendidikan tinggi (SN Dikti dan Standar Pendidikan tinggi yang ditetapkan oleh perguruan tinggi)."
+            }
+        ]
+    },
+    "S2": {
+        "Visi Keilmuan Program Studi": [
+            {
+                "kode": "61",
+                "bobot": 1,
+                "indikator": "Elemenelemen tersebut dirancang untuk memastikan bahwa semua aspek penting dari pengelolaan dan pelaksanaan PS terukur secara sistematis, guna mendukung pencapaian standar mutu pendidikan tinggi yang baik."
+            },
+            {
+                "kode": "4",
+                "bobot": 1,
+                "indikator": "Skor 1 menunjukkan bahwa elemen tersebut tidak memenuhi standar mutu yang ditetapkan. Sebaliknya, skor 4 mencerminkan kualitas tertinggi, yang berarti elemen tersebut sepenuhnya memenuhi parameter mutu yang ditetapkan. Apabila elemen hanya memenuhi sebagian standar mutu atau implementasinya dinilai belum optimal, maka elemen tersebut diberi skor 2 s.d 3. Penentuan skor ini dilakukan oleh asesor menggunakan dengan expert judgement berdasarkan parameter-parameter yang telah dirumuskan. Pendekatan ini dirancang untuk memberikan penilaian yang obyektif namun tetap fleksibel, sehingga dapat mencerminkan variasi dalam tingkat pencapaian mutu di berbagai elemen penilaian."
+            },
+            {
+                "kode": "1",
+                "bobot": 1.5,
+                "indikator": "PS memiliki visi keilmuan yang dirumuskan (a) secara tepat sebagai visi keilmuan, (b) menunjukkan kekhasan PS, (c) berwawasan ke depan, (d) relevan dengan perkembangan IPTEKS dan kebutuhan masyarakat, dan (e) selaras dengan visi kelembagaan PT/UPPS ."
+            },
+            {
+                "kode": "2",
+                "bobot": 1.5,
+                "indikator": "Dalam tiga tahun terakhir, PS (a) melakukan sosialisasi visi keilmuan kepada para pemangku kepentingan melalui (1) rapat PS, (2) kuliah umum PS, (3) flyer/banner/ papan, dll, (4) website PS, (5) media sosial PS, (b) mengukur, menganalisis dan mengevaluasi pemahaman pemangku kepentingan terhadap visi keilmuan tersebut secara periodik, dan (c) menindaklanjuti hasil evaluasi tersebut."
+            },
+            {
+                "kode": "3",
+                "bobot": 1.25,
+                "indikator": "Visi keilmuan PS menjadi"
+            }
+        ],
+        "Tata Pamong dan Tata Kelola UPPS": [
+            {
+                "kode": "5",
+                "bobot": 1.5,
+                "indikator": "Tata pamong di UPPS yang (a) memiliki 5 aspek: (1) struktur organisasi, (2) job description tiap organ, (3) staffing, (4) tata hubungan antar organ, (5) mekanisme dan sistem kontrol. (b) memenuhi prinsip good governance: (1) kredibel, (2) transparan, (3) akuntabel, (4) bertanggung jawab, dan (5) adil."
+            },
+            {
+                "kode": "6",
+                "bobot": 1.5,
+                "indikator": "UPPS menjalankan proses tata kelola yang mencakup aspek (a) perencanaan, (b) pengorganisasian, (c) penempatan personel, (d) pelaksanaan, (e) pengendalian dan pengawasan, (f) pelaporan yang menjadi dasar tindak lanjut."
+            },
+            {
+                "kode": "7",
+                "bobot": 1.5,
+                "indikator": "(a) PT/UPPS menjalin"
+            },
+            {
+                "kode": "8",
+                "bobot": 1.5,
+                "indikator": "UPPS melakukan evaluasi dan refleksi serta tindak lanjut terhadap kriteria Tata Pamong dan Tata Kelola, dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi: (1) dilakukan terhadap elemen-elemen tata kelola dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak lanjut: (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk memastikan tindak lanjut benar-benar diimplementasikan, (4) didukung bukti pelaksanaan yang lengkap dan sahih, dan (5) digunakan sebagai dasar pengembangan program berkelanjutan."
+            }
+        ],
+        "Mahasiswa": [
+            {
+                "kode": "9",
+                "bobot": 1.25,
+                "indikator": "PT/UPPS melaksanakan seleksi calon mahasiswa baru yang mencerminkan prinsip (1) kualitas, (2) keadilan, (3) inklusivitas, (4) transparansi, (5) akuntabilitas, dan (6) fleksibilitas."
+            },
+            {
+                "kode": "10",
+                "bobot": 1.25,
+                "indikator": "(a) PS memperoleh mahasiswa baru dengan kualitas input yang baik yang memenuhi aspek-aspek sebagai berikut: (a) jumlah pendaftar memenuhi daya tampung, (b) memiliki kriteria seleksi yang tinggi (IPK, TPA, dan TOEFL/bahasa Inggris yang setara, dan prestasi akademik/non-akademik)"
+            },
+            {
+                "kode": "11",
+                "bobot": 1.75,
+                "indikator": "PT/UPPS (a) menyediakan layanan mahasiswa yang mencakup: (1) administrasi akademik, (2) bimbingan konseling, (3) Kesehatan, (4) keperluan dasar untuk mahasiswa berkebutuhan khusus, (5) beasiswa, (6) layanan Teknologi Informasi (TI), dan (7) bimbingan penulisan dan publikasi artikel; (b) Layanan tersebut dapat diakses oleh mahasiswa; (c) Layanan tersebut memiliki kualitas yang baik."
+            },
+            {
+                "kode": "12",
+                "bobot": 2.25,
+                "indikator": "PT/UPPS/PS menyediakan layanan perlindungan kepada mahasiswa dari perundungan, pelecehan seksual, dan intoleransi yang meliputi aspek-aspek berikut: (a) Ketersediaan unit /organ/satuan tugas pelaksana, (b) Ketersediaan panduan, (c) Kegiatan sosialisasi dan pelatihan, dan (d) Ketersediaan bukti pelaksanaan."
+            },
+            {
+                "kode": "13",
+                "bobot": 2.25,
+                "indikator": "(a) Mahasiswa memiliki prestasi akademik (seperti juara 1,2,3 dalam scholar research competition, research poster competition dan sejenisnya, mengikuti program pertukaran mahasiswa internasional, mendapatkan pendanaan kompetitif, dan non akademik (seperti juara di bidang olah raga, bidang seni, dan bidang kepemimpinan/organisasi) dalam 5 tahun terakhir."
+            },
+            {
+                "kode": "14",
+                "bobot": 1.75,
+                "indikator": "(a) Dalam 5 tahun terakhir, mahasiswa menghasilkan karya inovatif dan/atau publikasi ilmiah yang relevan dengan bidang keilmuan PS pada jurnal nasional terakreditasi."
+            },
+            {
+                "kode": "15",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan pengukuran kepuasan mahasiswa terhadap (a) performa mengajar dosen, layanan administrasi akademik, dan kuantitaskualitas fasilitas pendidikan yang memenuhi 6 aspek sebagai berikut: (1) menggunakan instrumen kepuasan yang valid dan mudah digunakan, (2) dilaksanakan di setiap akhir semester dan datanya terekam secara lengkap, (3) hasilnya dianalisis dengan metode yang tepat dan bermanfaat untuk pengambilan keputusan, (4) dilakukan review terhadap hasil pelaksanaan pengukuran kepuasan, (5) ditindaklanjuti untuk perbaikan dan peningkatan mutu pengajaran, dan (6) hasilnya dipublikasikan dan mudah diakses; dan"
+            },
+            {
+                "kode": "16",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria mahasiswa serta tindak lanjut, dengan ketentuan sebagai berikut. (a) evaluasi dan refleksi: (1) dilakukan terhadap elemen-elemen pada kriteria mahasiswa dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) tindak lanjut (1) didasarkan pada hasil evaluasi dan"
+            }
+        ],
+        "Dosen dan Tenaga Kependidikan": [
+            {
+                "kode": "17",
+                "bobot": 1.75,
+                "indikator": "Pada saat TS, PS memiliki (a) jumlah, kompetensi, dan relevansi DTPS yang mencukupi untuk penyelenggaraan tridharma dengan baik."
+            },
+            {
+                "kode": "18",
+                "bobot": 1.75,
+                "indikator": "(a) Pada saat TS, DTPS memiliki jabatan akademik yang dipersyaratkan."
+            },
+            {
+                "kode": "19",
+                "bobot": 1.75,
+                "indikator": "Beban Kerja DTPS (a) dalam satu tahun terakhir yang memungkinkan DTPS bekerja secara maksimal. (b) PS melakukan analisis distribusi beban kerja DTPS dalam mendukung (1) tercapainya kualitas tridarma yang seimbang (pendidikan, penelitian, PkM), (2) menjaga kesejahteraan dosen dan (3) keberlanjutan mutu program studi"
+            },
+            {
+                "kode": "20",
+                "bobot": 2,
+                "indikator": "(a) DTPS memiliki prestasi yang diakui di tingkat wilayah/lokal, nasional dan/atau internasional."
+            },
+            {
+                "kode": "21",
+                "bobot": 1.5,
+                "indikator": "(a) DTPS mengikut kegiatan pengembangan kompetensi (postdoct academic recharging program-ARP), sertifikasi kompetensi dari BNSP atau lembaga sertifikasi internasional, workshop/pelatihan minimal 32 jam, seminar/konferensi yang relevan dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "22",
+                "bobot": 1.5,
+                "indikator": "Pengembangan kompetensi tenaga kependidikan (a) Tenaga kependidikan mengikuti kegiatan"
+            },
+            {
+                "kode": "23",
+                "bobot": 1.25,
+                "indikator": "UPPS melakukan evaluasi dan refleksi terhadap kriteria dosen dan tenaga kependidikan serta tindak"
+            }
+        ],
+        "Keuangan, Sarana, dan Prasarana Pendidikan": [
+            {
+                "kode": "24",
+                "bobot": 1.5,
+                "indikator": "UPPS menjalankan prinsip keuangan yang tercermin dari aspek (a) perencanaan, (b) pelaksanaan, (c) evaluasi, (d) tindak lanjut, (e) berbasis sistem informasi."
+            },
+            {
+                "kode": "25",
+                "bobot": 1.25,
+                "indikator": "PS mengelola angggaran operasional pendidikan, penelitian, PkM yang memadai dari PT/UPPS, dan melakukan analisis terhadap aspek: (a) penggunaan anggaran untuk menjamin terlaksananya kegiatan tridharma PT secara efektif, dan (b) dampak terhadap kinerja PS."
+            },
+            {
+                "kode": "26",
+                "bobot": 1.25,
+                "indikator": "PT/UPPS menyediakan sarana dan prasarana utama untuk mendukung kegiatan akademik yang memenuhi aspek (a) kelengkapan, (b)"
+            },
+            {
+                "kode": "27",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS menyediakan, mengembangkan dan mengelola infrastruktur teknologi informasi (TI) dan mengembangkan platform digital untuk mendukung kegiatan akademik dan administrasi yang memenuhi aspek (a) kelengkapan, (b) kualitas, (c) kemutakhiran, (d) keterintegrasian, (e) keterawatan, (f) aksesibilitas, dan (g) analisis dampaknya terhadap kegiatan akademik dan administrasi."
+            },
+            {
+                "kode": "28",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS menjamin pemenuhan standar K3L belajar/bekerja yang memenuhi aspek (a) ketersediaan kebijakan, (b) ketersediaan sistem manajemen, (c) ketersediaan peralatan dan fasilitas pendukung, (d) pelaksanaan sosialisasi dan edukasi, dan"
+            },
+            {
+                "kode": "29",
+                "bobot": 2,
+                "indikator": "PT/UPPS melakukan evaluasi dan refleksi serta tindak lanjut terhadap kriteria keuangan dan sarana prasarana pendidikan dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi: (1) dilakukan terhadap elemenelemen keuangan dan sarana prasarana pendidikan dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu,(3) dimonitor untuk memastikan tindak lanjut benar-benar diimplementasikan, (4) didukung bukti pelaksanaan"
+            }
+        ],
+        "Pendidikan": [
+            {
+                "kode": "30",
+                "bobot": 2.25,
+                "indikator": "UPPS/PS memiliki kurikulum berbasis luaran (OBE) yang: (a) disusun secara sistematis dengan tahapan sbb: (1) evaluasi kurikulum berjalan, (2) penyusunan dokumen kurikulum, (3) review dan perbaikan, (4) pelaksanaan, dan (5) evaluasi dan tindak lanjut, (6) melibatkan stakeholders internal (pimpinan UPPS/PS, dosen, mahasiswa, tenaga kependidikan) dan stakeholders eksternal (alumni, pengguna lulusan, asosiasi program studi/profesi, pakar) dalam proses penyusunan kurikulum; dan (b) memenuhi karakteristik kurukulum yang baik sbb: (1) lengkap, (2) sesuai dengan level KKNI, (3) koheren (ketepatan struktur kurikulum dalam pencapaian CPL), (4) mutakhir, (5) memperlihatkan ciri khusus PS, (6) memiliki fleksibilitas (keleluasaan untuk mengikuti pendidikan dari berbagai"
+            },
+            {
+                "kode": "31",
+                "bobot": 2,
+                "indikator": "DTPS melaksanakan pembelajaran yang (a) sesuai dengan RPS yang telah disusun, (b) menciptakan suasana belajar yang menyenangkan, inklusif, kolaboratif, kreatif, dan efektif serta berpusat pada mahasiswa, (c) merealisasikan CPL melalui sub-CPMK, (d) fleksibel: luring, daring, atau bauran (hybrid), (e) melaksanakan assessment for learning, (f) mengintegrasikan hasil penelitian/PkM, (g) memanfaatkan Teknologi Informasi yang relevan, dan (h) melakukan refleksi terhadap pelaksanaan pembelajaran"
+            },
+            {
+                "kode": "32",
+                "bobot": 2,
+                "indikator": "(a) DTPS mengintegrasikan penelitian dan/atau PkM dalam pembelajaran yang memenuhi aspek berikut: (1) hasil penelitian/PkM relevan dengan mata kuliah; (2) hasil penelitian menjadi bagian dari materi mata kuliah; (3) pengintegrasian disertai bukti, seperti materi presentasi, handout, atau modul; (b) DTPS yang mengintegrasikan hasil penelitian/PkM dalam pembelajaran mencapai jumlah yang memadai;"
+            },
+            {
+                "kode": "33",
+                "bobot": 1.5,
+                "indikator": "DTPS melaksanakan penilaian pembelajaran yang (a) sesuai dengan tujuan khusus pembelajaran/SubCPMK, (b) menggunakan teknik penilaian yang bervariasi, (c) memiliki tingkat kesulitan yang proporsional, (d) memberikan umpan balik yang konstruktif, dan (e) memberi kesempatan kepada mahasiswa untuk melakukan banding terhadap hasil penilaian."
+            },
+            {
+                "kode": "34",
+                "bobot": 2,
+                "indikator": "PS meningkatkan suasana akademik melalui kebebasan mimbar akademik dan otonomi keilmuan dengan menyelenggarakan kegiatan akademik di luar kelas yang: (a) beragam, (b) intensif dan berkelanjutan, (c) memiliki lingkup lokal, nasional, dan/atau internasional, (d) relevan dengan keilmuan PS, (e) didokumentasikan secara lengkap dan terstruktur."
+            },
+            {
+                "kode": "35",
+                "bobot": 1,
+                "indikator": "Pembimbingan Tugas Akhir"
+            },
+            {
+                "kode": "36",
+                "bobot": 1.5,
+                "indikator": "(a) lulusan PS memiliki ratarata IPK yang baik dalam 3 tahun terakhir; dan"
+            },
+            {
+                "kode": "37",
+                "bobot": 1.5,
+                "indikator": "(a) Lulusan PS memiliki ratarata masa studi sesuai masa tempuh kurikulum."
+            },
+            {
+                "kode": "38",
+                "bobot": 1.75,
+                "indikator": "(a) Mahasiswa dapat menyelesaikan studinya sesuai masa tempuh kurikulum (MTK)."
+            },
+            {
+                "kode": "39",
+                "bobot": 1.5,
+                "indikator": "(a) Jumlah mahasiswa yang berhasil menyelesaikan studinya."
+            },
+            {
+                "kode": "40",
+                "bobot": 1.25,
+                "indikator": "UPPS/PS melakukan tracer study yang mencakup 5 aspek, yaitu: (a) terkoordinasi ditingkat PT/ UPPS, (b) dilakukan secara regular setiap tahun dan terdokumentasi, (c) menggunakan instrumen yang mencakup seluruh inti pertanyaan tracer study Pendidikan tinggi, (d) ditargetkan pada seluruh lulusan TS-4 s.d TS-2, (e) PS melakukan analisis terhadap hasil tracer study."
+            },
+            {
+                "kode": "41",
+                "bobot": 1.25,
+                "indikator": "(a) Setelah menyelesaikan studi, lulusan PS (1) bekerja di lembaga pendidikan tertentu atau bidang lainnya yang relevan dengan profil lulusan, (2) melakukan usaha mandiri, (3) melakukan studi lanjut ke S3."
+            },
+            {
+                "kode": "42",
+                "bobot": 1.25,
+                "indikator": "(a) Waktu tunggu Mahasiswa mendapatkan pekerjaan pertama."
+            },
+            {
+                "kode": "43",
+                "bobot": 1.5,
+                "indikator": "(a) Lulusan PS memperoleh pekerjaan pertama yang sesuai dengan bidang keilmuan PS (TS-4-TS-2)"
+            },
+            {
+                "kode": "44",
+                "bobot": 2.25,
+                "indikator": "(a) UPPS/PS melakukan evaluasi tingkat kepuasan pengguna lulusan terhadap kompetensi yang dimiliki oleh lulusan, yang mencakup aspek (1) etika, (2) keahlian pada bidang ilmu (kompetensi utama), (3) kemampuan berbahasa asing, (4) penggunaan teknologi informasi, (5) kemampuan berkomunikasi, (6) kerjasama (g) pengembangan diri (7) berpikir kritis, dan (8) kreativitas."
+            },
+            {
+                "kode": "45",
+                "bobot": 1.75,
+                "indikator": "PS melakukan asesmen pencapaian Capaian Pembelajaran Lulusan (CPL) berdasarkan capaian hasil belajar mahasiswa pada mata kuliah penciri keilmuan PS, melakukan evaluasi terhadap"
+            },
+            {
+                "kode": "46",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan evaluasi kurikulum PS yang memenuhi aspek-aspek sebagai berikut: (a) evaluasi mikro dilakukan paling lama 1 tahun sekali; (b) evaluasi makro dilakukan paling lama 3 tahun sekali; (c) evaluasi merujuk pada kebijakan pemerintah, visi keilmuan PS, perkembangan IPTEKS (termasuk literasi"
+            },
+            {
+                "kode": "47",
+                "bobot": 1.25,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi serta tindak lanjut terhadap kriteria pendidikan, dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi: (1) dilakukan terhadap elemenelemen pendidikan dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan"
+            }
+        ],
+        "Penelitian": [
+            {
+                "kode": "48",
+                "bobot": 2.25,
+                "indikator": "PS memiliki peta jalan penelitian yang (a) mendukung pencapaian visi keilmuan PS, (b) memiliki fokus dan tahapan yang jelas, (c) didukung oleh SDM yang kompeten dalam keilmuan, dan (d) disertasi dengan analisis terhadap ketepatan dan relevansi peta jalan penelitian."
+            },
+            {
+                "kode": "49",
+                "bobot": 1.25,
+                "indikator": "(a) DTPS melakukan penelitian dengan dana mandiri/PT, dana dalam negeri, dan dana dari luar negeri dalam tiga tahun terakhir."
+            },
+            {
+                "kode": "50",
+                "bobot": 2.5,
+                "indikator": "(a) DTPS melibatkan mahasiswa dalam kegiatan penelitiannya."
+            },
+            {
+                "kode": "51",
+                "bobot": 2.5,
+                "indikator": "(a) Dalam 3 tahun terakhir,"
+            },
+            {
+                "kode": "52",
+                "bobot": 2,
+                "indikator": "(a) Dalam tiga tahun terakhir, DTPS memiliki publikasi di jurnal nasional terakreditasi minimal Sinta 2 dan/atau jurnal internasional bereputasi sebagai penulis pertama atau corresponding author."
+            },
+            {
+                "kode": "53",
+                "bobot": 1.5,
+                "indikator": "(a) Jumlah artikel ilmiah DTPS yang disitasi dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "54",
+                "bobot": 2,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi serta tindak lanjut terhadap kriteria penelitian, dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi: (1) dilakukan terhadap elemen-elemen penelitian dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumenta- sikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk memastikan tindak lanjut benar-benar diimplementasikan, (4)"
+            }
+        ],
+        "Pengabdian Kepada Masyarakat": [
+            {
+                "kode": "55",
+                "bobot": 1.25,
+                "indikator": "(a) DTPS memiliki produktivitas PkM dengan dana mandiri/PT, dana dalam negeri, dan dana dari luar negeri dalam tiga tahun terakhir."
+            },
+            {
+                "kode": "56",
+                "bobot": 1.5,
+                "indikator": "(a) DTPS melibatkan mahasiswa dalam kegiatan PkM."
+            },
+            {
+                "kode": "57",
+                "bobot": 1.75,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap Kriteria PkM serta tindak lanjut , dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi: (1) dilakukan terhadap elemen-elemen PkM dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumenta- sikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk memastikan tindak lanjut benar-benar diimplementasikan, (4)"
+            }
+        ],
+        "Penjaminan Mutu": [
+            {
+                "kode": "58",
+                "bobot": 2.25,
+                "indikator": "UPPS memiliki unsur pelaksana penjaminan mutu di UPPS yang tercermin dari adanya: (a) surat keputusan pembentukan unit penjaminan mutu, (b) struktur organisasi penjaminan mutu, (c) deskripsi kerja personil yang ada dalam struktur organisasi, dan (d) personil yang kompeten dalam bidang penjaminan mutu."
+            },
+            {
+                "kode": "59",
+                "bobot": 2.5,
+                "indikator": "PT/UPPS menetapkan perangkat Sistem Penjaminan Mutu Internal (SPMI) yang minimal mencakup: (1) kebijakan SPMI, (2) pedoman penerapan siklus PPEPP standar pendidikan tinggi dalam SPMI, (3) standar dan/atau kriteria penyelenggaraan pendidikan dan pengelolaan perguruan tinggi, (4) tata cara pendokumentasian implementasi SPMI dengan pemanfaatan TI untuk"
+            },
+            {
+                "kode": "60",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS /PS melaksanakan SPMI dengan mengikuti 5 tahap dalam siklus (a) Penetapan, (b) Pelaksanaan, (c) Evaluasi, (d) Pengendalian, dan (e) Peningkatan (PPEPP) standar pendidikan tinggi (SN Dikti dan Standar Pendidikan tinggi yang ditetapkan oleh perguruan tinggi)."
+            }
+        ]
+    },
+    "S2 PJJ": {
+        "Visi Keilmuan Program Studi": [
+            {
+                "kode": "66",
+                "bobot": 1,
+                "indikator": "Elemenelemen tersebut dirancang untuk memastikan bahwa semua aspek penting dari pengelolaan dan pelaksanaan PS terukur secara sistematis, guna mendukung pencapaian standar mutu pendidikan tinggi yang unggul."
+            },
+            {
+                "kode": "4",
+                "bobot": 1.25,
+                "indikator": "Skor 1 menunjukkan bahwa elemen tersebut tidak memenuhi standar mutu yang ditetapkan. Sebaliknya, skor 4 mencerminkan kualitas tertinggi, yang berarti elemen tersebut sepenuhnya memenuhi parameter mutu yang ditetapkan. Apabila elemen hanya memenuhi sebagian standar mutu atau implementasinya dinilai belum optimal, maka elemen tersebut diberi skor 2 s.d 3. Penentuan skor ini dilakukan oleh asesor menggunakan dengan expert judgement berdasarkan parameter-parameter yang telah dirumuskan. Pendekatan ini dirancang untuk memberikan penilaian yang obyektif namun tetap fleksibel, sehingga dapat mencerminkan variasi dalam tingkat pencapaian mutu di berbagai elemen penilaian."
+            },
+            {
+                "kode": "1",
+                "bobot": 1.5,
+                "indikator": "PS memiliki visi keilmuan yang dirumuskan secara (a) tepat sebagai visi keilmuan PS, (b) menunjukkan kekhasan PS, (c) berwawasan ke depan, (d) relevan dengan perkembangan IPTEKS dan kebutuhan masyarakat, (e) dan selaras dengan visi kelembagaan PT/UPPS ."
+            },
+            {
+                "kode": "2",
+                "bobot": 1.5,
+                "indikator": "Dalam tiga tahun terakhir, PS (a) melakukan sosialisasi visi keilmuan kepada para pemangku kepentingan melalui (1) rapat PS, (2) kuliah umum PS, (3) flyer/banner/ papan, dll, (4) website PS, (5) media sosial PS, (b) mengukur, menganalisis dan mengevaluasi pemahaman pemangku kepentingan terhadap visi keilmuan tersebut secara periodik, dan (c) menindaklanjuti hasil evaluasi tersebut."
+            },
+            {
+                "kode": "3",
+                "bobot": 1,
+                "indikator": "Visi keilmuan PS menjadi"
+            }
+        ],
+        "Tata Pamong dan Tata Kelola UPPS": [
+            {
+                "kode": "5",
+                "bobot": 1.5,
+                "indikator": "Tata pamong di UPPS yang: (a) memiliki 5 aspek: (1) struktur organisasi, (2) job description tiap organ, (3) staffing, (4) tata hubungan antar organ, (5) mekanisme dan sistem kontrol. (b) memenuhi prinsip good governance: (1) kredibel, (2) transparan, (3) akuntabel, (4) bertanggung jawab, dan (5) adil."
+            },
+            {
+                "kode": "6",
+                "bobot": 1.5,
+                "indikator": "UPPS menjalankan proses tata kelola secara efektif yang mencakup aspek (a) perencanaan, (b) pengorganisasian, (c) penempatan personel, (d)"
+            },
+            {
+                "kode": "7",
+                "bobot": 1.5,
+                "indikator": "(a) PT/UPPS menjalin kerjasama dalam bidang pendidikan, penelitian, dan PkM dengan pihak lain di tingkat wilayah/lokal, nasional dan internasional dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "8",
+                "bobot": 1.25,
+                "indikator": "UPPS melakukan evaluasi dan refleksi terhadap Kriteria Tata Pamong dan Tata Kelola serta tindak lanjut, dengan ketentuan sebagai berikut. (a) Evaluasi: (1) dilakukan terhadap elemen-elemen tata kelola dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan"
+            }
+        ],
+        "Mahasiswa": [
+            {
+                "kode": "9",
+                "bobot": 1.25,
+                "indikator": "PT/UPPS melaksanakan seleksi calon mahasiswa baru yang mencerminkan prinsip (1) kualitas, (2) keadilan, (3) inklusivitas, (4) transparansi, (5) akuntabilitas, dan (6) fleksibilitas."
+            },
+            {
+                "kode": "10",
+                "bobot": 1.25,
+                "indikator": "(a) PT/UPPS melaksanakan pemetaan input mahasiswa baru, yang meliputi (a) memenuhi persyaratan administrasi, (b) domisili, (c) hasil tes skolastik, dan (d) kemampuan IT."
+            },
+            {
+                "kode": "11",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS (a) menyediakan layanan mahasiswa yang mencakup: (1) layanan administrasi akademik, (2) kesehatan (3) keperluan dasar untuk mahasiswa berkebutuhan khusus (4) beasiswa, (5) layanan IT, (6) bimbingan tesis ,dan (7) bimbingan penulisan dan publikasi artikel; (b) Layanan tersebut dapat diakses oleh mahasiswa; (c) Layanan tersebut memiliki kualitas yang baik."
+            },
+            {
+                "kode": "12",
+                "bobot": 2,
+                "indikator": "PT/UPPS/PS menyediakan layanan perlindungan kepada mahasiswa dari perundungan, pelecehan seksual, dan intoleransi yang meliputi aspek-aspek"
+            },
+            {
+                "kode": "13",
+                "bobot": 2.25,
+                "indikator": "Prestasi Mahasiswa: (a) memiliki prestasi akademik (seperti juara juara 1,2,3 dalam LKTI dan sejenisnya, mengikuti program pertukaran mahasiswa internasional, dan meraih medali di olimpiade sain) dan non akademik (seperti juara di bidang olah raga, bidang seni, dan bidang kepemimpinan/organisasi) dalam lima tahun terakhir."
+            },
+            {
+                "kode": "14",
+                "bobot": 1.75,
+                "indikator": "Produktifitas karya inovatif mahasiswa: (a) Dalam 5 tahun terakhir, mahasiswa dalam jumlah tertentu menghasilkan karya inovatif dan/atau publikasi ilmiah yan sesuai dengan bidang keilmuan PS, dan/atau karya seni yang dipamerkan/ dipagelarkan."
+            },
+            {
+                "kode": "15",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan pengukuran kepuasan mahasiswa terhadap (a) performa mengajar dosen, layanan administrasi akademik, dan kuantitaskualitas fasilitas pendidikan yang memenuhi 6 aspek sebagai berikut: (1) menggunakan instrumen kepuasan yang valid dan mudah digunakan, (2) dilaksanakan di setiap akhir semester dan datanya terekam secara lengkap, (3) hasilnya dianalisis dengan metode yang tepat dan bermanfaat untuk pengambilan keputusan, (4)"
+            },
+            {
+                "kode": "16",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi serta tindak lanjut terhadap mahasiswa, dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi (1) dilakukan"
+            }
+        ],
+        "Dosen dan Tenaga Kependidikan": [
+            {
+                "kode": "17",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS/PS melaksanakan seleksi calon dosen dan tenaga kependidikan yang memenuhi aspek-aspek sbb:"
+            },
+            {
+                "kode": "18",
+                "bobot": 1.25,
+                "indikator": "(a) Pada saat TS, DTPS memiliki (a) kualifikasi akademik, (b) jabatan akademik yang dipersyaratkan."
+            },
+            {
+                "kode": "19",
+                "bobot": 1.75,
+                "indikator": "(a) Beban Kerja dalam satu tahun terakhir memungkinkan DTPS bekerja secara maksimal."
+            },
+            {
+                "kode": "20",
+                "bobot": 1.75,
+                "indikator": "(a) DTPS memiliki prestasi yang diakui di tingkat wilayah/lokal, nasional dan/atau internasional."
+            },
+            {
+                "kode": "21",
+                "bobot": 1.25,
+                "indikator": "Pengembangan Kompetensi Dosen: (a) DTPS mengikut kegiatan pengembangan kompetensi (postdoct, academic recharging program-ARP, sertifikasi kompetensi dari BNSP atau lembaga sertifikasi internasional, workshop/pelatihan minimal 32 jam, seminar/konferensi yang relevan dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "22",
+                "bobot": 1,
+                "indikator": "Pendidik dengan tugas khusus memiliki: (a) kualifikasi akademik, (b) jabatan akademik/ fungsional yang dipersyaratkan; serta (c) UPPS/PS melakukan analisis kontribusi kualifikasi dan jabatan akademik pendidik tersebut dengan: (1) peningkatan kualitas tridarma, (2) penguatan jejaring akademik, serta (3) pencapaian visi keilmuan program studi secara berkelanjutan."
+            },
+            {
+                "kode": "23",
+                "bobot": 1,
+                "indikator": "(a) Tutor memiliki kualifikasi akademik yang dipersyaratkan (b) UPPS/PS melakukan analisis kecukupan dan kontribusi kualifikasi tutor yang ada dengan: (1) peningkatan kualitas tridharma, (2) penguatan jejaring akademik, serta (3) pencapaian visi keilmuan program studi secara berkelanjutan."
+            },
+            {
+                "kode": "24",
+                "bobot": 1.5,
+                "indikator": "(a) Tenaga kependidikan, yaitu (1) administrator, (2) pustakawan, (3) laboran dan/atau teknisi, (4) pranata teknologi informasi dan komunikasi, (5) pranata teknologi pendidikan, (6) pengelola LMS, memiliki kualifikasi yang dipersyaratkan dan jumlah yang memadai"
+            },
+            {
+                "kode": "25",
+                "bobot": 1.5,
+                "indikator": "Pengembangan kompetensi tenaga kependidikan: (a) tenaga kependidikan mengikuti kegiatan pengembangan kompetensi"
+            },
+            {
+                "kode": "26",
+                "bobot": 1,
+                "indikator": "UPPS melakukan evaluasi dan refleksi terhadap kriteria dosen dan Tenaga kependidikan, serta tindak lanjut dengan ketentuan sebagai berikut. (a) Evaluasi dan Refleksi: (1) dilakukan terhadap elemen-elemen dosen dan tendik dengan cara mengidentifikasi kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode"
+            }
+        ],
+        "Keuangan, Sarana, dan Prasarana Pendidikan": [
+            {
+                "kode": "27",
+                "bobot": 1,
+                "indikator": "UPPS menjalankan prinsip keuangan yang tercermin dari aspek (a) perencanaan, (b) pelaksanaan, (c) evaluasi, (d) tindak lanjut, (e) berbasis sistem informasi"
+            },
+            {
+                "kode": "28",
+                "bobot": 1,
+                "indikator": "PS mengelola angggaran operasional pendidikan, penelitian, PkM yang memadai dari PT/UPPS dan melakukan analisis terhadap aspek: (a) penggunaan anggaran untuk menjamin"
+            },
+            {
+                "kode": "29",
+                "bobot": 1,
+                "indikator": "(a) Infrastruktur perangkat keras TIK di UPPS PJJ yang meliputi: (a) peladen berkualitas/highend server (misalnya dalam bentuk farm server, colocation server, hosting, cloud, virtual private server (VPS) dan sejenisnya); (b) Fasilitas teleconference; (c) Ketersediaan NOC (Network Operation Center) dan DRC (Disarter Recovery Center); (d) Jaminan pasok daya listrik tidak terputus dengan penyediaan cadangan catu daya melalui 2 gardu listrik dan genset atau lebih yang memadai. (b) PS melakukan analisis terhadap aspek: (1) ketersediaan infrastruktur TIK. (2) penggunaan infrastruktur tersebut untuk menjamin kegiatan pembelajaran PJJ dapat berjalan secara efektif, dan (3) dampak terhadap capaian kinerja PS"
+            },
+            {
+                "kode": "30",
+                "bobot": 1,
+                "indikator": "(a) PT/UPPS memiliki server (dedicated) LMS dengan fasilitas berikut: (1) Ruang data (penyimpan/storage) untuk setiap mata kuliah yang diselenggarakan minimal 5 GB per mata kuliah; (2) Kapasitas memori (RAM) yang disediakan paling sedikit berukuran 100 MB per pengguna bersamaan; (3) Kecepatan transfer data untuk akses ke luar sebesar 100 Kbps per pengguna bersamaan; (4) Kecepatan transfer data untuk akses masuk sebesar 25 Kbps per pengguna bersamaan"
+            },
+            {
+                "kode": "31",
+                "bobot": 1,
+                "indikator": "(a) PT/UPPS memiliki LMS dengan fasilitas/fitur: (1) presentasi (sinkron/ asinkron), (2) interaksi/komunikasi (sinkron/asinkron), (3) asesmen (mengakomodasi berbagai format tes), (4) pengelompokan (grouping), (5) pengarsipan bukti pembelajaran (catatan aktivitas/logbook, nilai mahasiswa, learning analytics, dan sejenis-nya), (6) Integrasi dengan Sistem Informasi Akademik, dan (7) Integrasi dengan sumber belajar (e-library)."
+            },
+            {
+                "kode": "32",
+                "bobot": 1,
+                "indikator": "(a) PT/UPPS memiliki Sistem Informasi Manajemen yang meliputi : Sistem Informasi Manajemen berbasis web (Akademik, Kemahasiswaan, Perpustakaan, Kepegawaian, Keuangan, sarana prasarana, dan online helpdesk); dan antar SIM saling berkaitan /terintegrasi."
+            },
+            {
+                "kode": "33",
+                "bobot": 1,
+                "indikator": "(a) Rerata Luas fasilitas"
+            },
+            {
+                "kode": "34",
+                "bobot": 1,
+                "indikator": "Ketersediaan bahan ajar digital (modul dan/atau video) mata kuliah untuk mendukung proses pembelajaran yang meliputi aspek: (a) sesuai dengan capaian pembelajaran, (b) mendorong partisipasi aktif mahasiswa, (c) terintegrasi di LMS, (d) struktur yang jelas, (e) aksesibilitas."
+            },
+            {
+                "kode": "35",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS menjamin pemenuhan standar K3L belajar/kerja yang memenuhi aspek (a) ketersediaan kebijakan, (b) ketersediaan sistem manajemen,(c) ketersediaan peralatan dan fasilitas pendukung, (d) pelaksanaan sosialisasi dan edukasi, (e) ketersediaan infrastruktur TI dan"
+            },
+            {
+                "kode": "36",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS melakukan evaluasi dan refleksi terhadap kriteria keuangan, sarana, dan prasarana pendidikan, serta tindak lanjut dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi: (1) dilakukan terhadap elemenelemen keuangan dan sarpras pendidikan dengan cara mengidentifikasi kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode tertentu, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu,(3) dimonitor untuk memastikan tindak"
+            }
+        ],
+        "Pendidikan": [
+            {
+                "kode": "37",
+                "bobot": 2,
+                "indikator": "UPPS/PS memiliki kurikulum berbasis luaran (OBE) yang: (a) disusun secara sistematis dengan tahapan sbb: (1) evaluasi kurikulum berjalan, (2) penyusunan dokumen kurikulum, (3) review dan perbaikan, (4) pelaksanaan, (5) evaluasi dan tindak lanjut, (6) melibatkan stakeholders internal (pimpinan UPPS/PS, dosen, mahasiswa, tenaga kependidikan) dan stakeholders eksternal (alumni, pengguna lulusan, asosiasi program studi/profesi, pakar) dalam proses penyusunan kurikulum; dan (b) memenuhi karakteristik kurukulum yang baik sbb: (1) lengkap, (2) sesuai dengan level KKNI, (3) koheren (ketepatan struktur kurikulum dalam pencapaian"
+            },
+            {
+                "kode": "38",
+                "bobot": 2,
+                "indikator": "DTPS melaksanakan pembelajaran yang (a) sesuai dengan RPS yang telah disusun, (b) dilaksanakan melalui dua cara, yaitu sinkron dan asinkron, (c) merealisasikan CPL melalui sub-CPMK, (d) melaksankan assessment for learning, (e) mengintegrasikan hasil penelitian/PkM, (f) fleksibel: luring, daring, atau bauran (hybrid), dan (g) menggunakan IT yang relevan."
+            },
+            {
+                "kode": "39",
+                "bobot": 1.5,
+                "indikator": "(a) UPPS-PJJ memiliki sistem pengendalian mutu pembelajaran yang meliputi keberadaan aspek: (1) monitoring pembelajaran mandiri, (2) mutu tugas tutorial dan soal ujian, (3) mutu bahan ajar, (4) kelulusan mahasiswa dalam mengikuti ujian, dan (5) kemutakhiran bahan ajar."
+            },
+            {
+                "kode": "40",
+                "bobot": 2,
+                "indikator": "(a) DTPS mengintegrasikan penelitian dan/atau PkM dalam pembelajaran yang memenuhi aspek berikut: (1) hasil penelitian dan/atau pkm relevan dengan mata kuliah inti PS; (2) hasil penelitian menjadi bagian dari materi mata kuliah; (3) pengintegrasian disertai bukti, seperti materi presentasi, handout, atau modul;"
+            },
+            {
+                "kode": "41",
+                "bobot": 2,
+                "indikator": "DTPS melaksanakan penilaian pembelajaran yang (a) sesuai dengan tujuan pembelajaran/Sub-CPMK, (b)"
+            },
+            {
+                "kode": "42",
+                "bobot": 1.75,
+                "indikator": "Pembimbingan tugas akhir oleh DTPS memenuhi aspek: (a) ketersediaan panduan dan sistem informasi tugas akhir, (b) kecukupan jumlah pembimbing tugas akhir, (c) Frekuensi pembimbingan, dan (d) analisis terhadap keefektifan pembimbingan tugas akhir."
+            },
+            {
+                "kode": "43",
+                "bobot": 1.5,
+                "indikator": "(a) lulusan PS memiliki ratarata IPK yang baik dalam 3 tahun terakhir;"
+            },
+            {
+                "kode": "44",
+                "bobot": 1.5,
+                "indikator": "(a) Rata-rata masa studi lulusan dalam antara 1.5 hingga 2 tahun terakhir."
+            },
+            {
+                "kode": "45",
+                "bobot": 1.5,
+                "indikator": "(a) Mahasiswa dapat menyelesaikan studinya sesuai masa tempuh kurikulum (MTK)."
+            },
+            {
+                "kode": "46",
+                "bobot": 2,
+                "indikator": "(a)Mahasiswa berhasil menyelesaikan studinya."
+            },
+            {
+                "kode": "47",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan tracer study yang mencakup 5 aspek, yaitu: (a) terkoordinasi di tingkat PT/ UPPS, (b) dilakukan secara regular setiap tahun dan terdokumentasi, (c) menggunakan instrumen yang mencakup seluruh inti pertanyaan tracer study Pendidikan tinggi, (d) ditargetkan pada seluruh lulusan TS-4 s.d TS-2, (e) PS melakukan analisis terhadap hasil tracer study, dan (f) hasilnya disosialisasikan dan digunakan untuk pengembangan kurikulum dan pembelajaran."
+            },
+            {
+                "kode": "48",
+                "bobot": 1.5,
+                "indikator": "Setelah menyelesaikan studi, para lulusan PS (a) bekerja/meningkatkan karier di lembaga pendidikan tertentu atau bidang lainnya yang relevan dengan profil"
+            },
+            {
+                "kode": "49",
+                "bobot": 1,
+                "indikator": "(a) UPPS/PS melakukan evaluasi tingkat kepuasan pengguna lulusan terhadap kompetensi yang dimiliki oleh lulusan, yang mencakup aspek (1) etika, (2) keahlian pada bidang ilmu (kompetensi utama), (3) kemampuan berbahasa asing, (4) penggunaan teknologi informasi, (5) kemampuan berkomunikasi, (6) kemampuan kerjasama (7) pengembangan diri (8) berpikir kritis, dan (9) kreativitas."
+            },
+            {
+                "kode": "50",
+                "bobot": 2.5,
+                "indikator": "PS melakukan asesmen pencapaian Capaian Pembelajaran Lulusan (CPL) berdasarkan capaian hasil belajar mahasiswa pada"
+            },
+            {
+                "kode": "51",
+                "bobot": 1.25,
+                "indikator": "UPPS/PS melakukan evaluasi kurikulum PS yang memenuhi aspek-aspek sebagai berikut: (a) evaluasi mikro dilakukan paling lama"
+            },
+            {
+                "kode": "52",
+                "bobot": 2.5,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi serta tindak lanjut terhadap kriteria pendidikan, dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi (1) dilakukan terhadap elemenelemen pendidikan dengan"
+            }
+        ],
+        "Penelitian": [
+            {
+                "kode": "53",
+                "bobot": 2.5,
+                "indikator": "PS memiliki peta jalan penelitian yang (a) mendukung pencapaian visi keilmuan PS, (b) memiliki fokus dan tahapan yang jelas, dan (c) didukung oleh"
+            },
+            {
+                "kode": "54",
+                "bobot": 2.25,
+                "indikator": "(a) DTPS melakukan penelitian dengan dana mandiri/PT, dana dalam negeri, dan dana dari luar negeri dalam tiga tahun terakhir."
+            },
+            {
+                "kode": "55",
+                "bobot": 1.5,
+                "indikator": "(a) DTPS melibatkan mahasiswa dalam kegiatan penelitiannya."
+            },
+            {
+                "kode": "56",
+                "bobot": 2.25,
+                "indikator": "(a) Dalam 3 tahun terakhir, 40% DTPS memiliki karya yang (1) dipublikasikan di jurnal nasional dan/atau jurnal internasional, (2) dipresentasikan di seminar nasional dan/atau internasional, dan (3) dipublikasikan di media massa wilayah, nasional, dan/atau internasional."
+            },
+            {
+                "kode": "57",
+                "bobot": 1.25,
+                "indikator": "(a) Dalam tiga tahun terakhir, DTPS memiliki publikasi di jurnal nasional terakreditasi minimal Sinta 2 dan/atau jurnal internasional bereputasi sebagai penulis pertama atau corresponding author."
+            },
+            {
+                "kode": "58",
+                "bobot": 1.5,
+                "indikator": "(a) Jumlah karyal ilmiah DTPS yang disitasi dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "59",
+                "bobot": 2,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi serta tindak lanjut terhadap kriteria penelitian, dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi (1) dilakukan terhadap elemen-elemen penelitian"
+            }
+        ],
+        "Pengabdian Kepada Masyarakat": [
+            {
+                "kode": "60",
+                "bobot": 2,
+                "indikator": "(a) DTPS memiliki produktivitas PkM dengan dana mandiri/PT, dana"
+            },
+            {
+                "kode": "61",
+                "bobot": 2.5,
+                "indikator": "DTPS melibatkan mahasiswa dalam kegiatan PkM."
+            },
+            {
+                "kode": "62",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi serta tindak lanjut terhadap kriteria PkM, dengan ketentuan sebagai berikut. (a) Evaluasi (1) dilakukan terhadap elemen-elemen PkM dengan cara mengidentifikasi kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode tertentu, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk memastikan tindak lanjut benar-benar diimplementasikan, dan (4)"
+            }
+        ],
+        "Penjaminan Mutu": [
+            {
+                "kode": "63",
+                "bobot": null,
+                "indikator": "UPPS memiliki unsur pelaksana penjaminan mutu di UPPS yang tercermin dari adanya (a) surat keputusan pembentukan unit penjaminan mutu, (b) struktur organisasi penjaminan mutu, (c) deskripsi kerja personil yang ada dalam struktur organisasi, dan (d) personil yang kompeten dalam bidang penjaminan mutu."
+            },
+            {
+                "kode": "64",
+                "bobot": null,
+                "indikator": "PT/UPPS: (a) menetapkan perangkat SPMI yang minimal mencakup: (1) kebijakan SPMI; (2) pedoman penerapan siklus PPEPP standar pendidikan tinggi dalam SPMI; (3) standar dan/atau kriteria penyelenggaraan pendidikan dan"
+            },
+            {
+                "kode": "65",
+                "bobot": null,
+                "indikator": "PT/UPPS/PS melaksanakan SPMI dengan mengikuti 5 tahap dalam siklus (a) Penetapan, (b) Pelaksanaan, (c) Evaluasi, (d) Pengendalian, dan (e) Peningkatan standar pendidikan tinggi."
+            }
+        ]
+    },
+    "S3": {
+        "Visi Keilmuan Program Studi": [
+            {
+                "kode": "4",
+                "bobot": 1,
+                "indikator": "Skor 1 menunjukkan bahwa elemen tersebut tidak memenuhi standar mutu yang ditetapkan. Sebaliknya, skor 4 mencerminkan kualitas tertinggi, yang berarti elemen tersebut sepenuhnya memenuhi semua parameter mutu yang ditetapkan. Apabila elemen hanya memenuhi sebagian standar mutu atau implementasinya dinilai belum optimal, maka elemen tersebut diberi skor 2 s.d 3. Penentuan skor ini dilakukan oleh asesor menggunakan expert judgement berdasarkan parameter-parameter yang telah dirumuskan sebelumnya. Pendekatan ini"
+            },
+            {
+                "kode": "1",
+                "bobot": 1,
+                "indikator": "PS memiliki visi keilmuan yang dirumuskan (a) secara tepat sebagai visi keilmuan, (b) mencerminkan kekhasan dan keunggulan PS, (c) berwawasan jauh ke depan, (d) relevan dengan perkembangan IPTEKS dan kebutuhan masyarakat, dan (e) selaras dengan visi kelembagaan UPPS dan PT."
+            },
+            {
+                "kode": "2",
+                "bobot": 1.5,
+                "indikator": "Dalam tiga tahun terakhir, PS a. PS melakukan"
+            },
+            {
+                "kode": "3",
+                "bobot": 2,
+                "indikator": "Visi keilmuan PS menjadi rujukan (a) pengembangan kurikulum; (b) pelaksanaan pembelajaran; (c) pelaksanaan penelitian, dan (d) pelaksanaan PkM."
+            }
+        ],
+        "Tata Pamong dan Tata Kelola UPPS": [
+            {
+                "kode": "5",
+                "bobot": 1,
+                "indikator": "Tata pamong di UPPS yang: Tata pamong di UPPS:"
+            },
+            {
+                "kode": "6",
+                "bobot": 1,
+                "indikator": "UPPS menjalankan proses tata kelola secara efektif yang mencakup aspek (a) perencanaan, (b) pengorganisasian, (c) penempatan personel, (d) pelaksanaan, (e) pengendalian dan pengawasan, dan (f) pelaporan yang menjadi dasar tindak lanjut."
+            },
+            {
+                "kode": "7",
+                "bobot": 1.5,
+                "indikator": "(a) UPPS menjalin kerjasama"
+            },
+            {
+                "kode": "8",
+                "bobot": 2,
+                "indikator": "UPPS melakukan evaluasi dan refleksi serta tindak lanjut terhadap kriteria Tata Pamong dan Tata Kelola, dengan ketentuan sebagai"
+            }
+        ],
+        "Mahasiswa": [
+            {
+                "kode": "9",
+                "bobot": 1,
+                "indikator": "PT/UPPS melaksanakan"
+            },
+            {
+                "kode": "10",
+                "bobot": 1.5,
+                "indikator": "(a) PS memperoleh"
+            },
+            {
+                "kode": "11",
+                "bobot": 1,
+                "indikator": "PT/UPPS (a) menyediakan layanan mahasiswa yang mencakup: (1) administrasi akademik, (2) bimbingan konseling, (3) Kesehatan, (4) keperluan dasar untuk mahasiswa berkebutuhan"
+            },
+            {
+                "kode": "12",
+                "bobot": 1,
+                "indikator": "PT/UPPS/PS menyediakan layanan perlindungan kepada mahasiswa dari perundungan (bullying), pelecehan seksual (sexual harrasment), dan intoleransi yang meliputi aspek-aspek berikut: (a) Ketersediaan unit /organ/satuan tugas pelaksana, (b) Ketersediaan panduan teknis, (c) Kegiatan sosialisasi dan pelatihan di PS, dan (d) Ketersediaan bukti pelaksanaan di tingkat PS."
+            },
+            {
+                "kode": "13",
+                "bobot": 2,
+                "indikator": "Prestasi mahasiswa: (a) Mahasiswa memiliki prestasi akademik (seperti juara 1,2,3 dalam scholar research competition, research poster competition dan sejenisnya, mengikuti program pertukaran mahasiswa internasional,"
+            },
+            {
+                "kode": "14",
+                "bobot": 3,
+                "indikator": "Produktivitas karya inovatif dan/atau publikasi ilmiah mahasiswa: (a) dalam 5 tahun terakhir, mahasiswa dalam jumlah tertentu menghasilkan karya inovatif, publikasi ilmiah yang sesuai dengan bidang keilmuan PS, dan/atau karya seni yang dipamerkan/dipagelarkan."
+            },
+            {
+                "kode": "15",
+                "bobot": 1.25,
+                "indikator": "UPPS/PS melakukan pengukuran kepuasan mahasiswa terhadap (a) performa mengajar dosen, layanan administrasi akademik, dan kuantitaskualitas fasilitas pendidikan yang memenuhi 6 aspek sebagai berikut: (1) menggunakan instrumen kepuasan yang valid dan mudah digunakan, (2) dilaksanakan di setiap akhir semester dan datanya terekam secara lengkap, (3) hasilnya dianalisis dengan metode yang tepat dan bermanfaat untuk pengambilan keputusan, (4)"
+            },
+            {
+                "kode": "16",
+                "bobot": 2,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria mahasiswa serta tindak lanjut, dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi (1) dilakukan terhadap elemen-elemen pada kriteria mahasiswa dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan"
+            }
+        ],
+        "Dosen dan Tenaga Kependidikan": [
+            {
+                "kode": "17",
+                "bobot": 2.5,
+                "indikator": "(a) Pada saat TS, PS memiliki jumlah DTPS yang mencukupi untuk penyelenggaraan tridharma dengan baik. (b) PS melakukan analisis terhadap aspek (1) kecukupan jumlah, (2) kompetensi, dan (3) relevansi DTPS untuk penyelenggaraan tridharma dengan baik."
+            },
+            {
+                "kode": "18",
+                "bobot": 1,
+                "indikator": "(a) Pada saat TS, DTPS memiliki (a) kualifikasi akademik, (b) jabatan akademik yang dipersyaratkan."
+            },
+            {
+                "kode": "19",
+                "bobot": 2,
+                "indikator": "Beban kerja DTPS: (a) Beban Kerja dalam satu tahun terakhir memungkinkan DTPS bekerja secara maksimal."
+            },
+            {
+                "kode": "20",
+                "bobot": 1.5,
+                "indikator": "Pengakuan kepakaran DTPS: (a) DTPS memiliki prestasi yang diakui di tingkat wilayah/lokal, nasional dan/atau internasional."
+            },
+            {
+                "kode": "21",
+                "bobot": 1.5,
+                "indikator": "Pengembangan kompetensi dosen: (a) DTPS mengikut kegiatan pengembangan kompetensi (postdoct academic recharging program-ARP), sertifikasi kompetensi dari BNSP atau lembaga sertifikasi internasional, workshop/pelatihan minimal 32 jam, seminar/konferensi yang relevan dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "22",
+                "bobot": 2,
+                "indikator": "Pengembangan kompetensi tenaga kependidikan: (a) Tenaga kependidikan mengikuti kegiatan pengembangan kompetensi (studi lanjut, sertifikasi kompetensi dari BNSP atau lembaga sertifikasi internasional, workshop/pelatihan minimal 16 jam yang relevan) yang mendukung pengembangan tenaga kependidikan dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "23",
+                "bobot": 1,
+                "indikator": "UPPS melakukan evaluasi dan refleksi terhadap Kriteria Dosen dan Tenaga Kependidikan dan tindak lanjut, dengan ketentuan sebagai berikut. (a) Evaluasi (1) dilakukan terhadap elemen-elemen terkait dengan mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk memastikan tindak lanjut benar-benar diimplementasikan, (4) didukung bukti pelaksanaan yang lengkap dan sahih, dan (5) digunakan sebagai dasar pengembangan program berkelanjutan."
+            }
+        ],
+        "Keuangan, Sarana, dan Prasarana Pendidikan": [
+            {
+                "kode": "24",
+                "bobot": 1.5,
+                "indikator": "UPPS menjalankan prinsip keuangan yang transparan tercermin dari aspek (a) perencanaan, (b) pelaksanaan, (c) evaluasi, (d) tindak lanjut, (e) berbasis sistem informasi."
+            },
+            {
+                "kode": "25",
+                "bobot": 1.25,
+                "indikator": "PS mengelola anggaran operasional pendidikan, penelitian, dan PkM yang memadai dari PT/UPPS, serta melakukan analisis terhadap aspek: (a) penggunaan anggaran tersebut untuk menjamin kegiatan tridharma PT dapat berjalan secara efektif, dan (b) dampak positif terhadap kinerja PS."
+            },
+            {
+                "kode": "26",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS menyediakan sarana dan prasarana utama untuk mendukung kegiatan akademik dan administrasi yang memenuhi aspek (a) kelengkapan, (b) kualitas, (c) aksesibilitas, (d) keterawatan,"
+            },
+            {
+                "kode": "27",
+                "bobot": 1,
+                "indikator": "PT/UPPS menyediakan, mengembangkan dan mengelola infrastruktur teknologi informasi (TI) dan mengembangkan platform digital untuk mendukung kegiatan akademik dan administrasi yang memenuhi aspek (a) kelengkapan, (b) kualitas, (c) kemutakhiran, (d) keterintegrasian, (e) keterawatan, (f) aksesibilitas, dan (g) analisis dampaknya terhadap kegiatan akademik dan administrasi."
+            },
+            {
+                "kode": "28",
+                "bobot": 2,
+                "indikator": "PT/UPPS menjamin pemenuhan standar K3L belajar/bekerja yang memenuhi aspek (a) ketersediaan kebijakan, (b) ketersediaan sistem manajemen, (c) ketersediaan peralatan dan fasilitas pendukung, (d) pelaksanaan sosialisasi dan edukasi, dan (e) pelaksanaan penilaian dan audit K3L secara berkala."
+            },
+            {
+                "kode": "29",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS melakukan evaluasi dan refleksi serta tindak lanjut terhadap kriteria keuangan dan sarpras pendidikan dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi (1) dilakukan terhadap elemenelemen terkait dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menerapkan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu,(3) dimonitor untuk memastikan tindak lanjut benar-benar diimplementasikan, (4) didukung bukti pelaksanaan yang lengkap dan sahih, dan (5) digunakan sebagai dasar pengembangan program berkelanjutan."
+            }
+        ],
+        "Pendidikan": [
+            {
+                "kode": "30",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS memiliki kurikulum berbasis luaran (OBE) yang: (a) disusun secara sistematis dengan tahapan sbb: (1) evaluasi kurikulum berjalan, (2) penyusunan dokumen kurikulum, (3) reviu dan perbaikan, (4) pelaksanaan, dan (5) evaluasi dan tindak lanjut, (6) melibatkan stakeholders internal (pimpinan UPPS/PS, dosen, mahasiswa, tenaga kependidikan) dan stakeholders eksternal (alumni, pengguna lulusan, asosiasi program studi/profesi, pakar) dalam proses penyusunan kurikulum; dan (b) memenuhi karakteristik kurukulum yang baik sbb: (1) lengkap, (2) sesuai dengan level KKNI, (3) koheren (ketepatan struktur kurikulum dalam pencapaian CPL), (4) mutakhir, (5) memperlihatkan ciri khusus PS, (6) memiliki fleksibilitas (keleluasaan untuk mengikuti pendidikan dari berbagai tahapan kurikulum dan keleluasaan untuk menyelesaikan pendidikan melalui rekognisi pembelajaran lampau sesuai"
+            },
+            {
+                "kode": "31",
+                "bobot": 1.5,
+                "indikator": "DTPS melaksanakan pembelajaran yang (a) sesuai dengan RPS yang telah disusun, (b) menciptakan suasana belajar yang menyenangkan, inklusif, kolaboratif, kreatif, dan efektif serta berpusat pada mahasiswa, (c) merealisasikan CPL melalui sub-CPMK, (d) fleksibel: luring, daring, atau bauran (hybrid), (e) melaksanakan assessment for learning, (f) mengintegrasikan hasil penelitian/PkM, (g) memanfaatkan Teknologi Informasi yang relevan, dan (h) melakukan refleksi terhadap pelaksanaan pembelajaran."
+            },
+            {
+                "kode": "32",
+                "bobot": 1.5,
+                "indikator": "(a) DTPS mengintegrasikan penelitian dan/atau PkM dalam pembelajaran yang memenuhi aspek berikut: (1) hasil penelitian/PkM relevan dengan mata kuliah; (2) hasil penelitian menjadi bagian dari materi mata kuliah; (3)"
+            },
+            {
+                "kode": "33",
+                "bobot": 1.25,
+                "indikator": "DTPS melaksanakan penilaian pembelajaran yang (a) sesuai dengan tujuan khusus pembelajaran/SubCPMK, (b) menggunakan teknik penilaian yang bervariasi, (c) memiliki tingkat kesulitan yang proporsional, (d) memberikan umpan balik yang konstruktif, dan (e) memberi kesempatan kepada mahasiswa untuk melakukan banding terhadap hasil penilaian."
+            },
+            {
+                "kode": "34",
+                "bobot": 1.5,
+                "indikator": "PS meningkatkan suasana akademik melalui kebebasan mimbar akademik dan otonomi keilmuan dengan menyelenggarakan kegiatan akademik di luar kelas yang: (a) beragam, (b) intensif dan berkelanjutan, (c) relevan kegiatan dengan keilmuan PS, dan (d) didokumentasikan secara lengkap dan terstruktur."
+            },
+            {
+                "kode": "35",
+                "bobot": 1.5,
+                "indikator": "Pembimbingan Tugas Akhir atau disertasi oleh DTPS memenuhi aspek: (a) Ketersediaan panduan dan sistem informasi tugas akhir, (b) Kecukupan jumlah pembimbing, (c) Frekuensi"
+            },
+            {
+                "kode": "36",
+                "bobot": 2,
+                "indikator": "Anggota tim penguji disertasi memiliki jabatan akademik dan keahlian yang relevan dengan topik disertasi, salah satu diantaranya berasal dari PS lain."
+            },
+            {
+                "kode": "37",
+                "bobot": 1,
+                "indikator": "Disertasi yang dihasilkan mahasiswa (a) mengkaji topik yang relevan dengan visi keilmuan PS, (b) memiliki kebaruan dan keorisinalan,"
+            },
+            {
+                "kode": "38",
+                "bobot": 1,
+                "indikator": "(a) lulusan PS memiliki ratarata IPK yang baik dalam 3 tahun terakhir; dan RIPK = Rata-rata IPK lulusan dalam 3 tahun terakhir. (b) PS melakukan analisis terhadap tren IPK lulusan dan faktor-faktor penyebabnya."
+            },
+            {
+                "kode": "39",
+                "bobot": 2,
+                "indikator": "(a) Rata-rata masa studi lulusan dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "40",
+                "bobot": 2,
+                "indikator": "(a) Mahasiswa dapat menyelesaikan studinya sesuai masa tempuh kurikulum (MTK)."
+            },
+            {
+                "kode": "41",
+                "bobot": 1.5,
+                "indikator": "(a) Mahasiswa berhasil menyelesaikan studinya."
+            },
+            {
+                "kode": "42",
+                "bobot": 1,
+                "indikator": "UPPS/PS melakukan tracer study yang mencakup 5 aspek, yaitu: (a) terkoordinasi ditingkat PT/ UPPS, (b) dilakukan secara regular setiap tahun dan terdokumentasi, (c) menggunakan instrumen yang mencakup seluruh inti pertanyaan tracer study Pendidikan tinggi, (d) ditargetkan pada seluruh lulusan TS-4 s.d TS-2, (e) PS melakukan analisis terhadap hasil tracer study, dan (f) hasilnya disosialisasikan dan digunakan untuk pengembangan kurikulum dan pembelajaran."
+            },
+            {
+                "kode": "43",
+                "bobot": 2.5,
+                "indikator": "(a) UPPS/PS melakukan evaluasi tingkat kepuasan pengguna lulusan terhadap kompetensi yang dimiliki oleh lulusan, yang mencakup aspek (1) etika, (2) keahlian pada bidang ilmu (kompetensi utama), (3) kemampuan berbahasa asing, (4) penggunaan teknologi informasi, (5) kemampuan berkomunikasi, (6) kerjasama (7) pengembangan diri (8) berpikir kritis, dan (9) kreativitas."
+            },
+            {
+                "kode": "44",
+                "bobot": 1.5,
+                "indikator": "PS melakukan asesmen pencapaian Capaian Pembelajaran Lulusan (CPL) berdasarkan capaian hasil belajar mahasiswa pada mata kuliah penciri keilmuan PS, melakukan evaluasi terhadap hasil asesmen pencapaian CPL, dan melakukan tindak lanjut hasil evaluasi terhadap hasil asesmen pencpaian CPL."
+            },
+            {
+                "kode": "45",
+                "bobot": 2,
+                "indikator": "UPPS/PS melakukan evaluasi kurikulum PS yang memenuhi aspek-aspek sebagai berikut: (a) evaluasi mikro dilakukan paling lama 1 tahun sekali; (b) evaluasi makro dilakukan paling lama 4 tahun sekali; (c) evaluasi merujuk pada kebijakan pemerintah; visi keilmuan PS; perkembangan IPTEKS (termasuk literasi digital), tuntutan industri, dunia usaha, dan dunia kerja (IDUKA); kebutuhan masyarakat, dan keterampilan abad 21: kreativitas, bernalar kritis, komunikasi, kolaborasi, kemampuan adaptif, karakter, dan kesadaran berkewarganegaraan; (d) evaluasi melibatkan stakeholder internal dan eksternal; (e) evaluasi didokumentasikan secara lengkap."
+            },
+            {
+                "kode": "46",
+                "bobot": 1,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi serta tindak lanjut terhadap pendidikan, dengan ketentuan sebagai berikut. (a) Evaluasi (1) dilakukan terhadap elemenelemen pendidikan dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk memastikan tindak lanjut benar-benar diimplementasikan, (4) didukung bukti pelaksanaan yang lengkap dan sahih, dan (5) digunakan sebagai dasar pengembangan program berkelanjutan."
+            }
+        ],
+        "Pengabdian Kepada Masyarakat": [
+            {
+                "kode": "47",
+                "bobot": 2.5,
+                "indikator": "PS memiliki peta jalan penelitian yang (a) mendukung pencapaian visi keilmuan PS, (b) memiliki fokus dan tahapan yang jelas, dan (c) didukung oleh SDM yang kompeten dalam keilmuan, serta (d) PS melakukan analisis terhadap ketepatan dan relevansi peta jalan penelitian."
+            },
+            {
+                "kode": "48",
+                "bobot": 1.5,
+                "indikator": "(a) DTPS melakukan penelitian dengan dana mandiri/PT, dana dalam negeri, dan dana dari luar negeri dalam tiga tahun terakhir."
+            },
+            {
+                "kode": "49",
+                "bobot": 2.5,
+                "indikator": "(a) DTPS melibatkan mahasiswa dalam kegiatan penelitiannya."
+            },
+            {
+                "kode": "50",
+                "bobot": 3,
+                "indikator": "(a) Dalam 3 tahun terakhir, 60% DTPS memiliki karya yang (1) dipublikasikan di jurnal nasional dan/atau jurnal internasional, (2) dipresentasikan di seminar nasional dan/atau internasional, dan (3) dipublikasikan di media massa wilayah, nasional, dan/atau internasional."
+            },
+            {
+                "kode": "51",
+                "bobot": 2.5,
+                "indikator": "(a) Dalam tiga tahun terakhir, DTPS memiliki publikasi di jurnal nasional terakreditasi minimal Sinta 2 dan/atau jurnal internasional bereputasi sebagai penulis pertama atau corresponding author."
+            },
+            {
+                "kode": "52",
+                "bobot": 2,
+                "indikator": "(a) Jumlah artikel ilmiah DTPS yang disitasi dalam tiga tahun terakhir."
+            },
+            {
+                "kode": "53",
+                "bobot": 2.5,
+                "indikator": "UPPS/PS melakukan evaluasi a. UPPS/PS"
+            },
+            {
+                "kode": "54",
+                "bobot": 1.25,
+                "indikator": "(a) DTPS memiliki produktivitas PkM dengan dana mandiri/PT, dana dalam negeri, dan dana dari luar negeri dalam tiga tahun terakhir."
+            },
+            {
+                "kode": "55",
+                "bobot": 2,
+                "indikator": "(a) DTPS melibatkan mahasiswa dalam kegiatan PkM."
+            },
+            {
+                "kode": "56",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria PkM serta tindak lanjut dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi: (1) dilakukan terhadap elemenelemen PkM dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter"
+            }
+        ],
+        "Penjaminan Mutu": [
+            {
+                "kode": "57",
+                "bobot": 2,
+                "indikator": "UPPS memiliki unsur pelaksana penjaminan mutu di UPPS yang tercermin dari aspek (a) surat keputusan pembentukan unit penjaminan mutu, (b) struktur organisasi penjaminan mutu, (c) deskripsi kerja personil yang ada dalam struktur organisasi, dan (d) personil yang kompeten dalam bidang penjaminan mutu."
+            },
+            {
+                "kode": "58",
+                "bobot": 3,
+                "indikator": "PT/UPPS: menetapkan perangkat Sistem Penjaminan Mutu Internal (SPMI) yang minimal mencakup: (1) kebijakan SPMI, (2) pedoman penerapan siklus PPEPP standar pendidikan tinggi dalam SPMI, (3) standar dan/atau kriteria penyelenggaraan pendidikan dan pengelolaan perguruan tinggi, (4) tata cara pendokumentasian implementasi SPMI, dengan memanfaatkan TI untuk mendukung implementasi SPMI."
+            },
+            {
+                "kode": "59",
+                "bobot": 2,
+                "indikator": "PT/UPPS/PS melaksanakan Sistem Penjaminan Mutu Internal (SPMI) dengan siklus Penetapan, Pelaksanaan, Evaluasi, Pengendalian, dan Peningkatan (PPEPP) standar pendidikan tinggi."
+            },
+            {
+                "kode": "60",
+                "bobot": null,
+                "indikator": "PT/UPPS melakukan evaluasi dan refleksi terhadap kriteria penjaminan mutu serta tindak lanjut terhadap penjaminan mutu yang menekankan pada prinsip akuntabilitas, transparansi, nirlaba, efektivitas, efisiensi, dan peningkatan mutu berkelanjutan dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi (1) dilakukan terhadap elemenelemen penjaminan mutu dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan"
+            }
+        ]
+    },
+    "S3 PJJ": {
+        "Visi Keilmuan Program Studi": [
+            {
+                "kode": "67",
+                "bobot": 1,
+                "indikator": "Elemen-elemen tersebut dirancang untuk memastikan bahwa semua aspek penting dari pengelolaan dan pelaksanaan PS terukur secara sistematis, guna mendukung pencapaian standar mutu pendidikan tinggi yang unggul."
+            },
+            {
+                "kode": "4",
+                "bobot": 1.25,
+                "indikator": "Skor 1 menunjukkan bahwa elemen tersebut tidak memenuhi standar mutu yang ditetapkan. Sebaliknya, skor 4 mencerminkan kualitas tertinggi, yang berarti elemen tersebut sepenuhnya memenuhi semua parameter mutu yang ditetapkan. Apabila elemen hanya memenuhi sebagian standar mutu atau implementasinya dinilai belum optimal, maka elemen tersebut diberi skor 2 sampai 3. Penentuan"
+            },
+            {
+                "kode": "1",
+                "bobot": 1.5,
+                "indikator": "PS memiliki visi keilmuan yang dirumuskan (a) secara tepat sebagai visi keilmuan PS, (b) menunjukkan kekhasan PS, (c) berwawasan ke depan, (d) relevan dengan perkembangan IPTEKS dan kebutuhan masyarakat, (e) dan selaras dengan visi kelembagaan PT/UPPS ."
+            },
+            {
+                "kode": "2",
+                "bobot": 1.5,
+                "indikator": "Dalam tiga tahun terakhir, PS (a) melakukan sosialisasi visi keilmuan kepada para pemangku kepentingan melalui (1) rapat PS, (2) kuliah umum PS, (3) flyer/banner/ papan, dll, (4) website PS, (5) media sosial PS, (b) mengukur, menganalisis dan mengevaluasi pemahaman pemangku kepentingan terhadap visi keilmuan tersebut secara periodik, dan (c) menindaklanjuti hasil evaluasi tersebut"
+            },
+            {
+                "kode": "3",
+                "bobot": 1,
+                "indikator": "Visi keilmuan PS menjadi rujukan (a) pengembangan kurikulum; (b) pelaksanaan pembelajaran; (c) pelaksanaan penelitian, dan (d) pelaksanaan PkM."
+            }
+        ],
+        "Tata Pamong dan Tata Kelola UPPS": [
+            {
+                "kode": "5",
+                "bobot": 1.25,
+                "indikator": "Tata pamong di UPPS yang: (a) memiliki 5 aspek: (1) struktur organisasi, (2) job description tiap organ, (3) staffing, (4) tata hubungan antar organ, (5) mekanisme dan sistem kontrol. (b) memenuhi prinsip good governance: (1) kredibel, (2) transparan, (3) akuntabel, (4) bertanggung jawab, dan (5) adil."
+            },
+            {
+                "kode": "6",
+                "bobot": 1.5,
+                "indikator": "UPPS menjalankan proses tata kelola secara efektif yang mencakup aspek (a) perencanaan, (b) pengorganisasian, (c) penempatan personel, (d) pelaksanaan, (e) pengendalian dan pengawasan, dan (f) pelaporan yang menjadi dasar tindak lanjut."
+            },
+            {
+                "kode": "7",
+                "bobot": 1.5,
+                "indikator": "(a) PT/UPPS menjalin kerjasama dalam bidang pendidikan, penelitian, dan PkM dengan pihak lain di tingkat wilayah/lokal, nasional, dan internasional dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "8",
+                "bobot": 1.25,
+                "indikator": "UPPS melakukan Evaluasi dan Refleksi terhadap Kriteria Tata Pamong dan Tata Kelola UPPS serta Tindak Lanjut, dengan aspek berikut. (a) Evaluasi dan Refleksi (1) dilakukan terhadap elemen-elemen tata kelola dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumenta- sikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk memastikan tindak lanjut benarbenar diimplementasikan, (4) didukung bukti pelaksanaan yang lengkap dan sahih, dan (5) digunakan sebagai dasar pengembangan program berkelanjutan."
+            }
+        ],
+        "Mahasiswa": [
+            {
+                "kode": "9",
+                "bobot": 1.25,
+                "indikator": "PT/UPPS melaksanakan seleksi calon mahasiswa baru yang mencerminkan prinsip (1)"
+            },
+            {
+                "kode": "10",
+                "bobot": 1,
+                "indikator": "(a) PS memperoleh mahasiswa baru dengan kualitas input yang baik yang memenuhi aspekaspek sebagai berikut: (1) jumlah pendaftar memenuhi daya tampung, (2) memiliki kriteria seleksi yang tinggi (IPK, TPA, dan TOEFL/ bahasa Inggris yang setara, dan prestasi akademik/non- akademik)."
+            },
+            {
+                "kode": "11",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS (a) menyediakan layanan mahasiswa yang mencakup: (1) administrasi akademik, (2) Kesehatan, (3) keperluan dasar untuk mahasiswa berkebutuhan khusus, (4) beasiswa, (5) layanan IT, (6) bimbingan disertasi, dan (7) bimbingan penulisan dan publikasi artikel; (b) Layanan"
+            },
+            {
+                "kode": "12",
+                "bobot": 2,
+                "indikator": "PT/UPPS/PS menyediakan layanan perlindungan kepada mahasiswa dari perundungan, pelecehan seksual, dan intoleransi yang meliputi aspekaspek berikut: (a) Ketersediaan unit /organ/satuan tugas pelaksana, (b) Ketersediaan panduan, (c) Kegiatan sosialisasi dan pelatihan di PS, dan (d) Ketersediaan bukti pelaksanaan di tingkat PS."
+            },
+            {
+                "kode": "13",
+                "bobot": 2.25,
+                "indikator": "(a) Mahasiswa memiliki prestasi akademik (seperti juara 1,2,3 lomba dalam scholar research competition, research poster competition dan sejenisnya, mengikuti program pertukaran mahasiswa internasional) dan non akademik (seperti juara di bidang olah raga, bidang seni, dan bidang kepemimpinan/organisasi) dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "14",
+                "bobot": 1.75,
+                "indikator": "(a) Dalam 5 tahun terakhir, mahasiswa dalam jumlah tertentu menghasilkan karya inovatif dan/atau publikasi ilmiah yang sesuai dengan bidang keilmuan PS, dan/atau karya seni yang dipamerkan/ dipagelarkan."
+            },
+            {
+                "kode": "15",
+                "bobot": 1.5,
+                "indikator": "(a) UPPS/PS melakukan pengukuran kepuasan mahasiswa terhadap (a) performa mengajar dosen, layanan administrasi akademik, dan kuantitas-kualitas fasilitas pendidikan yang memenuhi 6 aspek sebagai berikut: (1) menggunakan instrumen kepuasan yang valid dan mudah digunakan, (2) dilaksanakan di setiap akhir semester dan datanya terekam secara lengkap, (3) hasilnya dianalisis dengan metode yang tepat dan bermanfaat untuk pengambilan keputusan, (4) dilakukan review terhadap hasil pelaksanaan pengukuran kepuasan, (5) ditindaklanjuti untuk perbaikan dan peningkatan mutu pengajaran, dan (6) hasilnya dipublikasikan dan mudah diakses; dan"
+            },
+            {
+                "kode": "16",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria mahasiswa serta tindak lanjut dengan ketentuan (a) Evaluasi dan Refleksi (1) dilakukan terhadap elemen-elemen pada kriteria mahasiswa dengan cara mengidentifikasi kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk memastikan tindak lanjut benarbenar diimplementasikan, (4) didukung bukti pelaksanaan yang lengkap dan sahih, dan (5) digunakan sebagai dasar pengembangan program berkelanjutan."
+            }
+        ],
+        "Dosen dan Tenaga Kependidikan": [
+            {
+                "kode": "17",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS/PS melaksanakan seleksi calon dosen dan tenaga kependidikan yang memenuhi aspek-aspek sbb: (a) melakukan analisis kebutuhan, (b) pengumuman yang transparan, (c) seleksi berbasisi kompetensi, (d) metode seleksi yang beragam, (e) pengumuman hasil, dan (f) memberi kesempatan banding."
+            },
+            {
+                "kode": "18",
+                "bobot": 1.5,
+                "indikator": "(a) Pada saat TS, DTPS memiliki: (a) kualifikasi akademik dan (b) jabatan akademik yang dipersyaratkan."
+            },
+            {
+                "kode": "19",
+                "bobot": 1.5,
+                "indikator": "(a) Beban Kerja dalam satu tahun terakhir memungkinkan DTPS bekerja secara maksimal. (b) PS melakukan analisis distribusi beban kerja DTPS dalam mendukung (1) tercapainya kualitas tridarma yang seimbang (pendidikan, penelitian, PkM), (2) menjaga kesejahteraan dosen dan (3) keberlanjutan mutu program studi"
+            },
+            {
+                "kode": "20",
+                "bobot": 1.5,
+                "indikator": "(a) DTPS memiliki prestasi yang diakui di tingkat wilayah/lokal, nasional, dan/atau internasional."
+            },
+            {
+                "kode": "21",
+                "bobot": 1.25,
+                "indikator": "(a) DTPS mengikuti kegiatan pengembangan kompetensi (postdoct academic recharging program-ARP, sertifikasi kompetensi dari BNSP atau lembaga sertifikasi internasuonal, workshop minimal 32 jam yang relevan dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "22",
+                "bobot": 1.25,
+                "indikator": "Pendidik dengan tugas khusus memiliki (a) kualifikasi akademik, (b) jabatan akademik/fungsional yang dipersyaratkan; serta (c) UPPS/PS melakukan analisis kontribusi kualifikasi dan jabatan akademik pendidik tersebut dengan: (1) peningkatan kualitas tridarma, (2) penguatan jejaring akademik, serta (3) pencapaian visi keilmuan program studi secara berkelanjutan."
+            },
+            {
+                "kode": "23",
+                "bobot": 0.75,
+                "indikator": "(a) Tutor memiliki kualifikasi akademik yang dipersyaratkan (b) UPPS/PS melakukan analisis kecukupan dan kontribusi kualifikasi tutor yang ada dengan: (1) peningkatan kualitas tridharma, (2) penguatan jejaring akademik, serta (3) pencapaian visi keilmuan program studi secara berkelanjutan."
+            },
+            {
+                "kode": "24",
+                "bobot": 1.25,
+                "indikator": "(a) Tenaga kependidikan, yaitu (1) administrator, (2) pustakawan, (3) laboran dan/atau teknisi, (4) pranata teknologi informasi dan komunikasi, (5) pranata teknologi pendidikan, (6) pengelola LMS, memiliki kualifikasi yang dipersyaratkan dan jumlah yang memadai."
+            },
+            {
+                "kode": "25",
+                "bobot": 1.5,
+                "indikator": "(a)Tenaga kependidikan mengikuti kegiatan pengembangan kompetensi (studi lanjut, sertifikasi kompetensi dari BNSP atau lembaga sertifikasi internasional, workshop/pelatihan minimal 16 jam yang relevan) yang mendukung pengembangan tenaga kependidikan dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "26",
+                "bobot": 0.75,
+                "indikator": "UPPS melakukan evaluasi dan refleksi terhadap kriteria dosen dan tendik serta tindak lanjut, dengan ketentuan sebagai berikut. (a) Evaluasi (1) dilakukan terhadap elemen-elemen dosen dan tendik dengan cara mengidentifikasi kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode tertentu, (4) didokumenta- sikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk memastikan tindak lanjut benarbenar diimplementasikan, (4) didukung bukti pelaksanaan yang lengkap dan sahih, dan (5) digunakan sebagai dasar pengembangan program berkelanjutan."
+            }
+        ],
+        "Keuangan, Sarana, dan Prasarana Pendidikan": [
+            {
+                "kode": "27",
+                "bobot": 0.75,
+                "indikator": "UPPS menjalankan prinsip keuangan yang tercermin dari aspek (a) perencanaan, (b) pelaksanaan, (c) evaluasi, (d) tindak lanjut, (e) berbasis sistem informasi"
+            },
+            {
+                "kode": "28",
+                "bobot": 1,
+                "indikator": "PS/DTPS mengelola anggaran operasional pendidikan, penelitian, PkM yang memadai dari PT/UPPS dan sumber lain, dan melakukan analisis terhadap aspek: (1) penggunaan anggaran terlaksananya untuk menjamin kegiatan tridharma PT secara efektif, dan (2) dampak terhadap kinerja PS."
+            },
+            {
+                "kode": "29",
+                "bobot": 1,
+                "indikator": "PT/UPPS menyediakan Infrastruktur perangkat keras TIK di UPPS PJJ yang meliputi: (a) highend server (misalnya dalam bentuk farm server, colocation server, hosting, cloud, virtual private server (VPS) dan sejenisnya); (b) fasilitas teleconference; (c) ketersediaan NOC (Network Operation Center) dan DRC (Disarter Recovery Center); (d) jaminan pasok daya listrik tidak terputus dengan penyediaan cadangan catu daya"
+            },
+            {
+                "kode": "30",
+                "bobot": 1,
+                "indikator": "PT/UPPS memiliki server (dedicated) LMS dengan fasilitas berikut: (a) Ruang data (penyimpan/storage) untuk setiap mata kuliah yang diselenggarakan minimal 5 GB per mata kuliah; (b) Kapasitas memori (RAM) yang disediakan paling sedikit berukuran 100 MB per pengguna bersamaan; (c) Kecepatan transfer data untuk akses ke luar sebesar 100 Kbps per pengguna bersamaan; (d) Kecepatan transfer data untuk akses masuk sebesar 25 Kbps per pengguna bersamaan"
+            },
+            {
+                "kode": "31",
+                "bobot": 1,
+                "indikator": "PT/UPPS memiliki LMS dengan fasilitas/fitur: (a) presentasi (sinkron/ asinkron), (b) interaksi/komunikasi (sinkron/asinkron), (c) asesmen (mengakomodasi berbagai format tes), (d) pengelompokan (grouping), (e) pengarsipan bukti pembelajaran (catatan aktivitas/logbook, nilai mahasiswa, learning analytics, dan sejenisnya), (f) Integrasi dengan Sistem Informasi Akademik, dan (g) Integrasi dengan sumber belajar (elibrary)."
+            },
+            {
+                "kode": "32",
+                "bobot": 1,
+                "indikator": "Sistem Informasi Manajemen yang meliputi: (a) Ketersediaan Sistem Informasi Manajemen berbasis web (Akademik, Kemahasiswaan, Perpustakaan, Kepegawaian, Keuangan, sarana prasarana, dan online helpdesk); (b) Keterkaitan antar SIM dalam PT"
+            },
+            {
+                "kode": "33",
+                "bobot": 1,
+                "indikator": "Rerata Luas fasilitas belajar di setiap PBJJ: a. Luas ruang dosen per dosen dan status kepemilikan yaitu SD = milik sendiri, KS = Kerja Sama, atau SW = sewa atau kontrak b. Luas ruang kantor per pegawai dan status kepemilikan yaitu SD = milik sendiri atau SW = sewa atau kontrak atau kerjasama c. Luas ruang teleconference dan status kepemilikan yaitu SD = milik sendiri, KS = Kerja sama, atau SW = sewa atau kontrak d. Luas ruang tutorial daring/luring per mahasiswa dan status kepemilikan yaitu SD = milik sendiri, KS = Kerja sama, atau SW = sewa atau kontrak e. Luas ruang laboratorium/tempat praktik per mahasiswa dan status kepemilikan yaitu SD = milik sendiri, KS = Kerja sama, atau SW = sewa atau kontrak"
+            },
+            {
+                "kode": "34",
+                "bobot": 0.75,
+                "indikator": "Ketersediaan bahan ajar digital (modul dan/atau video) mata kuliah untuk mendukung proses pembelajaran yang meliputi aspek: (a) sesuai dengan capaian pembelajaran, (b) mendorong partisipasi aktif mahasiswa, (c) terintegrasi di LMS, (d) struktur yang jelas, (e) aksesibilitas."
+            },
+            {
+                "kode": "35",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS menjamin pemenuhan standar K3L belajar/kerja yang memenuhi aspek (a) ketersediaan kebijakan K3L, (b) ketersediaan sistem manajemen K3L,(c) ketersediaan fasilitas pendukung K3L, (d) pelaksnaan sosialisasi dan edukasi,(e) ketersediaan infrastruktur TI dan teknologi K3L, dan (f) pelaksnaan penilaian dan audit K3L secara berkala."
+            },
+            {
+                "kode": "36",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS melakukan evaluasi dan refleksi serta tindak lanjut terhadap kriteria keuangan dan sarana dan prasarana pendidikan dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi (1) dilakukan terhadap elemenelemen keuangan dan sarana dan prasarana pendidikan dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b)"
+            }
+        ],
+        "Pendidikan": [
+            {
+                "kode": "37",
+                "bobot": 2,
+                "indikator": "UPPS/PS memiliki kurikulum berbasis luaran (OBE) yang: (a) disusun secara sistematis dengan tahapan sbb: (1) evaluasi kurikulum berjalan, (2) penyusunan dokumen kurikulum, (3) review dan perbaikan, (4) pelaksanaan, dan (5) evaluasi dan tindak lanjut, (6) melibatkan stakeholders internal (pimpinan UPPS/PS, dosen, mahasiswa, tenaga kependidikan) dan stakeholders eksternal (alumni, pengguna lulusan, asosiasi program studi/profesi, pakar) dalam proses penyusunan kurikulum; dan (b) memenuhi karakteristik kurukulum yang baik sbb: (1) lengkap, (2) sesuai dengan level KKNI, (3) koheren (ketepatan struktur kurikulum dalam pencapaian CPL), (4) mutakhir, (5) memperlihatkan ciri khusus PS PJJ, (6) memiliki fleksibilitas (keleluasaan untuk mengikuti pendidikan dari berbagai tahapan kurikulum dan keleluasaan untuk menyelesaikan"
+            },
+            {
+                "kode": "38",
+                "bobot": 2,
+                "indikator": "(a) DTPS dan/atau Tutor melaksanakan pembelajaran yang (1) sesuai dengan RPS yang telah disusun, (2) menciptakan suasana belajar yang menyenangkan, inklusif, kolaboratif, kreatif, dan efektif serta berpusat pada mahasiswa, (3) merealisasikan CPL melalui sub-CPMK, (4) melaksanakan assessment for learning, (5) mengintegrasikan hasil penelitian/PkM, dan (6) melakukan refleksi terhadap pelaksanaan pembelajaran. (b) Pembelajaran dilakukan secara luring, daring, dan bauran (hybrid) dengan memanfaatkan Teknologi Informasi yang relevan."
+            },
+            {
+                "kode": "39",
+                "bobot": 1.75,
+                "indikator": "(a) UPPS-PJJ memiliki sistem pengendalian mutu pembelajaran yang meliputi keberadaan aspek: (a) monitoring pembelajaran mandiri, (b) mutu tugas tutorial dan soal ujian, (c) mutu bahan ajar, (d) kelulusan mahasiswa dalam mengikuti ujian, dan (e) kemutakhiran bahan ajar"
+            },
+            {
+                "kode": "40",
+                "bobot": 2,
+                "indikator": "(a) DTPS mengintegrasikan penelitian dan/atau PkM dalam pembelajaran yang memenuhi aspek berikut: (1) Hasil penelitian/PkM relevan dengan mata kuliah inti PS; (2) Penelitian memiliki kredibilitas yang tinggi; (3) Hasil penelitian menjadi bagian dari materi mata kuliah; (4) Pengintegrasian disertai bukti, seperti materi presentasi, handout, atau modul;"
+            },
+            {
+                "kode": "41",
+                "bobot": 2,
+                "indikator": "DTPS melaksanakan penilaian pembelajaran yang (a) sesuai dengan tujuan khusus pembelajaran/Sub-CPMK, (b) menggunakan teknik penilaian yang bervariasi, (c) memiliki tingkat kesulitan yang proporsional, (d) memberikan umpan balik yang konstruktif, dan (e) memberi kesempatan kepada mahasiswa untuk melakukan banding terhadap hasil penilaian."
+            },
+            {
+                "kode": "42",
+                "bobot": 1.25,
+                "indikator": "Pembimbingan disertasi atau tugas akhir oleh DTPS memenuhi aspek: (a) ketersediaan panduan dan sistem informasi tugas akhir, (b) kecukupan jumlah dosen pembimbing, (c) frekuensi pembimbingan, dan (d) rata-rata waktu penyelesaian tugas akhir, serta (e) analisis terhadap keefektifan pembimbingan disertasi atau tugas akhir mencakup: (1) kecukupan jumlah pembimbing, (2) frekuensi pembimbingan, dan (3) dukungan system informasi yang disediakan"
+            },
+            {
+                "kode": "43",
+                "bobot": 2.25,
+                "indikator": "Anggota tim penguji disertasi memiliki keahlian yang relevan dengan topik disertasi, salah satu diantaranya berasal dari PT lain"
+            },
+            {
+                "kode": "44",
+                "bobot": 1,
+                "indikator": "Disertasi yang dihasilkan mahasiswa (a) mengkaji topik yang relevan dengan visi keilmuan PS, (b) memiliki kebaruan dan keorisinalan, (c) memiliki kedalaman dan keluasan kajian, (d) memiliki kontribusi terhadap pemecahan masalah pendidikan, dan (e) mutakhir."
+            },
+            {
+                "kode": "45",
+                "bobot": 1.25,
+                "indikator": "(a) lulusan PS memiliki rata-rata IPK yang baik dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "46",
+                "bobot": 1.25,
+                "indikator": "(a) Lulusan PS memiliki rata-rata"
+            },
+            {
+                "kode": "47",
+                "bobot": 2,
+                "indikator": "(a) Mahasiswa dapat menyelesaikan studinya sesuai masa tempuh kurikulum (MTK)."
+            },
+            {
+                "kode": "48",
+                "bobot": 1.5,
+                "indikator": "(a) Mahasiswa berhasil menyelesaikan studinya."
+            },
+            {
+                "kode": "49",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan tracer study yang mencakup 5 aspek, yaitu: (a) terkoordinasi ditingkat PT/ UPPS, (b) dilakukan secara regular setiap tahun dan terdokumentasi, (c) menggunakan instrumen yang mencakup seluruh inti pertanyaan tracer study Pendidikan tinggi, (d) ditargetkan pada seluruh lulusan TS-4 s.d TS2 dengan jumlah minimal 50% + 1, (e) PS melakukan analisis terhadap hasil tracer study, dan (f) hasilnya disosialisasikan dan digunakan untuk pengembangan kurikulum dan pembelajaran."
+            },
+            {
+                "kode": "50",
+                "bobot": 2,
+                "indikator": "(a) UPPS/PS melakukan evaluasi tingkat kepuasan pengguna lulusan terhadap kompetensi yang dimiliki oleh lulusan, yang mencakup aspek (1) etika, (2) keahlian pada bidang ilmu (kompetensi utama), (3) kemampuan berbahasa asing, (4) penggunaan teknologi informasi, (5) kemampuan berkomunikasi, (6) kerjasama (7) pengembangan diri (8) berpikir kritis, dan (9) kreativitas."
+            },
+            {
+                "kode": "51",
+                "bobot": 1.5,
+                "indikator": "PS melakukan asesmen pencapaian Capaian Pembelajaran Lulusan (CPL) berdasarkan capaian hasil belajar mahasiswa pada mata kuliah penciri keilmuan PS, melakukan evaluasi terhadap hasil asesmen pencapaian CPL, dan melakukan tindak lanjut hasil evaluasi terhadap hasil asesmen pencapaian CPL."
+            },
+            {
+                "kode": "52",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan evaluasi kurikulum PS yang memenuhi aspek-aspek sebagai berikut: (a) evaluasi mikro dilakukan paling lama 1 tahun sekali; (b) evaluasi makro dilakukan paling lama 5"
+            },
+            {
+                "kode": "53",
+                "bobot": 1.25,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi serta tindak lanjut terhadap kriteria pendidikan, dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi (1) dilakukan terhadap elemenelemen pendidikan dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk memastikan tindak lanjut benarbenar diimplementasikan, (4)"
+            }
+        ],
+        "Penelitian": [
+            {
+                "kode": "54",
+                "bobot": 2.25,
+                "indikator": "PS memiliki peta jalan penelitian yang (a) mendukung pencapaian visi keilmuan PS, (b) memiliki fokus dan tahapan yang jelas, dan (c) didukung oleh SDM yang kompeten dalam keilmuan, dan (d) disertasi dengan analisis terhadap ketepatan dan relevansi peta jalan penelitian."
+            },
+            {
+                "kode": "55",
+                "bobot": 1,
+                "indikator": "(a) DTPS melakukan penelitian dengan dana mandiri/PT, dana dalam negeri, dan dana dari luar negeri dalam tiga tahun terakhir."
+            },
+            {
+                "kode": "56",
+                "bobot": 2.5,
+                "indikator": "(a) DTPS melibatkan mahasiswa dalam kegiatan penelitiannya."
+            },
+            {
+                "kode": "57",
+                "bobot": 2.5,
+                "indikator": "(a) Dalam 3 tahun terakhir, 60% DTPS memiliki karya yang (1) dipublikasikan di jurnal nasional dan/atau jurnal internasional, (2) dipresentasikan di seminar nasional dan/atau internasional, dan (3) dipublikasikan di media massa wilayah, nasional, dan/atau internasional."
+            },
+            {
+                "kode": "58",
+                "bobot": 2,
+                "indikator": "(a) Dalam tiga tahun terakhir, DTPS memiliki publikasi di jurnal nasional terakreditasi minimal Sinta 2 dan/atau jurnal internasional bereputasi sebagai penulis pertama atau corresponding author."
+            },
+            {
+                "kode": "59",
+                "bobot": 1.5,
+                "indikator": "(a) Jumlah karya ilmiah DTPS"
+            },
+            {
+                "kode": "60",
+                "bobot": 2,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria penelitian serta tindak lanjut, dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi: (1) dilakukan terhadap elemenelemen penelitian dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk memastikan tindak lanjut benarbenar diimplementasikan, (4) didukung bukti pelaksanaan yang lengkap dan sahih, dan (5) digunakan sebagai dasar pengembangan program berkelanjutan."
+            }
+        ],
+        "Pengabdian Kepada Masyarakat": [
+            {
+                "kode": "61",
+                "bobot": 1,
+                "indikator": "(a) DTPS memiliki produktivitas PkM dengan dana mandiri/PT, dana dalam negeri, dan dana dari luar negeri dalam tiga tahun terakhir."
+            },
+            {
+                "kode": "62",
+                "bobot": 1.5,
+                "indikator": "(a) DTPS melibatkan mahasiswa dalam kegiatan PkM."
+            },
+            {
+                "kode": "63",
+                "bobot": 2,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria PkM serta tindak lanjut dengan ketentuan sebagai berikut. (a) Evaluasi dan refleksi: (1) dilakukan terhadap elemenelemen PkM dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara"
+            }
+        ],
+        "Penjaminan Mutu": [
+            {
+                "kode": "64",
+                "bobot": 2,
+                "indikator": "UPPS memiliki unsur pelaksana penjaminan mutu di UPPS yang tercermin dari aspek (a) surat keputusan pembentukan unit penjaminan mutu, (b) struktur organisasi penjaminan mutu, (c) deskripsi kerja personil yang ada dalam struktur organisasi, dan (d) personil yang kompeten dalam bidang penjaminan mutu."
+            },
+            {
+                "kode": "65",
+                "bobot": 2.5,
+                "indikator": "PT/UPPS (a) menetapkan perangkat Sistem Penjaminan Mutu Internal (SPMI) yang minimal mencakup: (1) kebijakan SPMI, (2) pedoman penerapan siklus PPEPP standar pendidikan tinggi dalam SPMI, (3) standar dan/atau kriteria penyelenggaraan pendidikan dan pengelolaan perguruan tinggi, (4) tata cara pendokumentasian"
+            },
+            {
+                "kode": "66",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS/PS melaksanakan SPMI"
+            }
+        ]
+    },
+    "PPG": {
+        "Visi Keilmuan Program Studi": [
+            {
+                "kode": "4",
+                "bobot": 1,
+                "indikator": "Skor 1 menunjukkan bahwa elemen tersebut tidak memenuhi standar mutu yang diharapkan. Sebaliknya, skor 4 mencerminkan kualitas tertinggi, yang berarti elemen tersebut sepenuhnya memenuhi dan memenuhi semua parameter mutu yang ditetapkan. Apabila elemen memenuhi hanya sebagian standar mutu, maka elemen tersebut diberi skor 2 atau 3. Penentuan skor"
+            },
+            {
+                "kode": "1",
+                "bobot": 1.5,
+                "indikator": "PS memiliki visi keilmuan yang dirumuskan (a) secara tepat sebagai visi keilmuan, (b) mencerminkan kekhasan PS, (c) berwawasan ke depan, (d) relevan dengan perkembangan IPTEKS dan kebutuhan masyarakat, dan (e) selaras dengan visi kelembagaan PT/UPPS."
+            },
+            {
+                "kode": "2",
+                "bobot": 1.5,
+                "indikator": "Dalam 3 tahun terakhir, PS (a) melakukan sosialisasi visi keilmuan kepada para pemangku kepentingan melalui (1) rapat PS, (2) kuliah umum PS, (3) flyer/banner/ papan, dll, (4) website PS, (5) media sosial PS, (b) mengukur, menganalisis dan mengevaluasi pemahaman pemangku kepentingan terhadap visi keilmuan tersebut secara periodik, dan (c) menindaklanjuti hasil evaluasi tersebut."
+            },
+            {
+                "kode": "3",
+                "bobot": 1.5,
+                "indikator": "Visi keilmuan PS menjadi rujukan (a) pengembangan kurikulum; (b) pelaksanaan pembelajaran; (c) pelaksanaan penelitian, dan (d) pelaksanaan PkM."
+            }
+        ],
+        "Mahasiswa": [
+            {
+                "kode": "5",
+                "bobot": 1.25,
+                "indikator": "Tata pamong di UPPS yang: (a) memiliki 5 aspek: (1) struktur organisasi, (2) job description tiap organ, (3) staffing, (4) tata hubungan antar organ, (5) mekanisme dan sistem kontrol. (b) memenuhi prinsip good governance: (1) kredibel, (2) transparan, (3) akuntabel, (4) tanggung jawab, dan (5) adil."
+            },
+            {
+                "kode": "6",
+                "bobot": 1.5,
+                "indikator": "UPPS menjalankan proses tata kelola secara efektif yang mencakup aspek (a) perencanaan, (b) pengorganisasian, (c) penempatan personel, (d) pelaksanaan, (e) pengendalian dan"
+            },
+            {
+                "kode": "7",
+                "bobot": 1.75,
+                "indikator": "PT/UPPS menjalin kerja"
+            },
+            {
+                "kode": "8",
+                "bobot": 1.5,
+                "indikator": "UPPS melakukan evaluasi"
+            },
+            {
+                "kode": "9",
+                "bobot": 1.25,
+                "indikator": "PS melakukan analisis terhadap mahasiswa yang melakukan lapor diri, yang mencakup aspek (a) linearitas PS, (b) representasi wilayah berdasarkan provinsi di Indonesia, (c) distribusi usia mahasiswa, (d) ratarata IPK program sarjana, (e) dan asal perguruan tinggi."
+            },
+            {
+                "kode": "10",
+                "bobot": 1.25,
+                "indikator": "PT/UPPS (a) menyediakan layanan mahasiswa yang mencakup: (1) administrasi akademik, (2) bimbingan konseling, (3) Kesehatan, (4) keperluan dasar untuk mahasiswa berkebutuhan khusus, (5) beasiswa, (6) layanan Teknologi Informasi (TI), dan (7) bimbingan penulisan dan publikasi ilmiah; (b) Layanan tersebut dapat diakses oleh mahasiswa; dan (c) Layanan tersebut memiliki kualitas yang baik."
+            },
+            {
+                "kode": "11",
+                "bobot": 1.75,
+                "indikator": "PT/UPPS/PS menyediakan PT/UPPS/PS"
+            },
+            {
+                "kode": "12",
+                "bobot": 2,
+                "indikator": "(a) mahasiswa memiliki prestasi akademik (seperti juara 1, 2, 3 dalam LKTI/PIMNAS dan sejenisnya, PPL di sekolah Indonesia luar negeri) dan prestasi non-akademik (seperti juara di bidang olah raga, bidang seni, dan bidang kepemimpinan/organisasi) yang diraih oleh mahasiswa pada tingkat wilayah/lokal, nasional, dan internasional dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "13",
+                "bobot": 2.25,
+                "indikator": "(a) Dalam 5 tahun terakhir, mahasiswa dalam jumlah tertentu menghasilkan karya inovatif dan/atau publikasi ilmiah yang sesuai dengan bidang keilmuan PS, paten/paten sederhana, dan/atau jurnal internasional dalam kurun waktu 5 tahun terakhir."
+            },
+            {
+                "kode": "14",
+                "bobot": 1.75,
+                "indikator": "UPPS/PS melakukan pengukuran kepuasan mahasiswa terhadap (a) performa mengajar dosen, layanan administrasi akademik, dan kuantitas-kualitas fasilitas pendidikan yang memenuhi 6 aspek sebagai berikut: (1) menggunakan instrumen kepuasan yang valid dan mudah digunakan, (2) dilaksanakan di setiap akhir semester dan datanya terekam secara lengkap, (3) hasilnya dianalisis dengan metode yang tepat dan bermanfaat untuk"
+            },
+            {
+                "kode": "15",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria mahasiswa serta tindak lanjut, dengan ketentuan sebagai berikut. (a) Evaluasi dan Refleksi (1) dilakukan terhadap elemen-elemen pada kriteria mahasiswa dengan cara mengidentifikasi minimal"
+            }
+        ],
+        "Dosen dan Tenaga Kependidikan": [
+            {
+                "kode": "16",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS/PS melaksanakan seleksi calon dosen dan tenaga kependidikan yang memenuhi aspek-aspek sbb: (a) pelaksanaan analisis kebutuhan, (b)"
+            },
+            {
+                "kode": "17",
+                "bobot": 1.5,
+                "indikator": "(a) Pada saat TS, DTPS memiliki (1) kualifikasi akademik (2) jabatan akademik yang dipersyaratkan."
+            },
+            {
+                "kode": "18",
+                "bobot": 1.5,
+                "indikator": "Beban kerja DTPS: (a) dalam satu tahun terakhir memungkinkan DTPS bekerja secara maksimal. (b) PS melakukan analisis distribusi beban kerja DTPS dalam mendukung (1) tercapainya kualitas tridarma yang seimbang (pendidikan, penelitian, PkM), (2) menjaga kesejahteraan dosen dan (3) keberlanjutan mutu program studi"
+            },
+            {
+                "kode": "19",
+                "bobot": 2,
+                "indikator": "Pengakuan kepakaran DTPS: (a) DTPS memiliki prestasi yang diakui di tingkat wilayah/lokal, nasional dan/atau internasional."
+            },
+            {
+                "kode": "20",
+                "bobot": 1.75,
+                "indikator": "Pengembangan kompetensi dosen: (a) DTPS mengikut kegiatan pengembangan kompetensi (postdoct academic recharging program-ARP), sertifikasi kompetensi dari BNSP atau lembaga sertifikasi internasional, workshop/pelatihan minimal 32 jam, seminar/konferensi yang relevan dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "21",
+                "bobot": 1.5,
+                "indikator": "Pengembangan Kompetensi tenaga kependidikan: (a) Tenaga kependidikan mengikuti kegiatan pengembangan kompetensi (studi lanjut, sertifikasi kompetensi dari BNSP atau lembaga sertifikasi internasional, workshop/pelatihan minimal 16 jam yang relevan) yang mendukung pengembangan tenaga kependidikan dalam 3 tahun terakhir"
+            },
+            {
+                "kode": "22",
+                "bobot": 1.5,
+                "indikator": "PS PPG memiliki guru pamong berjumlah paling sedikit 2 orang pada setiap bidang studi dan memenuhi persyaratan sbb: (1) Berkualifikasi akademik paling rendah sarjana atau sarjana terapan yang sama atau serumpun dengan bidang studi; (2) memiliki sertifikat pendidik profesional; (3) memiliki jabatan fungsional guru serendah-rendahnya Guru Muda; (4) memiliki"
+            },
+            {
+                "kode": "23",
+                "bobot": 1.5,
+                "indikator": "UPPS melakukan evaluasi dan refleksi terhadap kriteria dosen dan tendik, dan tindak lanjut dengan ketentuan sebagai berikut. (a) Evaluasi dan Refleksi (1) dilakukan terhadap elemen-elemen dosen dan tendik dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak Lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis,"
+            }
+        ],
+        "Keuangan, Sarana, dan Prasarana Pendidikan": [
+            {
+                "kode": "24",
+                "bobot": 1.25,
+                "indikator": "UPPS menjalankan prinsip keuangan yang tercermin dari aspek (a) perencanaan, (b) pelaksanaan, (c) evaluasi, (d) tindak lanjut, (e) berbasis sistem informasi."
+            },
+            {
+                "kode": "25",
+                "bobot": 1.5,
+                "indikator": "PS mengelola angggaran operasional pendidikan, penelitian, dan PkM yang memadai dari UPPS, serta melakukan analisis terhadap aspek: (a) penggunaan anggaran tersebut untuk menjamin kegiatan tridharma PT dapat berjalan secara efektif, dan (b) dampak terhadap kinerja PS."
+            },
+            {
+                "kode": "26",
+                "bobot": 1.25,
+                "indikator": "PT/UPPS menyediakan sarana dan prasarana utama untuk mendukung kegiatan akademik dan administrasi yang memenuhi aspek (a) kelengkapan, (b) kualitas, (c) aksesibilitas, (d) keterawatan, (e) kemutakhiran, (f) kemanfaatan, dan (g) analisis dampaknya terhadap kegiatan akademik dan administrasi"
+            },
+            {
+                "kode": "27",
+                "bobot": 1.25,
+                "indikator": "PT/UPPS menyediakan infrastruktur dan teknologi informasi (TI) dan mengembangkan platform digital untuk mendukung kegiatan"
+            },
+            {
+                "kode": "28",
+                "bobot": 1.25,
+                "indikator": "PT/UPPS menjamin pemenuhan standar K3L belajar/bekerja yang memenuhi aspek (a) ketersediaan kebijakan, (b) ketersediaan sistem manajemen, (c) ketersediaan peralatan dan fasilitas pendukung, (d) pelaksanaan sosialisasi dan edukasi, dan (e) pelaksanaan penilaian dan audit secara berkala."
+            },
+            {
+                "kode": "29",
+                "bobot": 1.5,
+                "indikator": "PT/UPPS melakukan evaluasi dan refleksi terhadap keuangan, sarana, dan prasarana, dan tindak lanjut dengan ketentuan sebagai berikut. (a) Evaluasi dan Refleksi (1) dilakukan terhadap elemen-elemen"
+            }
+        ],
+        "Pendidikan": [
+            {
+                "kode": "30",
+                "bobot": 1.75,
+                "indikator": "UPPS/PS memiliki kurikulum berbasis luaran (OBE) yang: (a) disusun secara sistematis dengan"
+            },
+            {
+                "kode": "31",
+                "bobot": 2,
+                "indikator": "DTPS melaksanakan pembelajaran yang (a) sesuai dengan RPS yang telah disusun, (b) menciptakan suasana belajar yang menyenangkan, inklusif, kolaboratif, kreatif, dan efektif serta berpusat pada mahasiswa, (c) merealisasikan CPL melalui sub-CPMK, (d) fleksibel: luring, daring, atau bauran (hybrid), (e) melaksanakan assessment for learning, (f) mengintegrasikan hasil penelitian/PkM, (g) memanfaatkan Teknologi Informasi yang relevan, dan (h) melakukan refleksi terhadap pelaksanaan pembelajaran."
+            },
+            {
+                "kode": "32",
+                "bobot": 2,
+                "indikator": "(a) DTPS mengintegrasikan penelitian dan/atau PkM dalam pembelajaran yang memenuhi aspek berikut: (1) hasil penelitian/PkM relevan dengan mata kuliah inti PS; (2) hasil penelitian menjadi bagian dari materi mata kuliah; (3) pengintegrasian disertai bukti, seperti materi presentasi, handout, atau modul; (b) DTPS yang mengintegrasikan hasil penelitian/PkM dalam pembelajaran mencapai jumlah yang memadai; (c) jumlah mata kuliah yang dikembangkan berdasarkan integrasi hasil penelitian/PkM dalam 3 tahun terakhir; (d) analisis terhadap kontribusi integrasi ini pada (1) peningkatan mutu proses belajar, (2) relevansi kurikulum dengan perkembangan keilmuan mutakhir, serta (3) penguatan kompetensi lulusan agar siap bersaing di dunia kerja dan masyarakat Skor ="
+            },
+            {
+                "kode": "33",
+                "bobot": 2,
+                "indikator": "DTPS melaksanakan penilaian hasil pembelajaran yang (a) sesuai dengan tujuan khusus pembelajaran/SubCPMK, (b) menggunakan teknik penilaian yang bervariasi, (c) memiliki tingkat kesulitan yang proporsional, (d) memberikan umpan balik yang konstruktif, dan (e) memberi kesempatan kepada mahasiswa untuk melakukan banding terhadap hasil penilaian."
+            },
+            {
+                "kode": "34",
+                "bobot": 2,
+                "indikator": "PS melaksanakan microteaching atau nama lain yang sejenis bagi PS kependidikan nonmengajar yang: (a) memenuhi kecukupan laboratorium microteaching dan sarana prasarana pendukung, (b) memenuhi frekuensi praktik, (c) melatihkan 8 keterampilan dasar mengajar, dan (d) melakukan refleksi diri."
+            },
+            {
+                "kode": "35",
+                "bobot": 2,
+                "indikator": "PS PPG melaksanakan Praktek Pengalaman Lapangan (PPL) disekolah yang tercermin adanya (a) kerja sama antara UPPS dengan lembaga mitra; (b) panduan pelaksanaan PPL; (c) unit pelaksana PPL; (d) laporan"
+            },
+            {
+                "kode": "36",
+                "bobot": 1.75,
+                "indikator": "Dosen pembimbing dan guru pamong melaksanakan pembimbingan PPL yang meliputi aspek berikut (a) frekuensi pembimbingan yang memadai; (b) pemberian umpan balik yang konstrukstif; (c) pelaksanaan refleksi setiap kali mahasiswa selesai praktik mengajar; (d) pemberian nilai; (e) pendokumentasian kegiatan pembimbingan yang lengkap"
+            },
+            {
+                "kode": "37",
+                "bobot": 2,
+                "indikator": "PS melaksanakan pendidikan berasrama dengan memenuhi aspek: (a) tersedia tata kelola asrama, (b) tersedia asrama mahasiswa atau sarana sejenis lainnya, (c) tersedia pedoman"
+            },
+            {
+                "kode": "39",
+                "bobot": 1,
+                "indikator": "(a) Rata-rata masa studi mahasiswa dalam 1 tahun terakhir (b) PS melakukan analisis tren masa studi lulusan dan faktor-faktor penyebabnya."
+            },
+            {
+                "kode": "40",
+                "bobot": 1,
+                "indikator": "(a) Mahasiswa dapat menyelesaikan studinya sesuai masa tempuh kurikulum (MTK)."
+            },
+            {
+                "kode": "41",
+                "bobot": 1,
+                "indikator": "(a) Mahasiswa berhasil menyelesaikan studinya."
+            },
+            {
+                "kode": "42",
+                "bobot": 1.5,
+                "indikator": "UPPS/PS melakukan tracer study yang mencakup 5 aspek, yaitu: (a) terkoordinasi ditingkat PT/ UPPS, (b) dilakukan secara regular setiap tahun dan terdokumentasi, (c) menggunakan instrumen yang mencakup seluruh inti pertanyaan tracer study Pendidikan tinggi, (d) ditargetkan pada seluruh lulusan TS-4 s.d TS-2, dan (e) PS melakukan analisis terhadap hasil tracer study, dan hasilnya disosialisasikan dan digunakan untuk pengembangan kurikulum dan pembelajaran."
+            },
+            {
+                "kode": "43",
+                "bobot": 2,
+                "indikator": "(a) Mahasiswa PS mendapatkan pekerjaan sebagai guru/peningkatan karir pertama setelah lulus."
+            },
+            {
+                "kode": "44",
+                "bobot": 1.5,
+                "indikator": "(a) UPPS/PS melakukan evaluasi tingkat kepuasan pengguna lulusan terhadap kompetensi yang dimiliki oleh lulusan, yang mencakup aspek (1) etika, (2) keahlian pada bidang ilmu (kompetensi utama), (3) kemampuan berbahasa asing, (4) penggunaan teknologi informasi, (5) kemampuan berkomunikasi, (6) kerja sama (7) pengembangan diri (8) berpikir kritis, dan (9) kreativitas."
+            },
+            {
+                "kode": "45",
+                "bobot": 1.75,
+                "indikator": "PS melakukan asesmen pencapaian Capaian Pembelajaran Lulusan (CPL) berdasarkan capaian hasil belajar mahasiswa pada mata kuliah inti penciri keilmuan PS, melakukan evaluasi terhadap hasil asesmen pencapaian CPL, dan melakukan tindak lanjut hasil evaluasi terhadap hasil asesmen pencapaian CPL."
+            },
+            {
+                "kode": "46",
+                "bobot": 2,
+                "indikator": "UPPS/PS melakukan evaluasi kurikulum PS yang memenuhi aspekaspek sebagai berikut: (a) evaluasi mikro dilakukan paling lama 1 tahun sekali; (b) evaluasi makro dilakukan paling lama 2 tahun sekali; (c) evaluasi merujuk pada kebijakan pemerintah; visi keilmuan PS; perkembangan IPTEKS (termasuk literasi digital), tuntutan industri, dunia usaha, dan dunia kerja (IDUKA); kebutuhan masyarakat, dan keterampilan abad XXI: kreativitas, bernalar kritis, komunikasi, kolaborasi, kemampuan adaptif, karakter, dan kesadaran berkewarganegaraan; (d) evaluasi melibatkan stakeholder internal dan eksternal; (e) evaluasi didokumentasikan secara lengkap."
+            },
+            {
+                "kode": "47",
+                "bobot": 1.75,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap pendidikan dan tindak lanjut dengan ketentuan sebagai berikut. (a) Evaluasi dan Refleksi (1) dilakukan terhadap elemen-elemen pendidikan dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak Lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk memastikan tindak lanjut benar-benar diimplementasikan, (4) didukung bukti pelaksanaan yang lengkap dan sahih, dan (5)"
+            }
+        ],
+        "Penelitian": [
+            {
+                "kode": "48",
+                "bobot": 1.5,
+                "indikator": "PS memiliki peta jalan penelitian yang (a) mendukung pencapaian visi keilmuan PS, (b) relevan dengan bidang keilmuan PS, (c) terintegrasi dengan kegiatan tridharma PT, (d) memiliki fokus dan tahapan yang jelas, (e) didkung oleh SDM yag kompeten dalam keilmuan."
+            },
+            {
+                "kode": "49",
+                "bobot": 1,
+                "indikator": "(a) DTPS melakukan penelitian dengan dana mandiri/PT, dana dalam negeri, dan dana dari luar negeri dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "50",
+                "bobot": 2.5,
+                "indikator": "(a) Dalam 3 tahun terakhir, 20% DTPS memiliki karya yang (1) dipublikasikan di jurnal nasional dan/atau jurnal internasional, (2) dipresentasikan di seminar nasional dan/atau internasional, dan (3) dipublikasikan di media massa wilayah, nasional, dan/atau internasional."
+            },
+            {
+                "kode": "51",
+                "bobot": 2.75,
+                "indikator": "Dalam 3 tahun terakhir, DTPS memiliki publikasi di jurnal nasional terakreditasi minimal Sinta 2 dan/atau jurnal internasional bereputasi sebagai penulis pertama atau corresponding author."
+            },
+            {
+                "kode": "52",
+                "bobot": 2.75,
+                "indikator": "(a) Jumlah artikel ilmiah"
+            },
+            {
+                "kode": "53",
+                "bobot": 2.5,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria penelitian dan tindak lanjut, dengan ketentuan sebagai berikut. (a) Evaluasi dan Refleksi: (1) dilakukan terhadap elemen-elemen penelitian dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/ kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4)"
+            }
+        ],
+        "Pengabdian Kepada Masyarakat": [
+            {
+                "kode": "54",
+                "bobot": 1.5,
+                "indikator": "(a) DTPS memiliki produktivitas PkM dengan dana mandiri/PT, dana dalam negeri, dan dana dari luar negeri dalam 3 tahun terakhir."
+            },
+            {
+                "kode": "55",
+                "bobot": 2.5,
+                "indikator": "UPPS/PS melakukan evaluasi dan refleksi terhadap kriteria PkM serta tindak lanjut, dengan ketentuan sebagai berikut. (a) Evaluasi dan Refleksi: (1) dilakukan terhadap elemen-elemen PkM dengan cara mengidentifikasi minimal kelebihan dan kelemahannya, (2) dilakukan berdasarkan pada parameter tertentu secara kuantitatif/ kualitatif, (3) dilakukan secara komprehensif berbasis kondisi nyata dengan menggunakan metode yang sesuai, (4) didokumentasikan secara lengkap dan sahih. (b) Tindak Lanjut (1) didasarkan pada hasil evaluasi dan refleksi, (2) dirumuskan secara spesifik, terukur, realistis, dan berbasis waktu, (3) dimonitor untuk"
+            }
+        ],
+        "Penjaminan Mutu": [
+            {
+                "kode": "56",
+                "bobot": 1.5,
+                "indikator": "UPPS memiliki unsur pelaksana penjaminan mutu di UPPS yang tercermin dari tersedianya (a) surat keputusan resmi pembentukan unit penjaminan mutu, (b) struktur organisasi penjaminan mutu, (c) deskripsi kerja personel yang ada dalam struktur organisasi, dan (d) personel yang kompeten dalam bidang penjaminan mutu."
+            },
+            {
+                "kode": "57",
+                "bobot": 2,
+                "indikator": "PT/UPPS (a) menetapkan perangkat Sistem Penjaminan Mutu Internal (SPMI) yang minimal mencakup: (1) kebijakan SPMI, (2) pedoman penerapan siklus PPEPP standar pendidikan tinggi dalam"
+            },
+            {
+                "kode": "58",
+                "bobot": 2,
+                "indikator": "PT/UPPS/PS melaksanakan PT/UPPS/PS"
+            },
+            {
+                "kode": "59",
+                "bobot": 3,
+                "indikator": "PT/UPPS melakukan evaluasi dan refleksi terhadap kriteria penjaminan mutu serta tindak lanjut yang menekankan pada prinsip akuntabilitas, transparansi, nirlaba, efektivitas, efisiensi, dan peningkatan mutu berkelanjutan dengan ketentuan sebagai berikut. (a) Evaluasi dan"
+            }
+        ]
+    }
+}

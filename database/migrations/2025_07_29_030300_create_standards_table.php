@@ -18,6 +18,7 @@ return new class extends Migration
     $table->foreignId('standar_akreditasi_id')->constrained('standar_akreditasis')->onDelete('cascade');
     $table->foreignId('jenjang_id')->constrained('jenjangs')->onDelete('cascade');
     $table->text('nama');
+    $table->text('deskripsi')->nullable();
     $table->timestamps();
 });
 

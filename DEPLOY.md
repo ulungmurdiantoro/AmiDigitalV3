@@ -124,7 +124,13 @@ bash deploy.sh
 FPM_SERVICE=php8.4-fpm bash deploy.sh
 ```
 
-`deploy.sh` melakukan: maintenance ON → `git reset --hard origin/master` → `composer install --no-dev` → `migrate --force` → rebuild cache (`optimize`) → `storage:link` → izin → maintenance OFF.
+`deploy.sh` melakukan: maintenance ON → `git reset --hard origin/master` → `composer install --no-dev` → `migrate --force` → rebuild cache (`config:cache` + `event:cache` + `view:cache`) → `storage:link` → set izin → maintenance OFF.
 
 - Butuh isi/refresh data seeder saat deploy: `bash deploy.sh --seed` (idempoten; aman diulang, tidak menggandakan).
 - Catatan: script memakai `git reset --hard` — server **tidak boleh** menyimpan perubahan kode lokal (`.env`, `storage/` tetap aman karena di-`.gitignore`).
+
+### Kenapa `route:cache` tidak dipakai?
+
+Aplikasi ini punya **±37 nama route duplikat** antar-role (mis. `dashboard.create`, `statistik-elemen.edit`, `nilai-evaluasi-diri.show` dipakai di grup admin/user/auditor sekaligus). Laravel menolak `php artisan route:cache` bila ada nama route ganda, jadi langkah itu **sengaja dilewati**. `config:cache` + `view:cache` + `event:cache` tetap memberi sebagian besar manfaat performa.
+
+Untuk mengaktifkan `route:cache` nanti: beri prefix nama unik per role saat `Route::resource(...)->names([...])` (mis. `admin.dashboard.create`, `user.dashboard.create`) sampai `php artisan route:list` tidak punya nama duplikat, lalu tambahkan `php artisan route:cache` di `deploy.sh`.

@@ -40,9 +40,14 @@ if [[ "$RUN_SEED" == "1" ]]; then
   $PHP_BIN artisan db:seed --force
 fi
 
-log "Bangun ulang cache (config/route/view/event)"
+log "Bangun ulang cache (config/view/event)"
 $PHP_BIN artisan optimize:clear
-$PHP_BIN artisan optimize
+$PHP_BIN artisan config:cache
+$PHP_BIN artisan event:cache
+$PHP_BIN artisan view:cache
+# CATATAN: 'route:cache' SENGAJA tidak dijalankan — ada banyak nama route duplikat
+# antar-role (dashboard.*, statistik-*.*, dll), sehingga route:cache akan gagal.
+# Lihat DEPLOY.md bila ingin mengaktifkannya (perlu merapikan nama route dulu).
 
 log "Symlink storage"
 $PHP_BIN artisan storage:link 2>/dev/null || true

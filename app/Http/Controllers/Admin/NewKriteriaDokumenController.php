@@ -23,42 +23,63 @@ class NewKriteriaDokumenController extends Controller
 {  
     public function index(Request $request)
     {
-        $validAkreditasi = StandarAkreditasi::pluck('nama')->toArray();
-        $validJenjang = Jenjang::pluck('nama')->toArray();
+        // Akreditasi yang instrumennya SAMA untuk semua jenjang -> cukup satu opsi "Semua Jenjang".
+        $singleInstrument = ['LAMEMBA'];
 
-        $validated = $request->validate([
-            'akreditasi' => ['nullable', Rule::in($validAkreditasi)],
-            'jenjang' => ['nullable', Rule::in($validJenjang)],
-        ]);
+        // Akreditasi + jenjang yang BENAR-BENAR punya data kriteria.
+        // Akreditasi tanpa data otomatis tidak muncul; yang ada data muncul sendiri.
+        $grouped = Standard::query()
+            ->join('standar_akreditasis as a', 'a.id', '=', 'standards.standar_akreditasi_id')
+            ->join('jenjangs as j', 'j.id', '=', 'standards.jenjang_id')
+            ->orderBy('a.id')->orderBy('j.id')
+            ->get(['a.nama as akreditasi', 'j.nama as jenjang'])
+            ->groupBy('akreditasi')
+            ->map(fn ($rows) => $rows->pluck('jenjang')->unique()->values()->all())
+            ->all();
 
-
-        $akreditasi_kode = $validated['akreditasi'] ?? 'BAN-PT';
-        $jenjang_nama = $validated['jenjang'] ?? 'S1';
-
-        $akreditasi = Cache::remember("akreditasi_{$akreditasi_kode}", 3600, function () use ($akreditasi_kode) {
-            return StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
-        });
-
-        $jenjang = Cache::remember("jenjang_{$jenjang_nama}", 3600, function () use ($jenjang_nama) {
-            return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
-        });
-
-        $standardsQuery = Standard::query()
-            ->with(['elements.indicators', 'buktiStandar'])
-            ->where('standar_akreditasi_id', $akreditasi->id)
-            ->where('jenjang_id', $jenjang->id);
-
-        $standards = $standardsQuery->get();
-
-        if ($standards->isEmpty()) {
-            return view('pages.admin.kriteria-dokumen.empty', compact('akreditasi', 'jenjang'));
+        if (empty($grouped)) {
+            return view('pages.admin.kriteria-dokumen.empty', [
+                'akreditasi' => null, 'jenjang' => null, 'available' => [],
+            ]);
         }
 
-        return view('pages.admin.kriteria-dokumen.index2', [
-            'akreditasi' => $akreditasi,
-            'jenjang' => $jenjang,
-            'standards' => $standards,
+        // Bentuk untuk selektor: tiap opsi = ['label', 'jenjang'].
+        // LAMEMBA (single instrument) -> satu opsi "Semua Jenjang" pakai jenjang pertama sbg representasi.
+        $available = [];
+        foreach ($grouped as $akr => $jenjangs) {
+            $available[$akr] = in_array($akr, $singleInstrument, true)
+                ? [['label' => 'Semua Jenjang', 'jenjang' => $jenjangs[0] ?? null]]
+                : array_map(fn ($j) => ['label' => $j, 'jenjang' => $j], $jenjangs);
+        }
+
+        $validated = $request->validate([
+            'akreditasi' => ['nullable', Rule::in(array_keys($grouped))],
+            'jenjang'    => ['nullable', 'string'],
         ]);
+
+        // Default ke akreditasi + jenjang pertama yang ADA datanya.
+        $akreditasi_kode = $validated['akreditasi'] ?? array_key_first($grouped);
+        $jenjangList     = $grouped[$akreditasi_kode] ?? [];
+        $jenjang_nama    = $validated['jenjang'] ?? null;
+        if (!in_array($jenjang_nama, $jenjangList, true)) {
+            $jenjang_nama = $jenjangList[0] ?? null;
+        }
+
+        $akreditasi   = StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
+        $jenjang      = Jenjang::where('nama', $jenjang_nama)->firstOrFail();
+        $isAllJenjang = in_array($akreditasi_kode, $singleInstrument, true);
+
+        $standards = Standard::query()
+            ->with(['elements.indicators', 'buktiStandar'])
+            ->where('standar_akreditasi_id', $akreditasi->id)
+            ->where('jenjang_id', $jenjang->id)
+            ->get();
+
+        if ($standards->isEmpty()) {
+            return view('pages.admin.kriteria-dokumen.empty', compact('akreditasi', 'jenjang', 'available'));
+        }
+
+        return view('pages.admin.kriteria-dokumen.index2', compact('akreditasi', 'jenjang', 'standards', 'available', 'isAllJenjang'));
     }
 
     public function create(Request $request)

@@ -11,34 +11,29 @@
   </ol>
 </nav>
 
-@php
-  $institutions = ['BAN-PT', 'LAMDIK', 'INFOKOM', 'LAMEMBA'];
-  $degreesByInstitution = [
-    'BAN-PT' => ['D3', 'S1', 'S2', 'S3', 'S1 Terapan', 'S2 Terapan', 'S3 Terapan'],
-    'LAMDIK' => ['PPG', 'S1', 'S2', 'S3', 'S1 Terapan', 'S2 Terapan', 'S3 Terapan'],
-    'INFOKOM' => ['D3', 'S1', 'S2', 'S3', 'S1 Terapan', 'S2 Terapan', 'S3 Terapan'],
-    'LAMEMBA' => ['D3', 'S1', 'S2', 'S3', 'S1 Terapan', 'S2 Terapan', 'S3 Terapan']
-  ];
-@endphp
-
+{{-- Selektor akreditasi + jenjang: hanya yang sudah ada datanya (otomatis dari DB). --}}
 <div class="row">
-  @foreach($institutions as $institution)
+  @forelse(($available ?? []) as $institution => $degrees)
     <div class="col-md-4 grid-margin stretch-card">
       <div class="card">
         <div class="card-header"><h4 class="card-title mb-0">{{ $institution }}</h4></div>
         <div class="card-body">
           <div class="d-flex flex-wrap justify-content-around">
-            @foreach($degreesByInstitution[$institution] as $degree)
-              <a href="{{ route('admin.kriteria-dokumen.index', ['akreditasi' => $institution, 'jenjang' => $degree]) }}"
-                class="btn btn-outline-primary my-3 {{ $akreditasi->nama == $institution && $jenjang->nama == $degree ? 'active' : '' }}">
-                {{ $degree }}
+            @foreach($degrees as $degree)
+              <a href="{{ route('admin.kriteria-dokumen.index', ['akreditasi' => $institution, 'jenjang' => $degree['jenjang']]) }}"
+                class="btn btn-outline-primary my-2 {{ (optional($akreditasi)->nama === $institution && (optional($jenjang)->nama === $degree['jenjang'] || count($degrees) === 1)) ? 'active' : '' }}">
+                {{ $degree['label'] }}
               </a>
             @endforeach
           </div>
         </div>
       </div>
     </div>
-  @endforeach
+  @empty
+    <div class="col-12">
+      <div class="alert alert-info mb-0">Belum ada data kriteria akreditasi. Jalankan seeder/import terlebih dahulu.</div>
+    </div>
+  @endforelse
 </div>
 
 @foreach($standards as $index => $standard)
@@ -52,10 +47,10 @@
                 <button type="button" class="btn btn-warning btn-sm btn-icon" data-bs-toggle="modal" data-bs-target="#infoModal{{ $standard->id }}">
                   <i data-feather="info"></i>
                 </button>
-                <span>{{ $standard->nama }} - {{ $akreditasi->nama }} {{ $jenjang->nama }}</span>
+                <span>{{ $standard->nama }} - {{ $akreditasi->nama }} {{ ($isAllJenjang ?? false) ? 'Semua Jenjang' : $jenjang->nama }}</span>
               </div>
             @else
-              {{ $standard->nama }} - {{ $akreditasi->nama }} {{ $jenjang->nama }}
+              {{ $standard->nama }} - {{ $akreditasi->nama }} {{ ($isAllJenjang ?? false) ? 'Semua Jenjang' : $jenjang->nama }}
             @endif
           </h6>
         </div>

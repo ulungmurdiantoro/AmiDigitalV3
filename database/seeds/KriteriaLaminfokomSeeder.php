@@ -43,7 +43,6 @@ class KriteriaLaminfokomSeeder extends Seeder
 
     public function run(): void
     {
-        // Cari LAMINFOKOM (atau INFOKOM jika sudah ada dengan nama lama)
         $akreditasi = StandarAkreditasi::where('nama', 'LAMINFOKOM')
             ->orWhere('nama', 'INFOKOM')
             ->first()
@@ -51,6 +50,11 @@ class KriteriaLaminfokomSeeder extends Seeder
                 'standar_akreditasis_kode' => 'AKRE-LAMINFOKOM',
                 'nama'                     => 'LAMINFOKOM',
             ]);
+
+        // Pastikan nama sudah LAMINFOKOM (migrasi dari nama lama INFOKOM)
+        if ($akreditasi->nama !== 'LAMINFOKOM') {
+            $akreditasi->update(['nama' => 'LAMINFOKOM']);
+        }
 
         $dir = database_path('data/LAMINFOKOM');
 

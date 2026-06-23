@@ -49,7 +49,7 @@ class KriteriaLamsamaSeeder extends Seeder
             return;
         }
 
-        $dir = database_path('data');
+        $dir = database_path('data/LAMSAMA');
 
         foreach ($this->files as $filename => $jenjangNama) {
             $path = $dir . DIRECTORY_SEPARATOR . $filename;

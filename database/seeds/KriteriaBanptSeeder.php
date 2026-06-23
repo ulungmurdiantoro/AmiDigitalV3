@@ -40,7 +40,7 @@ class KriteriaBanptSeeder extends Seeder
             return;
         }
 
-        $dir = database_path('data');
+        $dir = database_path('data/BAN-PT');
 
         foreach ($this->files as $file => $jenjangNama) {
             $path = $dir . DIRECTORY_SEPARATOR . $file;

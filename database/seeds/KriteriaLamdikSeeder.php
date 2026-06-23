@@ -27,9 +27,9 @@ class KriteriaLamdikSeeder extends Seeder
             return;
         }
 
-        $path = database_path('data/lamdik.json');
+        $path = database_path('data/LAMDIK/lamdik.json');
         if (!is_file($path)) {
-            $this->command?->warn('database/data/lamdik.json tidak ada. Jalankan _lamdik_build_json.php dulu. Dilewati.');
+            $this->command?->warn('database/data/LAMDIK/lamdik.json tidak ada. Jalankan _lamdik_build_json.php dulu. Dilewati.');
             return;
         }
 

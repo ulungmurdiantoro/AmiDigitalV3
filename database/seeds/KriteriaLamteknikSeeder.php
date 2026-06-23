@@ -65,7 +65,7 @@ class KriteriaLamteknikSeeder extends Seeder
             return;
         }
 
-        $dir = database_path('data');
+        $dir = database_path('data/LAMTEKNIK');
 
         foreach ($this->files as $filename => $jenjangNama) {
             $path = $dir . DIRECTORY_SEPARATOR . $filename;

@@ -63,13 +63,16 @@ class KriteriaLamdikSeeder extends Seeder
                     if ($element->wasRecentlyCreated) $cEl++;
 
                     $info = trim($it['info'] ?? '');
+                    // LAMDIK 1:1 elemen–indikator: match by elemen_id saja
+                    // supaya nama_indikator dan info yang sudah ada langsung diupdate.
                     $ind = Indikator::updateOrCreate(
-                        ['elemen_id' => $element->id, 'nama_indikator' => $teks],
+                        ['elemen_id' => $element->id],
                         [
+                            'nama_indikator' => $this->formatText($teks),
                             'indikator_kode' => $it['kode'] ?? null,
                             'bobot'          => $it['bobot'] ?? null,
                             'kategori'       => $kriteria,
-                            'info'           => $info !== '' ? $info : null,
+                            'info'           => $info !== '' ? $this->formatText($info) : null,
                         ]
                     );
                     if ($ind->wasRecentlyCreated) $cInd++;
@@ -78,5 +81,14 @@ class KriteriaLamdikSeeder extends Seeder
 
             $this->command?->info("  LAMDIK {$jenjangNama}: +{$cStd} standar, +{$cEl} elemen, +{$cInd} indikator");
         }
+    }
+
+    protected function formatText(string $text): string
+    {
+        $text = preg_replace('/[ \t]+(\([a-z]\))/u', "\n$1", $text); // (a), (b) …
+        $text = preg_replace('/[ \t]+([a-z]\))/u',   "\n$1", $text); //  a),  b) …
+        $text = preg_replace('/[ \t]+(\(\d+\))/u',   "\n$1", $text); // (1), (2) …
+        $text = preg_replace('/[ \t]+(\d+\))/u',     "\n$1", $text); //  1),  2) …
+        return trim($text);
     }
 }

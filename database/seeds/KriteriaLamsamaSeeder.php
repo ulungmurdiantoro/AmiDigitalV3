@@ -132,7 +132,7 @@ class KriteriaLamsamaSeeder extends Seeder
 
         foreach ($indicators as $ind) {
             $sectionNama = $ind['section'] ?? 'Umum';
-            $teks        = trim($ind['b']);
+            $teks        = $this->formatText(trim($ind['b']));
             if ($teks === '') continue;
 
             // Standard
@@ -178,11 +178,28 @@ class KriteriaLamsamaSeeder extends Seeder
     protected function buildInfo(string $c, string $d, string $e, string $f): string
     {
         $parts = [];
-        if ($c !== '') $parts[] = "Skor 4 (BAIK SEKALI): {$c}";
-        if ($d !== '') $parts[] = "Skor 3 (BAIK): {$d}";
-        if ($e !== '') $parts[] = "Skor 2 (CUKUP): {$e}";
-        if ($f !== '') $parts[] = "Skor 1 (KURANG): {$f}";
+        if ($c !== '') $parts[] = "Skor 4 (BAIK SEKALI): " . $this->formatText($c);
+        if ($d !== '') $parts[] = "Skor 3 (BAIK): "        . $this->formatText($d);
+        if ($e !== '') $parts[] = "Skor 2 (CUKUP): "       . $this->formatText($e);
+        if ($f !== '') $parts[] = "Skor 1 (KURANG): "      . $this->formatText($f);
         return implode("\n", $parts);
+    }
+
+    /**
+     * Tambah enter sebelum sub-item agar teks panjang lebih mudah dibaca.
+     * Menangani empat format penomoran:
+     *   (a)  (b)  … huruf dalam kurung penuh
+     *    a)   b)  … huruf + kurung tutup
+     *   (1)  (2)  … angka dalam kurung penuh
+     *    1)   2)  … angka + kurung tutup
+     */
+    protected function formatText(string $text): string
+    {
+        $text = preg_replace('/[ \t]+(\([a-z]\))/u',  "\n$1", $text); // (a), (b) …
+        $text = preg_replace('/[ \t]+([a-z]\))/u',    "\n$1", $text); //  a),  b) …
+        $text = preg_replace('/[ \t]+(\(\d+\))/u',    "\n$1", $text); // (1), (2) …
+        $text = preg_replace('/[ \t]+(\d+\))/u',      "\n$1", $text); //  1),  2) …
+        return trim($text);
     }
 
     protected function clean(mixed $value): string

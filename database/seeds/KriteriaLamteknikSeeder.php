@@ -84,15 +84,25 @@ class KriteriaLamteknikSeeder extends Seeder
     {
         $reader = IOFactory::createReaderForFile($path);
         $reader->setReadDataOnly(true);
-        $sheet = $reader->load($path)->getSheet(0);
+        $sheet      = $reader->load($path)->getSheet(0);
+        $highestRow = $sheet->getHighestDataRow();
+        $highestCol = $sheet->getHighestDataColumn();
 
-        // Deteksi apakah file punya kolom D "Indikator" (LED+LKPS) atau tidak (perpanjangan).
-        $hasIndicatorCol = false;
-        $highestRow      = $sheet->getHighestDataRow();
+        // Baca header: temukan kolom Indikator dan kolom skor 4/3/2/1/0.
+        // LED+LKPS : B=Kriteria, D=Indikator, F=4, G=3, H=2, I=1, J=0
+        // Perpanjangan: B=Kriteria, C=Indikator, kolom skor bervariasi per file
+        $indCol     = 'D';   // kolom nama_indikator
+        $scoreCols  = [];    // ['4'=>'F','3'=>'G','2'=>'H','1'=>'I','0'=>'J']
+        $headerRow  = null;
+
         for ($r = 1; $r <= min(20, $highestRow); $r++) {
             if ($this->clean($sheet->getCell("A{$r}")->getValue()) === 'No') {
-                $d = $this->clean($sheet->getCell("D{$r}")->getValue());
-                $hasIndicatorCol = stripos($d, 'Indikator') !== false;
+                $headerRow = $r;
+                foreach (range('A', $highestCol) as $c) {
+                    $v = $this->clean($sheet->getCell("{$c}{$r}")->getValue());
+                    if (strcasecmp($v, 'Indikator') === 0) $indCol = $c;
+                    if (in_array($v, ['4','3','2','1','0'], true)) $scoreCols[$v] = $c;
+                }
                 break;
             }
         }
@@ -100,16 +110,15 @@ class KriteriaLamteknikSeeder extends Seeder
         $indicators      = [];
         $currentStandard = null;
         $currentSubSect  = null;
+        $currentElement  = null;  // elemen terakhir (untuk sub-indikator A-kosong)
         $current         = null;
 
         for ($r = 1; $r <= $highestRow; $r++) {
+            if ($r === $headerRow) continue;
+
             $a = $this->clean($sheet->getCell("A{$r}")->getValue());
             $b = $this->clean($sheet->getCell("B{$r}")->getValue());
-
-            if ($a === '' && $b === '') continue;
-
-            // Baris header berulang (No | Kriteria | …)
-            if ($a === 'No') continue;
+            $c = $this->clean($sheet->getCell("C{$r}")->getValue());
 
             // Baris label IKU → Standard
             if (str_contains($a, 'Indikator Kinerja')) {
@@ -117,11 +126,12 @@ class KriteriaLamteknikSeeder extends Seeder
                 $current         = null;
                 $currentStandard = $a;
                 $currentSubSect  = null;
+                $currentElement  = null;
                 continue;
             }
 
             // Section Roman numeral (I., II., …) atau "A. KRITERIA" → lewati
-            if (preg_match('/^(?:[A-C]\.|[IVX]+\.)\s*/u', $a) && !is_numeric($a)) {
+            if ($a !== '' && preg_match('/^(?:[A-C]\.|[IVX]+\.)\s*/u', $a) && !is_numeric($a)) {
                 continue;
             }
 
@@ -135,63 +145,75 @@ class KriteriaLamteknikSeeder extends Seeder
 
             if ($currentStandard === null) continue;
 
-            // Baris indikator baru (Col A = angka)
+            // Helper: baca semua kolom skor untuk baris $r
+            $readScores = function (int $row) use ($sheet, $scoreCols): array {
+                $s = ['4'=>'','3'=>'','2'=>'','1'=>'','0'=>''];
+                foreach ($scoreCols as $skor => $col) {
+                    $s[$skor] = $this->clean($sheet->getCell("{$col}{$row}")->getValue());
+                }
+                return $s;
+            };
+
+            // Bersihkan B dari "Skor = …"
+            $bClean = $this->clean(preg_replace('/\s*Skor\s*=\s*[^\n]+/iu', '', $b));
+
+            // --- Baris indikator baru (A = angka) ---
             if (is_numeric($a) && $a !== '') {
                 $this->saveIndicator($current, $indicators);
 
-                $elemenRaw = preg_replace('/\s*Skor\s*=\s*[^\n]+/iu', '', $b);
-                $elemen    = $this->clean($elemenRaw);
+                $indText = $this->clean($sheet->getCell("{$indCol}{$r}")->getValue());
+                $elemen  = $bClean !== '' ? $bClean : ($currentSubSect ?? $currentStandard);
+                $currentElement = $elemen;
 
-                if ($hasIndicatorCol) {
-                    // File LED+LKPS: D = nama_indikator, B = elemen
-                    $d = $this->clean($sheet->getCell("D{$r}")->getValue());
-                    if ($elemen === '') $elemen = $currentSubSect ?? $currentStandard;
-                    $current = [
-                        'standard' => $currentStandard,
-                        'element'  => $elemen,
-                        'kode'     => $a,
-                        'd'        => $this->cleanText($d),
-                        'f'        => $this->clean($sheet->getCell("F{$r}")->getValue()),
-                        'g'        => $this->clean($sheet->getCell("G{$r}")->getValue()),
-                        'h'        => $this->clean($sheet->getCell("H{$r}")->getValue()),
-                        'i'        => $this->clean($sheet->getCell("I{$r}")->getValue()),
-                        'j'        => $this->clean($sheet->getCell("J{$r}")->getValue()),
-                    ];
-                } else {
-                    // File perpanjangan: B = nama_indikator, sub-section/standard = elemen
-                    if ($elemen === '') $elemen = $currentSubSect ?? $currentStandard;
-                    $namaInd = $elemen; // nama dari Col B sudah diambil ke $elemen
-                    // Ambil nama indikator dari B yang sudah dibersihkan
-                    $namaInd = $this->clean(preg_replace('/\s*Skor\s*=\s*[^\n]+/iu', '', $b));
-                    $current = [
-                        'standard' => $currentStandard,
-                        'element'  => $currentSubSect ?? $currentStandard,
-                        'kode'     => $a,
-                        'd'        => $namaInd !== '' ? $namaInd : ($currentSubSect ?? $currentStandard),
-                        'f' => '', 'g' => '', 'h' => '', 'i' => '', 'j' => '',
-                    ];
-                }
+                $scores = $readScores($r);
+                $current = [
+                    'standard' => $currentStandard,
+                    'element'  => $elemen,
+                    'kode'     => $a,
+                    'd'        => $this->cleanText($indText),
+                    '4'        => $scores['4'],
+                    '3'        => $scores['3'],
+                    '2'        => $scores['2'],
+                    '1'        => $scores['1'],
+                    '0'        => $scores['0'],
+                ];
                 continue;
             }
 
-            // Baris lanjutan (Col A kosong)
-            if ($a === '' && $current !== null) {
-                if ($hasIndicatorCol) {
-                    $d = $this->clean($sheet->getCell("D{$r}")->getValue());
-                    $f = $this->clean($sheet->getCell("F{$r}")->getValue());
-                    $g = $this->clean($sheet->getCell("G{$r}")->getValue());
-                    $h = $this->clean($sheet->getCell("H{$r}")->getValue());
-                    $i = $this->clean($sheet->getCell("I{$r}")->getValue());
-                    $j = $this->clean($sheet->getCell("J{$r}")->getValue());
-                    if ($d !== '') $current['d'] .= ' ' . $this->cleanText($d);
-                    if ($f !== '') $current['f'] .= ' ' . $f;
-                    if ($g !== '') $current['g'] .= ' ' . $g;
-                    if ($h !== '') $current['h'] .= ' ' . $h;
-                    if ($i !== '') $current['i'] .= ' ' . $i;
-                    if ($j !== '') $current['j'] .= ' ' . $j;
-                } else {
-                    // Perpanjangan: lanjutan nama indikator di Col B
-                    if ($b !== '') $current['d'] .= ' ' . $this->clean(preg_replace('/\s*Skor\s*=\s*[^\n]+/iu', '', $b));
+            // --- Baris A kosong ---
+            if ($a === '') {
+                $indText = $this->clean($sheet->getCell("{$indCol}{$r}")->getValue());
+                $scores  = $readScores($r);
+
+                // Sub-indikator baru: ada teks di kolom Indikator (C atau D)
+                if ($indText !== '') {
+                    $this->saveIndicator($current, $indicators);
+                    $elemen = $bClean !== '' ? $bClean : ($currentElement ?? $currentSubSect ?? $currentStandard);
+                    $currentElement = $elemen;
+                    $current = [
+                        'standard' => $currentStandard,
+                        'element'  => $elemen,
+                        'kode'     => null,
+                        'd'        => $this->cleanText($indText),
+                        '4'        => $scores['4'],
+                        '3'        => $scores['3'],
+                        '2'        => $scores['2'],
+                        '1'        => $scores['1'],
+                        '0'        => $scores['0'],
+                    ];
+                    continue;
+                }
+
+                // Lanjutan skor untuk indikator sebelumnya
+                if ($current !== null) {
+                    foreach (['4','3','2','1','0'] as $skor) {
+                        if ($scores[$skor] !== '') $current[$skor] .= ' ' . $scores[$skor];
+                    }
+                    // Untuk LED+LKPS, lanjutan teks indikator ada di kolom D
+                    if ($indCol === 'D') {
+                        $dCont = $this->clean($sheet->getCell("D{$r}")->getValue());
+                        if ($dCont !== '') $current['d'] .= ' ' . $this->cleanText($dCont);
+                    }
                 }
             }
         }
@@ -247,11 +269,11 @@ class KriteriaLamteknikSeeder extends Seeder
             $element = $elCache[$elKey];
 
             $info = $this->buildInfo(
-                $ind['f'] ?? '',
-                $ind['g'] ?? '',
-                $ind['h'] ?? '',
-                $ind['i'] ?? '',
-                $ind['j'] ?? ''
+                $ind['4'] ?? '',
+                $ind['3'] ?? '',
+                $ind['2'] ?? '',
+                $ind['1'] ?? '',
+                $ind['0'] ?? ''
             );
 
             $record = Indikator::updateOrCreate(

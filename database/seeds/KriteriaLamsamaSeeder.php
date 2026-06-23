@@ -8,38 +8,59 @@ use App\Models\Jenjang;
 use App\Models\Standard;
 use App\Models\Element;
 use App\Models\Indikator;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 /**
- * Kriteria akreditasi LAMSAMA (IAPS 3.1).
- * Data hasil ekstraksi PDF disimpan di database/data/lamsama.json
- * yang dibangun oleh database/data/_lamsama_build_json.php.
+ * Baca database/data/lamsama.xlsx
  *
- * Struktur: jenjang -> kriteria -> [ {kode, indikator} ]
- * Mapping: kriteria -> standards, tiap indikator -> 1 element + 1 indikator.
+ * Format Excel:
+ *   - Setiap sheet = satu jenjang (nama sheet = nama jenjang, mis. S1, D3, S2).
+ *   - Baris pertama = header (dilewati).
+ *   - Kolom A : Kriteria  (mis. "A. Tata Kelola dan Penjaminan Mutu") — boleh merged/diisi berulang
+ *   - Kolom B : Kode      (mis. 1, 2, 3 …)
+ *   - Kolom C : Teks Indikator
  */
 class KriteriaLamsamaSeeder extends Seeder
 {
+    protected string $file = 'lamsama.xlsx';
+
     public function run(): void
     {
         $akreditasi = StandarAkreditasi::where('nama', 'LAMSAMA')->first();
         if (!$akreditasi) {
-            $this->command?->warn('StandarAkreditasi "LAMSAMA" belum ada. Jalankan StandarAkreditasiSeeder dulu. Dilewati.');
+            $this->command?->warn('StandarAkreditasi "LAMSAMA" belum ada. Jalankan StandarAkreditasiSeeder dulu.');
             return;
         }
 
-        $path = database_path('data/lamsama.json');
+        $path = database_path('data/' . $this->file);
         if (!is_file($path)) {
-            $this->command?->warn('database/data/lamsama.json tidak ada. Jalankan _lamsama_build_json.php dulu. Dilewati.');
+            $this->command?->warn("File tidak ditemukan: database/data/{$this->file}");
             return;
         }
 
-        $data = json_decode(file_get_contents($path), true) ?: [];
+        $reader = IOFactory::createReaderForFile($path);
+        $reader->setReadDataOnly(true);
+        $wb = $reader->load($path);
 
-        foreach ($data as $jenjangNama => $kriteriaList) {
+        foreach ($wb->getAllSheets() as $sheet) {
+            $jenjangNama = trim($sheet->getTitle());
+            if ($jenjangNama === '') continue;
+
             $jenjang = Jenjang::firstOrCreate(['nama' => $jenjangNama]);
             $cStd = $cEl = $cInd = 0;
+            $kriteria = null;
 
-            foreach ($kriteriaList as $kriteria => $indikators) {
+            $highestRow = $sheet->getHighestDataRow();
+
+            for ($r = 2; $r <= $highestRow; $r++) {
+                $colA = trim((string) $sheet->getCell("A{$r}")->getValue());
+                $colB = trim((string) $sheet->getCell("B{$r}")->getValue());
+                $colC = trim((string) $sheet->getCell("C{$r}")->getValue());
+
+                if ($colA !== '') $kriteria = $colA;
+
+                if ($kriteria === null || $colC === '') continue;
+
                 $standard = Standard::firstOrCreate([
                     'standar_akreditasi_id' => $akreditasi->id,
                     'jenjang_id'            => $jenjang->id,
@@ -47,25 +68,20 @@ class KriteriaLamsamaSeeder extends Seeder
                 ]);
                 if ($standard->wasRecentlyCreated) $cStd++;
 
-                foreach ($indikators as $it) {
-                    $teks = trim($it['indikator'] ?? '');
-                    if ($teks === '') continue;
+                $element = Element::firstOrCreate([
+                    'standard_id' => $standard->id,
+                    'nama'        => $colB !== '' ? $colB : $kriteria,
+                ]);
+                if ($element->wasRecentlyCreated) $cEl++;
 
-                    $element = Element::firstOrCreate([
-                        'standard_id' => $standard->id,
-                        'nama'        => $teks,
-                    ]);
-                    if ($element->wasRecentlyCreated) $cEl++;
-
-                    $ind = Indikator::updateOrCreate(
-                        ['elemen_id' => $element->id, 'nama_indikator' => $teks],
-                        [
-                            'indikator_kode' => $it['kode'] ?? null,
-                            'kategori'       => $kriteria,
-                        ]
-                    );
-                    if ($ind->wasRecentlyCreated) $cInd++;
-                }
+                $ind = Indikator::updateOrCreate(
+                    ['elemen_id' => $element->id, 'nama_indikator' => $colC],
+                    [
+                        'indikator_kode' => $colB !== '' ? $colB : null,
+                        'kategori'       => $kriteria,
+                    ]
+                );
+                if ($ind->wasRecentlyCreated) $cInd++;
             }
 
             $this->command?->info("  LAMSAMA {$jenjangNama}: +{$cStd} standar, +{$cEl} elemen, +{$cInd} indikator");

@@ -1,12 +1,15 @@
 
 <div class="table-responsive">
     @props(['id', 'standards', 'showImportData', 'importTitle'])
+    @php $hideElemen = str_starts_with($importTitle, 'LAMSAMA'); @endphp
     <table id="{{ $id }}" class="col-md-12 table-striped table-hover" style="table-layout: fixed; width: 100%;">
         <thead class="text-bg-secondary">
             <tr class="text-white text-center">
                 <th style="width: 5%; padding: 7px 0;">No</th>
+                @if(!$hideElemen)
                 <th style="width: 15%; padding: 7px 0;">Elemen</th>
-                <th style="width: 50%; padding: 7px 0;">Indikator</th>
+                @endif
+                <th style="width: {{ $hideElemen ? '65%' : '50%' }}; padding: 7px 0;">Indikator</th>
                 <th style="width: 10%; padding: 7px 0;">Informasi</th>
                 <th style="width: 10%; padding: 7px 0;">Kebutuhan Dokumen</th>
                 <th style="width: 10%; padding: 7px 0;">Kelola Kebutuhan</th>
@@ -19,7 +22,9 @@
                 @php $isEmptyTarget = $indikator->dokumen_targets->isEmpty(); @endphp
                 <tr @if($isEmptyTarget) style="background-color: rgba(140, 18, 61, .85); color: white;" @endif>
                     <td class="text-center" style="padding: 5px 0;">{{ $nomor++ }}</td>
+                    @if(!$hideElemen)
                     <td style="padding: 5px 0;">{{ $standard->nama }}</td>
+                    @endif
                     <td class="indikator-cell" style="padding: 5px 0;">{!! nl2br(e($indikator->nama_indikator)) !!}</td>
                     <td class="text-center" style="padding: 5px 0;">
                         <button type="button" class="btn btn-warning btn-icon" data-bs-toggle="modal" data-bs-target="#infoModal{{ $indikator->id }}">

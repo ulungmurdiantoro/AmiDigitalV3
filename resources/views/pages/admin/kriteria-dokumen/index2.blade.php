@@ -11,30 +11,57 @@
   </ol>
 </nav>
 
-{{-- Selektor akreditasi + jenjang: hanya yang sudah ada datanya (otomatis dari DB). --}}
-<div class="row">
-  @forelse(($available ?? []) as $institution => $degrees)
-    <div class="col-md-4 grid-margin stretch-card">
-      <div class="card">
-        <div class="card-header"><h4 class="card-title mb-0">{{ $institution }}</h4></div>
-        <div class="card-body">
-          <div class="d-flex flex-wrap justify-content-around">
-            @foreach($degrees as $degree)
-              <a href="{{ route('admin.kriteria-dokumen.index', ['akreditasi' => $institution, 'jenjang' => $degree['jenjang']]) }}"
-                class="btn btn-outline-primary my-2 {{ (optional($akreditasi)->nama === $institution && (optional($jenjang)->nama === $degree['jenjang'] || count($degrees) === 1)) ? 'active' : '' }}">
-                {{ $degree['label'] }}
-              </a>
-            @endforeach
-          </div>
-        </div>
-      </div>
+{{-- Selektor akreditasi + jenjang: kompak dalam satu card dua baris. --}}
+@php
+  $availableKeys = array_keys($available ?? []);
+  $instColor = [
+      'BAN-PT'    => 'primary',
+      'LAMDIK'    => 'success',
+      'LAMSAMA'   => 'warning',
+      'LAMTEKNIK' => 'danger',
+      'LAMEMBA'   => 'info',
+  ];
+  $activeColor = $instColor[optional($akreditasi)->nama] ?? 'secondary';
+@endphp
+@if(empty($availableKeys))
+  <div class="alert alert-info">Belum ada data kriteria akreditasi. Jalankan seeder/import terlebih dahulu.</div>
+@else
+<div class="card mb-4">
+  <div class="card-body py-3">
+
+    {{-- Baris 1: tab akreditasi (tiap institusi warna berbeda) --}}
+    <div class="d-flex flex-wrap gap-2 mb-3">
+      @foreach($availableKeys as $inst)
+        @php
+          $isActiveInst = optional($akreditasi)->nama === $inst;
+          $color = $instColor[$inst] ?? 'secondary';
+          $defaultJenjang = collect($available[$inst])->firstWhere('jenjang', 'S1')['jenjang']
+                            ?? ($available[$inst][0]['jenjang'] ?? null);
+        @endphp
+        <a href="{{ route('admin.kriteria-dokumen.index', ['akreditasi' => $inst, 'jenjang' => $defaultJenjang]) }}"
+           class="btn btn-sm {{ $isActiveInst ? "btn-{$color}" : "btn-outline-{$color}" }} fw-semibold">
+          {{ $inst }}
+        </a>
+      @endforeach
     </div>
-  @empty
-    <div class="col-12">
-      <div class="alert alert-info mb-0">Belum ada data kriteria akreditasi. Jalankan seeder/import terlebih dahulu.</div>
+
+    <hr class="my-2">
+
+    {{-- Baris 2: pill jenjang — warna mengikuti akreditasi aktif --}}
+    <div class="d-flex flex-wrap gap-2 align-items-center">
+      <span class="text-muted small me-1">Jenjang:</span>
+      @foreach(($available[optional($akreditasi)->nama] ?? []) as $degree)
+        @php $isActiveJenjang = optional($jenjang)->nama === $degree['jenjang']; @endphp
+        <a href="{{ route('admin.kriteria-dokumen.index', ['akreditasi' => optional($akreditasi)->nama, 'jenjang' => $degree['jenjang']]) }}"
+           class="btn btn-sm {{ $isActiveJenjang ? "btn-{$activeColor}" : "btn-outline-{$activeColor}" }}">
+          {{ $degree['label'] }}
+        </a>
+      @endforeach
     </div>
-  @endforelse
+
+  </div>
 </div>
+@endif
 
 @foreach($standards as $index => $standard)
   <div class="row mb-4">

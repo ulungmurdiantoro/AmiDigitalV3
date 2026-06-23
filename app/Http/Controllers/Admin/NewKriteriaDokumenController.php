@@ -60,9 +60,10 @@ class NewKriteriaDokumenController extends Controller
         // Default ke akreditasi + jenjang pertama yang ADA datanya.
         $akreditasi_kode = $validated['akreditasi'] ?? array_key_first($grouped);
         $jenjangList     = $grouped[$akreditasi_kode] ?? [];
-        $jenjang_nama    = $validated['jenjang'] ?? null;
+        $jenjang_nama = $validated['jenjang'] ?? null;
         if (!in_array($jenjang_nama, $jenjangList, true)) {
-            $jenjang_nama = $jenjangList[0] ?? null;
+            // Default ke S1 jika tersedia, fallback ke jenjang pertama.
+            $jenjang_nama = in_array('S1', $jenjangList, true) ? 'S1' : ($jenjangList[0] ?? null);
         }
 
         $akreditasi   = StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();

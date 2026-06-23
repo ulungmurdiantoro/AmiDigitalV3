@@ -13,13 +13,23 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 /**
  * Baca file Excel LAMSAMA IAPS 3.1 (format asli dari lembaga).
  *
- * Satu file per jenjang, satu sheet "Table 1".
  * Struktur baris:
  *   - Baris judul      : dilewati (Col A berisi nama lembaga)
  *   - Baris header     : dilewati (Col A = "NO")
  *   - Baris seksi      : Col A = "A. TATA KELOLA …", "B. …", dst.
- *   - Baris indikator  : Col A = angka (1, 2 …), Col B = teks indikator
- *   - Baris lanjutan   : Col A kosong, Col B = lanjutan teks indikator sebelumnya
+ *   - Baris indikator  : Col A = angka, Col B = teks indikator,
+ *                        Col C = BAIK SEKALI, Col D = BAIK,
+ *                        Col E = CUKUP,       Col F = KURANG
+ *   - Baris lanjutan   : Col A kosong — lanjutan semua kolom indikator sebelumnya
+ *
+ * Tidak ada level "elemen" di LAMSAMA; satu Element per seksi dibuat
+ * dengan nama sama dengan seksinya sebagai jembatan teknis ke Indikator.
+ *
+ * Info penilaian disimpan di kolom `info`:
+ *   Skor 4 (BAIK SEKALI): …
+ *   Skor 3 (BAIK): …
+ *   Skor 2 (CUKUP): …
+ *   Skor 1 (KURANG): …
  */
 class KriteriaLamsamaSeeder extends Seeder
 {
@@ -48,63 +58,68 @@ class KriteriaLamsamaSeeder extends Seeder
                 continue;
             }
 
-            $jenjang = Jenjang::firstOrCreate(['nama' => $jenjangNama]);
+            $jenjang    = Jenjang::firstOrCreate(['nama' => $jenjangNama]);
             $indicators = $this->parseSheet($path);
             $this->insertIndicators($indicators, (int) $akreditasi->id, (int) $jenjang->id, $jenjangNama);
         }
     }
 
-    /**
-     * Parse satu file Excel dan kembalikan array indikator:
-     *   [ ['section' => string, 'kode' => string, 'text' => string], ... ]
-     */
     protected function parseSheet(string $path): array
     {
         $reader = IOFactory::createReaderForFile($path);
         $reader->setReadDataOnly(true);
-        $wb     = $reader->load($path);
-        $sheet  = $wb->getSheet(0);
+        $sheet  = $reader->load($path)->getSheet(0);
 
         $indicators     = [];
         $currentSection = null;
         $current        = null;
 
-        $highestRow = $sheet->getHighestDataRow();
-
-        for ($r = 1; $r <= $highestRow; $r++) {
+        for ($r = 1; $r <= $sheet->getHighestDataRow(); $r++) {
             $a = $this->clean($sheet->getCell("A{$r}")->getValue());
             $b = $this->clean($sheet->getCell("B{$r}")->getValue());
 
-            // Baris kosong
             if ($a === '' && $b === '') continue;
 
-            // Baris header (NO | INDIKATOR) dan baris judul lembaga
-            if ($a === 'NO' || str_starts_with($a, 'LAM') || str_contains($a, 'LEMBAGA')) continue;
+            // Header berulang dan baris judul
+            if ($a === 'NO' || $a === 'NO' || str_starts_with($a, 'LAM') || str_contains($a, 'LEMBAGA')) continue;
 
-            // Baris seksi: A. / B. / C. / … / F. (spasi setelah titik bersifat opsional)
+            // Baris seksi: A. / B. / … / F. (spasi setelah titik opsional)
             if (preg_match('/^[A-F]\./i', $a) && !is_numeric($a)) {
                 $currentSection = $a;
+                if ($current !== null) { $indicators[] = $current; $current = null; }
                 continue;
             }
 
             // Baris indikator baru
             if (is_numeric($a) && $a !== '') {
-                if ($current !== null) {
-                    $indicators[] = $current;
-                }
-                $current = ['section' => $currentSection, 'kode' => $a, 'text' => $b];
+                if ($current !== null) $indicators[] = $current;
+                $current = [
+                    'section' => $currentSection,
+                    'kode'    => $a,
+                    'b'       => $b,
+                    'c'       => $this->clean($sheet->getCell("C{$r}")->getValue()),
+                    'd'       => $this->clean($sheet->getCell("D{$r}")->getValue()),
+                    'e'       => $this->clean($sheet->getCell("E{$r}")->getValue()),
+                    'f'       => $this->clean($sheet->getCell("F{$r}")->getValue()),
+                ];
                 continue;
             }
 
-            // Baris lanjutan teks
-            if ($a === '' && $b !== '' && $current !== null) {
-                $current['text'] .= ' ' . $b;
+            // Baris lanjutan (Col A kosong)
+            if ($a === '' && $current !== null) {
+                if ($b !== '') $current['b'] .= ' ' . $b;
+                $c = $this->clean($sheet->getCell("C{$r}")->getValue());
+                $d = $this->clean($sheet->getCell("D{$r}")->getValue());
+                $e = $this->clean($sheet->getCell("E{$r}")->getValue());
+                $f = $this->clean($sheet->getCell("F{$r}")->getValue());
+                if ($c !== '') $current['c'] .= ' ' . $c;
+                if ($d !== '') $current['d'] .= ' ' . $d;
+                if ($e !== '') $current['e'] .= ' ' . $e;
+                if ($f !== '') $current['f'] .= ' ' . $f;
             }
         }
 
-        if ($current !== null) {
-            $indicators[] = $current;
-        }
+        if ($current !== null) $indicators[] = $current;
 
         return $indicators;
     }
@@ -113,12 +128,14 @@ class KriteriaLamsamaSeeder extends Seeder
     {
         $cStd = $cEl = $cInd = 0;
         $stdCache = [];
+        $elCache  = [];
 
         foreach ($indicators as $ind) {
             $sectionNama = $ind['section'] ?? 'Umum';
-            $teks        = $this->clean($ind['text']);
+            $teks        = trim($ind['b']);
             if ($teks === '') continue;
 
+            // Standard
             if (!isset($stdCache[$sectionNama])) {
                 $std = Standard::firstOrCreate([
                     'standar_akreditasi_id' => $akreditasiId,
@@ -130,29 +147,46 @@ class KriteriaLamsamaSeeder extends Seeder
             }
             $standard = $stdCache[$sectionNama];
 
-            $element = Element::firstOrCreate([
-                'standard_id' => $standard->id,
-                'nama'        => $teks,
-            ]);
-            if ($element->wasRecentlyCreated) $cEl++;
+            // Satu Element per seksi (nama = nama seksi)
+            if (!isset($elCache[$sectionNama])) {
+                $el = Element::firstOrCreate([
+                    'standard_id' => $standard->id,
+                    'nama'        => $sectionNama,
+                ]);
+                if ($el->wasRecentlyCreated) $cEl++;
+                $elCache[$sectionNama] = $el;
+            }
+            $element = $elCache[$sectionNama];
 
-            $record = Indikator::updateOrCreate(
+            // Info penilaian dari kolom BAIK SEKALI / BAIK / CUKUP / KURANG
+            $info = $this->buildInfo($ind['c'] ?? '', $ind['d'] ?? '', $ind['e'] ?? '', $ind['f'] ?? '');
+
+            Indikator::updateOrCreate(
                 ['elemen_id' => $element->id, 'nama_indikator' => $teks],
                 [
                     'indikator_kode' => $ind['kode'] ?? null,
                     'kategori'       => $sectionNama,
+                    'info'           => $info ?: null,
                 ]
             );
-            if ($record->wasRecentlyCreated) $cInd++;
+            $cInd++;
         }
 
         $this->command?->info("  LAMSAMA {$jenjangNama}: +{$cStd} standar, +{$cEl} elemen, +{$cInd} indikator");
     }
 
-    /** Normalkan whitespace (termasuk newline dalam sel dan spasi ganda dari konversi PDF). */
+    protected function buildInfo(string $c, string $d, string $e, string $f): string
+    {
+        $parts = [];
+        if ($c !== '') $parts[] = "Skor 4 (BAIK SEKALI): {$c}";
+        if ($d !== '') $parts[] = "Skor 3 (BAIK): {$d}";
+        if ($e !== '') $parts[] = "Skor 2 (CUKUP): {$e}";
+        if ($f !== '') $parts[] = "Skor 1 (KURANG): {$f}";
+        return implode("\n", $parts);
+    }
+
     protected function clean(mixed $value): string
     {
-        $s = trim((string) $value);
-        return preg_replace('/\s+/u', ' ', $s);
+        return preg_replace('/\s+/u', ' ', trim((string) $value));
     }
 }

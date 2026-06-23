@@ -178,10 +178,10 @@ class KriteriaLamsamaSeeder extends Seeder
     protected function buildInfo(string $c, string $d, string $e, string $f): string
     {
         $parts = [];
-        if ($c !== '') $parts[] = "Skor 4 (BAIK SEKALI): " . $this->formatText($c);
-        if ($d !== '') $parts[] = "Skor 3 (BAIK): "        . $this->formatText($d);
-        if ($e !== '') $parts[] = "Skor 2 (CUKUP): "       . $this->formatText($e);
-        if ($f !== '') $parts[] = "Skor 1 (KURANG): "      . $this->formatText($f);
+        if ($c !== '') $parts[] = "Skor 4 (BAIK SEKALI) :\n" . $this->formatText($c);
+        if ($d !== '') $parts[] = "Skor 3 (BAIK) :\n"        . $this->formatText($d);
+        if ($e !== '') $parts[] = "Skor 2 (CUKUP) :\n"       . $this->formatText($e);
+        if ($f !== '') $parts[] = "Skor 1 (KURANG) :\n"      . $this->formatText($f);
         return implode("\n", $parts);
     }
 

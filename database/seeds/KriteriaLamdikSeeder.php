@@ -72,7 +72,7 @@ class KriteriaLamdikSeeder extends Seeder
                             'indikator_kode' => $it['kode'] ?? null,
                             'bobot'          => $it['bobot'] ?? null,
                             'kategori'       => $kriteria,
-                            'info'           => $info !== '' ? $this->formatText($info) : null,
+                            'info'           => $info !== '' ? $this->formatText($this->reformatSkorLines($info)) : null,
                         ]
                     );
                     if ($ind->wasRecentlyCreated) $cInd++;
@@ -90,5 +90,11 @@ class KriteriaLamdikSeeder extends Seeder
         $text = preg_replace('/[ \t]+(\(\d+\))/u',   "\n$1", $text); // (1), (2) …
         $text = preg_replace('/[ \t]+(\d+\))/u',     "\n$1", $text); //  1),  2) …
         return trim($text);
+    }
+
+    protected function reformatSkorLines(string $text): string
+    {
+        // "Skor 4: teks" → "Skor 4 :\nteks"
+        return preg_replace('/(Skor\s+\d+[^:]*):[ \t]*/u', "$1 :\n", $text);
     }
 }

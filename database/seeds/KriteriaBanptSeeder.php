@@ -199,19 +199,19 @@ class KriteriaBanptSeeder extends Seeder
         $parts = [];
 
         if ($aspek !== '') {
-            $parts[] = 'Aspek Penilaian Indikator:' . "\n" . $aspek;
+            $parts[] = 'Aspek Penilaian Indikator :' . "\n" . $aspek;
         }
 
         $skor = [];
         if ($hUnggul !== '') {
-            $skor[] = 'Skor 2 (Terakreditasi Unggul): ' . $this->stripSyarat($hUnggul);
+            $skor[] = "Skor 2 (Terakreditasi Unggul) :\n" . $this->stripSyarat($hUnggul);
         }
         if ($hTerakreditasi !== '') {
-            $skor[] = 'Skor 1 (Terakreditasi): ' . $this->stripSyarat($hTerakreditasi);
+            $skor[] = "Skor 1 (Terakreditasi) :\n" . $this->stripSyarat($hTerakreditasi);
         }
-        $skor[] = 'Skor 0 (Tidak Terakreditasi): Tidak memenuhi syarat Terakreditasi.';
+        $skor[] = "Skor 0 (Tidak Terakreditasi) :\nTidak memenuhi syarat Terakreditasi.";
 
-        $parts[] = 'Deskripsi Pemenuhan Indikator:' . "\n" . implode("\n", $skor);
+        $parts[] = 'Deskripsi Pemenuhan Indikator :' . "\n" . implode("\n", $skor);
 
         return trim(implode("\n\n", $parts));
     }

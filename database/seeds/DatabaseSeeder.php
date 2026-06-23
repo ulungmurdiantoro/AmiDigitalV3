@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
             KriteriaLamsamaSeeder::class,
             // Kriteria LAMTEKNIK (dari database/data/lamteknik.json hasil ekstraksi PDF)
             KriteriaLamteknikSeeder::class,
+            // Kriteria LAMINFOKOM (dari database/data/LAMINFOKOM/*.xlsx Matriks Penilaian)
+            KriteriaLaminfokomSeeder::class,
 
             // Akun login
             UserSeeder::class,

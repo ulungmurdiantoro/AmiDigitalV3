@@ -25,6 +25,12 @@
           <span class="link-title">Dokumen SPMI & AMI</span>
         </a>
       </li>
+      <li class="nav-item {{ active_class(['user.lkps.*']) }}">
+        <a href="{{ route('user.lkps.index') }}" class="nav-link">
+          <i class="link-icon" data-feather="clipboard"></i>
+          <span class="link-title">LKPS PDDikti</span>
+        </a>
+      </li>
       <li class="nav-item {{ active_class(['user.pemenuhan-dokumen.*']) }}">
         <a href="{{ route('user.pemenuhan-dokumen.index') }}" class="nav-link">
           <i class="link-icon" data-feather="layers"></i>

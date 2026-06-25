@@ -16,14 +16,56 @@
     </div>
   </div>
 
-  {{-- @dd($standards) --}}
+  {{-- @dd($key, isset($standards)) --}}
 
-  <x-hasil-forcasting-lamemba
-    :standards="$standards"
-    :transkasis="$transaksi_ami"
-    :periodes="$periode"
-    :prodis="$prodi"
-/>
+  @if(isset($key) && str_starts_with($key, 'LAMDIK'))
+    <x-hasil-forcasting-lamdik
+      :tablePeringkatUngguls="$tablePeringkatUnggul"
+      :totals="$total"
+      :h2s="$h2"
+      :h3s="$h3"
+    />
+  @elseif(isset($key) && $key === 'LAMEMBA')
+    <x-hasil-forcasting-lamemba
+      :standards="$standards"
+      :transkasis="$transaksi_ami"
+      :periodes="$periode"
+      :prodis="$prodi"
+    />
+  @elseif(isset($key) && $key === 'LAMINFOKOM')
+    <x-hasil-forcasting-laminfokom
+      :standards="$standards"
+      :transkasis="$transaksi_ami"
+      :periodes="$periode"
+      :prodis="$prodi"
+    />
+  @elseif(isset($key) && $key === 'LAMSAMA')
+    <x-hasil-forcasting-lamsama
+      :standards="$standards"
+      :transkasis="$transaksi_ami"
+      :periodes="$periode"
+      :prodis="$prodi"
+    />
+  @elseif(isset($key) && $key === 'LAMTEKNIK')
+    <x-hasil-forcasting-lamteknik
+      :standards="$standards"
+      :transkasis="$transaksi_ami"
+      :periodes="$periode"
+      :prodis="$prodi"
+    />
+  @else
+    <x-hasil-forcasting
+      :tableTerakreditasis="$tableTerakreditasi"
+      :tablePeringkatUngguls="$tablePeringkatUnggul"
+      :tableBaikSekalis="$tableBaikSekali"
+      :totals="$total"
+      :h2s="$h2"
+      :h3s="$h3"
+      :h4s="$h4"
+      :h5s="$h5"
+      :h6s="$h6"
+    />
+  @endif
 
 @endsection
 @push('plugin-scripts')

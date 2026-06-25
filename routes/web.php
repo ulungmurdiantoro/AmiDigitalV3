@@ -33,6 +33,8 @@ use App\Http\Controllers\Auditor\KonfirmasiPengajuanController;
 use App\Http\Controllers\Auditor\EvaluasiAmiAuditorController;
 use App\Http\Controllers\Auditor\KoreksiAmiAuditorController;
 use App\Http\Controllers\User\UserForcastingController;
+use App\Http\Controllers\User\UserFeederController;
+use App\Http\Controllers\User\UserLkpsController;
 use App\Http\Controllers\User\UserNilaiEvaluasiDiriController;
 use App\Http\Controllers\User\UserStatistikElemenController;
 use App\Http\Controllers\User\UserStatistikTotalController;
@@ -356,6 +358,18 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'user']], function ()
     Route::resource('bantuan', BantuanController::class)
         ->only(['index'])
         ->names(['index' => 'user.bantuan.index']);
+
+    Route::post('/feeder/sync', [UserFeederController::class, 'sync'])
+        ->name('user.feeder.sync');
+
+    Route::get('/lkps',                            [UserLkpsController::class, 'index'])
+        ->name('user.lkps.index');
+    Route::post('/lkps/snapshot',                  [UserLkpsController::class, 'snapshot'])
+        ->name('user.lkps.snapshot');
+    Route::get('/lkps/export',                     [UserLkpsController::class, 'export'])
+        ->name('user.lkps.export');
+    Route::delete('/lkps/snapshot/{snapshot}',     [UserLkpsController::class, 'destroySnapshot'])
+        ->name('user.lkps.snapshot.destroy');
 });
 
 // ────────────────────────────────────────────────────────────────────────────

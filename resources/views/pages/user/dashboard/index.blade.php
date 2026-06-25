@@ -204,11 +204,19 @@
       @endif
     </h4>
   </div>
-  @if($feederData)
-    <span class="text-muted mb-3 mb-md-0">
-      Sync terakhir: {{ $feederData['last_sync'] ? \Carbon\Carbon::parse($feederData['last_sync'])->translatedFormat('d M Y, H:i') : '-' }}
-    </span>
-  @endif
+  <div class="d-flex align-items-center gap-3 mb-3 mb-md-0">
+    @if($feederData && $feederData['last_sync'])
+      <span class="text-muted small">
+        Sync terakhir: {{ \Carbon\Carbon::parse($feederData['last_sync'])->translatedFormat('d M Y, H:i') }}
+      </span>
+    @endif
+    @if($prodiTerhubung)
+      <button type="button" class="btn btn-outline-primary btn-sm btn-icon-text" id="btnSyncFeeder">
+        <i class="btn-icon-prepend" data-feather="refresh-cw"></i>
+        Sinkronisasi Sekarang
+      </button>
+    @endif
+  </div>
 </div>
 
 @if(!$prodiTerhubung)
@@ -216,8 +224,12 @@
     Prodi ini belum memiliki Kode PDDikti. Hubungi admin untuk mengisi kode prodi di menu Program Studi.
   </div>
 @elseif(!$feederSynced)
-  <div class="alert alert-warning" role="alert">
-    Data Neo Feeder belum disinkronkan. Hubungi admin untuk menjalankan sinkronisasi.
+  <div class="alert alert-info d-flex align-items-center gap-3" role="alert">
+    <i data-feather="info" style="min-width:20px"></i>
+    <div>
+      Data Neo Feeder belum disinkronkan untuk prodi ini.
+      Klik <strong>Sinkronisasi Sekarang</strong> di atas untuk mengambil data terbaru dari PDDikti.
+    </div>
   </div>
 @else
 <div class="row">
@@ -339,4 +351,36 @@
 
 @push('custom-scripts')
   <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+  <script>
+    const btnSync = document.getElementById('btnSyncFeeder');
+    if (btnSync) {
+      btnSync.addEventListener('click', function () {
+        btnSync.disabled = true;
+        btnSync.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Menyinkronkan...';
+
+        fetch('{{ route("user.feeder.sync") }}', {
+          method: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'X-Requested-With': 'XMLHttpRequest',
+          },
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            alert('✓ ' + data.message);
+            window.location.reload();
+          } else {
+            alert('✗ Sinkronisasi gagal: ' + data.message);
+          }
+        })
+        .catch(() => alert('✗ Tidak dapat terhubung ke server.'))
+        .finally(() => {
+          btnSync.disabled = false;
+          btnSync.innerHTML = '<i class="btn-icon-prepend" data-feather="refresh-cw"></i> Sinkronisasi Sekarang';
+          feather.replace();
+        });
+      });
+    }
+  </script>
 @endpush

@@ -115,5 +115,8 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('hasil-forcasting', \App\View\Components\HasilForcasting::class);
         Blade::component('hasil-forcasting-lamdik', \App\View\Components\HasilForcastingLamdik::class);
         Blade::component('hasil-forcasting-lamemba', \App\View\Components\HasilForcastingLamemba::class);
+        Blade::component('hasil-forcasting-laminfokom', \App\View\Components\HasilForcastingLaminfokom::class);
+        Blade::component('hasil-forcasting-lamsama', \App\View\Components\HasilForcastingLamsama::class);
+        Blade::component('hasil-forcasting-lamteknik', \App\View\Components\HasilForcastingLamteknik::class);
     }
 }

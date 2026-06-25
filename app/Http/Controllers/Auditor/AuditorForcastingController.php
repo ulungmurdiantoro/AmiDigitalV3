@@ -42,81 +42,189 @@ class AuditorForcastingController extends Controller
 
     public function hasilForcasting(Request $request, $periode, $prodi)
     {
-        $transaksi_ami = TransaksiAmi::where('periode', $periode)
-        ->where('prodi', $prodi)
-        ->with('auditorAmi.user') 
-        ->first();
+        $transaksiAmi = TransaksiAmi::where('periode', $periode)
+            ->where('prodi', $prodi)
+            ->with('auditorAmi.user')
+            ->first();
 
-        $akreditasi_kode  =$transaksi_ami->standar_akreditasi;       
-        $jenjang_raw      = $prodi;       
+        $akses       = $transaksiAmi->standar_akreditasi ?? 'BAN-PT';
+        $jenjang_raw = $prodi;
 
-        $jenjang_nama = trim(explode(' - ', (string)$jenjang_raw, 2)[0]);
-        if ($jenjang_nama === '') $jenjang_nama = 'S1';
+        // LAMSAMA / LAMEMBA / LAMINFOKOM — pass standards collection directly
+        if ($akses === 'LAMSAMA') {
+            $jenjang_nama = trim(explode(' - ', (string) $jenjang_raw, 2)[0]) ?: 'S1';
+            if (!in_array($jenjang_nama, Jenjang::pluck('nama')->toArray(), true)) $jenjang_nama = 'S1';
+
+            $akreditasi = Cache::remember("akreditasi_{$akses}", 3600, fn() => StandarAkreditasi::where('nama', $akses)->firstOrFail());
+            $jenjang    = Cache::remember("jenjang_{$jenjang_nama}", 3600, fn() => Jenjang::where('nama', $jenjang_nama)->firstOrFail());
+
+            $standards = Standard::query()
+                ->with(['elements.indicators.dokumen_nilais' => fn($q) => $q->where('periode', $periode)->where('prodi', $prodi)])
+                ->where('standar_akreditasi_id', $akreditasi->id)
+                ->where('jenjang_id', $jenjang->id)
+                ->get();
+
+            return view('pages.auditor.forcasting.hasil-forcasting.index', [
+                'key'           => 'LAMSAMA',
+                'periode'       => $periode,
+                'prodi'         => $jenjang_raw,
+                'standards'     => $standards,
+                'transaksi_ami' => $transaksiAmi,
+            ]);
+        }
+
+        if ($akses === 'LAMINFOKOM') {
+            $jenjang_nama = trim(explode(' - ', (string) $jenjang_raw, 2)[0]) ?: 'S1';
+            if (!in_array($jenjang_nama, Jenjang::pluck('nama')->toArray(), true)) $jenjang_nama = 'S1';
+
+            $akreditasi = Cache::remember("akreditasi_{$akses}", 3600, fn() => StandarAkreditasi::where('nama', $akses)->firstOrFail());
+            $jenjang    = Cache::remember("jenjang_{$jenjang_nama}", 3600, fn() => Jenjang::where('nama', $jenjang_nama)->firstOrFail());
+
+            $standards = Standard::query()
+                ->with(['elements.indicators.dokumen_nilais' => fn($q) => $q->where('periode', $periode)->where('prodi', $prodi)])
+                ->where('standar_akreditasi_id', $akreditasi->id)
+                ->where('jenjang_id', $jenjang->id)
+                ->get();
+
+            return view('pages.auditor.forcasting.hasil-forcasting.index', [
+                'key'          => 'LAMINFOKOM',
+                'periode'      => $periode,
+                'prodi'        => $jenjang_raw,
+                'standards'    => $standards,
+                'transaksi_ami' => $transaksiAmi,
+            ]);
+        }
+
+        if ($akses === 'LAMTEKNIK') {
+            $jenjang_nama = trim(explode(' - ', (string) $jenjang_raw, 2)[0]) ?: 'S1';
+            if (!in_array($jenjang_nama, Jenjang::pluck('nama')->toArray(), true)) $jenjang_nama = 'S1';
+
+            $akreditasi = Cache::remember("akreditasi_{$akses}", 3600, fn() => StandarAkreditasi::where('nama', $akses)->firstOrFail());
+            $jenjang    = Cache::remember("jenjang_{$jenjang_nama}", 3600, fn() => Jenjang::where('nama', $jenjang_nama)->firstOrFail());
+
+            $standards = Standard::query()
+                ->with(['elements.indicators.dokumen_nilais' => fn($q) => $q->where('periode', $periode)->where('prodi', $prodi)])
+                ->where('standar_akreditasi_id', $akreditasi->id)
+                ->where('jenjang_id', $jenjang->id)
+                ->get();
+
+            return view('pages.auditor.forcasting.hasil-forcasting.index', [
+                'key'           => 'LAMTEKNIK',
+                'periode'       => $periode,
+                'prodi'         => $jenjang_raw,
+                'standards'     => $standards,
+                'transaksi_ami' => $transaksiAmi,
+            ]);
+        }
+
+        // LAMEMBA — pass standards collection directly (no weighted-score formula)
+        if ($akses === 'LAMEMBA') {
+            $jenjang_nama = trim(explode(' - ', (string) $jenjang_raw, 2)[0]) ?: 'S1';
+            if (!in_array($jenjang_nama, Jenjang::pluck('nama')->toArray(), true)) $jenjang_nama = 'S1';
+
+            $akreditasi = Cache::remember("akreditasi_{$akses}", 3600, fn() => StandarAkreditasi::where('nama', $akses)->firstOrFail());
+            $jenjang    = Cache::remember("jenjang_{$jenjang_nama}", 3600, fn() => Jenjang::where('nama', $jenjang_nama)->firstOrFail());
+
+            $standards = Standard::query()
+                ->with(['elements.indicators.dokumen_nilais' => fn($q) => $q->where('periode', $periode)->where('prodi', $prodi)])
+                ->where('standar_akreditasi_id', $akreditasi->id)
+                ->where('jenjang_id', $jenjang->id)
+                ->get();
+
+            return view('pages.auditor.forcasting.hasil-forcasting.index', [
+                'key'          => 'LAMEMBA',
+                'periode'      => $periode,
+                'prodi'        => $jenjang_raw,
+                'standards'    => $standards,
+                'transaksi_ami' => $transaksiAmi,
+            ]);
+        }
+
+        // BAN-PT, LAMDIK — full criteria + weighted-score calculation
+        preg_match('/\b(S[0-9]+|D[0-9]+|PPG|S1 Terapan)\b/', $prodi, $matches);
+        $degree = isset($matches[0]) && in_array($matches[0], ['S1', 'S2', 'S3', 'PPG', 'S1 Terapan'])
+            ? $matches[0]
+            : 'S1';
+
+        $accreditationKey = trim("{$akses} {$degree}");
 
         $validAkreditasi = StandarAkreditasi::pluck('nama')->toArray();
-        $validJenjang    = Jenjang::pluck('nama')->toArray();
-
-        if (!in_array($akreditasi_kode, $validAkreditasi, true)) {
-            Log::warning('Nilai akreditasi sesi tidak valid, fallback ke BAN-PT', ['session' => $akreditasi_kode]);
-            $akreditasi_kode = 'BAN-PT';
-        }
-        if (!in_array($jenjang_nama, $validJenjang, true)) {
-            Log::warning('Nilai jenjang sesi tidak valid, fallback ke S1', ['session' => $jenjang_nama]);
-            $jenjang_nama = 'S1';
+        if (!in_array($akses, $validAkreditasi, true)) {
+            $akses            = 'BAN-PT';
+            $accreditationKey = "BAN-PT {$degree}";
         }
 
-        $akreditasi = Cache::remember("akreditasi_{$akreditasi_kode}", 3600, function () use ($akreditasi_kode) {
-            return StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
-        });
+        $criteriaStatus = $this->evaluateCriteria($periode, $prodi);
+        $totalData      = $this->calculateTotal($periode, $prodi, $accreditationKey);
+        $total          = $totalData['total'];
+        $hStatus        = $this->calculateHStatus($criteriaStatus, $total, $accreditationKey);
 
-        $jenjang = Cache::remember("jenjang_{$jenjang_nama}", 3600, function () use ($jenjang_nama) {
-            return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
-        });
+        $mappings = [
+            'BAN-PT S1' => [
+                'tableTerakreditasi' => [
+                    ['syarat' => 'Skor butir penilaian Penjaminan Mutu (keterlaksanaan Sistem Penjaminan Mutu Internal, akademik dan non akademik) ≥ 2,0. <br>Skor S1-12', 'status' => $criteriaStatus['banpt_a1']],
+                    ['syarat' => 'Skor butir penilaian Kecukupan Jumlah DTPS ≥ 2,0. <br>Skor S1-17', 'status' => $criteriaStatus['banpt_a2']],
+                    ['syarat' => 'Skor butir penilaian Kurikulum (keterlibatan pemangku kepentingan dalam proses evaluasi dan pemutakhiran kurikulum, kesesuaian capaian <br> pembelajaran dengan profil lulusan dan jenjang KKNI/SKKNI, ketepatan struktur kurikulum dalam pembentukan capaian pembelajaran) ≥ 2,0. <br>Skor S1-38', 'status' => $criteriaStatus['banpt_a3']],
+                ],
+                'tablePeringkatUnggul' => [
+                    ['syarat' => 'Skor butir penilaian Kualifikasi Akademik DTPS ≥ 3,5. <br>Skor S1-18', 'status' => $criteriaStatus['banpt_b1']],
+                    ['syarat' => 'Skor butir penilaian Jabatan Akademik DTPS ≥ 3,5. <br>Skor S1-19', 'status' => $criteriaStatus['banpt_b2']],
+                    ['syarat' => 'Skor butir penilaian Waktu Tunggu ≥ 3,5. <br>Skor S1-60', 'status' => $criteriaStatus['banpt_b3']],
+                    ['syarat' => 'Skor butir penilaian Kesesuaian Bidang Kerja ≥ 3,5. <br>Skor S1-61', 'status' => $criteriaStatus['banpt_b4']],
+                ],
+                'tableBaikSekali' => [
+                    ['syarat' => 'Skor butir penilaian Kualifikasi Akademik DTPS ≥ 3,0. <br>Skor S1-18', 'status' => $criteriaStatus['banpt_c1']],
+                    ['syarat' => 'Skor butir penilaian Jabatan Akademik DTPS ≥ 3,0. <br>Skor S1-19', 'status' => $criteriaStatus['banpt_c2']],
+                    ['syarat' => 'Skor butir penilaian Waktu Tunggu ≥ 3,0. <br>Skor S1-60', 'status' => $criteriaStatus['banpt_c3']],
+                    ['syarat' => 'Skor butir penilaian Kesesuaian Bidang Kerja ≥ 3,0. <br>Skor S1-61', 'status' => $criteriaStatus['banpt_c4']],
+                ],
+                'h2' => $hStatus['h2'], 'h3' => $hStatus['h3'], 'h4' => $hStatus['h4'],
+                'h5' => $hStatus['h5'], 'h6' => $hStatus['h6'],
+            ],
+            'LAMDIK PPG' => [
+                'tablePeringkatUnggul' => [
+                    ['elemen' => 'Kualitas Dosen<br>(INPUT)', 'indikator' => 'DTPS memiliki kualifikasi akademik doktor (S3) dan jabatan akademik/fungsional.', 'kriteria' => 'a. ≥ 50% DTPS memiliki kualifikasi akademik doktor.<br>b. ≥ 3 DTPS memiliki jabatan akademik/fungsional minimal lektor kepala.', 'status' => $criteriaStatus['lamdik_ppg_1']],
+                    ['elemen' => 'Kurikulum<br>(INPUT)', 'indikator' => 'PS melakukan asesmen pencapaian CPL berdasarkan capaian hasil belajar mahasiswa.', 'kriteria' => 'PS melakukan asesmen, evaluasi, dan tindak lanjut pencapaian CPL, didukung bukti sahih.', 'status' => $criteriaStatus['lamdik_ppg_2']],
+                    ['elemen' => 'Pembelajaran Mikro (PROSES)', 'indikator' => 'PS merancang dan melaksanakan perkuliahan micro-teaching.', 'kriteria' => 'Microteaching di laboratorium, frekuensi ≥ 4 kali, melatihkan 8 keterampilan mengajar.', 'status' => $criteriaStatus['lamdik_ppg_3']],
+                    ['elemen' => 'SPMI PPEPP (PROSES)', 'indikator' => 'PS memiliki dan melaksanakan SPMI dengan siklus PPEPP.', 'kriteria' => 'SPMI efektif: kebijakan, perangkat lengkap, melaksanakan, evaluasi berkala, pengendalian, peningkatan.', 'status' => $criteriaStatus['lamdik_ppg_4']],
+                    ['elemen' => 'Produktivitas Publikasi Dosen (LUARAN)', 'indikator' => 'DTPS memiliki publikasi jurnal nasional/internasional.', 'kriteria' => '≥40% DTPS memiliki publikasi Sinta 2 dan/atau jurnal internasional bereputasi.', 'status' => $criteriaStatus['lamdik_ppg_5']],
+                ],
+                'h2' => $hStatus['h2'], 'h3' => $hStatus['h3'], 'h4' => $hStatus['h4'],
+                'h5' => $hStatus['h5'], 'h6' => $hStatus['h6'],
+            ],
+            'LAMDIK S1' => [
+                'tablePeringkatUnggul' => [
+                    ['elemen' => 'Kualitas Dosen<br>(INPUT)', 'indikator' => 'DTPS memiliki kualifikasi akademik doktor (S3) dan jabatan akademik/fungsional.', 'kriteria' => 'a. ≥ 20% DTPS memiliki kualifikasi akademik doktor.<br>b. ≥ 2 DTPS memiliki jabatan akademik/fungsional minimal lektor kepala.', 'status' => $criteriaStatus['lamdik_s1_1']],
+                    ['elemen' => 'Kurikulum<br>(INPUT)', 'indikator' => 'PS melakukan asesmen pencapaian CPL berdasarkan capaian hasil belajar mahasiswa.', 'kriteria' => 'PS melakukan asesmen, evaluasi, dan tindak lanjut pencapaian CPL, didukung bukti sahih.', 'status' => $criteriaStatus['lamdik_s1_2']],
+                    ['elemen' => 'Pembelajaran Mikro (PROSES)', 'indikator' => 'PS merancang dan melaksanakan perkuliahan micro-teaching.', 'kriteria' => 'Microteaching di laboratorium, frekuensi ≥ 4 kali, melatihkan 8 keterampilan mengajar.', 'status' => $criteriaStatus['lamdik_s1_3']],
+                    ['elemen' => 'SPMI PPEPP (PROSES)', 'indikator' => 'PS memiliki dan melaksanakan SPMI dengan siklus PPEPP.', 'kriteria' => 'SPMI efektif: kebijakan, perangkat lengkap, melaksanakan, evaluasi berkala, pengendalian, peningkatan.', 'status' => $criteriaStatus['lamdik_s1_4']],
+                    ['elemen' => 'Produktivitas Karya Mahasiswa (LUARAN)', 'indikator' => '% mahasiswa menghasilkan karya inovatif dan/atau publikasi ilmiah.', 'kriteria' => '≥25% mahasiswa dalam 5 tahun terakhir memiliki karya inovatif atau publikasi Sinta 4.', 'status' => $criteriaStatus['lamdik_s1_5']],
+                    ['elemen' => 'Produktivitas Publikasi Dosen (LUARAN)', 'indikator' => 'DTPS memiliki publikasi jurnal nasional/internasional.', 'kriteria' => '≥20% DTPS memiliki publikasi Sinta 2 dan/atau jurnal internasional bereputasi.', 'status' => $criteriaStatus['lamdik_s1_6']],
+                ],
+                'h2' => $hStatus['h2'], 'h3' => $hStatus['h3'], 'h4' => $hStatus['h4'],
+                'h5' => $hStatus['h5'], 'h6' => $hStatus['h6'],
+            ],
+            'LAMDIK S2' => [
+                'tablePeringkatUnggul' => [
+                    ['elemen' => 'Kualitas Dosen<br>(INPUT)', 'indikator' => 'DTPS memiliki kualifikasi akademik doktor (S3) dan jabatan guru besar.', 'kriteria' => 'a. ≥ 100% DTPS memiliki kualifikasi akademik doktor.<br>b. ≥ 1 DTPS memiliki jabatan guru besar.', 'status' => $criteriaStatus['lamdik_s2_1']],
+                    ['elemen' => 'Kurikulum<br>(INPUT)', 'indikator' => 'PS melakukan asesmen pencapaian CPL berdasarkan capaian hasil belajar mahasiswa.', 'kriteria' => 'PS melakukan asesmen, evaluasi, dan tindak lanjut pencapaian CPL, didukung bukti sahih.', 'status' => $criteriaStatus['lamdik_s2_2']],
+                    ['elemen' => 'SPMI PPEPP (PROSES)', 'indikator' => 'PS memiliki dan melaksanakan SPMI dengan siklus PPEPP.', 'kriteria' => 'SPMI efektif: kebijakan, perangkat lengkap, melaksanakan, evaluasi berkala, pengendalian, peningkatan.', 'status' => $criteriaStatus['lamdik_s2_3']],
+                    ['elemen' => 'Produktivitas Karya Mahasiswa (LUARAN)', 'indikator' => '% mahasiswa menghasilkan karya inovatif dan/atau publikasi ilmiah.', 'kriteria' => '≥25% mahasiswa dalam 3 tahun terakhir memiliki publikasi pada jurnal nasional terakreditasi minimal Sinta 3.', 'status' => $criteriaStatus['lamdik_s2_4']],
+                    ['elemen' => 'Produktivitas Publikasi Dosen (LUARAN)', 'indikator' => 'DTPS memiliki publikasi jurnal nasional/internasional.', 'kriteria' => '≥60% DTPS memiliki publikasi Sinta 2 dan/atau jurnal internasional bereputasi.', 'status' => $criteriaStatus['lamdik_s2_5']],
+                ],
+                'h2' => $hStatus['h2'], 'h3' => $hStatus['h3'], 'h4' => $hStatus['h4'],
+                'h5' => $hStatus['h5'], 'h6' => $hStatus['h6'],
+            ],
+        ];
 
-        $standardsQuery = Standard::query()
-            ->with([
-                'elements.indicators.dokumen_nilais' => function ($q) use ($periode, $prodi) {
-                    $q->where('periode', $periode)
-                    ->where('prodi', $prodi);
-                },
-                'buktiStandar'
-            ])
-            ->where('standar_akreditasi_id', $akreditasi->id)
-            ->where('jenjang_id', $jenjang->id);
+        $mapping = $mappings[$accreditationKey] ?? [];
 
-        $standards = $standardsQuery->get();
-
-        $penjadwalan_ami = PenjadwalanAmi::with(['auditor_ami.user'])
-            ->when($request->q, function ($query) use ($request) {
-                $query->whereHas('auditor_ami.user', function ($q) use ($request) {
-                    $q->where('user_nama', 'like', '%' . $request->q . '%');
-                })
-                ->orWhere('prodi_nama', 'like', '%' . $request->q . '%');
-            })
-            ->where('prodi', $jenjang_raw)
-            ->latest()
-            ->get();
-
-        $auditors = User::where('user_level', 'auditor')->get();
-
-        $akreditasi = Cache::remember("akreditasi_{$akreditasi_kode}", 3600, function () use ($akreditasi_kode) {
-            return StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
-        });
-
-        $jenjang = Cache::remember("jenjang_{$jenjang_nama}", 3600, function () use ($jenjang_nama) {
-            return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
-        });
-
-        return view('pages.auditor.forcasting.hasil-forcasting.index', [
-            'akreditasi' => $akreditasi,
-            'jenjang'    => $jenjang,
-            'standards'  => $standards,
+        return view('pages.auditor.forcasting.hasil-forcasting.index', array_merge([
             'periode' => $periode,
-            'prodi' => $jenjang_raw,
-            'penjadwalan_ami' => $penjadwalan_ami,
-            'transaksi_ami' => $transaksi_ami,
-            'auditors' => $auditors,
-        ]);
+            'prodi'   => $jenjang_raw,
+            'total'   => $total,
+            'key'     => $accreditationKey,
+        ], $mapping));
     }
 
     public function getHasilNilai($indikatorKode, $periode, $prodi)

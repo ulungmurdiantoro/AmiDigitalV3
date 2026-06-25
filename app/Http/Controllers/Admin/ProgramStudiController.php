@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\ProgramStudi;
 use App\Models\Jurusan;
 use App\Models\Fakultas;
+use App\Models\Jenjang;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -41,12 +42,10 @@ class ProgramStudiController extends Controller
      */
     public function create()
     {
-        $Jurusans = Jurusan::all();
-        $Fakultass = Fakultas::all();
-        return view('pages.admin.program-studi.create', [
-            'Jurusans' => $Jurusans,
-            'Fakultass' => $Fakultass,
-        ]);
+        $Jurusans = Jurusan::orderBy('jurusan_nama')->get();
+        $Fakultass = Fakultas::orderBy('fakultas_nama')->get();
+        $Jenjangs = Jenjang::orderBy('nama')->get();
+        return view('pages.admin.program-studi.create', compact('Jurusans', 'Fakultass', 'Jenjangs'));
     }
 
     /**
@@ -59,13 +58,14 @@ class ProgramStudiController extends Controller
     {
         // Validate request
         $request->validate([
-            'prodi_nama' => 'required|string',
-            'prodi_jenjang' => 'required|string',
-            'prodi_jurusan' => 'required|string',
-            'prodi_fakultas' => 'required|string',
-            'prodi_akreditasi' => 'required',
+            'prodi_nama'         => 'required|string',
+            'prodi_jenjang'      => 'required|string',
+            'prodi_jurusan'      => 'required|string',
+            'prodi_fakultas'     => 'required|string',
+            'prodi_akreditasi'   => 'required',
             'akreditasi_kadaluarsa' => 'required|date',
-            'akreditasi_bukti' => 'mimes:jpg,png,pdf,doc,docx|max:2048',
+            'akreditasi_bukti'   => 'mimes:jpg,png,pdf,doc,docx|max:2048',
+            'feeder_kode_prodi'  => 'nullable|string|max:20|unique:program_studis,feeder_kode_prodi',
         ]);
 
         try {
@@ -78,14 +78,15 @@ class ProgramStudiController extends Controller
 
         try {
             ProgramStudi::create([
-                'program_studis_code' => 'prd-' .Str::uuid() . uniqid(),
-                'prodi_nama' => $request->prodi_nama,
-                'prodi_jenjang' => $request->prodi_jenjang,
-                'prodi_jurusan' => $request->prodi_jurusan,
-                'prodi_fakultas' => $request->prodi_fakultas,
-                'prodi_akreditasi' => $request->prodi_akreditasi,
-                'akreditasi_kadaluarsa' => $request->akreditasi_kadaluarsa,
-                'akreditasi_bukti' => '/storage/' . $filePath,
+                'program_studis_code'  => 'prd-' . Str::uuid() . uniqid(),
+                'prodi_nama'           => $request->prodi_nama,
+                'prodi_jenjang'        => $request->prodi_jenjang,
+                'prodi_jurusan'        => $request->prodi_jurusan,
+                'prodi_fakultas'       => $request->prodi_fakultas,
+                'prodi_akreditasi'     => $request->prodi_akreditasi,
+                'akreditasi_kadaluarsa'=> $request->akreditasi_kadaluarsa,
+                'akreditasi_bukti'     => '/storage/' . $filePath,
+                'feeder_kode_prodi'    => $request->feeder_kode_prodi ?: null,
             ]);
         } catch (\Exception $e) {
             Log::error('Database insertion failed: ' . $e->getMessage());
@@ -160,7 +161,10 @@ class ProgramStudiController extends Controller
     public function edit($id)
     {
         $program_studis = ProgramStudi::findOrFail($id);
-        return view('pages.admin.program-studi.edit', compact('program_studis'));
+        $Jurusans = Jurusan::orderBy('jurusan_nama')->get();
+        $Fakultass = Fakultas::orderBy('fakultas_nama')->get();
+        $Jenjangs = Jenjang::orderBy('nama')->get();
+        return view('pages.admin.program-studi.edit', compact('program_studis', 'Jurusans', 'Fakultass', 'Jenjangs'));
     }
 
     /**
@@ -177,13 +181,14 @@ class ProgramStudiController extends Controller
 
         // Validate the form data
         $validatedData = $request->validate([
-            'prodi_nama' => 'required|string|max:255',
-            'prodi_jenjang' => 'required|string',
-            'prodi_jurusan' => 'required|string',
-            'prodi_fakultas' => 'required|string',
-            'prodi_akreditasi' => 'required|string',
-            'akreditasi_kadaluarsa' => 'nullable|date',
-            'akreditasi_bukti' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'prodi_nama'           => 'required|string|max:255',
+            'prodi_jenjang'        => 'required|string',
+            'prodi_jurusan'        => 'required|string',
+            'prodi_fakultas'       => 'required|string',
+            'prodi_akreditasi'     => 'required|string',
+            'akreditasi_kadaluarsa'=> 'nullable|date',
+            'akreditasi_bukti'     => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'feeder_kode_prodi'    => 'nullable|string|max:20|unique:program_studis,feeder_kode_prodi,' . $id,
         ]);
 
         // Update the program studi details
@@ -191,8 +196,9 @@ class ProgramStudiController extends Controller
         $program_studis->prodi_jenjang = $validatedData['prodi_jenjang'];
         $program_studis->prodi_jurusan = $validatedData['prodi_jurusan'];
         $program_studis->prodi_fakultas = $validatedData['prodi_fakultas'];
-        $program_studis->prodi_akreditasi = $validatedData['prodi_akreditasi'];
+        $program_studis->prodi_akreditasi      = $validatedData['prodi_akreditasi'];
         $program_studis->akreditasi_kadaluarsa = $validatedData['akreditasi_kadaluarsa'];
+        $program_studis->feeder_kode_prodi     = $validatedData['feeder_kode_prodi'] ?: null;
 
         // Handle file upload for Bukti Akreditasi if a new file is uploaded
         if ($request->hasFile('akreditasi_bukti')) {

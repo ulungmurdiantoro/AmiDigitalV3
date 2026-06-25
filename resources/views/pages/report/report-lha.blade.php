@@ -249,32 +249,78 @@
 			<tr>
 				<td class="tdjudul"><h3>NILAI AKHIR</h3></td>
 			</tr>
-    </table>
-    <svg height="10" width="1500">
-      <line x1="0" y1="0" x2="1500" y2="0" style="stroke:rgb(255,200,0);stroke-width:10;" />
-    </svg>
-		<table class="tbnilai" style="width:66%">
+		</table>
+		<svg height="10" width="1500">
+			<line x1="0" y1="0" x2="1500" y2="0" style="stroke:rgb(255,200,0);stroke-width:10;" />
+		</svg>
+		<table class="tbnilai" style="width:100%">
 			<thead>
 				<tr>
-					<th style="width:33%" class="tbpeserta">Persentase Nilai Akhir</th>
-					<th style="width:33%" class="tbpeserta">Predikat Nilai Akhir</th>
+					<th style="width:30%" class="tbpeserta">{{ $forecast['naLabel'] ?? 'Nilai Akhir' }}</th>
+					<th style="width:70%" class="tbpeserta">Skala Penilaian ({{ $akreditasiKode ?? $akreditasi->nama }})</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td class="tbpeserta">
-						{{-- @dd($total) --}}
-						<h4>{{ $totalNilai }}%</h4>
+					<td class="tbpeserta" style="text-align:center;">
+						<h4>{{ $forecast['naDisplay'] ?? $totalNilai }}</h4>
 					</td>
-					<td class="tbpeserta">
-						<p>91% - 100% = A (Unggul)</p>
-						<p>81% - 90% = B (Baik Sekali)</p>
-						<p>71% - 80% = C (Baik)</p>
-						<p>< 71% = Tidak Terakreditasi</p>
+					<td class="tbpeserta" style="font-size:10px;">
+						{{ $forecast['thresholdLabel'] ?? '-' }}
 					</td>
 				</tr>
 			</tbody>
-    </table>
+		</table>
+	</section>
+
+	<section name="hasil-forecasting">
+		<table class="tbsubbody" width="100%">
+			<tr>
+				<td class="tdjudul"><h3>HASIL FORECASTING AKREDITASI</h3></td>
+			</tr>
+		</table>
+		<svg height="10" width="1500">
+			<line x1="0" y1="0" x2="1500" y2="0" style="stroke:rgb(255,200,0);stroke-width:10;" />
+		</svg>
+		@php
+			$forecast = $forecast ?? [];
+			$fWarna = $forecast['warna'] ?? 'gray';
+			$fBgMap = ['green' => '#d4edda', 'blue' => '#d1ecf1', 'orange' => '#fff3cd', 'red' => '#f8d7da', 'gray' => '#e2e3e5'];
+			$fClrMap = ['green' => '#155724', 'blue' => '#0c5460', 'orange' => '#856404', 'red' => '#721c24', 'gray' => '#383d41'];
+			$fBg  = $fBgMap[$fWarna] ?? '#e2e3e5';
+			$fClr = $fClrMap[$fWarna] ?? '#383d41';
+		@endphp
+		<table class="tbsurvey" style="width:100%; border-collapse:collapse;">
+			<tbody>
+				<tr>
+					<th class="tbpeserta subth" style="width:25%">Standar Akreditasi</th>
+					<td class="tbpeserta">{{ $akreditasiKode ?? $akreditasi->nama }} — {{ $jenjang->nama }}</td>
+				</tr>
+				<tr>
+					<th class="tbpeserta subth">Prediksi Status</th>
+					<td class="tbpeserta" style="background-color:{{ $fBg }}; color:{{ $fClr }}; font-weight:bold; font-size:13px;">
+						{{ $forecast['status'] ?? '-' }}
+					</td>
+				</tr>
+				<tr>
+					<th class="tbpeserta subth">Durasi Berlaku</th>
+					<td class="tbpeserta">{{ $forecast['durasi'] ?? '-' }}</td>
+				</tr>
+				<tr>
+					<th class="tbpeserta subth">Analisis &amp; Catatan</th>
+					<td class="tbpeserta">{{ $forecast['detail'] ?? '-' }}</td>
+				</tr>
+				<tr>
+					<th class="tbpeserta subth">Ambang Batas</th>
+					<td class="tbpeserta" style="font-size:10px;">{{ $forecast['thresholdLabel'] ?? '-' }}</td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		<p style="font-size:9px; color:#555; font-style:italic;">
+			* Forecasting ini merupakan prediksi berdasarkan data penilaian AMI internal dan mengacu pada Pedoman Penilaian masing-masing badan akreditasi.
+			Hasil akhir akreditasi ditentukan oleh asesor eksternal dan dapat berbeda dari prediksi ini.
+		</p>
 	</section>
 	<section name="pendahuluan">
 		<table class="tbsubbody" width="100%">

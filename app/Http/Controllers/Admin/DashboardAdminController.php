@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\FeederDosen;
+use App\Models\FeederKelulusan;
+use App\Models\FeederMahasiswa;
 use App\Models\ProgramStudi;
 use App\Models\TransaksiAmi;
 use App\Models\User;
+use App\Services\NeoFeeder\NeoFeederService;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class DashboardAdminController extends Controller
 {
@@ -82,6 +85,23 @@ class DashboardAdminController extends Controller
         $amiPPGSelesai = TransaksiAmi::where('status', 'Selesai')->where('periode', $periode)->where('prodi', 'like', 'PPG -%')->latest()->count();
     
 
+        // ── Data Neo Feeder ───────────────────────────────────────────────
+        $feeder        = new NeoFeederService();
+        $feederSynced  = FeederMahasiswa::exists();
+        $lastSync      = FeederMahasiswa::latest('synced_at')->value('synced_at');
+
+        $feederData = $feederSynced ? [
+            'mahasiswa_aktif'   => $feeder->jumlahMahasiswaAktif(),
+            'dpr'               => $feeder->jumlahDpr(),
+            'dtt'               => $feeder->jumlahDtt(),
+            'rasio'             => $feeder->rasioMahasiswaDosen(),
+            'jabatan_dpr'       => $feeder->sebaranJabatanDpr(),
+            'ipk_lulusan'       => $feeder->ipkRataRataLulusan(),
+            'kelulusan_tepat'   => $feeder->kelulusanTepetWaktuPersen(),
+            'is_fake'           => $feeder->isFakeMode(),
+            'last_sync'         => $lastSync,
+        ] : null;
+
         return view('pages.admin.dashboard.index', [
             'periode' => $periode,
             'penggunaAdmin' => $penggunaAdmin,
@@ -130,7 +150,9 @@ class DashboardAdminController extends Controller
             'amiS1TSelesai' =>$amiS1TSelesai, 
             'amiS2TSelesai' =>$amiS2TSelesai,
             'amiS3TSelesai' =>$amiS3TSelesai,
-            'amiPPGSelesai' =>$amiPPGSelesai,
+            'amiPPGSelesai'  => $amiPPGSelesai,
+            'feederData'     => $feederData,
+            'feederSynced'   => $feederSynced,
         ]);
     }
 }

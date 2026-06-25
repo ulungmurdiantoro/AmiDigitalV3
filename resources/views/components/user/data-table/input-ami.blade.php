@@ -1,4 +1,4 @@
-@props(['standards', 'importTitle', 'id', 'prodis', 'periodes', 'transaksis'])
+﻿@props(['standards', 'importTitle', 'id', 'prodis', 'periodes', 'transaksis'])
 <style>
 
 </style>
@@ -19,9 +19,9 @@
       @foreach ($standards as $standard)
         @foreach ($standard->indicators as $indikator)
           @php
-            $mandiri = $indikator->dokumen_nilais->mandiri_nilai ?? 0;
+            $mandiri = $indikator->dokumen_nilais?->mandiri_nilai ?? 0;
           @endphp
-          <tr style="{{ $transaksis->status == 'Draft' && $mandiri == 0
+          <tr id="indikator-{{ $indikator->id }}" style="{{ $transaksis->status == 'Draft' && $mandiri == 0
               ? 'background-color: rgba(140, 18, 61, .85); color: white;'
               : '' }}">
 
@@ -64,9 +64,9 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <p><b>Indikator</b>: {!! nl2br(e($standard->indikator_nama)) !!}</p>
+                  <p><b>Indikator</b>: {!! nl2br(e($indikator->nama_indikator)) !!}</p>
                   <br>
-                  <p>{!! nl2br(e($standard->indikator_info)) !!}</p>
+                  <p>{!! nl2br(e($indikator->info)) !!}</p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="modal-body">
                   <div class="mb-2">
-                    <b>Indikator</b> : {{ $standard->indikator_nama }}
+                    <b>Indikator</b> : {{ $indikator->nama_indikator }}
                   </div>
                   @foreach ($indikator->dokumen_targets as $target)
                     <div>
@@ -108,12 +108,12 @@
                 </div>
                 <div class="modal-body">
                   <div class="mb-3">
-                    <b>Indikator</b> : {{ $standard->indikator_nama }}
+                    <b>Indikator</b> : {{ $indikator->nama_indikator }}
                   </div>
                   @foreach ($indikator->dokumen_capaians as $capaian)
                     <div>
                       {{ $loop->iteration }}. {{ $capaian->dokumen_nama }} - {{ $capaian->dokumen_tipe }} ({{ $capaian->dokumen_keterangan }})<br>
-                      <a href="{{ $capaian->dokumen_file }}" target="_blank" class="btn btn-warning btn-icon" rel="noopener noreferrer">
+                      <a href="{{ asset($capaian->dokumen_file) }}" target="_blank" class="btn btn-warning btn-icon" rel="noopener noreferrer">
                         <i data-feather="download"></i>
                       </a>
                       <span style="color:brown;"><i>Kadaluarsa pada: {{ $capaian->dokumen_kadaluarsa }}</i></span>
@@ -149,7 +149,7 @@
                     <input type="text" name="elemen_namas" class="form-control mb-1"
                       value="{{ $standard->nama }}" readonly disabled>
                     <span>Indikator</span>:
-                    <textarea rows="8" name="indikator_namas" class="form-control mb-1" readonly disabled>{{ $indikator->first()->nama_indikator }}
+                    <textarea rows="8" name="indikator_namas" class="form-control mb-1" readonly disabled>{{ $indikator->nama_indikator }}
                     </textarea>
                     <span>Nilai</span>:
                     <input type="number" min="0" max="4" step="0.01" name="nilai_mandiris" class="form-control mb-1 w-50" value="{{ $mandiri }}">
@@ -167,3 +167,4 @@
     </tbody>
   </table>
 </div>
+

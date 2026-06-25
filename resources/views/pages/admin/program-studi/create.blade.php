@@ -40,13 +40,9 @@
                 <label for="prodi_jenjang" class="form-label">Jenjang</label>
                 <select class="form-select @error('prodi_jenjang') is-invalid @enderror" name="prodi_jenjang" id="prodi_jenjang">
                   <option selected disabled>-</option>
-                  <option>S1</option>
-                  <option>S2</option>
-                  <option>S3</option>
-                  <option>S1 Terapan</option>
-                  <option>S2 Terapan</option>
-                  <option>S3 Terapan</option>
-                  <option>PPG</option>
+                  @foreach($Jenjangs as $Jenjang)
+                    <option value="{{ $Jenjang->nama }}" {{ old('prodi_jenjang') == $Jenjang->nama ? 'selected' : '' }}>{{ $Jenjang->nama }}</option>
+                  @endforeach
                 </select>
                 @error('prodi_jenjang')
                   <div class="invalid-feedback">{{ $message }}</div>
@@ -129,6 +125,23 @@
                 <label for="akreditasi_bukti" class="form-label">Bukti Akreditasi</label>
                 <input name="akreditasi_bukti" type="file" id="myDropify" class="form-control @error('akreditasi_bukti') is-invalid @enderror"/>
                 @error('akreditasi_bukti')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+              </div>
+            </div><!-- Col -->
+            <div class="col-sm-6">
+              <div class="mb-3">
+                <label for="feeder_kode_prodi" class="form-label">Kode Prodi PDDikti <span class="text-muted fw-normal">(Neo Feeder)</span></label>
+                <input
+                  id="feeder_kode_prodi"
+                  name="feeder_kode_prodi"
+                  type="text"
+                  class="form-control @error('feeder_kode_prodi') is-invalid @enderror"
+                  value="{{ old('feeder_kode_prodi') }}"
+                  placeholder="Contoh: 55201"
+                  maxlength="20">
+                <div class="form-text">Kode prodi sesuai PDDikti. Digunakan untuk sinkronisasi Neo Feeder.</div>
+                @error('feeder_kode_prodi')
                   <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>

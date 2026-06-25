@@ -18,7 +18,8 @@
         <div class="row align-items-center g-3">
           <div class="col-lg-8 col-md-7 col-sm-12">
             <h4 class="mb-3 mb-md-0">Daftar Referensi Kebutuhan Dokumen {{ session('user_akses') }} {{ $importTitle }}</h4>
-            <p>{{ $indikator->element->nama }} - {!! nl2br(e($indikator->nama_indikator)) !!}</p>
+            <p>{{ $indikator->element->nama }}</p>
+            <p>{!! nl2br(e($indikator->nama_indikator)) !!}</p>
           </div>
           <div class="col-lg-4 col-md-5 col-sm-12 text-md-end text-center">
             <a href="{{ route('admin.kriteria-dokumen.kelola-target.create', ['importTitle' => urlencode($importTitle), 'indikator_id' => $indikator_id]) }}" class="btn btn-primary btn-icon-text mb-2 mb-md-0">

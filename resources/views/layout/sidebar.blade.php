@@ -96,6 +96,13 @@
           <span class="link-title">Forecasting</span>
         </a>
       </li>
+      <li class="nav-item nav-category">Pengaturan</li>
+      <li class="nav-item {{ active_class(['admin.feeder-config.*']) }}">
+        <a href="{{ route('admin.feeder-config.show') }}" class="nav-link">
+          <i class="link-icon" data-feather="settings"></i>
+          <span class="link-title">Konfigurasi Neo Feeder</span>
+        </a>
+      </li>
       <li class="nav-item nav-category">bantuan</li>
       <li class="nav-item {{ active_class(['admin.bantuan.*']) }}">
         <a href="{{ route('admin.bantuan.index') }}" class="nav-link">

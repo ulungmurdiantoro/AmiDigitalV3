@@ -1,4 +1,4 @@
-@props(['standards', 'importTitle', 'id', 'prodis', 'periodes', 'transaksis'])
+﻿@props(['standards', 'importTitle', 'id', 'prodis', 'periodes', 'transaksis'])
 <style>
 
 </style>
@@ -113,7 +113,7 @@
                   @foreach ($indikator->dokumen_capaians as $capaian)
                     <div>
                       {{ $loop->iteration }}. {{ $capaian->dokumen_nama }} - {{ $capaian->dokumen_tipe }} ({{ $capaian->dokumen_keterangan }})<br>
-                      <a href="{{ $capaian->dokumen_file }}" target="_blank" class="btn btn-warning btn-icon" rel="noopener noreferrer">
+                      <a href="{{ asset($capaian->dokumen_file) }}" target="_blank" class="btn btn-warning btn-icon" rel="noopener noreferrer">
                         <i data-feather="download"></i>
                       </a>
                       <span style="color:brown;"><i>Kadaluarsa pada: {{ $capaian->dokumen_kadaluarsa }}</i></span>
@@ -235,3 +235,4 @@
     </tbody>
   </table>
 </div>
+

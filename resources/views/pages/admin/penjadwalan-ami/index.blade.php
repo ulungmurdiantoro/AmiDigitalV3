@@ -160,13 +160,20 @@
                       <div class="modal-body">
                         <form action="{{ route('admin.penjadwalan-ami.storeauditor') }}" method="POST">
                           @csrf
+                          @php
+                            $assignedKodes = $PenjadwalanAmi->auditor_ami->pluck('users_kode')->toArray();
+                            $hasKetua = $PenjadwalanAmi->auditor_ami->contains('tim_ami', 'Ketua');
+                          @endphp
                           <div class="mb-3">
-                            <input type="text" class="form-control" id="auditorKode" name="auditor_kode" value="{{ $PenjadwalanAmi->auditor_kode }}" hidden>
+                            <input type="hidden" name="auditor_kode" value="{{ $PenjadwalanAmi->auditor_kode }}">
                             <label for="auditorName" class="form-label">Nama Auditor</label>
                             <select class="form-select @error('auditorName') is-invalid @enderror" name="auditorName">
-                              <option selected disabled>-</option>
+                              <option value="" disabled selected>- Pilih Auditor -</option>
                               @foreach($auditors as $auditor)
-                                <option value="{{ $auditor->users_code }}">{{$auditor->user_nama }}</option>
+                                @php $taken = in_array($auditor->users_code, $assignedKodes); @endphp
+                                <option value="{{ $auditor->users_code }}" {{ $taken ? 'disabled' : '' }}>
+                                  {{ $auditor->user_nama }}{{ $taken ? ' (sudah ditambahkan)' : '' }}
+                                </option>
                               @endforeach
                             </select>
                             @error('auditorName')
@@ -176,8 +183,10 @@
                           <div class="mb-3">
                             <label for="tim_ami" class="form-label">Keanggotaan</label>
                             <select class="form-select @error('tim_ami') is-invalid @enderror" name="tim_ami">
-                                <option selected disabled>-</option>
-                                <option value="Ketua">Ketua</option>
+                                <option value="" disabled selected>- Pilih Keanggotaan -</option>
+                                <option value="Ketua" {{ $hasKetua ? 'disabled' : '' }}>
+                                  Ketua{{ $hasKetua ? ' (sudah ada)' : '' }}
+                                </option>
                                 <option value="Anggota">Anggota</option>
                             </select>
                             @error('tim_ami')
@@ -204,19 +213,19 @@
                           @csrf
                           @method('DELETE')
                           <label for="auditorName" class="form-label">Pilih Auditor</label>
-                          <select class="form-select @error('auditorName') is-invalid @enderror" name="auditorName">
+                          <select class="form-select @error('auditor_ami_id') is-invalid @enderror" name="auditor_ami_id">
                             <option selected disabled>-</option>
                             @foreach($PenjadwalanAmi->auditor_ami as $auditor)
                               @foreach($auditors as $auditor_user)
                                 @if($auditor_user->users_code == $auditor->users_kode)
-                                  <option value="{{ $auditor->users_kode }}">
+                                  <option value="{{ $auditor->id }}">
                                     {{ $loop->iteration }}. {{ $auditor_user->user_nama }} ({{ $auditor->tim_ami }})
                                   </option>
                                 @endif
                               @endforeach
                             @endforeach
                           </select>
-                          @error('auditorName')
+                          @error('auditor_ami_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                           @enderror
                           <br>

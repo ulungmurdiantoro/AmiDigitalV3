@@ -33,7 +33,7 @@
 
 										<div class="modal fade" id="modalUpload-{{ $indikator->id }}" tabindex="-1" aria-labelledby="modalUploadLabel-{{ $indikator->id }}" aria-hidden="true">
 											<div class="modal-dialog modal-xl modal-dialog-centered">
-												<div class="modal-content">
+												<div class="modal-content" style="color: initial;">
 													<form action="{{ route('user.pemenuhan-dokumen.input-bukti.store') }}" method="POST" enctype="multipart/form-data">
 														@csrf
 														<input type="hidden" name="indikator_id" value="{{ $indikator->id }}">

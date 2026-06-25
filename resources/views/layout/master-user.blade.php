@@ -27,6 +27,7 @@ License: For each use you must have a valid license purchased only from above li
   
   <!-- CSRF Token -->
   <meta name="_token" content="{{ csrf_token() }}">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   
   <link rel="shortcut icon" href="{{ asset('/favicon2.ico') }}">
 

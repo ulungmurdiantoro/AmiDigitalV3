@@ -19,5 +19,8 @@ class StandarTarget extends Model
         'dokumen_keterangan',
     ];
 
-    
+    public function indikator()
+    {
+        return $this->belongsTo(Indikator::class, 'indikator_id', 'id');
+    }
 }

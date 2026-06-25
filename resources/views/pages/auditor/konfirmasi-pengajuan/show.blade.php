@@ -145,8 +145,12 @@
             <x-auditor.data-table.konfirmasi-pengajuan
               id="dataTableExample{{ $index + 1 }}"
               :standards="($standard->elements ?? collect())"
-              :showImportData="$index === 0"
-              importTitle="{{ ($akreNama ?? '-') . ' ' . $jenjangNama }}"
+              :transkasis="($transaksi_ami ?? null)"
+              :prodis="($prodi ?? null)"
+              :periodes="($periode ?? null)"
+              standarTargetsRelations="dokumen_targets"
+              standarCapaiansRelations="dokumen_capaians"
+              standarNilaisRelations="dokumen_nilais"
               class="datatable"
             />
           @endif

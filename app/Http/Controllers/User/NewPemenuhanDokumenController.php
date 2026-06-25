@@ -265,7 +265,7 @@ class NewPemenuhanDokumenController extends Controller
     public function pemenuhanBuktiStore(Request $request)
     {
         $request->validate([
-            'indikator_id'       => 'required|integer|exists:indikators,id',
+            'indikator_id'       => 'required|integer|exists:bukti_standars,id',
             'dokumen_file'       => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:5120',
             'periode'            => 'required|string|max:20',
             'dokumen_kadaluarsa' => 'nullable|date',
@@ -280,6 +280,7 @@ class NewPemenuhanDokumenController extends Controller
         StandarCapaian::create([
             'capaian_kode'        => 'cpn-' . Str::uuid() . uniqid(),
             'bukti_standar_id'    => $request->input('indikator_id'),
+            'indikator_id'        => null,
             'dokumen_nama'        => $request->file('dokumen_file')->getClientOriginalName(),
             'dokumen_file'        => $filePath,
             'periode'             => $request->input('periode'),

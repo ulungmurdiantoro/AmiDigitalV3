@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\FeederMahasiswa;
 use App\Models\PenjadwalanAmi;
+use App\Models\ProgramStudi;
 use App\Models\StandarCapaian;
 use App\Models\StandarTarget;
 use App\Models\TransaksiAmi;
 use App\Models\PengumumanData;
+use App\Services\NeoFeeder\NeoFeederService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -97,14 +100,40 @@ class DashboardUserController extends Controller
 
         $pengumuman = PengumumanData::latest()->get();
 
+        // Neo Feeder — filtered by prodi user
+        $prodiModel = ProgramStudi::whereRaw("CONCAT(prodi_jenjang, ' - ', prodi_nama) = ?", [$prodi])
+            ->whereNotNull('feeder_kode_prodi')
+            ->first();
+
+        $feederSynced = $prodiModel && FeederMahasiswa::where('prodi_kode', $prodiModel->feeder_kode_prodi)->exists();
+
+        $feederData = null;
+        if ($feederSynced) {
+            $feeder      = (new NeoFeederService())->forProdi($prodiModel);
+            $lastSync    = FeederMahasiswa::where('prodi_kode', $prodiModel->feeder_kode_prodi)->latest('synced_at')->value('synced_at');
+            $feederData  = [
+                'mahasiswa_aktif'   => $feeder->jumlahMahasiswaAktif(),
+                'dpr'               => $feeder->jumlahDpr(),
+                'dtt'               => $feeder->jumlahDtt(),
+                'rasio'             => $feeder->rasioMahasiswaDosen(),
+                'ipk_lulusan'       => $feeder->ipkRataRataLulusan(),
+                'kelulusan_tepat'   => $feeder->kelulusanTepetWaktuPersen(),
+                'is_fake'           => $feeder->isFakeMode(),
+                'last_sync'         => $lastSync,
+            ];
+        }
+
         return view('pages.user.dashboard.index', [
-            'periode' => $periode,
-            'totalTarget' => $totalTarget,
-            'totalCapaian' => $totalCapaian,
-            'totalKadaluarsa' => $totalKadaluarsa,
-            'transaksi_ami' => $transaksi_ami,
-            'jadwalAmi' => $jadwalAmi,
-            'pengumuman' => $pengumuman,
+            'periode'          => $periode,
+            'totalTarget'      => $totalTarget,
+            'totalCapaian'     => $totalCapaian,
+            'totalKadaluarsa'  => $totalKadaluarsa,
+            'transaksi_ami'    => $transaksi_ami,
+            'jadwalAmi'        => $jadwalAmi,
+            'pengumuman'       => $pengumuman,
+            'feederData'       => $feederData,
+            'feederSynced'     => $feederSynced,
+            'prodiTerhubung'   => $prodiModel !== null,
         ]);
     }
 

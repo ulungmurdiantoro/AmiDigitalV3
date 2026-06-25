@@ -194,6 +194,142 @@
   </div>
 </div> <!-- row -->
 
+{{-- ── Section Neo Feeder ─────────────────────────────────────────────────── --}}
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin mt-4">
+  <div>
+    <h4 class="mb-3 mb-md-0">
+      Data PDDikti &mdash; Neo Feeder
+      @if($feederData && $feederData['is_fake'])
+        <span class="badge bg-warning text-dark ms-1">FAKE MODE</span>
+      @endif
+    </h4>
+  </div>
+  @if($feederData)
+    <span class="text-muted mb-3 mb-md-0">
+      Sync terakhir: {{ $feederData['last_sync'] ? \Carbon\Carbon::parse($feederData['last_sync'])->translatedFormat('d M Y, H:i') : '-' }}
+    </span>
+  @endif
+</div>
+
+@if(!$prodiTerhubung)
+  <div class="alert alert-warning" role="alert">
+    Prodi ini belum memiliki Kode PDDikti. Hubungi admin untuk mengisi kode prodi di menu Program Studi.
+  </div>
+@elseif(!$feederSynced)
+  <div class="alert alert-warning" role="alert">
+    Data Neo Feeder belum disinkronkan. Hubungi admin untuk menjalankan sinkronisasi.
+  </div>
+@else
+<div class="row">
+  <div class="col-6 col-md-3 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title mb-0">Mahasiswa Aktif</h6>
+        <h3 class="mt-2 mb-1 text-primary">{{ number_format($feederData['mahasiswa_aktif']) }}</h3>
+        <p class="text-muted mb-0">mahasiswa</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title mb-0">Dosen Penghitung Rasio</h6>
+        <h3 class="mt-2 mb-1 text-success">{{ $feederData['dpr'] }}</h3>
+        <p class="text-muted mb-0">tetap + {{ $feederData['dtt'] }} tidak tetap</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title mb-0">Rasio Mhs : Dosen</h6>
+        <h3 class="mt-2 mb-1 {{ $feederData['rasio'] <= 30 ? 'text-success' : ($feederData['rasio'] <= 45 ? 'text-warning' : 'text-danger') }}">
+          {{ $feederData['rasio'] }} : 1
+        </h3>
+        <p class="text-muted mb-0">maks. 45 : 1 (BAN-PT)</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        @php $latestIpk = collect($feederData['ipk_lulusan'])->last(); @endphp
+        <h6 class="card-title mb-0">IPK Rata-rata Lulusan</h6>
+        <h3 class="mt-2 mb-1 text-info">{{ $latestIpk ? $latestIpk['rata_rata'] : '-' }}</h3>
+        <p class="text-muted mb-0">{{ $latestIpk ? 'lulusan ' . $latestIpk['tahun_lulus'] : 'belum ada data' }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">Kelulusan Tepat Waktu &le;8 Semester</h6>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th class="text-bg-secondary">Tahun Lulus</th>
+                <th class="text-bg-secondary text-end">Total</th>
+                <th class="text-bg-secondary text-end">Tepat Waktu</th>
+                <th class="text-bg-secondary text-end">%</th>
+              </tr>
+            </thead>
+            <tbody>
+              @forelse($feederData['kelulusan_tepat'] as $tahun => $row)
+              <tr>
+                <td>{{ $tahun }}</td>
+                <td class="text-end">{{ $row['total'] }}</td>
+                <td class="text-end">{{ $row['tepat'] }}</td>
+                <td class="text-end">
+                  <span class="badge {{ $row['persen'] >= 75 ? 'bg-success' : 'bg-warning text-dark' }}">
+                    {{ $row['persen'] }}%
+                  </span>
+                </td>
+              </tr>
+              @empty
+              <tr><td colspan="4" class="text-center text-muted">Belum ada data</td></tr>
+              @endforelse
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">IPK Rata-rata per Tahun Lulus</h6>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th class="text-bg-secondary">Tahun Lulus</th>
+                <th class="text-bg-secondary text-end">Lulusan</th>
+                <th class="text-bg-secondary text-end">IPK Rata-rata</th>
+              </tr>
+            </thead>
+            <tbody>
+              @forelse($feederData['ipk_lulusan'] as $tahun => $row)
+              <tr>
+                <td>{{ $tahun }}</td>
+                <td class="text-end">{{ $row['total'] }}</td>
+                <td class="text-end">{{ $row['rata_rata'] }}</td>
+              </tr>
+              @empty
+              <tr><td colspan="3" class="text-center text-muted">Belum ada data</td></tr>
+              @endforelse
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endif
+
 @endsection
 
 @push('plugin-scripts')

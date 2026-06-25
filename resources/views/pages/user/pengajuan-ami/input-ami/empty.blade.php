@@ -18,6 +18,13 @@
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
           <h4 class="card-title">Data Pengajuan AMI (Audit Mutu Internal)</h4>
         </div>
+        @if($penjadwalan_ami->isEmpty())
+          <div class="alert alert-warning" role="alert">
+            <i data-feather="alert-circle" class="me-2"></i>
+            Belum ada penjadwalan AMI untuk program studi ini pada periode <strong>{{ $periode }}</strong>.
+            Hubungi administrator untuk menjadwalkan AMI terlebih dahulu.
+          </div>
+        @else
         <form action="{{ route('user.pengajuan-ami.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
 					@foreach($penjadwalan_ami as $item)
@@ -58,6 +65,7 @@
 						<input class="btn btn-primary" type="submit" value="Mulai AMI" style="font-size: 16px; padding: 8px 15px;">
 					@endforeach
         </form>
+        @endif
       </div>
     </div>
   </div>

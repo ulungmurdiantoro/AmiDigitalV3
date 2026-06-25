@@ -18,5 +18,21 @@ class ProgramStudi extends Model
         'prodi_akreditasi',
         'akreditasi_kadaluarsa',
         'akreditasi_bukti',
+        'feeder_kode_prodi',
     ];
+
+    public function feederMahasiswas()
+    {
+        return $this->hasMany(FeederMahasiswa::class, 'prodi_kode', 'feeder_kode_prodi');
+    }
+
+    public function feederDosens()
+    {
+        return $this->hasMany(FeederDosen::class, 'prodi_kode', 'feeder_kode_prodi');
+    }
+
+    public function feederKelulusans()
+    {
+        return $this->hasMany(FeederKelulusan::class, 'prodi_kode', 'feeder_kode_prodi');
+    }
 }

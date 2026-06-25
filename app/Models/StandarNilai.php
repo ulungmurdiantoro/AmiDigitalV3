@@ -32,6 +32,11 @@ class StandarNilai extends Model
         'periode',
     ];
 
+    public function indikator()
+    {
+        return $this->belongsTo(Indikator::class, 'indikator_id', 'id');
+    }
+
     protected $compositeIndicatorsConfig = [
         'D3' => [
         ],

@@ -42,10 +42,8 @@ class KonfirmasiPengajuanController extends Controller
         ->with('auditorAmi.user') 
         ->first();
 
-        $akreditasi_kode  =$transaksi_ami->standar_akreditasi;       
-        $jenjang_raw      = session('user_penempatan');       
-
-        $jenjang_nama = trim(explode(' - ', (string)$jenjang_raw, 2)[0]);
+        $akreditasi_kode = $transaksi_ami->standar_akreditasi;
+        $jenjang_nama    = trim(explode(' - ', (string)$prodi, 2)[0]);
         if ($jenjang_nama === '') $jenjang_nama = 'S1';
 
         $validAkreditasi = StandarAkreditasi::pluck('nama')->toArray();
@@ -97,26 +95,18 @@ class KonfirmasiPengajuanController extends Controller
                 })
                 ->orWhere('prodi_nama', 'like', '%' . $request->q . '%');
             })
-            ->where('prodi', $jenjang_raw)
+            ->where('prodi', $prodi)
             ->latest()
             ->get();
 
         $auditors = User::where('user_level', 'auditor')->get();
-
-        $akreditasi = Cache::remember("akreditasi_{$akreditasi_kode}", 3600, function () use ($akreditasi_kode) {
-            return StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
-        });
-
-        $jenjang = Cache::remember("jenjang_{$jenjang_nama}", 3600, function () use ($jenjang_nama) {
-            return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
-        });
 
         return view('pages.auditor.konfirmasi-pengajuan.show', [
             'akreditasi' => $akreditasi,
             'jenjang'    => $jenjang,
             'standards'  => $standards,
             'periode' => $periode,
-            'prodi' => $jenjang_raw,
+            'prodi' => $prodi,
             'penjadwalan_ami' => $penjadwalan_ami,
             'transaksi_ami' => $transaksi_ami,
             'auditors' => $auditors,

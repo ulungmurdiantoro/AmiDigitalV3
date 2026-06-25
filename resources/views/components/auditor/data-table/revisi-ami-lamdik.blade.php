@@ -1,4 +1,4 @@
-<div class="table-responsive">
+﻿<div class="table-responsive">
   <table id="{{ $id }}" class="col-md-12 table-striped table-hover">
     <thead class="text-bg-secondary">
       <tr>
@@ -103,7 +103,7 @@
                   @foreach ($standard->$standarCapaiansRelations as $capaian)
                     <div>
                       {{ $loop->iteration }}. {{ $capaian->dokumen_nama }} - {{ $capaian->dokumen_tipe }} ({{ $capaian->dokumen_keterangan }})<br>
-                      <a href="{{ $capaian->dokumen_file }}" target="_blank" class="btn btn-warning btn-icon" rel="noopener noreferrer">
+                      <a href="{{ asset($capaian->dokumen_file) }}" target="_blank" class="btn btn-warning btn-icon" rel="noopener noreferrer">
                         <i data-feather="download"></i>
                       </a>
                       <span style="color:brown;"><i>Kadaluarsa pada: {{ $capaian->dokumen_kadaluarsa }}</i></span>
@@ -225,3 +225,4 @@
     </tbody>
   </table>
 </div>
+

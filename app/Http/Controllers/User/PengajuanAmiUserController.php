@@ -14,8 +14,6 @@ use App\Models\Standard;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class PengajuanAmiUserController extends Controller
@@ -139,7 +137,7 @@ class PengajuanAmiUserController extends Controller
         $validatedData = $request->validate([
             'ami_kodes' => 'required|string|max:255',
             'indikator_ids' => 'required|string|max:255',
-            'indikator_bobots' => 'required',
+            'indikator_bobots' => 'nullable|numeric',
             'prodis' => 'required|string|max:255',
             'periodes' => 'required|string|max:255',
             'nilai_mandiris' => 'required|numeric|between:0,4',
@@ -154,33 +152,31 @@ class PengajuanAmiUserController extends Controller
             if ($amiInput) {
                 $amiInput->bobot = $validatedData['indikator_bobots'];
                 $amiInput->mandiri_nilai = $validatedData['nilai_mandiris'];
-
-                if ($amiInput->save()) {
-                    Log::info('Data updated successfully:', $amiInput->toArray());
-                    return redirect()->back()->with('success', 'Data successfully updated!');
-                } else {
-                    Log::error('Failed to update data.');
-                    return redirect()->back()->with('error', 'Failed to update data.');
-                }
+                $amiInput->save();
+                Log::info('Data updated successfully:', $amiInput->toArray());
             } else {
-                $amiInput = new StandarNilai();
-                $amiInput->ami_kode = $validatedData['ami_kodes'];
-                $amiInput->indikator_id = $validatedData['indikator_ids'];
-                $amiInput->bobot = $validatedData['indikator_bobots'];
-                $amiInput->prodi = $validatedData['prodis'];
-                $amiInput->periode = $validatedData['periodes'];
-                $amiInput->mandiri_nilai = $validatedData['nilai_mandiris'];
-
-                if ($amiInput->save()) {
-                    Log::info('Data saved successfully:', $amiInput->toArray());
-                    return redirect()->back()->with('success', 'Data successfully saved!');
-                } else {
-                    Log::error('Failed to save data.');
-                    return redirect()->back()->with('error', 'Failed to save data.');
-                }
+                $amiInput = StandarNilai::create([
+                    'ami_kode'      => $validatedData['ami_kodes'],
+                    'indikator_id'  => $validatedData['indikator_ids'],
+                    'bobot'         => $validatedData['indikator_bobots'],
+                    'prodi'         => $validatedData['prodis'],
+                    'periode'       => $validatedData['periodes'],
+                    'mandiri_nilai' => $validatedData['nilai_mandiris'],
+                ]);
+                Log::info('Data saved successfully:', $amiInput->toArray());
             }
+
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Berhasil disimpan'], 200);
+            }
+            return redirect()->back()
+                ->with('success', 'Data berhasil disimpan!')
+                ->withFragment('indikator-' . $validatedData['indikator_ids']);
         } catch (\Exception $e) {
             Log::error('Error saving or updating data:', ['message' => $e->getMessage()]);
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Gagal menyimpan: ' . $e->getMessage()], 500);
+            }
             return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
     }
@@ -200,23 +196,32 @@ class PengajuanAmiUserController extends Controller
     {
         $request->validate([
             'periode' => 'required|string|max:255',
-            'status' => 'required|string|max:255',
+            'status'  => 'required|string|max:255',
         ]);
-    
-        $prodi = session('user_penempatan');
-        $fakultas = session('user_fakultas');
+
+        $prodi              = session('user_penempatan');
+        $fakultas           = session('user_fakultas');
         $standar_akreditasi = session('user_akses');
-    
+
+        // Ambil auditor_kode dari PenjadwalanAmi terbaru untuk prodi ini,
+        // bukan dari form — agar selalu sinkron dengan jadwal yang aktif.
+        $jadwal = PenjadwalanAmi::where('prodi', $prodi)
+            ->where('periode', $request->periode)
+            ->latest()
+            ->first();
+
+        $auditor_kode = $jadwal?->auditor_kode ?? $request->auditor_kode;
+
         TransaksiAmi::create([
-            'ami_kode' => 'ami-' . Str::uuid() . uniqid(),
-            'auditor_kode' => $request->auditor_kode,
-            'prodi' => $prodi,
-            'fakultas' => $fakultas,
+            'ami_kode'           => 'ami-' . Str::uuid() . uniqid(),
+            'auditor_kode'       => $auditor_kode,
+            'prodi'              => $prodi,
+            'fakultas'           => $fakultas,
             'standar_akreditasi' => $standar_akreditasi,
-            'periode' => $request->periode,
-            'status' => $request->status,
+            'periode'            => $request->periode,
+            'status'             => $request->status,
         ]);
-    
+
         return redirect()->back()->with('success', 'Data Pengajuan AMI successfully submitted.');
     }
 

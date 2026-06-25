@@ -1,4 +1,4 @@
-@extends('layout.master-user')
+﻿@extends('layout.master-user')
 
 @push('plugin-styles')
   <link href="{{ asset('assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
@@ -56,7 +56,7 @@
                   <td>{{ $standarCapaian->periode }}</td>
                   <td>{{ $standarCapaian->informasi }}</td>
                   <td>
-                    <a href="{{ $standarCapaian->dokumen_file }}" target="_blank" class="btn btn-warning btn-icon" rel="noopener noreferrer">
+                    <a href="{{ asset($standarCapaian->dokumen_file) }}" target="_blank" class="btn btn-warning btn-icon" rel="noopener noreferrer">
                       <i data-feather="download"></i>
                     </a>
                   </td>
@@ -123,3 +123,4 @@
 @push('custom-scripts')
   <script src="{{ asset('assets/js/data-table.js') }}"></script>
 @endpush
+

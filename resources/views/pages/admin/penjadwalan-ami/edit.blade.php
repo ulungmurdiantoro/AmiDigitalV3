@@ -73,6 +73,63 @@
               </div>
             </div><!-- Col -->
           </div>
+
+          {{-- Ketua Auditor --}}
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="mb-3">
+                <label for="ketua_kode" class="form-label">Ketua Auditor</label>
+                <select class="form-select @error('ketua_kode') is-invalid @enderror" name="ketua_kode" id="ketua_kode">
+                  <option value="">- Pilih Ketua -</option>
+                  @foreach($auditors as $auditor)
+                    <option value="{{ $auditor->users_code }}"
+                      {{ old('ketua_kode', $ketua?->users_kode) == $auditor->users_code ? 'selected' : '' }}>
+                      {{ $auditor->user_nama }}
+                    </option>
+                  @endforeach
+                </select>
+                @error('ketua_kode')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+              </div>
+            </div><!-- Col -->
+          </div>
+
+          {{-- Anggota Auditor --}}
+          <div class="row">
+            <div class="col-sm-6">
+              <label class="form-label">Anggota Auditor</label>
+              <div id="anggota-container">
+                @forelse($anggota as $ang)
+                  <div class="input-group mb-2 anggota-row">
+                    <select class="form-select" name="anggota_kode[]">
+                      <option value="">- Pilih Anggota -</option>
+                      @foreach($auditors as $auditor)
+                        <option value="{{ $auditor->users_code }}"
+                          {{ $auditor->users_code == $ang->users_kode ? 'selected' : '' }}>
+                          {{ $auditor->user_nama }}
+                        </option>
+                      @endforeach
+                    </select>
+                    <button type="button" class="btn btn-outline-danger btn-remove-anggota" title="Hapus">×</button>
+                  </div>
+                @empty
+                  <div class="input-group mb-2 anggota-row">
+                    <select class="form-select" name="anggota_kode[]">
+                      <option value="">- Pilih Anggota -</option>
+                      @foreach($auditors as $auditor)
+                        <option value="{{ $auditor->users_code }}">{{ $auditor->user_nama }}</option>
+                      @endforeach
+                    </select>
+                    <button type="button" class="btn btn-outline-danger btn-remove-anggota" title="Hapus">×</button>
+                  </div>
+                @endforelse
+              </div>
+              <button type="button" id="btn-tambah-anggota" class="btn btn-outline-secondary btn-sm mt-1">
+                + Tambah Anggota
+              </button>
+            </div>
+          </div>
           <div class="row">
             <div class="col-sm-6">
               <div class="mb-3">
@@ -177,22 +234,57 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $(document).ready(function() {
-    let dataProdi = @json($users); // Pass PHP data to JavaScript
+    const dataProdi   = @json($users);
+    const auditorOpts = @json($auditors->map(fn($a) => ['code' => $a->users_code, 'nama' => $a->user_nama]));
 
     $('#prodi').on('change', function() {
-      let selectedValue = $(this).val();
-
-      // Find the matching user data
-      let selectedProgramStudi = dataProdi.find(function(ProgramStudi) {
-        return ProgramStudi.user_penempatan == selectedValue;
-      });
-
-      // If a match is found, update the fields
-      if (selectedProgramStudi) {
-        $('#fakultas').val(selectedProgramStudi.user_fakultas); // Update fakultas
-        $('#standar_akreditasi').val(selectedProgramStudi.user_akses); // Update standar_akreditasi
+      const match = dataProdi.find(p => p.user_penempatan == $(this).val());
+      if (match) {
+        $('#fakultas').val(match.user_fakultas);
+        $('#standar_akreditasi').val(match.user_akses);
       }
     });
+
+    function allAuditorSelects() {
+      return [...document.querySelectorAll('#ketua_kode, #anggota-container select')];
+    }
+
+    function syncDisabled() {
+      const selects = allAuditorSelects();
+      const taken = selects.map(s => s.value).filter(v => v !== '');
+      selects.forEach(sel => {
+        sel.querySelectorAll('option').forEach(opt => {
+          if (!opt.value) return;
+          opt.disabled = taken.includes(opt.value) && opt.value !== sel.value;
+        });
+      });
+    }
+
+    function buildSelect() {
+      let opts = '<option value="">- Pilih Anggota -</option>';
+      auditorOpts.forEach(a => { opts += `<option value="${a.code}">${a.nama}</option>`; });
+      return opts;
+    }
+
+    $('#ketua_kode').on('change', syncDisabled);
+
+    $('#btn-tambah-anggota').on('click', function() {
+      const row = $(`<div class="input-group mb-2 anggota-row">
+        <select class="form-select" name="anggota_kode[]">${buildSelect()}</select>
+        <button type="button" class="btn btn-outline-danger btn-remove-anggota" title="Hapus">×</button>
+      </div>`);
+      $('#anggota-container').append(row);
+      syncDisabled();
+    });
+
+    $(document).on('change', '#anggota-container select', syncDisabled);
+
+    $(document).on('click', '.btn-remove-anggota', function() {
+      $(this).closest('.anggota-row').remove();
+      syncDisabled();
+    });
+
+    syncDisabled();
   });
 </script>
 

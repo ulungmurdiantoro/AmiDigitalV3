@@ -73,8 +73,8 @@ class AppServiceProvider extends ServiceProvider
         ];
 
         foreach ($bindings as $class => $params) {
-            $this->app->bind($class, function ($app) use ($class, $params) {
-                $args = array_map(fn($key) => request()->get($key), $params);
+            $this->app->bind($class, function ($app, $parameters) use ($class, $params) {
+                $args = array_map(fn($key) => $parameters[$key] ?? request()->get($key), $params);
                 return new $class(...$args);
             });
         }

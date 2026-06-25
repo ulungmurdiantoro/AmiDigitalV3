@@ -21,8 +21,10 @@ class DatabaseSeeder extends Seeder
 
             // Kriteria akreditasi dari file Excel (database/data/*.xlsx)
             KriteriaBanptSeeder::class,
-            // Kriteria LAMEMBA (struktur ditanam; 1 instrumen untuk semua jenjang)
+            // Kriteria LAMEMBA Terakreditasi (5 kriteria, 12 dimensi, 29 indikator)
             KriteriaLamembaSeeder::class,
+            // Kriteria LAMEMBA Terakreditasi Unggul (7 kriteria, 21 dimensi, 58 indikator)
+            KriteriaLamembaUnggulSeeder::class,
             // Kriteria LAMDIK (dari database/data/lamdik.json hasil ekstraksi PDF)
             KriteriaLamdikSeeder::class,
             // Kriteria LAMSAMA (dari database/data/lamsama.json hasil ekstraksi PDF)
@@ -31,6 +33,13 @@ class DatabaseSeeder extends Seeder
             KriteriaLamteknikSeeder::class,
             // Kriteria LAMINFOKOM (dari database/data/LAMINFOKOM/*.xlsx Matriks Penilaian)
             KriteriaLaminfokomSeeder::class,
+
+            // Target dokumen BAN-PT semua jenjang
+            KriteriaBanptTargetSeeder::class,
+            // Target dokumen LAMEMBA (1 jenjang untuk semua)
+            KriteriaLamembaTargetSeeder::class,
+            // Target dokumen LAMDIK, LAMINFOKOM, LAMTEKNIK
+            KriteriaOtherTargetSeeder::class,
 
             // Akun login
             UserSeeder::class,

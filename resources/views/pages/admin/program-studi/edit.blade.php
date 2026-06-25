@@ -45,18 +45,14 @@
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="prodi_jenjang" class="form-label">Jenjang</label>
-                <select 
-                  class="form-select @error('prodi_jenjang') is-invalid @enderror" 
-                  name="prodi_jenjang" 
+                <select
+                  class="form-select @error('prodi_jenjang') is-invalid @enderror"
+                  name="prodi_jenjang"
                   id="prodi_jenjang">
                   <option disabled>-</option>
-                  <option value="S1" {{ old('prodi_jenjang', $program_studis->prodi_jenjang) == 'S1' ? 'selected' : '' }}>S1</option>
-                  <option value="S2" {{ old('prodi_jenjang', $program_studis->prodi_jenjang) == 'S2' ? 'selected' : '' }}>S2</option>
-                  <option value="S3" {{ old('prodi_jenjang', $program_studis->prodi_jenjang) == 'S3' ? 'selected' : '' }}>S3</option>
-                  <option value="S1 Terapan" {{ old('prodi_jenjang', $program_studis->prodi_jenjang) == 'S1 Terapan' ? 'selected' : '' }}>S1 Terapan</option>
-                  <option value="S2 Terapan" {{ old('prodi_jenjang', $program_studis->prodi_jenjang) == 'S2 Terapan' ? 'selected' : '' }}>S2 Terapan</option>
-                  <option value="S3 Terapan" {{ old('prodi_jenjang', $program_studis->prodi_jenjang) == 'S3 Terapan' ? 'selected' : '' }}>S3 Terapan</option>
-                  <option value="PPG" {{ old('prodi_jenjang', $program_studis->prodi_jenjang) == 'PPG' ? 'selected' : '' }}>PPG</option>
+                  @foreach($Jenjangs as $Jenjang)
+                    <option value="{{ $Jenjang->nama }}" {{ old('prodi_jenjang', $program_studis->prodi_jenjang) == $Jenjang->nama ? 'selected' : '' }}>{{ $Jenjang->nama }}</option>
+                  @endforeach
                 </select>
                 @error('prodi_jenjang')
                   <div class="invalid-feedback">{{ $message }}</div>
@@ -68,13 +64,14 @@
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="prodi_jurusan" class="form-label">Jurusan</label>
-                <select 
-                  class="form-select @error('prodi_jurusan') is-invalid @enderror" 
-                  name="prodi_jurusan" 
+                <select
+                  class="form-select @error('prodi_jurusan') is-invalid @enderror"
+                  name="prodi_jurusan"
                   id="prodi_jurusan">
                   <option disabled>-</option>
-                  <option value="Jurusan1" {{ old('prodi_jurusan', $program_studis->prodi_jurusan) == 'Jurusan1' ? 'selected' : '' }}>Jurusan1</option>
-                  <option value="Jurusan2" {{ old('prodi_jurusan', $program_studis->prodi_jurusan) == 'Jurusan2' ? 'selected' : '' }}>Jurusan2</option>
+                  @foreach($Jurusans as $Jurusan)
+                    <option value="{{ $Jurusan->jurusan_nama }}" {{ old('prodi_jurusan', $program_studis->prodi_jurusan) == $Jurusan->jurusan_nama ? 'selected' : '' }}>{{ $Jurusan->jurusan_nama }}</option>
+                  @endforeach
                 </select>
                 @error('prodi_jurusan')
                   <div class="invalid-feedback">{{ $message }}</div>
@@ -84,13 +81,14 @@
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="prodi_fakultas" class="form-label">Fakultas</label>
-                <select 
-                  class="form-select @error('prodi_fakultas') is-invalid @enderror" 
-                  name="prodi_fakultas" 
+                <select
+                  class="form-select @error('prodi_fakultas') is-invalid @enderror"
+                  name="prodi_fakultas"
                   id="prodi_fakultas">
                   <option disabled>-</option>
-                  <option value="Fakultas1" {{ old('prodi_fakultas', $program_studis->prodi_fakultas) == 'Fakultas1' ? 'selected' : '' }}>Fakultas1</option>
-                  <option value="Fakultas2" {{ old('prodi_fakultas', $program_studis->prodi_fakultas) == 'Fakultas2' ? 'selected' : '' }}>Fakultas2</option>
+                  @foreach($Fakultass as $Fakultas)
+                    <option value="{{ $Fakultas->fakultas_nama }}" {{ old('prodi_fakultas', $program_studis->prodi_fakultas) == $Fakultas->fakultas_nama ? 'selected' : '' }}>{{ $Fakultas->fakultas_nama }}</option>
+                  @endforeach
                 </select>
                 @error('prodi_fakultas')
                   <div class="invalid-feedback">{{ $message }}</div>
@@ -143,12 +141,31 @@
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="akreditasi_bukti" class="form-label">Bukti Akreditasi</label>
-                <input 
-                  name="akreditasi_bukti" 
-                  type="file" 
-                  id="myDropify" 
+                <input
+                  name="akreditasi_bukti"
+                  type="file"
+                  id="myDropify"
                   class="form-control @error('akreditasi_bukti') is-invalid @enderror"/>
                 @error('akreditasi_bukti')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="mb-3">
+                <label for="feeder_kode_prodi" class="form-label">Kode Prodi PDDikti <span class="text-muted fw-normal">(Neo Feeder)</span></label>
+                <input
+                  id="feeder_kode_prodi"
+                  name="feeder_kode_prodi"
+                  type="text"
+                  class="form-control @error('feeder_kode_prodi') is-invalid @enderror"
+                  value="{{ old('feeder_kode_prodi', $program_studis->feeder_kode_prodi) }}"
+                  placeholder="Contoh: 55201"
+                  maxlength="20">
+                <div class="form-text">Kode prodi sesuai PDDikti. Digunakan untuk sinkronisasi Neo Feeder.</div>
+                @error('feeder_kode_prodi')
                   <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>

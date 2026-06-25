@@ -15,7 +15,7 @@ class KonfirmasiPengajuan extends Component
     public $standarCapaiansRelations;
     public $standarNilaisRelations;
 
-    public function __construct(string $id, $standards, $transkasis, $prodis, $periodes, $standarTargetsRelations, $standarCapaiansRelations, $standarNilaisRelations)
+    public function __construct($id, $standards, $transkasis, $prodis, $periodes, $standarTargetsRelations, $standarCapaiansRelations, $standarNilaisRelations)
     {
         // dd($id, $standards);
         $this->id = $id;

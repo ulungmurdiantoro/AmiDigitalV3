@@ -98,6 +98,154 @@
   </div>
 </div> <!-- row -->
 
+{{-- ── Section Neo Feeder ─────────────────────────────────────────────────── --}}
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h4 class="mb-3 mb-md-0">
+      Data PDDikti &mdash; Neo Feeder
+      @if($feederData && $feederData['is_fake'])
+        <span class="badge bg-warning text-dark ms-1">FAKE MODE</span>
+      @endif
+    </h4>
+  </div>
+  <div class="d-flex align-items-center flex-wrap text-nowrap">
+    @if($feederData)
+      <span class="text-muted me-3">
+        Sync terakhir: {{ $feederData['last_sync'] ? \Carbon\Carbon::parse($feederData['last_sync'])->translatedFormat('d M Y, H:i') : '-' }}
+      </span>
+    @endif
+    <button type="button" class="btn btn-outline-primary btn-icon-text mb-2 mb-md-0" id="btnSync">
+      <i class="btn-icon-prepend" data-feather="refresh-cw"></i>
+      Sync Sekarang
+    </button>
+  </div>
+</div>
+
+@if(!$feederSynced)
+  <div class="alert alert-warning mb-3" role="alert">
+    <i data-feather="alert-circle"></i>
+    Data Neo Feeder belum disinkronkan. Klik <strong>Sync Sekarang</strong> untuk memuat data.
+  </div>
+@else
+<div class="row">
+  {{-- Mahasiswa Aktif --}}
+  <div class="col-6 col-md-3 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title mb-0">Mahasiswa Aktif</h6>
+        <h3 class="mt-2 mb-1 text-primary">{{ number_format($feederData['mahasiswa_aktif']) }}</h3>
+        <p class="text-muted mb-0">mahasiswa</p>
+      </div>
+    </div>
+  </div>
+  {{-- Dosen Tetap (DPR) --}}
+  <div class="col-6 col-md-3 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title mb-0">Dosen Penghitung Rasio</h6>
+        <h3 class="mt-2 mb-1 text-success">{{ $feederData['dpr'] }}</h3>
+        <p class="text-muted mb-0">tetap + {{ $feederData['dtt'] }} tidak tetap</p>
+      </div>
+    </div>
+  </div>
+  {{-- Rasio --}}
+  <div class="col-6 col-md-3 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title mb-0">Rasio Mhs : Dosen</h6>
+        <h3 class="mt-2 mb-1 {{ $feederData['rasio'] <= 30 ? 'text-success' : ($feederData['rasio'] <= 45 ? 'text-warning' : 'text-danger') }}">
+          {{ $feederData['rasio'] }} : 1
+        </h3>
+        <p class="text-muted mb-0">maks. 45 : 1 (BAN-PT)</p>
+      </div>
+    </div>
+  </div>
+  {{-- IPK Lulusan --}}
+  <div class="col-6 col-md-3 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        @php $latestIpk = collect($feederData['ipk_lulusan'])->last(); @endphp
+        <h6 class="card-title mb-0">IPK Rata-rata Lulusan</h6>
+        <h3 class="mt-2 mb-1 text-info">{{ $latestIpk ? $latestIpk['rata_rata'] : '-' }}</h3>
+        <p class="text-muted mb-0">{{ $latestIpk ? 'lulusan ' . $latestIpk['tahun_lulus'] : 'belum ada data' }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  {{-- Jabatan Akademik DPR --}}
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">Jabatan Akademik DPR (LKPS Tabel 2-I.2)</h6>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th class="text-bg-secondary">Jabatan</th>
+                <th class="text-bg-secondary text-end">Jumlah</th>
+                <th class="text-bg-secondary text-end">%</th>
+              </tr>
+            </thead>
+            <tbody>
+              @php $totalDpr = $feederData['dpr'] ?: 1; @endphp
+              @foreach(['Guru Besar','Lektor Kepala','Lektor','Asisten Ahli','Tenaga Pengajar'] as $jab)
+                @php $n = $feederData['jabatan_dpr'][$jab] ?? 0; @endphp
+                @if($n > 0)
+                <tr>
+                  <td>{{ $jab }}</td>
+                  <td class="text-end">{{ $n }}</td>
+                  <td class="text-end">{{ round($n / $totalDpr * 100, 1) }}%</td>
+                </tr>
+                @endif
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{-- Kelulusan Tepat Waktu --}}
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">Kelulusan Tepat Waktu &le;8 Semester (LKPS 9.1.2.3)</h6>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th class="text-bg-secondary">Tahun Lulus</th>
+                <th class="text-bg-secondary text-end">Total</th>
+                <th class="text-bg-secondary text-end">Tepat Waktu</th>
+                <th class="text-bg-secondary text-end">%</th>
+              </tr>
+            </thead>
+            <tbody>
+              @forelse($feederData['kelulusan_tepat'] as $tahun => $row)
+              <tr>
+                <td>{{ $tahun }}</td>
+                <td class="text-end">{{ $row['total'] }}</td>
+                <td class="text-end">{{ $row['tepat'] }}</td>
+                <td class="text-end">
+                  <span class="badge {{ $row['persen'] >= 75 ? 'bg-success' : 'bg-warning text-dark' }}">
+                    {{ $row['persen'] }}%
+                  </span>
+                </td>
+              </tr>
+              @empty
+              <tr><td colspan="4" class="text-center text-muted">Belum ada data</td></tr>
+              @endforelse
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endif
+{{-- ── End Section Neo Feeder ──────────────────────────────────────────────── --}}
+
 @endsection
 
 @push('plugin-scripts')
@@ -158,4 +306,34 @@
 
 @push('custom-scripts')
   <script src="{{ asset('assets/js/admin-dashboard.js') }}"></script>
+  <script>
+    document.getElementById('btnSync')?.addEventListener('click', function () {
+      const btn = this;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Menyinkronkan...';
+
+      fetch('{{ route("admin.feeder-config.sync") }}', {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': '{{ csrf_token() }}',
+          'X-Requested-With': 'XMLHttpRequest',
+        }
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          alert('✓ ' + data.message);
+          location.reload();
+        } else {
+          alert('✗ ' + data.message);
+        }
+      })
+      .catch(() => alert('✗ Gagal menghubungi server.'))
+      .finally(() => {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-feather="refresh-cw" style="width:13px;height:13px;"></i> Sync Sekarang';
+        feather.replace();
+      });
+    });
+  </script>
 @endpush

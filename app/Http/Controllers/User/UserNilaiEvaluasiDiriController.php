@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\AccreditationCalculator;
 use App\Models\StandarNilai;
 use App\Models\PenjadwalanAmi;
 use App\Models\StandarAkreditasi;
@@ -19,6 +20,7 @@ use Carbon\Carbon;
 
 class UserNilaiEvaluasiDiriController extends Controller
 {
+    use AccreditationCalculator;
     public function index()
     {
         $prodi = Session::get('user_penempatan');
@@ -106,150 +108,6 @@ class UserNilaiEvaluasiDiriController extends Controller
         ]);
     }
 
-    public function calculateTotal($periode, $prodi, $accreditationKey)
-    {
-        $compositeIndicatorsConfig = [
-            'BAN-PT D3' => [],
-            'BAN-PT S1' => [
-                'S1-6'  => ['components' => [['kode' => 'S1-6A', 'weight' => 1], ['kode' => 'S1-6B', 'weight' => 2]], 'divisor' => 3, 'multiplier' => 0.34],
-                'S1-7'  => ['components' => [['kode' => 'S1-7A', 'weight' => 1], ['kode' => 'S1-7B', 'weight' => 2]], 'divisor' => 3, 'multiplier' => 0.34],
-                'S1-9'  => ['components' => [['kode' => 'S1-9A', 'weight' => 2], ['kode' => 'S1-9B', 'weight' => 1]], 'divisor' => 3, 'multiplier' => 0.34],
-                'S1-15' => ['components' => [['kode' => 'S1-15A', 'weight' => 2], ['kode' => 'S1-15B', 'weight' => 1]], 'divisor' => 3, 'multiplier' => 3.07],
-                'S1-16' => ['components' => [['kode' => 'S1-16A', 'weight' => 1], ['kode' => 'S1-16B', 'weight' => 2]], 'divisor' => 3, 'multiplier' => 1.53],
-                'S1-31' => ['components' => [['kode' => 'S1-31A', 'weight' => 1], ['kode' => 'S1-31B', 'weight' => 1]], 'divisor' => 2, 'multiplier' => 1.12],
-                'S1-38' => ['components' => [['kode' => 'S1-38A', 'weight' => 1], ['kode' => 'S1-38B', 'weight' => 2], ['kode' => 'S1-38C', 'weight' => 2]], 'divisor' => 5, 'multiplier' => 2.51],
-                'S1-40' => ['components' => [['kode' => 'S1-40A', 'weight' => 1], ['kode' => 'S1-40B', 'weight' => 2]], 'divisor' => 3, 'multiplier' => 1.67],
-                'S1-41' => ['components' => [['kode' => 'S1-41A', 'weight' => 1], ['kode' => 'S1-41B', 'weight' => 2], ['kode' => 'S1-41C', 'weight' => 2], ['kode' => 'S1-41D', 'weight' => 2], ['kode' => 'S1-41E', 'weight' => 2]], 'divisor' => 9, 'multiplier' => 1.12],
-                'S1-44' => ['components' => [['kode' => 'S1-44A', 'weight' => 1], ['kode' => 'S1-44B', 'weight' => 2], ['kode' => 'S1-44C', 'weight' => 2]], 'divisor' => 5, 'multiplier' => 1.67],
-                'S1-47' => ['components' => [['kode' => 'S1-47A', 'weight' => 1], ['kode' => 'S1-47B', 'weight' => 2]], 'divisor' => 3, 'multiplier' => 3.35],
-            ],
-            'LAMDIK S1'  => [],
-            'LAMDIK PPG' => [],
-            'LAMDIK S2'  => [],
-        ];
-
-        $nilaiCollection = StandarNilai::where('periode', $periode)
-            ->where('prodi', $prodi)
-            ->get()
-            ->keyBy('indikator_id');
-
-        $compositeTotal    = 0;
-        $nonCompositeTotal = 0;
-
-        $prodiParts  = explode(' - ', $prodi);
-        $prodiPrefix = trim($prodiParts[0] ?? $prodi);
-
-        if ($accreditationKey === 'BAN-PT S1') {
-            $indicatorPrefix = 'S1';
-            $indicatorRange  = 69;
-        } elseif ($accreditationKey === 'BAN-PT D3') {
-            $indicatorPrefix = 'D3';
-            $indicatorRange  = 67;
-        } elseif ($accreditationKey === 'LAMDIK PPG') {
-            $indicatorPrefix = 'PPG';
-            $indicatorRange  = 60;
-        } elseif ($accreditationKey === 'LAMDIK S1') {
-            $indicatorPrefix = 'S1';
-            $indicatorRange  = 64;
-        } elseif ($accreditationKey === 'LAMDIK S2') {
-            $indicatorPrefix = 'S2';
-            $indicatorRange  = 60;
-        } else {
-            $indicatorPrefix = 'Unknown';
-            $indicatorRange  = 0;
-        }
-
-        $compositeConfigKey  = $accreditationKey;
-        $compositeIndicators = isset($compositeIndicatorsConfig[$compositeConfigKey])
-            ? array_keys($compositeIndicatorsConfig[$compositeConfigKey])
-            : [];
-
-        $allIndicators = [];
-        for ($i = 1; $i <= $indicatorRange; $i++) {
-            $allIndicators[] = $indicatorPrefix . '-' . $i;
-        }
-
-        foreach ($compositeIndicators as $indicator) {
-            $config = $compositeIndicatorsConfig[$compositeConfigKey][$indicator];
-
-            $totalComponent = 0;
-            foreach ($config['components'] as $component) {
-                $kode   = $component['kode'];
-                $weight = $component['weight'];
-
-                if ($nilaiCollection->has($kode)) {
-                    $nilai = $nilaiCollection[$kode]->hasil_nilai;
-                    $totalComponent += $nilai * $weight;
-                }
-            }
-            $compositeScore = ($totalComponent / $config['divisor']) * $config['multiplier'];
-            $compositeTotal += $compositeScore;
-        }
-
-        foreach ($allIndicators as $indicator) {
-            if (!in_array($indicator, $compositeIndicators) && $nilaiCollection->has($indicator)) {
-                $nilai = $nilaiCollection[$indicator];
-                $bobot = $nilai->bobot ?? 1;
-                $nonCompositeTotal += $nilai->hasil_nilai * $bobot;
-            }
-        }
-
-        $total = $compositeTotal + $nonCompositeTotal;
-        return [
-            'total'       => $total,
-            'prodiPrefix' => $prodiPrefix,
-        ];
-    }
-
-    public function calculateTotalLamemeba($periode, $prodi, $accreditationKey)
-    {
-        $parts = explode(' ', $accreditationKey, 2);
-        $akreditasi_kode = trim($parts[0] ?? 'LAMEMBA');
-        $jenjang_nama    = trim($parts[1] ?? 'S1');
-
-        $akreditasi = StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
-        $jenjang    = Jenjang::where('nama', $jenjang_nama)->firstOrFail();
-
-        $standards = Standard::query()
-            ->with([
-                'elements.indicators.dokumen_nilais' => function ($q) use ($periode, $prodi) {
-                    $q->where('periode', $periode)->where('prodi', $prodi);
-                },
-                'buktiStandar',
-            ])
-            ->where('standar_akreditasi_id', $akreditasi->id)
-            ->where('jenjang_id', $jenjang->id)
-            ->get();
-
-        $indikatorIds = collect();
-        foreach ($standards as $standard) {
-            foreach ($standard->elements as $element) {
-                foreach ($element->indicators as $indicator) {
-                    $indikatorIds->push($indicator->id);
-                }
-            }
-        }
-        $indikatorIds = $indikatorIds->unique()->values();
-
-        $nilaiCollection = StandarNilai::where('periode', $periode)
-            ->where('prodi', $prodi)
-            ->whereIn('indikator_id', $indikatorIds)
-            ->get();
-
-        $totalNilai      = $nilaiCollection->sum('hasil_nilai');
-        $jumlahIndikator = $indikatorIds->count();
-
-        $persentase = $jumlahIndikator > 0 ? ($totalNilai / $jumlahIndikator) * 100 : 0;
-
-        $prodiParts  = explode(' - ', $prodi);
-        $prodiPrefix = trim($prodiParts[0] ?? $prodi);
-
-        return [
-            'total'       => round($persentase, 2),
-            'prodiPrefix' => $prodiPrefix,
-        ];
-    }
-
     public function reportLha(Request $request, $periode, $prodi)
     {
         $transaksi_ami = TransaksiAmi::where('periode', $periode)
@@ -299,12 +157,22 @@ class UserNilaiEvaluasiDiriController extends Controller
         $tanggal       = now()->format('d-m-Y');
         $tanggal_audit = optional($transaksi_ami->updated_at)->format('d-m-Y') ?? $tanggal;
 
-        $totalResult = ($akreditasi_kode === 'LAMEMBA')
-            ? $this->calculateTotalLamemeba($periode, $prodi, "{$akreditasi_kode} {$jenjang_nama}")
-            : $this->calculateTotal($periode, $prodi, "{$akreditasi_kode} {$jenjang_nama}");
+        $newLams = ['LAMSAMA', 'LAMTEKNIK', 'LAMINFOKOM', 'LAMPTKES'];
+        if ($akreditasi_kode === 'LAMEMBA') {
+            $totalResult = $this->calculateTotalLamemeba($periode, $prodi, "{$akreditasi_kode} {$jenjang_nama}");
+        } elseif (in_array($akreditasi_kode, $newLams, true)) {
+            $prodiParts  = explode(' - ', $prodi);
+            $totalResult = [
+                'total'       => $this->computeNaFromStandards($standards, $akreditasi_kode),
+                'prodiPrefix' => trim($prodiParts[0] ?? $prodi),
+            ];
+        } else {
+            $totalResult = $this->calculateTotal($periode, $prodi, "{$akreditasi_kode} {$jenjang_nama}");
+        }
 
         $totalNilai  = $totalResult['total'];
         $prodiPrefix = $totalResult['prodiPrefix'];
+        $forecast    = $this->calculateForecast($akreditasi_kode, $totalNilai, $standards);
 
         $html = view('pages.report.report-lha', [
             'akreditasi'      => $akreditasi,
@@ -319,6 +187,8 @@ class UserNilaiEvaluasiDiriController extends Controller
             'tanggal_audit'   => $tanggal_audit,
             'totalNilai'      => $totalNilai,
             'prodiPrefix'     => $prodiPrefix,
+            'akreditasiKode'  => $akreditasi_kode,
+            'forecast'        => $forecast,
         ])->render();
 
         $mpdf = new \Mpdf\Mpdf([

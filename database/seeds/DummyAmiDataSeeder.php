@@ -35,17 +35,18 @@ class DummyAmiDataSeeder extends Seeder
     const PERIODE = '2025/2026';
 
     // max mandiri_nilai per jenis akreditasi
-    // BAN-PT  : 0=Tidak Terakreditasi, 1=Terakreditasi, 2=Terakreditasi Unggul
-    // LAMEMBA : 0=tidak memenuhi, 1=memenuhi (binary per dimensi)
-    // Lainnya : skala 0–4
+    // BAN-PT     : 0=Tidak Terakreditasi, 1=Terakreditasi, 2=Terakreditasi Unggul
+    // LAMEMBA    : 0=tidak memenuhi, 1=memenuhi (binary per dimensi)
+    // LAMINFOKOM : nama resmi setelah KriteriaLaminfokomSeeder rename INFOKOM→LAMINFOKOM
+    // Lainnya    : skala 0–4
     private array $maxNilaiMap = [
-        'BAN-PT'    => 2,
-        'LAMDIK'    => 4,
-        'INFOKOM'   => 4,
-        'LAMEMBA'   => 1,
-        'LAMSAMA'   => 4,
-        'LAMPTKES'  => 4,
-        'LAMTEKNIK' => 4,
+        'BAN-PT'      => 2,
+        'LAMDIK'      => 4,
+        'LAMINFOKOM'  => 4,
+        'LAMEMBA'     => 1,
+        'LAMSAMA'     => 4,
+        'LAMPTKES'    => 4,
+        'LAMTEKNIK'   => 4,
     ];
 
     public function run(): void
@@ -88,6 +89,24 @@ class DummyAmiDataSeeder extends Seeder
                 ])
             );
         }
+
+        // KriteriaLaminfokomSeeder sudah rename 'INFOKOM' → 'LAMINFOKOM' di standar_akreditasis.
+        // Sinkronkan kolom yang masih menyimpan nama lama di tabel lain.
+        DB::table('program_studis')
+            ->where('prodi_akreditasi', 'INFOKOM')
+            ->update(['prodi_akreditasi' => 'LAMINFOKOM', 'standar_akreditasi' => 'LAMINFOKOM', 'updated_at' => $now]);
+
+        DB::table('users')
+            ->where('user_akses', 'INFOKOM')
+            ->update(['user_akses' => 'LAMINFOKOM', 'updated_at' => $now]);
+
+        DB::table('transaksi_amis')
+            ->where('standar_akreditasi', 'INFOKOM')
+            ->update(['standar_akreditasi' => 'LAMINFOKOM', 'updated_at' => $now]);
+
+        DB::table('penjadwalan_amis')
+            ->where('standar_akreditasi', 'INFOKOM')
+            ->update(['standar_akreditasi' => 'LAMINFOKOM', 'updated_at' => $now]);
 
         // Isi kolom standar_akreditasi pada prodi lama yang belum terisi
         // (ProgramStudiSeeder tidak mengisi kolom ini, tapi login controller
@@ -172,7 +191,7 @@ class DummyAmiDataSeeder extends Seeder
             //  penempatan (= user_penempatan)              fakultas                                      akreditasi    auditor
             ['S1 - Manajemen',            'Fakultas Ekonomi dan Bisnis',              'LAMEMBA',    1],
             ['S1 - Akuntansi',            'Fakultas Ekonomi dan Bisnis',              'LAMEMBA',    2],
-            ['S1 - Teknik Informatika',   'Fakultas Teknik',                          'INFOKOM',    1],
+            ['S1 - Teknik Informatika',   'Fakultas Teknik',                          'LAMINFOKOM', 1],
             ['S1 - Teknik Sipil',         'Fakultas Teknik',                          'LAMTEKNIK',  2],
             ['S1 - Pendidikan Matematika','Fakultas Keguruan dan Ilmu Pendidikan',    'LAMDIK',     1],
             ['S1 - Ilmu Hukum',           'Fakultas Hukum',                           'BAN-PT',     2],

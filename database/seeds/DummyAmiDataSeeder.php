@@ -283,7 +283,7 @@ class DummyAmiDataSeeder extends Seeder
                         'bukti_standar_id'   => null,
                         'indikator_id'       => $firstIndicator->id,
                         'dokumen_nama'       => "Bukti Pemenuhan – {$penempatan}",
-                        'pertanyaan_nama'    => $firstIndicator->nama_indikator,
+                        'pertanyaan_nama'    => substr($firstIndicator->nama_indikator, 0, 250),
                         'dokumen_tipe'       => 'pdf',
                         'dokumen_keterangan' => "Data dummy AMI {$periode}",
                         'dokumen_file'       => '-',

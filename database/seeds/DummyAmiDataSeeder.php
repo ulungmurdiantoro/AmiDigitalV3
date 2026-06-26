@@ -219,8 +219,9 @@ class DummyAmiDataSeeder extends Seeder
                     'fakultas'           => $fakultas,
                     'standar_akreditasi' => $akreditasi,
                     'periode'            => $periode,
-                    // Semua tahapan sudah selesai (tanggal lampau)
-                    'opening_ami'         => '2025-08-01 to 2025-08-07',
+                    // opening_ami & rtm bertipe DATE → single date
+                    // kolom lainnya bertipe string → boleh menyimpan range
+                    'opening_ami'         => '2025-08-01',
                     'pengisian_dokumen'   => '2025-08-08 to 2025-08-31',
                     'deskevaluasion'      => '2025-09-01 to 2025-09-14',
                     'assessment'          => '2025-09-15 to 2025-09-30',

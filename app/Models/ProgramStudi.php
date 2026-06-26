@@ -16,6 +16,7 @@ class ProgramStudi extends Model
         'prodi_jurusan',
         'prodi_fakultas',
         'prodi_akreditasi',
+        'standar_akreditasi',
         'akreditasi_kadaluarsa',
         'akreditasi_bukti',
         'feeder_kode_prodi',

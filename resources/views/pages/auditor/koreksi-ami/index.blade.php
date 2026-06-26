@@ -17,7 +17,7 @@
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
           <div>
-            <h4 class="mb-3 mb-md-0">Data Koreksi AMI</h4>
+            <h4 class="mb-3 mb-md-0">Data Perbaikan AMI</h4>
             <p class="text-muted mb-3">Tindaklanjuti aktivitas AMI (Audit Mutu Internal) dengan memberikan feedback atau tanggapan dari setiap perbaikan.</p>
           </div>
         </div>

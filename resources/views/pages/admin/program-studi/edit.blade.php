@@ -100,9 +100,9 @@
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="prodi_akreditasi" class="form-label">Status Akreditasi</label>
-                <select 
-                  class="form-select @error('prodi_akreditasi') is-invalid @enderror" 
-                  name="prodi_akreditasi" 
+                <select
+                  class="form-select @error('prodi_akreditasi') is-invalid @enderror"
+                  name="prodi_akreditasi"
                   id="prodi_akreditasi">
                   <option disabled>-</option>
                   <option value="Unggul" {{ old('prodi_akreditasi', $program_studis->prodi_akreditasi) == 'Unggul' ? 'selected' : '' }}>Unggul</option>
@@ -117,6 +117,22 @@
                 @enderror
               </div>
             </div><!-- Col -->
+            <div class="col-sm-6">
+              <div class="mb-3">
+                <label for="standar_akreditasi" class="form-label">Standar Akreditasi</label>
+                <select class="form-select @error('standar_akreditasi') is-invalid @enderror" name="standar_akreditasi" id="standar_akreditasi">
+                  <option disabled>-</option>
+                  @foreach($StandarAkreditasis as $StandarAkreditasi)
+                    <option value="{{ $StandarAkreditasi->nama }}" {{ old('standar_akreditasi', $program_studis->standar_akreditasi) == $StandarAkreditasi->nama ? 'selected' : '' }}>{{ $StandarAkreditasi->nama }}</option>
+                  @endforeach
+                </select>
+                @error('standar_akreditasi')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+              </div>
+            </div><!-- Col -->
+          </div>
+          <div class="row">
             <div class="col-sm-6">
               <div class="mb-3">
                 <label for="akreditasi_kadaluarsa" class="form-label">Tanggal Kadaluarsa Akreditasi</label>

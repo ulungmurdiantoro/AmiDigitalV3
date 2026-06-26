@@ -15,9 +15,6 @@ class DashboardAuditorController extends Controller
     {
         $user_kode = session('user_kode');
 
-        $prodi = session('user_prodi');
-        $user_akses = session('user_akses');
-
         $currentDate = Carbon::now();
         $currentYear = $currentDate->year;
         $currentMonth = $currentDate->month;
@@ -38,13 +35,7 @@ class DashboardAuditorController extends Controller
             })
             ->count();
 
-        $count_proses = TransaksiAmi::where('status', ['Diterima', 'Koreksi'])
-            ->whereHas('auditorAmi', function($query) use ($user_kode) {
-                $query->where('users_kode', $user_kode);
-            })
-            ->count();
-
-        $count_selesai = TransaksiAmi::where('status', 'Selesai')
+        $count_proses = TransaksiAmi::whereIn('status', ['Diterima', 'Koreksi'])
             ->whereHas('auditorAmi', function($query) use ($user_kode) {
                 $query->where('users_kode', $user_kode);
             })
@@ -58,7 +49,7 @@ class DashboardAuditorController extends Controller
 
         $jadwalAmi = PenjadwalanAmi::where('periode', $periode)
             ->whereHas('user', function($query) use ($user_kode) {
-                $query->where('users_kode', $user_kode);
+                $query->where('users_code', $user_kode);
             })
             ->latest()
             ->get();

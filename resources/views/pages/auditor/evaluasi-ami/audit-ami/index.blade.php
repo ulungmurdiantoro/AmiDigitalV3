@@ -21,7 +21,7 @@
         <div><b>Informasi tambahan :</b> </div>
         <div><i>Diajukan oleh {{ $transaksi_ami->prodi }} pada {{ $transaksi_ami->updated_at }} </i></div><br>
         <a href="#" data-bs-toggle="modal" data-bs-target="#selesaiModal" class="btn btn-success btn-icon-text mb-2 mb-md-0" rel="noopener noreferrer">
-          <i class="link-icon" data-feather="check-circle"></i> <b>Koreksi AMI</b>
+          <i class="link-icon" data-feather="check-circle"></i> <b>Perbaikan AMI</b>
         </a>
         <div class="modal fade" id=selesaiModal tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -30,7 +30,7 @@
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
-                  <h4 class="modal-title" id="exampleModalLabel"><b>Koreksi AMI</b></h4>
+                  <h4 class="modal-title" id="exampleModalLabel"><b>Perbaikan AMI</b></h4>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

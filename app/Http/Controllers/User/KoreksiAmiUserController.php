@@ -15,18 +15,17 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;class KoreksiAmiUserController extends Controller
+
+class KoreksiAmiUserController extends Controller
 {
     public function index()
     {
         $prodi = Session::get('user_penempatan');
 
-        $data_kesiapan = StandarCapaian::with('standarCapaiansBanptS1')
-            ->select('periode', 'prodi')
+        $data_kesiapan = StandarCapaian::select('periode', 'prodi')
             ->where('prodi', $prodi)
             ->groupBy('periode', 'prodi')
-            ->latest()
+            ->orderByDesc('periode')
             ->paginate(10);
 
         return view('pages.user.koreksi-ami.index', [
@@ -91,14 +90,6 @@ use Illuminate\Support\Str;class KoreksiAmiUserController extends Controller
             ->where('prodi', $jenjang_raw)
             ->with('auditorAmi.user')
             ->first();
-
-        $akreditasi = Cache::remember("akreditasi_{$akreditasi_kode}", 3600, function () use ($akreditasi_kode) {
-            return StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
-        });
-
-        $jenjang = Cache::remember("jenjang_{$jenjang_nama}", 3600, function () use ($jenjang_nama) {
-            return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
-        });
 
         return view('pages.user.koreksi-ami.revisi-prodi.index', [
             'akreditasi' => $akreditasi,

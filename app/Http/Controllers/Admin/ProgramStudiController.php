@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\ProgramStudi;
+use App\Models\StandarAkreditasi;
 use App\Models\Jurusan;
 use App\Models\Fakultas;
 use App\Models\Jenjang;
@@ -45,7 +46,8 @@ class ProgramStudiController extends Controller
         $Jurusans = Jurusan::orderBy('jurusan_nama')->get();
         $Fakultass = Fakultas::orderBy('fakultas_nama')->get();
         $Jenjangs = Jenjang::orderBy('nama')->get();
-        return view('pages.admin.program-studi.create', compact('Jurusans', 'Fakultass', 'Jenjangs'));
+        $StandarAkreditasis = StandarAkreditasi::all();
+        return view('pages.admin.program-studi.create', compact('Jurusans', 'Fakultass', 'Jenjangs', 'StandarAkreditasis'));
     }
 
     /**
@@ -63,10 +65,15 @@ class ProgramStudiController extends Controller
             'prodi_jurusan'      => 'required|string',
             'prodi_fakultas'     => 'required|string',
             'prodi_akreditasi'   => 'required',
+            'standar_akreditasi' => 'required|string',
             'akreditasi_kadaluarsa' => 'required|date',
             'akreditasi_bukti'   => 'mimes:jpg,png,pdf,doc,docx|max:2048',
             'feeder_kode_prodi'  => 'nullable|string|max:20|unique:program_studis,feeder_kode_prodi',
         ]);
+
+        if (!$request->hasFile('akreditasi_bukti')) {
+            return back()->withErrors(['akreditasi_bukti' => 'Bukti akreditasi wajib diunggah.'])->withInput();
+        }
 
         try {
             $fileName = time() . '.' . $request->akreditasi_bukti->extension();
@@ -84,6 +91,7 @@ class ProgramStudiController extends Controller
                 'prodi_jurusan'        => $request->prodi_jurusan,
                 'prodi_fakultas'       => $request->prodi_fakultas,
                 'prodi_akreditasi'     => $request->prodi_akreditasi,
+                'standar_akreditasi'   => $request->standar_akreditasi,
                 'akreditasi_kadaluarsa'=> $request->akreditasi_kadaluarsa,
                 'akreditasi_bukti'     => '/storage/' . $filePath,
                 'feeder_kode_prodi'    => $request->feeder_kode_prodi ?: null,
@@ -115,7 +123,7 @@ class ProgramStudiController extends Controller
         }
 
         // Redirect to a page (e.g., back to the form or list of departments) with a success message
-        return redirect()->route('program-studi.create') // Change this route to wherever you want to redirect
+        return redirect()->route('admin.program-studi.create')
                         ->with('success', 'Jurusan successfully created!');
     }
 
@@ -137,7 +145,7 @@ class ProgramStudiController extends Controller
         }
 
         // Redirect to a page (e.g., back to the form or list of departments) with a success message
-        return redirect()->route('program-studi.create') // Change this route to wherever you want to redirect
+        return redirect()->route('admin.program-studi.create')
                         ->with('success', 'Fakultas successfully created!');
     }
 
@@ -164,7 +172,8 @@ class ProgramStudiController extends Controller
         $Jurusans = Jurusan::orderBy('jurusan_nama')->get();
         $Fakultass = Fakultas::orderBy('fakultas_nama')->get();
         $Jenjangs = Jenjang::orderBy('nama')->get();
-        return view('pages.admin.program-studi.edit', compact('program_studis', 'Jurusans', 'Fakultass', 'Jenjangs'));
+        $StandarAkreditasis = StandarAkreditasi::all();
+        return view('pages.admin.program-studi.edit', compact('program_studis', 'Jurusans', 'Fakultass', 'Jenjangs', 'StandarAkreditasis'));
     }
 
     /**
@@ -186,6 +195,7 @@ class ProgramStudiController extends Controller
             'prodi_jurusan'        => 'required|string',
             'prodi_fakultas'       => 'required|string',
             'prodi_akreditasi'     => 'required|string',
+            'standar_akreditasi'   => 'required|string',
             'akreditasi_kadaluarsa'=> 'nullable|date',
             'akreditasi_bukti'     => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'feeder_kode_prodi'    => 'nullable|string|max:20|unique:program_studis,feeder_kode_prodi,' . $id,
@@ -197,6 +207,7 @@ class ProgramStudiController extends Controller
         $program_studis->prodi_jurusan = $validatedData['prodi_jurusan'];
         $program_studis->prodi_fakultas = $validatedData['prodi_fakultas'];
         $program_studis->prodi_akreditasi      = $validatedData['prodi_akreditasi'];
+        $program_studis->standar_akreditasi    = $validatedData['standar_akreditasi'];
         $program_studis->akreditasi_kadaluarsa = $validatedData['akreditasi_kadaluarsa'];
         $program_studis->feeder_kode_prodi     = $validatedData['feeder_kode_prodi'] ?: null;
 
@@ -204,15 +215,15 @@ class ProgramStudiController extends Controller
         if ($request->hasFile('akreditasi_bukti')) {
             $file = $request->file('akreditasi_bukti');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('akreditasi_bukti', $filename, 'public');
+            $filePath = $file->storeAs('uploads/akreditasi/prodi', $filename, 'public');
 
             // Delete the old file if it exists
             if ($program_studis->akreditasi_bukti) {
-                Storage::disk('public')->delete($program_studis->akreditasi_bukti);
+                Storage::disk('public')->delete(str_replace('/storage/', '', $program_studis->akreditasi_bukti));
             }
 
             // Save new file path
-            $program_studis->akreditasi_bukti = $filePath;
+            $program_studis->akreditasi_bukti = '/storage/' . $filePath;
         }
 
         // Save the updated program studi

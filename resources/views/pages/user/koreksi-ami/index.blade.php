@@ -7,7 +7,7 @@
 @section('content')
 <nav class="page-breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item active" aria-current="page">Koreksi AMI (Audit Mutu Internal)</li>
+    <li class="breadcrumb-item active" aria-current="page">Perbaikan AMI (Audit Mutu Internal)</li>
   </ol>
 </nav>
 

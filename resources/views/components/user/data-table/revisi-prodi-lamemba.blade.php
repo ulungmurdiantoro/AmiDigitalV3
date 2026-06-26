@@ -60,11 +60,10 @@
 
                 @foreach ($element->indicators as $indikator)
                   @php
-                    $dokumenNilais = $indikator->dokumen_nilais;
-                    $isEmptyTarget = $dokumenNilais->isEmpty();
-                    $nilai = $dokumenNilais->first();
+                    $nilai = $indikator->dokumen_nilais; // hasOne → Model|null
+                    $isEmptyTarget = is_null($nilai);
                     $jenis_temuan = $nilai?->jenis_temuan;
-                    $hasil_nilai = $nilai?->hasil_nilai ;
+                    $hasil_nilai = $nilai?->hasil_nilai;
 
                     // Tentukan kelas baris
                     $rowClass = '';
@@ -86,13 +85,13 @@
                     </td>
 
                     <td class="text-center" style="padding: 5px 0;">
-                      @if ($jenis_temuan == 'Sesuai') 
+                      @if ($jenis_temuan == 'Sesuai')
                         <span class="bg-success d-inline-flex align-items-center justify-content-center" style="padding: 7.5px 7.5px; color: white; border-radius: 10%;">
-                          {{ $dokumenNilais->first()?->jenis_temuan }}
-                        </span> 
+                          {{ $nilai?->jenis_temuan }}
+                        </span>
                       @else
                         <span class="bg-danger d-inline-flex align-items-center justify-content-center" style="padding: 7.5px 7.5px; color: white; border-radius: 10%;">
-                          {{ $dokumenNilais->first()?->jenis_temuan ?? 'KTS/OB' }}
+                          {{ $nilai?->jenis_temuan ?? 'KTS/OB' }}
                         </span>
                       @endif
                     </td>
@@ -198,7 +197,7 @@
 													<!-- Form Update Perbaikan & Pencegahan -->
 													<form action="{{ route('auditor.koreksi-ami.store') }}" method="POST" id="UpdateAmiForm{{ $indikator->id }}">
 														@csrf
-														<input type="hidden" name="ami_kodes" value="{{ $transaksis->ami_kode }}">
+														<input type="hidden" name="ami_kodes" value="{{ optional($transaksis)->ami_kode }}">
 														<input type="hidden" name="indikator_ids" value="{{ $indikator->id }}">
 														<input type="hidden" name="indikator_bobots" value="{{ $indikator->bobot ?? 0 }}">
 														<input type="hidden" name="prodis" value="{{ $prodis }}">

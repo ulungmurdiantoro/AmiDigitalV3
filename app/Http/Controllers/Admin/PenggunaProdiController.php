@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\ProgramStudi;
-use App\Models\StandarAkreditasi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash; 
@@ -39,10 +38,8 @@ class PenggunaProdiController extends Controller
      */
     public function create()
     {
-        $StandarAkreditasis = StandarAkreditasi::all();
         $ProgramStudis = ProgramStudi::all();
         return view('pages.admin.pengguna-prodi.create', [
-            'StandarAkreditasis' => $StandarAkreditasis,
             'ProgramStudis' => $ProgramStudis,
         ]);
     }
@@ -63,8 +60,8 @@ class PenggunaProdiController extends Controller
             'user_penempatan' => 'required|string', // Program Study responsibility
             'user_fakultas' => 'required|string', // Program Study responsibility
             'user_akses' => 'required|string', // Access rights based on accreditation standard
-            'username' => 'required|string|unique:users', // Username must be unique
-             // Require at least 8 characters for the password
+            'username' => 'required|string|unique:users',
+            'password' => 'required|string|min:8',
         ]);
 
         try {
@@ -113,10 +110,9 @@ class PenggunaProdiController extends Controller
      */
     public function edit($id)
     {
-        $StandarAkreditasis = StandarAkreditasi::all();
         $ProgramStudis = ProgramStudi::all();
         $users = User::findOrFail($id);
-        return view('pages.admin.pengguna-prodi.edit', compact('users', 'StandarAkreditasis', 'ProgramStudis'));
+        return view('pages.admin.pengguna-prodi.edit', compact('users', 'ProgramStudis'));
     }
 
     /**
@@ -134,9 +130,9 @@ class PenggunaProdiController extends Controller
             'user_jabatan' => 'required|string|max:255',
             'user_penempatan' => 'required|string', // Program Study responsibility
             'user_fakultas' => 'required|string', // Program Study responsibility
-            'user_akses' => 'required|string', // Access rights based on accreditation standard
-            'username' => 'required|string', // Username must be unique
-            'password' => '', // Username must be unique
+            'user_akses' => 'required|string',
+            'username' => 'required|string|unique:users,username,' . $id,
+            'password' => 'nullable|string|min:8',
         ]);
 
         try {
@@ -181,7 +177,7 @@ class PenggunaProdiController extends Controller
             $user = User::findOrFail($id);
             $user->delete();
             
-            return redirect()->route('admin.pengguna-prodi.index')->with('success', 'Program Studi deleted successfully');
+            return redirect()->route('admin.pengguna-prodi.index')->with('success', 'Pengguna Prodi deleted successfully');
         } catch (\Exception $e) {
             return redirect()->route('admin.pengguna-prodi.index')->with('error', 'There was an error deleting the Program Studi');
         }

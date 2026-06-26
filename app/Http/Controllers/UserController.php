@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProgramStudi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,17 +18,28 @@ class UserController extends Controller
         $credentials = $request->only('username', 'password');
 
         if (Auth::attempt($credentials)) {
-            // Save data to session
+            $authUser = Auth::user();
+
+            $userAkses = $authUser->user_akses;
+            if ($authUser->user_level === 'user' && $authUser->user_penempatan) {
+                $prodi = ProgramStudi::whereRaw(
+                    "CONCAT(prodi_jenjang, ' - ', prodi_nama) = ?",
+                    [$authUser->user_penempatan]
+                )->first();
+                if ($prodi && $prodi->standar_akreditasi) {
+                    $userAkses = $prodi->standar_akreditasi;
+                }
+            }
+
             session([
-                'user_id' => Auth::user()->user_id,
-                'user_nama' => Auth::user()->user_nama,
-                'user_kode' => Auth::user()->users_code,
-                'user_jabatan' => Auth::user()->user_jabatan,
-                'user_penempatan' => Auth::user()->user_penempatan,
-                'user_akses' => Auth::user()->user_akses,
-                'user_fakultas' => Auth::user()->user_fakultas,
-                'user_akses' => Auth::user()->user_akses,
-                'user_level' => Auth::user()->user_level,
+                'user_id' => $authUser->user_id,
+                'user_nama' => $authUser->user_nama,
+                'user_kode' => $authUser->users_code,
+                'user_jabatan' => $authUser->user_jabatan,
+                'user_penempatan' => $authUser->user_penempatan,
+                'user_akses' => $userAkses,
+                'user_fakultas' => $authUser->user_fakultas,
+                'user_level' => $authUser->user_level,
             ]);
 
             $role = Auth::user()->user_level;

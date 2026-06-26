@@ -18,7 +18,7 @@ use App\Models\StandarTarget;
  */
 class KriteriaOtherTargetSeeder extends Seeder
 {
-    protected array $akreditasiList = ['LAMDIK', 'LAMINFOKOM', 'LAMTEKNIK'];
+    protected array $akreditasiList = ['LAMDIK', 'LAMINFOKOM', 'LAMTEKNIK', 'LAMSAMA'];
 
     // Keyword (regex) → array of [dokumen_nama, tipe, pertanyaan, keterangan]
     protected array $dokMap = [

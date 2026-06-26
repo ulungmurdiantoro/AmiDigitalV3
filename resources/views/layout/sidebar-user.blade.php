@@ -63,7 +63,7 @@
       <li class="nav-item {{ active_class(['user.koreksi-ami.*']) }}">
         <a href="{{ route('user.koreksi-ami.index') }}" class="nav-link">
           <i class="link-icon" data-feather="pen-tool"></i>
-          <span class="link-title">Koreksi AMI</span>
+          <span class="link-title">Perbaikan AMI</span>
         </a>
       </li>
       <li class="nav-item nav-category">Hasil AMI</li>

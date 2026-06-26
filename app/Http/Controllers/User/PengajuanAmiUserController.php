@@ -22,8 +22,10 @@ class PengajuanAmiUserController extends Controller
     {
         $prodi = session('user_penempatan'); 
 
-        $data_kesiapan = StandarCapaian::where('prodi', $prodi)
-            ->latest()
+        $data_kesiapan = StandarCapaian::select('periode', 'prodi')
+            ->where('prodi', $prodi)
+            ->groupBy('periode', 'prodi')
+            ->orderByDesc('periode')
             ->paginate(10);
 
         return view('pages.user.pengajuan-ami.index', [
@@ -100,14 +102,7 @@ class PengajuanAmiUserController extends Controller
             ->with('auditorAmi.user')
             ->first();
 
-        $akreditasi = Cache::remember("akreditasi_{$akreditasi_kode}", 3600, function () use ($akreditasi_kode) {
-            return StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
-        });
-
-        $jenjang = Cache::remember("jenjang_{$jenjang_nama}", 3600, function () use ($jenjang_nama) {
-            return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
-        });
-            // dd($standards);
+        // dd($standards);
         if ($transaksi_ami) {
             return view('pages.user.pengajuan-ami.input-ami.index', [
                 'akreditasi' => $akreditasi,
@@ -183,7 +178,7 @@ class PengajuanAmiUserController extends Controller
 
     public function inputAmiUpdate(Request $request)
     {
-        $transaksi_ami = TransaksiAmi::find($request->id); 
+        $transaksi_ami = TransaksiAmi::findOrFail($request->id);
 
         $transaksi_ami->status = $request->status;
 

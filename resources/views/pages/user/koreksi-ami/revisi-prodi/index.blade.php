@@ -170,26 +170,16 @@
           </div>
         @endif
         <div class="card-body">
-          @if($akreNama === 'LAMEMBA')
-            <x-user.data-table.revisi-prodi-lamemba
-              id="dataTableExample{{ $index + 1 }}"
-              :standards="($standard->elements ?? collect())"
-              :prodis="($prodi)"
-              :periodes="($periode)"
-              :transaksis="($transaksi_ami)"
-              :showImportData="$index === 0"
-              importTitle="{{ ($akreNama ?? '-') . ' ' . $jenjangNama }}"
-              class="datatable"
-            />
-          @else
-            {{-- <x-user.data-table.pemenuhan-dokumen
-              id="dataTableExample{{ $index + 1 }}"
-              :standards="($standard->elements ?? collect())"
-              :showImportData="$index === 0"
-              importTitle="{{ ($akreNama ?? '-') . ' ' . $jenjangNama }}"
-              class="datatable"
-            /> --}}
-          @endif
+          <x-user.data-table.revisi-prodi-lamemba
+            id="dataTableExample{{ $index + 1 }}"
+            :standards="($standard->elements ?? collect())"
+            :prodis="($prodi)"
+            :periodes="($periode)"
+            :transaksis="($transaksi_ami)"
+            :showImportData="$index === 0"
+            importTitle="{{ ($akreNama ?? '-') . ' ' . $jenjangNama }}"
+            class="datatable"
+          />
         </div>
       </div>
     </div>

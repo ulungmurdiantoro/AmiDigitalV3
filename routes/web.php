@@ -32,6 +32,8 @@ use App\Http\Controllers\Auditor\DokumenSpmiAmiauditorController;
 use App\Http\Controllers\Auditor\KonfirmasiPengajuanController;
 use App\Http\Controllers\Auditor\EvaluasiAmiAuditorController;
 use App\Http\Controllers\Auditor\KoreksiAmiAuditorController;
+use App\Http\Controllers\Auditor\BantuanAuditorController;
+use App\Http\Controllers\User\BantuanUserController;
 use App\Http\Controllers\User\UserForcastingController;
 use App\Http\Controllers\User\UserFeederController;
 use App\Http\Controllers\User\UserLkpsController;
@@ -355,7 +357,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'user']], function ()
         ->only(['index'])
         ->names(['index' => 'user.forcasting.index']);
 
-    Route::resource('bantuan', BantuanController::class)
+    Route::resource('bantuan', BantuanUserController::class)
         ->only(['index'])
         ->names(['index' => 'user.bantuan.index']);
 
@@ -468,7 +470,7 @@ Route::group(['prefix' => 'auditor', 'middleware' => ['auth', 'auditor']], funct
         ->only(['index'])
         ->names(['index' => 'auditor.forcasting.index']);
 
-    Route::resource('bantuan', BantuanController::class)
+    Route::resource('bantuan', BantuanAuditorController::class)
         ->only(['index'])
         ->names(['index' => 'auditor.bantuan.index']);
 });

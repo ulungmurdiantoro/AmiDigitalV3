@@ -108,6 +108,22 @@
             </div><!-- Col -->
             <div class="col-sm-6">
               <div class="mb-3">
+                <label for="standar_akreditasi" class="form-label">Standar Akreditasi</label>
+                <select class="form-select @error('standar_akreditasi') is-invalid @enderror" name="standar_akreditasi" id="standar_akreditasi">
+                  <option selected disabled>-</option>
+                  @foreach($StandarAkreditasis as $StandarAkreditasi)
+                    <option value="{{ $StandarAkreditasi->nama }}" {{ old('standar_akreditasi') == $StandarAkreditasi->nama ? 'selected' : '' }}>{{ $StandarAkreditasi->nama }}</option>
+                  @endforeach
+                </select>
+                @error('standar_akreditasi')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+              </div>
+            </div><!-- Col -->
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="mb-3">
                 <label for="akreditasi_kadaluarsa" class="form-label">Tanggal Kadaluarsa Akreditasi</label>
                 <div class="input-group flatpickr" id="flatpickr-date">
                   <input id="akreditasi_kadaluarsa" name="akreditasi_kadaluarsa" type="text" class="form-control @error('akreditasi_kadaluarsa') is-invalid @enderror" placeholder="Pilih Tanggal" data-input>
@@ -206,7 +222,7 @@
               <label for="prodi_nama" class="form-label">Pilih Jurusan yang akan Dihapus :</label>
               <select class="form-select" name="prodi_jurusan" id="prodi_jurusan">
                 <option selected disabled>-</option>
-                <@foreach($Jurusans as $Jurusan)
+                @foreach($Jurusans as $Jurusan)
                   <option value="{{ $Jurusan->jurusan_nama }}">{{ $Jurusan->jurusan_nama }}</option>
                 @endforeach
               </select>

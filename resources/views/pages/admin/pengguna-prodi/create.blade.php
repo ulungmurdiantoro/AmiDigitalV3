@@ -83,22 +83,7 @@
               </div>
             </div><!-- Col -->
           </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label for="user_akses" class="form-label">Hak standar akreditasi</label>
-                <select class="form-select @error('user_akses') is-invalid @enderror" name="user_akses" id="user_akses">
-                  <option selected disabled>-</option>
-                  @foreach($StandarAkreditasis as $StandarAkreditasi)
-                    <option value="{{ $StandarAkreditasi->nama }}">{{$StandarAkreditasi->nama }}</option>
-                  @endforeach
-                </select>
-                @error('user_akses')
-                  <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-              </div>
-            </div><!-- Col -->
-          </div>
+          <input type="hidden" name="user_akses" id="user_akses" value="{{ old('user_akses') }}">
           <div class="row">
             <div class="col-sm-6">
                 <div class="mb-3">
@@ -133,19 +118,13 @@
     let dataProdi = @json($ProgramStudis); // Pass PHP data to JavaScript
 
     $('#user_penempatan').on('change', function() {
-      console.log('Dropdown changed'); // Ensure this logs
-
       let selectedValue = $(this).val();
-      console.log('Selected value:', selectedValue); // Log the selected value
-
-      console.log('Data Prodi:', dataProdi); // Log the data structure for debugging
 
       dataProdi.forEach(function(ProgramStudi) {
         let comparisonValue = ProgramStudi.prodi_jenjang + ' - ' + ProgramStudi.prodi_nama;
-        console.log('Comparing selected value with:', comparisonValue); // Log the comparison value
         if (selectedValue == comparisonValue) {
-          console.log("Match found, updating fakultas:", ProgramStudi.prodi_fakultas); // Log matched fakultas
-          $('#user_fakultas').val(ProgramStudi.prodi_fakultas); // Set value of user_fakultas
+          $('#user_fakultas').val(ProgramStudi.prodi_fakultas);
+          $('#user_akses').val(ProgramStudi.standar_akreditasi);
         }
       });
     });

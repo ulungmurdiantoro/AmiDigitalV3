@@ -38,8 +38,10 @@ class KoreksiAmiAuditorController extends Controller
     {
         $transaksi_ami = TransaksiAmi::where('periode', $periode)
         ->where('prodi', $prodi)
-        ->with('auditorAmi.user') 
+        ->with('auditorAmi.user')
         ->first();
+
+        abort_if(!$transaksi_ami, 404);
 
         $akreditasi_kode  =$transaksi_ami->standar_akreditasi;       
         $jenjang_raw      = $prodi;       
@@ -101,15 +103,6 @@ class KoreksiAmiAuditorController extends Controller
             ->get();
 
         $auditors = User::where('user_level', 'auditor')->get();
-
-        $akreditasi = Cache::remember("akreditasi_{$akreditasi_kode}", 3600, function () use ($akreditasi_kode) {
-            return StandarAkreditasi::where('nama', $akreditasi_kode)->firstOrFail();
-        });
-
-        $jenjang = Cache::remember("jenjang_{$jenjang_nama}", 3600, function () use ($jenjang_nama) {
-            return Jenjang::where('nama', $jenjang_nama)->firstOrFail();
-        });
-        
 
         return view('pages.auditor.koreksi-ami.revisi-ami.index', [
             'akreditasi' => $akreditasi,

@@ -17,12 +17,16 @@ class StandarAkreditasiSeeder extends Seeder
         $items = [
             'BAN-PT',
             'LAMDIK',
-            'INFOKOM',
+            'LAMINFOKOM',
             'LAMEMBA',
             'LAMSAMA',
             'LAMPTKES',
             'LAMTEKNIK',
         ];
+
+        // Bereskan baris lama bernama 'INFOKOM' agar konsisten dengan kode
+        // aplikasi (calculateForecast(), $newLams, dsb. memakai 'LAMINFOKOM').
+        DB::table('standar_akreditasis')->where('nama', 'INFOKOM')->update(['nama' => 'LAMINFOKOM']);
 
         foreach ($items as $nama) {
             DB::table('standar_akreditasis')->updateOrInsert(

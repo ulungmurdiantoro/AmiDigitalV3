@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
         // Password default semua akun seeder: "password"
         // Login memakai kolom: username + password (UserController@login).
         // user_penempatan = "{jenjang} - {prodi}" (dipakai untuk resolve jenjang/prodi).
-        // user_akses = nama akreditasi (BAN-PT / LAMEMBA / LAMDIK / INFOKOM / ...).
+        // user_akses = nama akreditasi (BAN-PT / LAMEMBA / LAMDIK / LAMINFOKOM / ...).
         $users = [
             [
                 'username'        => 'admin',
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
                 'user_level'      => 'user',
                 'user_penempatan' => 'S1 - Teknik Informatika',
                 'user_fakultas'   => 'Fakultas Teknik',
-                'user_akses'      => 'INFOKOM',
+                'user_akses'      => 'LAMINFOKOM',
             ],
             [
                 'username'        => 'pmat',

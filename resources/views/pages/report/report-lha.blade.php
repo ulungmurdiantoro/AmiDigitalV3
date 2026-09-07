@@ -75,7 +75,8 @@
 		}
 
 		h4 {
-			font-size: 32pt;
+			font-size: 20pt;
+			margin: 4pt 0;
 		}
 
 		.txtheader2 {

@@ -246,6 +246,14 @@
 @endif
 {{-- ── End Section Neo Feeder ──────────────────────────────────────────────── --}}
 
+{{-- ── Panduan Penggunaan ─────────────────────────────────────────────────── --}}
+@include('pages.admin.bantuan._panduan-dashboard', [
+  'roleLabel'    => 'Admin',
+  'panduanView'  => 'pages.admin.bantuan._panduan-admin',
+  'bantuanRoute' => 'admin.bantuan.index',
+])
+{{-- ── End Panduan Penggunaan ─────────────────────────────────────────────── --}}
+
 @endsection
 
 @push('plugin-scripts')

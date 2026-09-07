@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Concerns\AccreditationCalculator;
+use App\Services\PdfService;
 use App\Models\StandarNilai;
 use App\Models\PenjadwalanAmi;
 use App\Models\StandarAkreditasi;
@@ -187,7 +188,7 @@ class NilaiEvaluasiDiriController extends Controller
             'forecast'        => $forecast,
         ])->render();
 
-        $mpdf = new \Mpdf\Mpdf([
+        $mpdf = PdfService::make([
             'format'        => 'A4',
             'orientation'   => 'P',
             'margin_top'    => 10,
@@ -300,7 +301,7 @@ class NilaiEvaluasiDiriController extends Controller
             'transaksi_ami_sebelumnya' => $transaksi_ami_sebelumnya,
         ])->render();
 
-        $mpdf = new \Mpdf\Mpdf([
+        $mpdf = PdfService::make([
             'format'        => 'A4',
             'orientation'   => 'P',
             'margin_top'    => 10,

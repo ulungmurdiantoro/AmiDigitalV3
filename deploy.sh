@@ -54,6 +54,7 @@ $PHP_BIN artisan storage:link 2>/dev/null || true
 
 # Pastikan folder yang ditulis runtime bisa ditulis web server.
 log "Set izin storage & bootstrap/cache"
+mkdir -p storage/app/mpdf || true   # tempDir mPDF (lihat App\Services\PdfService)
 chmod -R ug+rwX storage bootstrap/cache || true
 
 # Reload PHP-FPM agar OPcache ke-reset (set FPM_SERVICE=php8.4-fpm bila perlu & punya sudo).

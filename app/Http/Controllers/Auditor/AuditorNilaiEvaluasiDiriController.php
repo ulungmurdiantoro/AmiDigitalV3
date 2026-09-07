@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auditor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Concerns\AccreditationCalculator;
+use App\Services\PdfService;
 use App\Models\StandarCapaian;
 use App\Models\StandarNilai;
 use App\Models\PenjadwalanAmi;
@@ -217,7 +218,7 @@ class AuditorNilaiEvaluasiDiriController extends Controller
         ])->render();
 
         // 📄 Generate PDF
-        $mpdf = new \Mpdf\Mpdf([
+        $mpdf = PdfService::make([
             'format' => 'A4',
             'orientation' => 'P',
             'margin_top' => 10,
@@ -347,7 +348,7 @@ class AuditorNilaiEvaluasiDiriController extends Controller
         ])->render();
 
         // 📄 Generate PDF
-        $mpdf = new \Mpdf\Mpdf([
+        $mpdf = PdfService::make([
             'format' => 'A4',
             'orientation' => 'P',
             'margin_top' => 10,

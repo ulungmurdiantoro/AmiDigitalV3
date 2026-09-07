@@ -342,6 +342,14 @@
 </div>
 @endif
 
+{{-- ── Panduan Penggunaan ─────────────────────────────────────────────────── --}}
+@include('pages.admin.bantuan._panduan-dashboard', [
+  'roleLabel'    => 'Program Studi',
+  'panduanView'  => 'pages.admin.bantuan._panduan-prodi',
+  'bantuanRoute' => 'user.bantuan.index',
+])
+{{-- ── End Panduan Penggunaan ─────────────────────────────────────────────── --}}
+
 @endsection
 
 @push('plugin-scripts')

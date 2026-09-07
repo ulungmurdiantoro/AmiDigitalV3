@@ -184,6 +184,14 @@
   </div>
 </div> <!-- row -->
 
+{{-- ── Panduan Penggunaan ─────────────────────────────────────────────────── --}}
+@include('pages.admin.bantuan._panduan-dashboard', [
+  'roleLabel'    => 'Auditor',
+  'panduanView'  => 'pages.admin.bantuan._panduan-auditor',
+  'bantuanRoute' => 'auditor.bantuan.index',
+])
+{{-- ── End Panduan Penggunaan ─────────────────────────────────────────────── --}}
+
 @endsection
 
 @push('plugin-scripts')
